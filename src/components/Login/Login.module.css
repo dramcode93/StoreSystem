@@ -1,0 +1,60 @@
+/* login */
+
+.LoginContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+     height: 100vh;
+    z-index:-243;
+    color:var(--font);
+    font-family: sans-serif;
+    letter-spacing: .5px;
+    font-weight: bold;
+}
+
+.LoginForm{
+    width: 40vw;
+    padding: 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 1px 4px 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.FormGroup{
+    margin-bottom: 20px;
+}
+
+label{
+    display: block;
+    font-size: 18px;
+   
+    margin:0 5px 8px 0;
+    font-weight: bold;
+}
+
+input{
+    width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+ }
+
+.login{
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer; 
+    background-color: #0056b3;
+    text-align: center;
+ }
+
+ 
+
+.forgetPass{
+      cursor: pointer; 
+    color: #0056b3;
+    padding: 5px 0 10px;
+  }

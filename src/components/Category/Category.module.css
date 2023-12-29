@@ -1,0 +1,59 @@
+.container{
+  color: var(--font);
+  height: 90vh;
+ display: flex;
+justify-content: center;
+align-items: center;
+font-weight: bold;
+}
+.categoryTable {
+  width: 90vw;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .categoryTable th,.categoryTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+     text-align: center;
+  }
+  
+  .categoryTable th {
+    background-color: var(--card);
+  }
+  
+  .updateBtn, .deleteBtn {
+    margin-right: 15px;
+    cursor: pointer;
+    width: 8vw;
+  }
+  
+  .updateBtn {
+    background-color: #4caf50;
+    color: #fff;
+  }
+  
+  .deleteBtn {
+    background-color: #f44336;
+    color: #fff;
+  }
+  .addCategory {
+    margin: 20px;
+  }
+  
+  .addCategory input {
+    padding: 6px;
+    width: 30vw;
+    margin-right: 10px;
+  }
+  
+  .addBtn{
+    padding: 6px 20px;
+    cursor: pointer;
+    background-color: #2196f3;
+    color: #fff;
+    width: fit-content;
+    border: none;
+    border-radius: 3px;
+  }
+  
