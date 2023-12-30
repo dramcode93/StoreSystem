@@ -81,7 +81,7 @@ header #icon{
 
 /* login */
 .FormTranslate{
-  margin: 5vh 170px 5vh 60px;
+  margin: 5vh 170px 5vh 70px;
   border-radius: 8px;
   box-shadow: 0px 0px 1px 1px var(--font);
    position: fixed;

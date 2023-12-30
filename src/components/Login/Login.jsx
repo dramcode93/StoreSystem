@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import {Translate } from "translate-easy";
 import styles from "./Login.module.css"
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-
+ 
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +13,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3030/api/auth/login', {
+      const response = await axios.post('https://storesystemapi.onrender.com/api/auth/login', {
         email,
         password,
       });
@@ -22,6 +21,7 @@ const Login = () => {
 
       // Store the token in local storage
       localStorage.setItem('token', token);
+      window.location.href='/home'
 
       console.log('Note saved:', response.data);
     } catch (error) {
@@ -62,9 +62,9 @@ const Login = () => {
         </p>
       
       <div  className={styles.login}>
-        <Link to='/home'>
+        <button type='submit' onClick={handleSubmit}>
       <Translate>Login   </Translate>
-      </Link>
+      </button>
       </div>
     </form>
   </div>

@@ -8,9 +8,12 @@ import image1 from '../../Images/Dark Orange Modern Circle Diagram Graph (1).svg
 import image2 from '../../Images/Dark Orange Modern Circle Diagram Graph (2).svg'
 import image3 from '../../Images/Dark Orange Modern Circle Diagram Graph.svg'
 import { Link } from 'react-router-dom';
+import LogOut from '../LogOut/LogOut';
 const Home = () => {
   return (
-  <div className='marginHome'>
+    <div>
+      <LogOut/>
+    <div className='marginHome'>
     <div className='cards grid'>
         <Link to='category' className='card1 back1'>
             <div className='flex text1'>
@@ -78,6 +81,8 @@ const Home = () => {
     </div>
     </div>
     </div>
+    </div>
+
   )
 }
 

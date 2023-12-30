@@ -5,11 +5,14 @@
 justify-content: center;
 align-items: center;
 font-weight: bold;
+margin: auto;
+}
+table{
+  width: 85vw;
+
 }
 .categoryTable {
-  width: 90vw;
     border-collapse: collapse;
-    margin-top: 20px;
   }
   
   .categoryTable th,.categoryTable td {
@@ -26,6 +29,7 @@ font-weight: bold;
     margin-right: 15px;
     cursor: pointer;
     width: 8vw;
+    border-radius: 10px;
   }
   
   .updateBtn {

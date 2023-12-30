@@ -1,0 +1,9 @@
+.LogOutBtn{
+    width: 10vw;
+    border-radius: 10px;
+    font-weight: bold;
+    position: fixed;
+    margin: 5vh 86vw 5vh 86vw;
+    padding: 14px 0;
+    color: var(--font);
+}
