@@ -9,10 +9,14 @@
     color:var(--font);
     font-family: sans-serif;
     letter-spacing: .5px;
+    background-image: url(../../Images/fd1f6fa5d807ce47cf9a624e5b145aaf.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     font-weight: bold;
 }
 
 .LoginForm{
+    background-color: #000000a3;
     width: 40vw;
     padding: 20px;
     border: 1px solid #f0f0f0;
@@ -27,7 +31,6 @@
 label{
     display: block;
     font-size: 18px;
-   
     margin:0 5px 8px 0;
     font-weight: bold;
 }
@@ -43,9 +46,11 @@ input{
 button{
     width: 100%;
     padding: 10px;
-    font-size: 20px;
+    font-size: 25px;
     border: none;
     border-radius: 4px;
+    color: white;
+    font-weight: bold;
     cursor: pointer; 
     background-color: #0056b3;
     text-align: center;

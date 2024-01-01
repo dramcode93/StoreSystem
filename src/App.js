@@ -9,6 +9,7 @@ import Bills from "./components/Bills/Bills.jsx";
 import Customer from "./components/Customer/Customer.jsx";
 import Login from "./components/Login/Login.jsx";
 import { jwtDecode } from "jwt-decode";
+import Update from "./components/Category/Update.jsx";
  
     const App = () => {
       const [isLoggedIn, setLoggedIn] = useState(false);
@@ -50,10 +51,11 @@ import { jwtDecode } from "jwt-decode";
        <Routes>
              <Route path="/" element={<Login />} />
              <Route path="/home" element={<Home />} />
-           <Route path="/home/category" element={<Category />} />
-           <Route path="/home/products" element={<Products />} />
-           <Route path="/home/bills" element={<Bills />} />
-           <Route path="/home/customer" element={<Customer />} />
+           <Route path="/category" element={<Category />} />
+           <Route path="/update/:id" element={<Update />} />
+           <Route path="/products" element={<Products />} />
+           <Route path="/bills" element={<Bills />} />
+           <Route path="/customer" element={<Customer />} />
           </Routes>
       </LanguageProvider>
     </BrowserRouter>
