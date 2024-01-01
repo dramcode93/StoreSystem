@@ -123,4 +123,6 @@ ul:hover li{
 }
 
 
-
+.sticky-header {
+  background-color: #f8f8f8; /* Set the background color for the sticky header */
+}

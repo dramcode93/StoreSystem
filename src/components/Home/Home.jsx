@@ -2,8 +2,6 @@ import React from 'react'
 import './Home.css'
 import {  FaCannabis, FaChevronCircleRight, FaCloudMeatball, FaUbuntu, FaUser } from 'react-icons/fa';
 import { Translate } from 'translate-easy';
-// import chart1 from '../../Images/download (2).png'
-// import chart2 from '../../Images/download (1).png'
 import image1 from '../../Images/Dark Orange Modern Circle Diagram Graph (1).svg'
 import image2 from '../../Images/Dark Orange Modern Circle Diagram Graph (2).svg'
 import image3 from '../../Images/Dark Orange Modern Circle Diagram Graph.svg'
@@ -15,7 +13,7 @@ const Home = () => {
       <LogOut/>
     <div className='marginHome'>
     <div className='cards grid'>
-        <Link to='category' className='card1 back1'>
+        <Link to='/category' className='card1 back1'>
             <div className='flex text1'>
            <div>
           <h2>135</h2>
@@ -65,8 +63,7 @@ const Home = () => {
         
     </div>
     <div className='flex charts fw-bold fs-5 font'>
-    {/* <img src={chart1} alt='chart'/>
-    <img src={chart2} alt='chart'/> */}
+   
     <div>
       <img src={image2} alt='' className='mt-4'/>
       <p className=' chartBack1'><Translate>CERAMIC</Translate></p>
