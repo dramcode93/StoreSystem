@@ -25,7 +25,7 @@ const Home = () => {
             <div className='details1 border2'>  <Translate>Details</Translate> <FaChevronCircleRight /></div>
         </Link>
 
-        <Link to='products' className='card1 back2'>
+        <Link to='/products' className='card1 back2'>
             <div className='flex text1'>
             <div>
             <h2>65</h2>
@@ -37,7 +37,7 @@ const Home = () => {
             <div className='details2 border2'>  <Translate>Details</Translate> <FaChevronCircleRight /></div>
         </Link>
 
-        <Link to='bills' className='card1 back3'>
+        <Link to='/bills' className='card1 back3'>
             <div className='flex text1'>
             <div>
             <h2><Translate>44</Translate></h2>
@@ -49,7 +49,7 @@ const Home = () => {
             <div className='details3 border2'>  <Translate>Details</Translate> <FaChevronCircleRight /></div>
         </Link>
 
-        <Link to='customer' className='card1 back4'>
+        <Link to='/customer' className='card1 back4'>
             <div className='flex text1'>
             <div>
             <h2>87</h2>
@@ -78,6 +78,7 @@ const Home = () => {
     </div>
     </div>
     </div>
+    <Link to='/forgotPassword1'>forgotPassword1</Link>
     </div>
 
   )

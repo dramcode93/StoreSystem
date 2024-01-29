@@ -126,3 +126,55 @@ ul:hover li{
 .sticky-header {
   background-color: #f8f8f8; /* Set the background color for the sticky header */
 }
+
+
+
+/* forget pass */
+  
+.container1 {
+  width: 700px;
+  margin: auto;
+  padding-top: 20vh;
+  background-color:var(--back);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: var(--font);
+}
+
+h1 {
+  color: #333;
+}
+
+p {
+  color: #555;
+}
+
+input,
+button {
+  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+}
+
+
+.ForgotPasswordStep1 {
+  text-align: center;
+}
+
+.ForgotPasswordStep2 {
+  text-align: center;
+}
+
+.ForgotPasswordStep3 {
+  text-align: center;
+}
+button {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}

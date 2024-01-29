@@ -7,24 +7,20 @@ import Loading from '../Loading/Loading';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const response = await axios.post('https://wild-red-jackrabbit-hem.cyclic.app/api/auth/login', {
+      const response = await axios.post('https://itchy-jumper-newt.cyclic.app/api/auth/login', {
         email,
         password,
       });
       const token = response.data.token;
-
-      // Store the token in local storage
-      localStorage.setItem('token', token);
-
-      // Redirect only after successful login
+       localStorage.setItem('token', token);
       window.location.href = '/home';
     } catch (error) {
       console.error('Error logging in:', error.message);
@@ -35,6 +31,7 @@ const Login = () => {
   };
 
   return (
+    <div>
     <div className={styles.LoginContainer}>
         {loading && <div className='m-5 fs-3'><Loading /></div>}
         {!loading && (
@@ -65,19 +62,23 @@ const Login = () => {
           />
         </div>
         {error && <p className={styles.error}>{error}</p>}
+        
         <p className={styles.forgetPass}>
           <Translate>Forgot your password?</Translate>
         </p>
         <div className={styles.login}>
-          <button type="submit" onClick={handleSubmit} disabled={loading}>
-            {loading ? <Translate><Loading/></Translate> : <Translate>Login</Translate>}
-          </button>
+        <button type="submit" onClick={handleSubmit} disabled={loading}>
+        {loading ? <Translate><Loading/></Translate> : <Translate>Login</Translate>}
+        </button>
+        
         </div>
       </form>
           </>
         )}
       </div>
+      </div>
   );
 };
 
 export default Login;
+

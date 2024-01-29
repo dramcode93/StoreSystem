@@ -1,61 +1,65 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Category.module.css';
 
 function UpdateCategory() {
   const { id } = useParams();
   const [newCategoryName, setNewCategoryName] = useState('');
+  const [categoryNamePlaceholder, setCategoryNamePlaceholder] = useState('');
   const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://wild-red-jackrabbit-hem.cyclic.app/api/categories/${id}`, {
+        const response = await axios.get(`https://itchy-jumper-newt.cyclic.app/api/categories/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setNewCategoryName(response.data.name);
+        const categoryName = response.data.name || ''; // Ensure it's not undefined
+        setNewCategoryName(categoryName);
+        setCategoryNamePlaceholder(categoryName);
       } catch (error) {
         console.error('Error fetching category:', error.message);
       }
     };
 
     fetchData();
-  }, [id, token]); // Add id and token to the dependency array
+  }, [id, token]);
 
   const handleUpdateCategory = () => {
-    // Call the server to update the category
-    axios.put(`https://wild-red-jackrabbit-hem.cyclic.app/api/categories/${id}`, { name: newCategoryName }, {
+    axios.put(`https://itchy-jumper-newt.cyclic.app/api/categories/${id}`, { name: newCategoryName }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => {
         console.log(response.data.message);
-         window.location.href = '/category';
+        window.location.href = '/category';
       })
       .catch((error) => {
         console.error('Error updating category:', error);
       });
   };
 
-  return ( 
+  return (
     <div>
+      <div className={styles.updateCategoryContainer}>
+        <h2>Update Category</h2>
+        <label>
+          New Category Name:
+          <input
+            type="text"
+            value={newCategoryName || ''}  // Ensure it's not undefined
+            onChange={(e) => setNewCategoryName(e.target.value)}
+            placeholder={categoryNamePlaceholder || ''}
+          />
+        </label>
+        <button onClick={handleUpdateCategory} className='my-3 w-100'>Update</button>
+        <Link to='/category' className='btn bg-danger w-100' >Cancel</Link>
 
-    <div className={styles.updateCategoryContainer}>
-      <h2>Update Category</h2>
-      <label>
-        New Category Name:
-        <input
-          type="text"
-          value={newCategoryName}
-          onChange={(e) => setNewCategoryName(e.target.value)}
-        />
-      </label>
-      <button onClick={handleUpdateCategory}>Update</button>
-    </div>
+      </div>
     </div>
   );
 }
