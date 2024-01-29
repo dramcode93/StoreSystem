@@ -10,6 +10,11 @@ import Customer from "./components/Customer/Customer.jsx";
 import Login from "./components/Login/Login.jsx";
 import { jwtDecode } from "jwt-decode";
 import Update from "./components/Category/Update.jsx";
+import UpdateProduct from "./components/Products/updateProduct.jsx";
+import MainComponent from "./components/Aside/MainComponent.jsx";
+import ForgotPassword1 from "./components/ForgetPass/ForgetPass1.jsx";
+import ForgotPassword2 from "./components/ForgetPass/ForgetPass2.jsx";
+import ForgotPassword3 from "./components/ForgetPass/ForgetPass3.jsx";
  
     const App = () => {
       const [isLoggedIn, setLoggedIn] = useState(false);
@@ -48,11 +53,17 @@ import Update from "./components/Category/Update.jsx";
     <BrowserRouter>
     <LanguageProvider>
     <MyComponent />
+    <MainComponent />
        <Routes>
              <Route path="/" element={<Login />} />
+             <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
+             <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
+             <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
+             
              <Route path="/home" element={<Home />} />
            <Route path="/category" element={<Category />} />
            <Route path="/update/:id" element={<Update />} />
+           <Route path= "/updateProduct/:id" element={<UpdateProduct />} />
            <Route path="/products" element={<Products />} />
            <Route path="/bills" element={<Bills />} />
            <Route path="/customer" element={<Customer />} />

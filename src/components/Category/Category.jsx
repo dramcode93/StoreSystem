@@ -6,8 +6,8 @@ import LogOut from '../LogOut/LogOut';
 import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import ConfirmationModal from './ConfirmationModel';
- 
-const API_URL = 'https://wild-red-jackrabbit-hem.cyclic.app/api/categories';
+
+const API_category = 'https://itchy-jumper-newt.cyclic.app/api/categories';
 
 const CategoryTable = () => {
   const token = localStorage.getItem('token');
@@ -17,12 +17,16 @@ const CategoryTable = () => {
   const [newCategoryName, setNewCategoryName] = useState('');
   const [loading, setLoading] = useState(true);
   const { selectedLanguage } = useLanguage(); // Get the selected language from the context
+  const [searchInput, setSearchInput] = useState('');
 
   const fetchData = useCallback(async () => {
     try {
       if (token) {
-        const response = await axios.get(`${API_URL}`, { headers: { Authorization: `Bearer ${token}` } });
-        setCategories(response.data.data);
+        const response = await axios.get(`${API_category}`, { headers: { Authorization: `Bearer ${token}` } });
+        const filteredCategories = response.data.data.filter(category =>
+          category.name.toLowerCase().includes(searchInput.toLowerCase())
+        );
+        setCategories(filteredCategories);
       } else {
         console.error('No token found.');
       }
@@ -31,7 +35,7 @@ const CategoryTable = () => {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, [token, searchInput]);
 
   useEffect(() => {
     fetchData();
@@ -43,7 +47,7 @@ const CategoryTable = () => {
   };
 
   const confirmDelete = useCallback(() => {
-    axios.delete(`${API_URL}/${selectedCategoryId}`, { headers: { Authorization: `Bearer ${token}` } })
+    axios.delete(`${API_category}/${selectedCategoryId}`, { headers: { Authorization: `Bearer ${token}` } })
       .then(() => fetchData())
       .catch((error) => console.error('Error deleting category:', error))
       .finally(() => {
@@ -58,7 +62,7 @@ const CategoryTable = () => {
   }, []);
 
   const confirmAddCategory = useCallback(() => {
-    axios.post(`${API_URL}`, { name: newCategoryName }, { headers: { Authorization: `Bearer ${token}` } })
+    axios.post(`${API_category}`, { name: newCategoryName }, { headers: { Authorization: `Bearer ${token}` } })
       .then(() => fetchData())
       .catch((error) => console.error('Error adding category:', error))
       .finally(() => setNewCategoryName(''));
@@ -68,8 +72,13 @@ const CategoryTable = () => {
     <div>
       <LogOut />
       <div className={styles.AddSection}>
-        <input type="text" name="name" className={styles.margin} value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} />
-        <button onClick={confirmAddCategory}>  <Translate translations={{ ar: 'ضيف', en: 'Add' }}>{selectedLanguage === 'ar' ? 'ضيف' : 'Add'}</Translate></button>
+      <form className='d-flex justify-content-between align-items-end gap-2'>
+        <input type="text" name="name" placeholder='Category Name' className={styles.margin} value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} />
+        <input type="text" name="search" className={styles.inputField} placeholder="Search by name" value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
+        </form>
+        <button onClick={confirmAddCategory}>
+          <Translate translations={{ ar: 'ضيف', en: 'Add' }}>{selectedLanguage === 'ar' ? 'ضيف' : 'Add'}</Translate>
+        </button>
       </div>
       <div className={styles.container}>
         {loading && <div className='m-5 fs-3'><Loading /></div>}
@@ -91,10 +100,10 @@ const CategoryTable = () => {
                       <td>{category.name}</td>
                       <td>
                         <Link to={`/update/${category._id}`} className={styles.updateBtn}>
-                        <Translate translations={{ ar: 'تعديل', en: 'update' }}>{selectedLanguage === 'ar' ? 'تعديل' : 'update'}</Translate>
+                          <Translate translations={{ ar: 'تعديل', en: 'update' }}>{selectedLanguage === 'ar' ? 'تعديل' : 'update'}</Translate>
                         </Link>
                         <button className={styles.deleteBtn} onClick={() => handleDeleteCategory(category._id)}>
-                        <Translate translations={{ ar: 'حذف', en: 'delete' }}>{selectedLanguage === 'ar' ? 'حذف' : 'delete'}</Translate>
+                          <Translate translations={{ ar: 'حذف', en: 'Delete' }}>{selectedLanguage === 'ar' ? 'حذف' : 'Delete'}</Translate>
                         </button>
                       </td>
                     </tr>
