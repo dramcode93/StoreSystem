@@ -1,10 +1,25 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-const ForgotPassword2 = () => {
+ const ForgotPassword2 = () => {
   const [verificationCode, setVerificationCode] = useState('');
- 
+   const resetToken = localStorage.getItem('resetToken');
+   const handleForgetPassword = async () => {
+    try {
+      const response = await axios.post('https://kind-blue-perch-tie.cyclic.app/api/auth/verifyResetPasswordCode', {
+        resetCode: verificationCode,
+      },{ headers: { Authorization: `Bearer ${resetToken}` } });
+              window.location.href = '/forgotPassword3';
+       if (response.status === 200) {
+        console.log('Reset password code sent successfully!');
+       } else {
+        console.error('Failed to send reset password code');
+       }
+    } catch (error) {
+      console.error('An error occurred while sending the reset password request', error);
+     }
+  };
 
-  return (
+  return ( 
     <div className="container1 ForgotPasswordStep2">
       <h1>Step 2: Verify Identity</h1>
       <p>
@@ -16,7 +31,7 @@ const ForgotPassword2 = () => {
         value={verificationCode}
         onChange={(e) => setVerificationCode(e.target.value)}
       />
-      <Link to='/forgotPassword3' className='btn btn-primary w-100'>Next</Link>
+      <button onClick={handleForgetPassword}> Reset Password</button> 
       </div>
   );
 };

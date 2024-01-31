@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import styles from './Category.module.css';
@@ -6,11 +7,10 @@ import LogOut from '../LogOut/LogOut';
 import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import ConfirmationModal from './ConfirmationModel';
-  
+   
 const API_category = 'https://kind-blue-perch-tie.cyclic.app/api/categories';
-
-const CategoryTable = () => {
-  const token = localStorage.getItem('token');
+ const CategoryTable = () => {
+   const token = localStorage.getItem('token');
   const [categories, setCategories] = useState([]);
    const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
@@ -20,7 +20,7 @@ const CategoryTable = () => {
   const [pagination, setPagination] = useState('');
   const [loading, setLoading] = useState(true);
   const { selectedLanguage } = useLanguage(); // Get the selected language from the context
-
+ 
   const fetchData = useCallback(async () => {
     try {
       console.log('Fetching data with search input:', searchInput);
@@ -84,6 +84,9 @@ const CategoryTable = () => {
    })
     }
   
+    // LinkCategory
+ 
+
   return (
     <div>
       <LogOut />
@@ -114,8 +117,12 @@ const CategoryTable = () => {
                   {categories.map(category => (
                     <tr key={category._id}>
                       <td>{category._id.slice(-4)}</td>
-                      <td>{category.name}</td>
                       <td>
+                      <Link to={`/category/${category._id}/products`} className={styles.categoryLink}>
+                        {category.name}
+                      </Link>
+                    </td>
+                                          <td>
                         <Link to={`/update/${category._id}`} className={styles.updateBtn}>
                         <Translate translations={{ ar: 'تعديل', en: 'update' }}>{selectedLanguage === 'ar' ? 'تعديل' : 'update'}</Translate>
                         </Link>
@@ -142,11 +149,7 @@ const CategoryTable = () => {
         )}
       </div>
       <div>
-      {/* Render your items here */}
-     
-
-      {/* Render pagination controls */}
-      <div>
+        <div>
         {pagination.prev && (
           <button onClick={() => handlePageChange(pagination.prev)}>
             Previous
@@ -161,11 +164,10 @@ const CategoryTable = () => {
           </button>
         )}
       </div>
-    </div>
+    </div>
   
     </div>
   );
 };
 
 export default CategoryTable;
-
