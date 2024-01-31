@@ -8,8 +8,8 @@ import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import ConfirmationModal from '../Category/ConfirmationModel';
 
-const API_URL = 'https://itchy-jumper-newt.cyclic.app/api/products';
-const API_category = 'https://itchy-jumper-newt.cyclic.app/api/categories';
+const API_URL = 'https://kind-blue-perch-tie.cyclic.app/api/products';
+const API_category = 'https://kind-blue-perch-tie.cyclic.app/api/categories';
 
 const Products = () => {
   const token = localStorage.getItem('token');
@@ -24,20 +24,17 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const { selectedLanguage } = useLanguage();
   const [searchInput, setSearchInput] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const fetchData = useCallback(async () => {
     try {
       if (token) {
-        const productsResponse = await axios.get(API_URL, { headers: { Authorization: `Bearer ${token}` } });
+        const productsResponse = await axios.get(`${API_URL}?search=${searchInput}`, { headers: { Authorization: `Bearer ${token}` } });
         setProducts(productsResponse.data.data);
 
-        const filteredProducts = productsResponse.data.data.filter(product =>
-          product.name.toLowerCase().includes(searchInput.toLowerCase())
-        );
+        
 
-        setProducts(filteredProducts);
-
-        const categoriesResponse = await axios.get(API_category, { headers: { Authorization: `Bearer ${token}` } });
+        const categoriesResponse = await axios.get(`${API_category}`, { headers: { Authorization: `Bearer ${token}` } });
         setCategories(categoriesResponse.data.data);
       } else {
         console.error('No token found.');
@@ -51,8 +48,11 @@ const Products = () => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, [searchInput,fetchData]);
 
+  const handleSearch = () => {
+    setSearchInput(searchTerm);
+  };
   const handleDeleteProduct = (productId) => {
     setSelectedProductsId(productId);
     setShowConfirmation(true);
@@ -135,15 +135,12 @@ const Products = () => {
           value={newProductQuantity}
           onChange={(e) => setNewProductQuantity(e.target.value)}
         />
-        <input
-        type="text"
-        name="search"
-        className={styles.inputField}
-        placeholder="Search by name"
-        value={searchInput}
-        onChange={(e) => setSearchInput(e.target.value)}
-      />
-        </form>
+     
+     <div>
+     <input type="search" name="search" className={styles.inputField} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+     <button className='btn btn-primary' onClick={handleSearch} >search</button>
+     </div> 
+     </form>
         <button onClick={confirmAddProduct} className={styles.addButton}>
           <Translate translations={{ ar: 'ضيف', en: 'Add' }}>
             {selectedLanguage === 'ar' ? 'ضيف' : 'Add'}

@@ -3,6 +3,7 @@ import { Translate } from 'translate-easy';
 import styles from './Login.module.css';
 import axios from 'axios';
 import Loading from '../Loading/Loading';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -15,7 +16,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('https://itchy-jumper-newt.cyclic.app/api/auth/login', {
+      const response = await axios.post('https://kind-blue-perch-tie.cyclic.app/api/auth/login', {
         email,
         password,
       });
@@ -63,9 +64,9 @@ const Login = () => {
         </div>
         {error && <p className={styles.error}>{error}</p>}
         
-        <p className={styles.forgetPass}>
+        <Link to='forgotPassword1' className={styles.forgetPass}>
           <Translate>Forgot your password?</Translate>
-        </p>
+        </Link>
         <div className={styles.login}>
         <button type="submit" onClick={handleSubmit} disabled={loading}>
         {loading ? <Translate><Loading/></Translate> : <Translate>Login</Translate>}

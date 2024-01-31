@@ -1,23 +1,34 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
 
+const ForgetPassword1 = () => {
+const [email, setEmail] = useState('');
 
-const ForgotPassword1 = () => {
-  const [email, setEmail] = useState('');
+  const handleForgetPassword = async () => {
+    try {
+      const response = await axios.post('https://kind-blue-perch-tie.cyclic.app/api/auth/forgetPassword', {
+        email: email,
+      });
+            const resetToken = response.data.resetToken;
+            localStorage.setItem('resetToken', resetToken);
+            window.location.href = '/forgotPassword2';
+       if (response.status === 200) {
+        console.log('Reset password code sent successfully!');
+       } else {
+        console.error('Failed to send reset password code');
+       }
+    } catch (error) {
+      console.error('An error occurred while sending the reset password request', error);
+     }
+  };
 
- 
   return (
-    <div className="container1 ForgotPasswordStep1">
-      <h1>Step 1: Enter Email</h1>
-      <input
-        type="email"
-        placeholder="Enter your email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <Link to='/forgotPassword2' className='btn btn-primary w-100'>Next</Link>
-    </div>
+    <div>
+      <label>Email:</label>
+      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <button onClick={handleForgetPassword}>Send Reset Code</button> 
+    </div> 
   );
 };
 
-export default ForgotPassword1;
+export default ForgetPassword1;
