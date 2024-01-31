@@ -6,27 +6,31 @@ import LogOut from '../LogOut/LogOut';
 import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import ConfirmationModal from './ConfirmationModel';
-
-const API_category = 'https://itchy-jumper-newt.cyclic.app/api/categories';
+  
+const API_category = 'https://kind-blue-perch-tie.cyclic.app/api/categories';
 
 const CategoryTable = () => {
   const token = localStorage.getItem('token');
   const [categories, setCategories] = useState([]);
-  const [showConfirmation, setShowConfirmation] = useState(false);
+   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [newCategoryName, setNewCategoryName] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [pagination, setPagination] = useState('');
   const [loading, setLoading] = useState(true);
   const { selectedLanguage } = useLanguage(); // Get the selected language from the context
-  const [searchInput, setSearchInput] = useState('');
 
   const fetchData = useCallback(async () => {
     try {
+      console.log('Fetching data with search input:', searchInput);
       if (token) {
-        const response = await axios.get(`${API_category}`, { headers: { Authorization: `Bearer ${token}` } });
-        const filteredCategories = response.data.data.filter(category =>
-          category.name.toLowerCase().includes(searchInput.toLowerCase())
-        );
-        setCategories(filteredCategories);
+        const response = await axios.get(`${API_category}?search=${searchInput}&page=${pagination.currentPge}`, { headers: { Authorization: `Bearer ${token}` } });
+        console.log('API Response:', response.data);
+        setCategories(response.data.data);
+        setPagination(response.data.paginationResult);
+        console.log('pagination : ', pagination)
+
       } else {
         console.error('No token found.');
       }
@@ -36,10 +40,15 @@ const CategoryTable = () => {
       setLoading(false);
     }
   }, [token, searchInput]);
-
+  
+  
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, [searchInput, fetchData]);
+
+  const handleSearch = () => {
+    setSearchInput(searchTerm);
+  };
 
   const handleDeleteCategory = (categoryId) => {
     setSelectedCategoryId(categoryId);
@@ -68,17 +77,25 @@ const CategoryTable = () => {
       .finally(() => setNewCategoryName(''));
   }, [newCategoryName, token, fetchData]);
 
+  const handlePageChange = (newPage) => {
+   setPagination({
+    ...pagination,
+  currentPge:newPage
+   })
+    }
+  
   return (
     <div>
       <LogOut />
       <div className={styles.AddSection}>
-      <form className='d-flex justify-content-between align-items-end gap-2'>
-        <input type="text" name="name" placeholder='Category Name' className={styles.margin} value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} />
-        <input type="text" name="search" className={styles.inputField} placeholder="Search by name" value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
-        </form>
-        <button onClick={confirmAddCategory}>
-          <Translate translations={{ ar: 'ضيف', en: 'Add' }}>{selectedLanguage === 'ar' ? 'ضيف' : 'Add'}</Translate>
-        </button>
+     <div> <input type="search" name="search" className={styles.margin} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+     <button className='btn btn-primary' onClick={handleSearch} >search</button>
+
+     </div>
+
+      <div><input type="text" name="name" className={styles.margin} value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} />
+      </div>
+ <button onClick={confirmAddCategory}>  <Translate translations={{ ar: 'ضيف', en: 'Add' }}>{selectedLanguage === 'ar' ? 'ضيف' : 'Add'}</Translate></button>
       </div>
       <div className={styles.container}>
         {loading && <div className='m-5 fs-3'><Loading /></div>}
@@ -100,16 +117,19 @@ const CategoryTable = () => {
                       <td>{category.name}</td>
                       <td>
                         <Link to={`/update/${category._id}`} className={styles.updateBtn}>
-                          <Translate translations={{ ar: 'تعديل', en: 'update' }}>{selectedLanguage === 'ar' ? 'تعديل' : 'update'}</Translate>
+                        <Translate translations={{ ar: 'تعديل', en: 'update' }}>{selectedLanguage === 'ar' ? 'تعديل' : 'update'}</Translate>
                         </Link>
+
                         <button className={styles.deleteBtn} onClick={() => handleDeleteCategory(category._id)}>
-                          <Translate translations={{ ar: 'حذف', en: 'Delete' }}>{selectedLanguage === 'ar' ? 'حذف' : 'Delete'}</Translate>
+                        <Translate translations={{ ar: 'حذف', en: "Delete" }}>{selectedLanguage === 'ar' ? "حذف" : "Delete"}</Translate>
                         </button>
+
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+      
               <ConfirmationModal
                 show={showConfirmation}
                 onConfirm={confirmDelete}
@@ -118,10 +138,34 @@ const CategoryTable = () => {
               {categories.length === 0 && <p>No categories available</p>}
             </div>
           </>
+          
         )}
       </div>
+      <div>
+      {/* Render your items here */}
+     
+
+      {/* Render pagination controls */}
+      <div>
+        {pagination.prev && (
+          <button onClick={() => handlePageChange(pagination.prev)}>
+            Previous
+          </button>
+        )}
+
+        <span>Page {pagination.currentPage}</span>
+
+        {pagination.next && (
+          <button onClick={() => handlePageChange(pagination.next)}>
+            Next
+          </button>
+        )}
+      </div>
+    </div>
+  
     </div>
   );
 };
 
 export default CategoryTable;
+
