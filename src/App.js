@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { LanguageProvider } from "translate-easy";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MyComponent from "./components/MyComponent.jsx";
 import Category from "./components/Category/Category.jsx";
 import Home from "./components/Home/Home.jsx";
@@ -15,6 +15,7 @@ import MainComponent from "./components/Aside/MainComponent.jsx";
 import ForgotPassword1 from "./components/ForgetPass/ForgetPass1.jsx";
 import ForgotPassword2 from "./components/ForgetPass/ForgetPass2.jsx";
 import ForgotPassword3 from "./components/ForgetPass/ForgetPass3.jsx";
+import CategoryProducts from './components/Category/specificProducs';
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -61,6 +62,7 @@ const App = () => {
               <Route path="/products" element={<Products />} />
               <Route path="/bills" element={<Bills />} />
               <Route path="/customer" element={<Customer />} />
+              <Route path="/category/:id/products" element={<CategoryProducts />} />
             </>
           ) : (
              <Route path="/" element={<Login />} />          

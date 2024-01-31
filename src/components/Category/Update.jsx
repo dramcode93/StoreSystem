@@ -12,12 +12,12 @@ function UpdateCategory() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://itchy-jumper-newt.cyclic.app/api/categories/${id}`, {
+        const response = await axios.get(`https://kind-blue-perch-tie.cyclic.app/api/categories/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        const categoryName = response.data.name || ''; // Ensure it's not undefined
+        const categoryName = response.data.data?.name || ''; // Ensure it's not undefined
         setNewCategoryName(categoryName);
         setCategoryNamePlaceholder(categoryName);
       } catch (error) {
@@ -29,7 +29,7 @@ function UpdateCategory() {
   }, [id, token]);
 
   const handleUpdateCategory = () => {
-    axios.put(`https://itchy-jumper-newt.cyclic.app/api/categories/${id}`, { name: newCategoryName }, {
+    axios.put(`https://kind-blue-perch-tie.cyclic.app/api/categories/${id}`, { name: newCategoryName }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
