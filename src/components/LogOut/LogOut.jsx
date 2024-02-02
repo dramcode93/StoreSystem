@@ -3,7 +3,7 @@ import { Translate } from 'translate-easy';
 import './Logout.css'
 const LogOut = () => {
     const handle=()=>{
-        localStorage.removeItem('token'); // Remove the expired token
+        localStorage.removeItem('token'); 
         window.location.href='/'
     }
   return (

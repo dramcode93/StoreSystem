@@ -49,11 +49,11 @@ const Home = () => {
             <div className='details3 border2'>  <Translate>Details</Translate> <FaChevronCircleRight /></div>
         </Link>
 
-        <Link to='/customer' className='card1 back4'>
+        <Link to='/profile' className='card1 back4'>
             <div className='flex text1'>
             <div>
             <h2>87</h2>
-            <span><Translate>customer</Translate></span>
+            <span><Translate>the Profile</Translate></span>
             </div>
             <FaUser className='productLogo' /> 
 
@@ -78,7 +78,6 @@ const Home = () => {
     </div>
     </div>
     </div>
-    <Link to='/forgotPassword1'>forgotPassword1</Link>
     </div>
 
   )

@@ -1,4 +1,3 @@
-// CategoryProducts.js
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -11,7 +10,7 @@ const CategoryProducts = ({ Products }) => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await axios.get(`https://kind-blue-perch-tie.cyclic.app/api/categories/${id}/products`, {
+            const response = await axios.get(`https://real-pear-barracuda-kilt.cyclic.app/api/categories/${id}/products`, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },

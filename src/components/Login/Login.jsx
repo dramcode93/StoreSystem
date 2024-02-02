@@ -16,7 +16,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('https://kind-blue-perch-tie.cyclic.app/api/auth/login', {
+      const response = await axios.post('https://real-pear-barracuda-kilt.cyclic.app/api/auth/login', {
         email,
         password,
       });
@@ -62,8 +62,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        {error && <p className={styles.error}>{error}</p>}
-        
+        {error && <p className={styles.error}>{error}</p>}   
         <Link to='forgotPassword1' className={styles.forgetPass}>
           <Translate>Forgot your password?</Translate>
         </Link>

@@ -1,13 +1,13 @@
 import React from 'react'
 import LogOut from '../LogOut/LogOut'
-
-const Customer = () => {
+ import AsideBar from './AsideBar'
+const Profile = () => {
   return (
     <div>
       <LogOut/>
-      Customer
+      <AsideBar/>
     </div>
   )
 }
 
-export default Customer
+export default Profile;

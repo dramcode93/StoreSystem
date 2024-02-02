@@ -13,9 +13,9 @@
 .categoryTable {
   border-collapse: collapse;
   width: 85vw;
-  max-height: 60vh; /* Adjust the maximum height as needed */
-  overflow-y: auto; /* Enable vertical scrolling within the table */
-  margin: 0 auto 2vh; /* Center the table */
+  max-height: 60vh; 
+  overflow-y: auto; 
+  margin: 0 auto 2vh; 
 }
 
 .categoryTable th,
@@ -28,6 +28,8 @@
 
 .categoryTable th {
   background-color: var(--card);
+  font-weight: bold;
+  font-size: 18px;
 }
 
 
@@ -46,30 +48,6 @@
 
 .deleteBtn {
   background-color: #f44336;
-}
-
-.AddSection {
-  width: 49vw;
-  margin: 1vh 27vw;
-}
-
-.addCategory {
-  margin: 20px;
-}
-
-.addCategory input {
-  width: 30vw;
-  padding: 6px;
-  margin: 5vh 10px;
-}
-
-.addBtn {
-  padding: 6px 20px;
-  cursor: pointer;
-  background-color: #2196f3;
-  color: #fff;
-  border: none;
-  border-radius: 3px;
 }
 
 
@@ -155,8 +133,10 @@
 }
 .flex{
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  margin: 3vh ;
+  gap: 7vw;
 }
 
 
@@ -185,26 +165,15 @@ label {
   font-size: 16px;
 }
 
-input {
-  width: 100%;
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 20px;
-}
-
-button {
-  background-color: #4caf50;
-  color: #fff;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
 
 .navigation1{
   text-align: center;
   margin: 4vh 40vw ;
+}
+
+.paginationNext{
+  width: fit-content;
+  padding: 1vh 3vw;
+  border-radius: 10px;
+margin: 1vh -2vw;
 }

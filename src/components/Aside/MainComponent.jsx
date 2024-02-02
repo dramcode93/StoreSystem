@@ -22,10 +22,10 @@ const MainComponent = () => {
         </div>
         <div className="nav-links">
           <Link to="/home">
-            <Translate>Home</Translate>
+            <Translate>Main Page</Translate>
           </Link>
           <Link to="/category">
-            <Translate>category</Translate>
+            <Translate>categories</Translate>
           </Link>
           <Link to="/products">
             <Translate>Products</Translate>
@@ -34,7 +34,7 @@ const MainComponent = () => {
             <Translate>Bills</Translate>
           </Link>
           <Link to="/customer">
-            <Translate>Customer</Translate>
+            <Translate>Customers</Translate>
           </Link>
         </div>
       </div>

@@ -7,9 +7,9 @@ import LogOut from '../LogOut/LogOut';
 import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import ConfirmationModal from '../Category/ConfirmationModel';
-
-const API_URL = 'https://kind-blue-perch-tie.cyclic.app/api/products';
-const API_category = 'https://kind-blue-perch-tie.cyclic.app/api/categories';
+ 
+const API_URL = 'https://real-pear-barracuda-kilt.cyclic.app/api/products';
+const API_category = 'https://real-pear-barracuda-kilt.cyclic.app/api/categories/list';
 
 const Products = () => {
   const token = localStorage.getItem('token');
@@ -25,15 +25,12 @@ const Products = () => {
   const { selectedLanguage } = useLanguage();
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-
+ 
   const fetchData = useCallback(async () => {
     try {
       if (token) {
         const productsResponse = await axios.get(`${API_URL}?search=${searchInput}`, { headers: { Authorization: `Bearer ${token}` } });
         setProducts(productsResponse.data.data);
-
-        
-
         const categoriesResponse = await axios.get(`${API_category}`, { headers: { Authorization: `Bearer ${token}` } });
         setCategories(categoriesResponse.data.data);
       } else {
@@ -103,7 +100,7 @@ const Products = () => {
       onChange={(e) => setSelectedCategoryId(e.target.value)}
     >
       <option disabled selected value={null}>
-        Select Category
+    <Translate>Select Category</Translate>   
       </option>
       {categories.map((category) => (
         <option key={category._id} value={category._id}>
@@ -123,7 +120,7 @@ const Products = () => {
           type="text"
           name="price"
           className={styles.inputField}
-          placeholder="Price"
+          placeholder="price"
           value={newProductPrice}
           onChange={(e) => setNewProductPrice(e.target.value)}
         />
@@ -136,10 +133,8 @@ const Products = () => {
           onChange={(e) => setNewProductQuantity(e.target.value)}
         />
      
-     <div>
-     <input type="search" name="search" className={styles.inputField} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-     <button className='btn btn-primary' onClick={handleSearch} >search</button>
-     </div> 
+     <input type="search" name="search" placeholder='search' className={styles.inputField} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+     <button className='btn btn-primary px-3 py-2 fs-5' onClick={handleSearch} ><Translate translations={{ ar: 'بحث', en: 'search' }}>Searching</Translate></button>
      </form>
         <button onClick={confirmAddProduct} className={styles.addButton}>
           <Translate translations={{ ar: 'ضيف', en: 'Add' }}>
@@ -151,45 +146,44 @@ const Products = () => {
       <div className={styles.container}>
         {loading && <div className="m-5 fs-3"><Loading /></div>}
           {!loading && (
-            <>
-              <div className={styles.categoryTable}>
-                <table>
-                  <thead>
-                    <tr>
-                      <th><Translate>ID</Translate></th>
-                      <th><Translate>Name</Translate></th>
-                      <th><Translate>Category</Translate></th>
-                      <th><Translate>Quantity</Translate></th>
-                      <th><Translate>Price</Translate></th>
-                      <th><Translate>Sold</Translate></th>
-                      <th><Translate>Actions</Translate></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {products.map((product) => (
-                      <tr key={product._id}>
-                        <td>{product._id.slice(-4)}</td>
-                        <td>{product.name}</td>
-                        <td>{product.category.name}</td>
-                        <td>{product.quantity}</td>
-                        <td>{product.price}</td>
-                        <td>{product.sold}</td>
-                        <td>
-                          <Link to={`/updateProduct/${product._id}`} className={styles.updateBtn}>
-                            <Translate translations={{ ar: 'تعديل', en: 'update' }}>
-                              {selectedLanguage === 'ar' ? 'تعديل' : 'update'}
-                            </Translate>
-                          </Link>
-  
-                          <button className={styles.deleteBtn} onClick={() => handleDeleteProduct(product._id)}>
-                            <Translate translations={{ ar: 'حذف', en: 'Delete' }}>
-                              {selectedLanguage === 'ar' ? 'حذف' : 'Delete'}
-                            </Translate>
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
+<>
+  <div className={styles.categoryTable}>
+    <table>
+      <thead>
+        <tr>
+          <th><Translate>ID</Translate></th>
+          <th><Translate>Name</Translate></th>
+          <th><Translate>Category</Translate></th>
+          <th><Translate>Quantity</Translate></th>
+          <th><Translate>Price</Translate></th>
+          <th><Translate>Sold</Translate></th>
+          <th><Translate>Actions</Translate></th>
+        </tr>
+      </thead>
+      <tbody>
+        {products.map((product) => (
+          <tr key={product._id}>
+            <td>{product._id.slice(-4)}</td>
+            <td>{product.name}</td>
+            <td>{product.category.name}</td>
+            <td>{product.quantity}</td>
+            <td>{product.price}</td>
+            <td>{product.sold}</td>
+            <td>
+              <Link to={`/updateProduct/${product._id}`} className={styles.updateBtn}>
+                <Translate translations={{ ar: 'تعديل', en: 'update' }}>
+                  {selectedLanguage === 'ar' ? 'تعديل' : 'update'}
+                </Translate>
+              </Link>
+          <button className={styles.deleteBtn} onClick={() => handleDeleteProduct(product._id)}>
+                <Translate translations={{ ar: 'حذف', en: 'Delete' }}>
+                  {selectedLanguage === 'ar' ? 'حذف' : 'Delete'}
+                </Translate>
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
                 </table>
                 <ConfirmationModal show={showConfirmation} onConfirm={confirmDelete} onCancel={cancelDelete} />
                 {products.length === 0 && <p>No categories available</p>}
