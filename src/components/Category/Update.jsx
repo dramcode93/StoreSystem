@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Category.module.css';
+import { Translate } from 'translate-easy';
 
 function UpdateCategory() {
   const { id } = useParams();
@@ -12,12 +13,12 @@ function UpdateCategory() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://kind-blue-perch-tie.cyclic.app/api/categories/${id}`, {
+        const response = await axios.get(`https://real-pear-barracuda-kilt.cyclic.app/api/categories/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        const categoryName = response.data.data?.name || ''; // Ensure it's not undefined
+        const categoryName = response.data.data?.name || '';
         setNewCategoryName(categoryName);
         setCategoryNamePlaceholder(categoryName);
       } catch (error) {
@@ -29,7 +30,7 @@ function UpdateCategory() {
   }, [id, token]);
 
   const handleUpdateCategory = () => {
-    axios.put(`https://kind-blue-perch-tie.cyclic.app/api/categories/${id}`, { name: newCategoryName }, {
+    axios.put(`https://real-pear-barracuda-kilt.cyclic.app/api/categories/${id}`, { name: newCategoryName }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -46,18 +47,18 @@ function UpdateCategory() {
   return (
     <div>
       <div className={styles.updateCategoryContainer}>
-        <h2>Update Category</h2>
+        <h2><Translate>Update Category</Translate></h2>
         <label>
-          New Category Name:
+        <Translate> New Category Name:</Translate> 
           <input
             type="text"
-            value={newCategoryName || ''}  // Ensure it's not undefined
+            value={newCategoryName || ''}  
             onChange={(e) => setNewCategoryName(e.target.value)}
             placeholder={categoryNamePlaceholder || ''}
           />
         </label>
-        <button onClick={handleUpdateCategory} className='my-3 w-100'>Update</button>
-        <Link to='/category' className='btn bg-danger w-100' >Cancel</Link>
+        <button onClick={handleUpdateCategory} className='my-3 w-100'><Translate>Update</Translate></button>
+        <Link to='/category' className='btn bg-danger w-100' ><Translate>Canceling</Translate></Link>
 
       </div>
     </div>

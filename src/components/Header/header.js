@@ -5,7 +5,6 @@ function Header() {
   const[show,setshow]=useState(true)
   const mode=()=>{
     setshow(!show)
-    // document.body.classList.toggle('light');
     if(window.localStorage.getItem("mode")==="light"){
       document.body.classList.add('light');
       window.localStorage.setItem("mode", "dark")

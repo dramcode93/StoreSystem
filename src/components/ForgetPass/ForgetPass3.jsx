@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 const ForgotPassword3 = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
-  const resetToken = localStorage.getItem('resetToken');
+  const resetToken =  ('resetToken');
 
   const handleForgetPassword = async () => {
     try {
-      const response = await axios.put('https://kind-blue-perch-tie.cyclic.app/api/auth/resetPassword', {
+      const response = await axios.put('https://real-pear-barracuda-kilt.cyclic.app/api/auth/resetPassword', {
         newPassword,
         confirmNewPassword,
       },{ headers: { Authorization: `Bearer ${resetToken}` } });

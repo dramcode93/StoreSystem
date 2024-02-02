@@ -30,6 +30,8 @@
 
 .categoryTable th {
   background-color: var(--card);
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .deleteBtn,
@@ -155,7 +157,7 @@ label {
   font-size: 16px;
 }
 
-input {
+input,select {
   width: 100%;
   padding: 8px;
   font-size: 16px;
@@ -180,19 +182,13 @@ button {
 
 .inputField {
   margin: 10px;
-  width: calc(90vw/4);
+  width: 25vw;
 }
 
 .buttonContainer {
   margin-left: 10px;
 }
 
-select {
-  height: 6vh;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
 
 .addButton {
   width: 58.8vw;

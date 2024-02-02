@@ -6,8 +6,7 @@ import Category from "./components/Category/Category.jsx";
 import Home from "./components/Home/Home.jsx";
 import Products from "./components/Products/Products.jsx";
 import Bills from "./components/Bills/Bills.jsx";
-import Customer from "./components/Customer/Customer.jsx";
-import Login from "./components/Login/Login.jsx";
+ import Login from "./components/Login/Login.jsx";
 import { jwtDecode } from "jwt-decode";
 import Update from "./components/Category/Update.jsx";
 import UpdateProduct from "./components/Products/updateProduct.jsx";
@@ -16,24 +15,23 @@ import ForgotPassword1 from "./components/ForgetPass/ForgetPass1.jsx";
 import ForgotPassword2 from "./components/ForgetPass/ForgetPass2.jsx";
 import ForgotPassword3 from "./components/ForgetPass/ForgetPass3.jsx";
 import CategoryProducts from './components/Category/specificProducs';
-
+import Profile from "./components/profile/Profile.jsx";
+ 
+ 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
+
   useEffect(() => {
     const token = localStorage.getItem('token');
 
-    //   setIsLogged(!!token)
     if (token) {
-      // Decode the token
       const decodedToken = jwtDecode(token);
-
-      // Check if the token has expired
       const isExpired = decodedToken.exp < Date.now() / 1000;
 
       if (isExpired) {
         setTokenExpired(true);
-        localStorage.removeItem('token'); // Remove the expired token
+        localStorage.removeItem('token');
       } else {
         setLoggedIn(true);
         if (window.location.pathname === '/') {
@@ -42,7 +40,6 @@ const App = () => {
       }
     }
   }, []);
-
 
   return (
     <BrowserRouter>
@@ -61,18 +58,20 @@ const App = () => {
               <Route path="/updateProduct/:id" element={<UpdateProduct />} />
               <Route path="/products" element={<Products />} />
               <Route path="/bills" element={<Bills />} />
-              <Route path="/customer" element={<Customer />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/category/:id/products" element={<CategoryProducts />} />
             </>
           ) : (
-             <Route path="/" element={<Login />} />          
-           )}
-
+            <Route path="/*" element={<Login />} />
+          )}
         </Routes>
       </LanguageProvider>
     </BrowserRouter>
   );
 };
 
-
 export default App;
+
+
+
+ 

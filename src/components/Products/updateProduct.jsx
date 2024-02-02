@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Products.module.css';
+import { Translate } from 'translate-easy';
 function UpdateProduct() {
   const { id } = useParams();
   const [newProductName, setNewProductName] = useState('');
@@ -11,12 +12,12 @@ function UpdateProduct() {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [token] = useState(localStorage.getItem('token'));
-  const API_category = 'https://tame-pink-salmon-boot.cyclic.app/api/categories';
+  const API_category = 'https://real-pear-barracuda-kilt.cyclic.app/api/categories/list';
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: productData } = await axios.get(`https://tame-pink-salmon-boot.cyclic.app/api/products/${id}`, {
+        const { data: productData } = await axios.get(`https://real-pear-barracuda-kilt.cyclic.app/api/products/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -24,10 +25,10 @@ function UpdateProduct() {
     
         const { data: categoriesData } = await axios.get(API_category, { headers: { Authorization: `Bearer ${token}` } });
     
-        setNewProductName(productData.name);
-        setNewProductPrice(productData.price);
-        setNewProductQuantity(productData.quantity);
-        setSelectedCategoryId(productData.categoryId);
+        setNewProductName(productData.data.name);
+        setNewProductPrice(productData.data.price);
+        setNewProductQuantity(productData.data.quantity);
+        setSelectedCategoryId(productData.data.category.name);
         setCategories(categoriesData.data);
       } catch (error) {
         console.error('Error fetching product:', error.message);
@@ -40,7 +41,7 @@ function UpdateProduct() {
   }, [id, token]);
 
   const handleUpdateProduct = () => {
-    axios.put(`https://tame-pink-salmon-boot.cyclic.app/api/products/${id}`, { name: newProductName }, {
+    axios.put(`https://kind-blue-perch-tie.cyclic.app/api/products/${id}`, { name: newProductName }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -55,22 +56,22 @@ function UpdateProduct() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div><Translate>Loading...</Translate> </div>;
   }
 
   return (
     <div>
       <div className={styles.updateCategoryContainer}>
-        <h2>Update product</h2>
+        <h2><Translate>Update product</Translate></h2>
         <form>
           <select
             name="category"
-            className={styles.inputField}
+            
             onChange={(e) => setSelectedCategoryId(e.target.value)}
             value={selectedCategoryId}
           >
             <option disabled value={null}>
-              Select Category
+            <Translate>Select Category</Translate>   
             </option>
             {categories.map((category) => (
               <option key={category._id} value={category._id}>
@@ -79,7 +80,8 @@ function UpdateProduct() {
             ))}
           </select>
           <label htmlFor='name'>
-            New product Name:</label>
+          <Translate> New product Name :</Translate>   
+         </label>
           <input
             type="text"
             id='name'
@@ -87,21 +89,23 @@ function UpdateProduct() {
             onChange={(e) => setNewProductName(e.target.value)}
           />
           <label htmlFor='price'>
-            New product price:</label>
+          <Translate> New product price :</Translate>   
+          </label>
           <input
             type="number"
             value={newProductPrice}
             onChange={(e) => setNewProductPrice(e.target.value)}
           />
           <label htmlFor='quantity'>
-            New product quantity:</label>
+          <Translate> New product quantity :</Translate>   
+          </label>
           <input
             type="number"
             value={newProductQuantity}
             onChange={(e) => setNewProductQuantity(e.target.value)}
           />
-          <button type="button" onClick={handleUpdateProduct} className='mb-2'>Update</button>
-          <Link to='/products' className='btn bg-danger w-100' >Cancel</Link>
+          <button type="button" onClick={handleUpdateProduct} className='mb-2'><Translate>Update</Translate></button>
+          <Link to='/products' className='btn bg-danger w-100' ><Translate translations={{ar:"الغي"}}>Canceling</Translate></Link>
         </form>
       </div>
     </div>
