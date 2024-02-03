@@ -1,12 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
- import styles from '../profile/Profile.module.css'
-const AsideBar = () => {
+  import styles from '../profile/Profile.module.css'
+const AsideBar = ({ onSelect }) => {
     return (
         <div className={styles.AsideBar}>
-            <Link to='/Information'>Information</Link>
-            <Link to='/ChangePassword'>Change password</Link>
-        </div>
+        <div>
+        <button onClick={() => onSelect('information')} className='my-3'>Information</button>
+        <button onClick={() => onSelect('changePassword')}>Change Password</button>
+      </div>
+      </div>
     )
 }
 
