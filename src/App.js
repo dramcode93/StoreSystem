@@ -15,7 +15,8 @@ import ForgotPassword1 from "./components/ForgetPass/ForgetPass1.jsx";
 import ForgotPassword2 from "./components/ForgetPass/ForgetPass2.jsx";
 import ForgotPassword3 from "./components/ForgetPass/ForgetPass3.jsx";
 import CategoryProducts from './components/Category/specificProducs';
-import Profile from "./components/profile/Profile.jsx";
+ import ProfilePage from "./components/profile/Profile.jsx";
+import ChangPassword from "./components/profile/ChangPassword.jsx";
  
  
 const App = () => {
@@ -58,7 +59,8 @@ const App = () => {
               <Route path="/updateProduct/:id" element={<UpdateProduct />} />
               <Route path="/products" element={<Products />} />
               <Route path="/bills" element={<Bills />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/Profile" element={<ChangPassword/>} />
               <Route path="/category/:id/products" element={<CategoryProducts />} />
             </>
           ) : (
