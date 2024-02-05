@@ -13,7 +13,7 @@ function UpdateCategory() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://real-pear-barracuda-kilt.cyclic.app/api/categories/${id}`, {
+        const response = await axios.get(`https://rich-blue-moth-slip.cyclic.app/api/categories/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -30,7 +30,7 @@ function UpdateCategory() {
   }, [id, token]);
 
   const handleUpdateCategory = () => {
-    axios.put(`https://real-pear-barracuda-kilt.cyclic.app/api/categories/${id}`, { name: newCategoryName }, {
+    axios.put(`https://rich-blue-moth-slip.cyclic.app/api/categories/${id}`, { name: newCategoryName }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

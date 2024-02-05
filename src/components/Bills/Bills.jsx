@@ -4,7 +4,8 @@ import axios from 'axios';
 import { Translate, useLanguage } from 'translate-easy';
 import { Link } from 'react-router-dom';
  import styles from './styles.module.css'
-const API_Bills = 'https://real-pear-barracuda-kilt.cyclic.app/api/bills';
+import createBills from './createBills';
+const API_Bills = 'https://rich-blue-moth-slip.cyclic.app/api/bills';
 const Bills = () => {
   const token = localStorage.getItem('token');
   const [bills, setBills] = useState([]);
@@ -20,7 +21,7 @@ const Bills = () => {
     try {
       console.log('Fetching data with search input:', searchInput);
       if (token) {
-        const response = await axios.get(`${API_Bills}?search=${searchInput}&page=${pagination.currentPge}`, { headers: { Authorization: `Bearer ${token}` } });
+        const response = await axios.get(`${API_Bills}?limit=20`, { headers: { Authorization: `Bearer ${token}` } });
         console.log('API Response:', response.data);
         setBills(response.data.data);
         setPagination(response.data.paginationResult);
@@ -32,7 +33,7 @@ const Bills = () => {
     } finally {
       setLoading(false);
     }
-  }, [token, searchInput, pagination.currentPge]);
+  }, [token]);
 
   useEffect(() => {
     fetchData();
@@ -41,8 +42,13 @@ const Bills = () => {
     <div>
       <LogOut/>
       {bills.map(bill => (
-       
-      <table key={bill._id}>
+       <div  key={bill._id}>
+ 
+       <p>{bill.customerName}</p>
+       <p>{bill.phone}</p>
+       <Link to='/CreateBillForm'>create</Link>
+      <table>
+
       <thead>
         <tr>
           <th><Translate>Name</Translate></th>
@@ -63,12 +69,15 @@ const Bills = () => {
       
      </tr>
       ))}
-      <td><Translate>total</Translate></td>
-      <td><Translate>paied</Translate></td>
-      <td><Translate>الباقى</Translate></td>
-
+      <tr>
+      <td><Translate>total : </Translate>{bill.totalAmount}</td>
+      <td><Translate>paied : </Translate>{bill.paidAmount}</td>
+      <td><Translate>Remaining : </Translate>{bill.remainingAmount}</td>
+      </tr>
       </tbody>
     </table>
+    </div>
+
     ))}
 
     </div>
