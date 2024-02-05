@@ -97,6 +97,7 @@
   }
 
   .charts p{
+    margin: auto;
     text-align: center;
     border-radius: 10px;
     padding: 5px;
@@ -138,7 +139,12 @@
     .grid {
     grid-template-columns: auto auto;
   }
-  
+  .charts p{
+    font-size: 16px;
+  }
+  .grid{
+    gap: 5vw;
+  }
   .charts img {
       padding-bottom: 20px;
   }
@@ -147,5 +153,31 @@
     width: 45vw;
   }
   }
+  @media (max-width: 648px) {
+.image2{
+  margin: 0 3vw;
+}
 
+  }
+  @media (max-width: 518px) {
+.image2{
+  margin: 0 5vw;
+}
+  }
+  @media (max-width: 440px) {
+.image2{
+  margin: 0 7vw;
+}
+.grid{
+  margin: 8vh 4vw;
+}
+  }
+  @media (max-width: 400px) {
+.image2{
+  margin: 0 10vw;
+}
+.charts p{
+  font-size: 14px;
+}
+  }
 

@@ -1,6 +1,4 @@
-/* Category.module.css */
-
-.container {
+ .container {
   color: var(--font);
   display: flex;
   justify-content: center;
@@ -14,7 +12,7 @@
 
 .categoryTable {
   border-collapse: collapse;
-  width: 85vw;
+  width: 90vw;
   max-height: 60vh;
   overflow-y: auto;
   margin: 0 auto;
@@ -23,8 +21,7 @@
 .categoryTable th,
 .categoryTable td {
   border: 1px solid #ddd;
-  width: 35vw;
-  padding: 8px;
+   padding: 8px;
   text-align: center;
 }
 
@@ -195,4 +192,158 @@ button {
   display: flex;
   margin: 3vh 20vw;
   justify-content: center;
+  border-radius: 5px;
+  font-size: 20px;
+}
+@media only screen and (max-width: 1300px) {
+  .inputField{
+    width: 15vw;
+}
+.deleteBtn,
+.updateBtn {
+  width: 5vw;
+}
+}
+@media only screen and (max-width: 1200px) {
+  .inputField{
+    width: 13vw;
+}
+
+}
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
+
+  .addBtn {
+    width: 60vw;
+  }
+ 
+}
+@media only screen and (max-width: 768px) {
+  .categoryTable td,
+  .categoryTable th {
+    width: 100%;
+  }
+
+  .addCategory {
+    width: 70%;
+    margin: auto ;
+  }
+
+  .AddSection {
+    flex-direction: column;
+    align-items: stretch;
+    width: 80vw;
+    margin: 1vh 10vw;
+  }
+
+  .updateCategoryContainer {
+    width: 80vw;
+    left: 10%;
+  }
+
+  .inputField,
+  .buttonContainer {
+    width: 100%;
+  }
+
+  .addButton {
+    width: 80vw;
+     margin: 3vh 11vw;
+   }
+
+ }
+
+
+
+ @media only screen and (max-width: 768px) {
+  .categoryTable {
+    width: 100%; 
+    margin: 0 6vw;
+  }
+}
+
+/* Media query for smaller screens */
+@media only screen and (max-width: 890px) {
+  .deleteBtn,.updateBtn {
+width: 9vw;
+}
+}
+@media only screen and (max-width: 890px) {
+  .deleteBtn,.updateBtn {
+width: 11vw;
+}
+}
+@media only screen and (max-width: 750px) {
+  .deleteBtn,.updateBtn {
+width: 10vw;
+}
+.categoryTable th,
+.categoryTable td {
+  width: 25vw;
+}
+}
+@media only screen and (max-width: 710px) {
+  .deleteBtn,.updateBtn {
+width: 37%;
+}
+}
+@media only screen and (max-width: 690px) {
+  .deleteBtn,.updateBtn {
+width: 3vw;
+}
+}
+
+/* Existing styles for larger screens */
+
+@media only screen and (max-width: 768px) {
+  .categoryTable {
+    width: 100%;
+    margin: 0 6vw;
+    overflow-x: auto; /* Add horizontal scroll for smaller screens */
+  }
+
+  .categoryTable th,
+  .categoryTable td {
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+  }
+}
+
+/* Media query for smaller screens */
+@media only screen and (max-width: 890px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 9vw;
+  }
+}
+
+@media only screen and (max-width: 890px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 11vw;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 10vw;
+  }
+  .categoryTable th,
+  .categoryTable td {
+    width: 25vw;
+  }
+}
+
+@media only screen and (max-width: 710px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 37%;
+  }
+}
+
+@media only screen and (max-width: 690px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 20vw;
+    margin: 0 2vw;
+  }
 }

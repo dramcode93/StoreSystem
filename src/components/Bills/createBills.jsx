@@ -1,141 +1,138 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import styles from './styles.module.css';
+import { Translate } from 'translate-easy';
+
+const API_URL = 'https://unusual-blue-button.cyclic.app/api/products/list';
 
 const BillForm = () => {
-       const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
+  const [customerName, setCustomerName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [paidAmount, setPaidAmount] = useState('');
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedProducts, setSelectedProducts] = useState([{ productId: '', quantity: '' }]);
 
-  const [formData, setFormData] = useState({
-    customerName: '',
-    phone: '',
-    products: [],
-    productQuantityMap: {},
-    paidAmount: '',
-  });
-
-  const [productOptions, setProductOptions] = useState([]);
-  const [totalAmount, setTotalAmount] = useState(0);
-
-  useEffect(() => {
-    // Fetch product options from your server when the component mounts
-    const fetchProductOptions = async () => {
-      try {
-        const response = await axios.get('https://rich-blue-moth-slip.cyclic.app/api/products/list', { headers: { Authorization: `Bearer ${token}` } });
-setProductOptions(response.data.data);
-      } catch (error) {
-        console.error('Error fetching product options:', error);
+  const fetchData = useCallback(async () => {
+    try {
+      if (token) {
+        setLoading(true);
+        const productsResponse = await axios.get(`${API_URL}`, { headers: { Authorization: `Bearer ${token}` } });
+        setProducts(productsResponse.data.data);
+      } else {
+        console.error('No token found.');
       }
-    };
-
-    fetchProductOptions();
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+    } finally {
+      setLoading(false);
+    }
   }, [token]);
 
-  const handleProductChange = (productId, quantity) => {
-    const updatedProducts = [...formData.products, { product: productId, productQuantity: quantity }];
-    setFormData({
-      ...formData,
-      products: updatedProducts,
-    });
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-    // Calculate total amount
-    const productPrice = productOptions.find((product) => product._id === productId)?.price || 0;
-    const totalPrice = productPrice * quantity;
-    setTotalAmount((prevTotalAmount) => prevTotalAmount + totalPrice);
+  const handleProductChange = (index, productId) => {
+    const newSelectedProducts = [...selectedProducts];
+    newSelectedProducts[index].productId = productId;
+    setSelectedProducts(newSelectedProducts);
   };
 
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const handleQuantityChange = (index, quantity) => {
+    const newSelectedProducts = [...selectedProducts];
+    newSelectedProducts[index].quantity = quantity;
+    setSelectedProducts(newSelectedProducts);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const addProductFields = () => {
+    setSelectedProducts([...selectedProducts, { productId: '', quantity: '' }]);
+  };
 
+  const createBill = async () => {
     try {
-      const response = await axios.post('https://rich-blue-moth-slip.cyclic.app/api/bills', formData, { headers: { Authorization: `Bearer ${token}` } });
-console.log('Bill created:', response.data.data);
-      // Reset the form or perform any other necessary actions
+      setLoading(true);
+
+      const productQuantityMap = {};
+      const productsArray = selectedProducts.map(({ productId, quantity }) => {
+        productQuantityMap[productId] = quantity;
+        return { product: productId, quantity };
+      });
+
+      const requestBody = {
+        customerName,
+        phone: phoneNumber,
+        products: productsArray,
+        productQuantityMap,
+        paidAmount: Number(paidAmount),
+      };
+
+      const response = await axios.post('https://unusual-blue-button.cyclic.app/api/bills', requestBody, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      console.log('Bill created:', response.data);
+      setCustomerName('');
+      setPhoneNumber('');
+      setPaidAmount('');
+      setSelectedProducts([{ productId: '', quantity: '' }]);
+      window.location.href='/bills';
     } catch (error) {
-      console.error('Error creating bill:', error);
+      console.error('Error creating bill:', error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Customer Name:
-        <input type="text" name="customerName" value={formData.customerName} onChange={handleInputChange} required />
-      </label>
-      <br />
+    <div className="p-5 m-5">
+      <form>
+        <label htmlFor="customerName">Customer Name</label>
+        <input id="customerName" type="text" name="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
+        <label htmlFor="phoneNumber">Phone Number</label>
+        <input id="phoneNumber" type="text" name="phone" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
 
-      <label>
-        Phone:
-        <input type="text" name="phone" value={formData.phone} onChange={handleInputChange} />
-      </label>
-      <br />
-
-      {formData.products.map((product, index) => (
-        <div key={index}>
-          <label>
-            Product {index + 1}:
+        {selectedProducts.map((selectedProduct, index) => (
+          <div key={index}>
             <select
-              value={product.product}
-              onChange={(e) => handleProductChange(e.target.value, formData.productQuantityMap[product.product] || 0)}
+              name="product"
+              className={styles.inputField}
+              onChange={(e) => handleProductChange(index, e.target.value)}
+              value={selectedProduct.productId}
             >
-              <option value="" disabled>
-                Select a product
+            <option disabled selected value=''>
+            <Translate>Select Product</Translate>   
               </option>
-              {productOptions.map((option) => (
-                <option key={option._id} value={option._id}>
-                  {option.name}
+              {products.map((product) => (
+                <option key={product._id} value={product._id}>
+                  {product.name}
                 </option>
               ))}
             </select>
-            Quantity:
+            <label htmlFor={`productQuantity${index}`}>Product Quantity</label>
             <input
+              id={`productQuantity${index}`}
               type="number"
-              value={formData.productQuantityMap[product.product] || ''}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  productQuantityMap: {
-                    ...formData.productQuantityMap,
-                    [product.product]: e.target.value,
-                  },
-                })
-              }
+              name={`productQuantity${index}`}
+              value={selectedProduct.quantity}
+              onChange={(e) => handleQuantityChange(index, e.target.value)}
             />
-          </label>
-        </div>
-      ))}
+          </div>
+        ))}
 
-      <button
-        type="button"
-        onClick={() => setFormData({ ...formData, products: [...formData.products, {}] })}
-      >
-        Add Product
-      </button>
+        <button type="button" onClick={addProductFields}>
+          Add Product
+        </button>
 
-      <br />
-
-      <label>
-        Paid Amount:
-        <input
-          type="number"
-          name="paidAmount"
-          value={formData.paidAmount}
-          onChange={handleInputChange}
-          required
-        />
-      </label>
-      <br />
-
-      <p>Total Amount: {totalAmount}</p>
-
-      <button type="submit">Create Bill</button>
-    </form>
+        <label htmlFor="paidAmount">Paid Amount</label>
+        <input id="paidAmount" type="text" name="paidAmount" value={Number(paidAmount)} onChange={(e) => setPaidAmount(e.target.value)} />
+        <button type="button" onClick={createBill}>
+          Create Bill
+        </button>
+      </form>
+    </div>
   );
 };
 
-export default BillForm;
+export default BillForm;

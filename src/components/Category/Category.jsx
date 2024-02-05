@@ -6,8 +6,9 @@ import LogOut from '../LogOut/LogOut';
 import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import ConfirmationModal from './ConfirmationModel';
+import MainComponent from '../Aside/MainComponent';
 
-const API_category = 'https://rich-blue-moth-slip.cyclic.app/api/categories';
+const API_category = 'https://unusual-blue-button.cyclic.app/api/categories';
 
 const CategoryTable = () => {
   const token = localStorage.getItem('token');
@@ -83,6 +84,7 @@ const CategoryTable = () => {
   return (
     <div>
       <LogOut />
+      <MainComponent/>
       <div className={styles.flex}>
         <div>
           <input type="search" name="search" className={styles.margin} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />

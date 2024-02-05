@@ -39,12 +39,12 @@
   width: 8vw;
   border-radius: 10px;
   color: var(--font);
+  padding: 1.5vh 2vw;
 }
 
 .updateBtn {
   background-color: #4caf50;
-  padding: 1.5vh 2vw;
- }
+}
 
 .deleteBtn {
   background-color: #f44336;
@@ -176,4 +176,100 @@ label {
   padding: 1vh 3vw;
   border-radius: 10px;
 margin: 1vh -2vw;
+}
+
+/* Existing styles for larger screens */
+
+@media only screen and (max-width: 768px) {
+  .categoryTable {
+    width: 100%; 
+    margin: 0 6vw;
+  }
+}
+
+/* Media query for smaller screens */
+@media only screen and (max-width: 890px) {
+  .deleteBtn,.updateBtn {
+width: 9vw;
+}
+}
+@media only screen and (max-width: 890px) {
+  .deleteBtn,.updateBtn {
+width: 11vw;
+}
+}
+@media only screen and (max-width: 750px) {
+  .deleteBtn,.updateBtn {
+width: 10vw;
+}
+.categoryTable th,
+.categoryTable td {
+  width: 25vw;
+}
+}
+@media only screen and (max-width: 710px) {
+  .deleteBtn,.updateBtn {
+width: 37%;
+}
+}
+@media only screen and (max-width: 690px) {
+  .deleteBtn,.updateBtn {
+width: 3vw;
+}
+}
+
+/* Existing styles for larger screens */
+
+@media only screen and (max-width: 768px) {
+  .categoryTable {
+    width: 100%;
+    margin: 0 6vw;
+    overflow-x: auto; /* Add horizontal scroll for smaller screens */
+  }
+
+  .categoryTable th,
+  .categoryTable td {
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+  }
+}
+
+/* Media query for smaller screens */
+@media only screen and (max-width: 890px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 9vw;
+  }
+}
+
+@media only screen and (max-width: 890px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 11vw;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 10vw;
+  }
+  .categoryTable th,
+  .categoryTable td {
+    width: 25vw;
+  }
+}
+
+@media only screen and (max-width: 710px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 37%;
+  }
+}
+
+@media only screen and (max-width: 690px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 20vw;
+    margin: 0 2vw;
+  }
 }

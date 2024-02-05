@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styles from './Profile.module.css';
 import axios from 'axios';
 
-const API_info = 'https://rich-blue-moth-slip.cyclic.app/api/users/getMe';
-const API_update = 'https://rich-blue-moth-slip.cyclic.app/api/users/updateMe';
+const API_info = 'https://unusual-blue-button.cyclic.app/api/users/getMe';
+const API_update = 'https://unusual-blue-button.cyclic.app/api/users/updateMe';
 
 const Information = () => {
   const [loading, setLoading] = useState(true);

@@ -8,8 +8,8 @@ import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import ConfirmationModal from '../Category/ConfirmationModel';
  
-const API_URL = 'https://rich-blue-moth-slip.cyclic.app/api/products';
-const API_category = 'https://rich-blue-moth-slip.cyclic.app/api/categories/list';
+const API_URL = 'https://unusual-blue-button.cyclic.app/api/products';
+const API_category = 'https://unusual-blue-button.cyclic.app/api/categories/list';
 
 const Products = () => {
   const token = localStorage.getItem('token');
@@ -91,7 +91,6 @@ const Products = () => {
   return (
     <div>
       <LogOut />
-      
       <div>
       <form className={styles.AddSection}>
       <select
@@ -99,7 +98,7 @@ const Products = () => {
       className={styles.inputField}
       onChange={(e) => setSelectedCategoryId(e.target.value)}
     >
-      <option disabled selected value={null}>
+      <option disabled value=''>
     <Translate>Select Category</Translate>   
       </option>
       {categories.map((category) => (
@@ -134,7 +133,7 @@ const Products = () => {
         />
      
      <input type="search" name="search" placeholder='search' className={styles.inputField} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-     <button className='btn btn-primary px-3 py-2 fs-5' onClick={handleSearch} ><Translate translations={{ ar: 'بحث', en: 'search' }}>Searching</Translate></button>
+     <button className='btn btn-primary px-3 mx-2 py-2 fs-5' onClick={handleSearch} ><Translate translations={{ ar: 'بحث', en: 'search' }}>Searching</Translate></button>
      </form>
         <button onClick={confirmAddProduct} className={styles.addButton}>
           <Translate translations={{ ar: 'ضيف', en: 'Add' }}>
