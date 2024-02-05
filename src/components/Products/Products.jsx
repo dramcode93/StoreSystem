@@ -8,8 +8,8 @@ import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import ConfirmationModal from '../Category/ConfirmationModel';
  
-const API_URL = 'https://real-pear-barracuda-kilt.cyclic.app/api/products';
-const API_category = 'https://real-pear-barracuda-kilt.cyclic.app/api/categories/list';
+const API_URL = 'https://rich-blue-moth-slip.cyclic.app/api/products';
+const API_category = 'https://rich-blue-moth-slip.cyclic.app/api/categories/list';
 
 const Products = () => {
   const token = localStorage.getItem('token');

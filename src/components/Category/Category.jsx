@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import ConfirmationModal from './ConfirmationModel';
 
-const API_category = 'https://real-pear-barracuda-kilt.cyclic.app/api/categories';
+const API_category = 'https://rich-blue-moth-slip.cyclic.app/api/categories';
 
 const CategoryTable = () => {
   const token = localStorage.getItem('token');
@@ -25,7 +25,7 @@ const CategoryTable = () => {
     try {
       console.log('Fetching data with search input:', searchInput);
       if (token) {
-        const response = await axios.get(`${API_category}?search=${searchInput}&page=${pagination.currentPge}`, { headers: { Authorization: `Bearer ${token}` } });
+        const response = await axios.get(`${API_category}?search=${searchInput}&page=${pagination.currentPge}&limit=20`, { headers: { Authorization: `Bearer ${token}` } });
          setCategories(response.data.data);
         setPagination(response.data.paginationResult);
        } else {

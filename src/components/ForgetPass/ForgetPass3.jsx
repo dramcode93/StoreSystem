@@ -7,7 +7,7 @@ const ForgotPassword3 = () => {
 
   const handleForgetPassword = async () => {
     try {
-      const response = await axios.put('https://real-pear-barracuda-kilt.cyclic.app/api/auth/resetPassword', {
+      const response = await axios.put('https://rich-blue-moth-slip.cyclic.app/api/auth/resetPassword', {
         newPassword,
         confirmNewPassword,
       },{ headers: { Authorization: `Bearer ${resetToken}` } });
