@@ -14,37 +14,42 @@ body {
    }
 
 .profileInfo,.changePassword {
-  width: 60%;
+  width: 40vw;
   position: absolute;
   top: 40%;
-  left: 37%; 
+  left: 38%; 
  }
 
- 
+ .profileInfo p{
+  color: var(--font);
+ }
 
 .AsideBar {
    position: absolute;
   top: 14%;
    left: 7%; 
-  width: 20%;
+  width: 26vw;
   height: 80vh;
     z-index: -2323;
     box-shadow: 2px 0px 0px var(--font);
-   padding:30vh 10px;
-   color: #fff;
-  border-radius: 5px;
+   padding:30vh 40px;
+   color: var(--font);
+
  }
 
- 
-.change-password-form {
-  margin-top: 20px;
-}
+ .changePassword{
+  top: 30%;
+ }
 
+.changePassword label,.changePassword button{
+margin-top: 10px;
+}
 input {
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
   box-sizing: border-box;
+  color: var(--font);
 }
 
  
@@ -53,4 +58,19 @@ input {
 }
 button:hover {
   background-color: rgba(0, 0, 255, 0.8);
+}
+
+@media only screen and (max-width: 768px) {
+  .profileInfo,
+  .changePassword {
+    width: 80%;
+    left: 10%;
+    margin-top: 15vh;
+  }
+
+  .AsideBar {
+    width: 90%;
+    left: 5%;
+    padding: 10vh 20px;
+  }
 }

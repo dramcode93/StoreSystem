@@ -45,7 +45,7 @@ import React, { useState } from 'react';
 import styles from './Profile.module.css';
 import axios from 'axios';
 
-const API_password = 'https://rich-blue-moth-slip.cyclic.app/api/users/updateMyPassword';
+const API_password = 'https://unusual-blue-button.cyclic.app/api/users/updateMyPassword';
 
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -67,7 +67,6 @@ const ChangePassword = () => {
       localStorage.setItem('token',response.data.token)
       console.log(response);
       
-      // You might want to handle success, e.g., show a success message to the user
     } catch (error) {
       console.error('An error occurred while sending the reset password request', error);
       setError('Password change failed. Please check your inputs and try again.');

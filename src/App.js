@@ -47,13 +47,12 @@ const App = () => {
     <BrowserRouter>
       <LanguageProvider>
         <MyComponent />
-        <MainComponent />
         <Routes>
-          <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
-          <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
-          <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
-          {isLoggedIn && !isTokenExpired ? (
-            <>
+        <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
+        <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
+        <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
+        {isLoggedIn && !isTokenExpired ? (
+          <>
               <Route path="/home" element={<Home />} />
               <Route path="/category" element={<Category />} />
               <Route path="/update/:id" element={<Update />} />

@@ -7,10 +7,12 @@ import image2 from '../../Images/Dark Orange Modern Circle Diagram Graph (2).svg
 import image3 from '../../Images/Dark Orange Modern Circle Diagram Graph.svg'
 import { Link } from 'react-router-dom';
 import LogOut from '../LogOut/LogOut';
+import MainComponent from '../Aside/MainComponent';
 const Home = () => {
   return (
     <div>
       <LogOut/>
+      <MainComponent />
     <div className='marginHome'>
     <div className='cards grid'>
         <Link to='/category' className='card1 back1'>
@@ -69,7 +71,7 @@ const Home = () => {
       <p className=' chartBack1'><Translate>CERAMIC</Translate></p>
     </div>
    <div>
-   <img src={image1} alt='' className='mt-4'/>
+   <img src={image1} alt='' className='mt-4 image2'/>
    <p className=' chartBack2'><Translate>SANITARY WARE</Translate> </p>
     </div>
    <div>

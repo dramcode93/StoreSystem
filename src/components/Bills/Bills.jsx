@@ -4,8 +4,9 @@ import axios from 'axios';
 import { Translate, useLanguage } from 'translate-easy';
 import { Link } from 'react-router-dom';
  import styles from './styles.module.css'
-import createBills from './createBills';
-const API_Bills = 'https://rich-blue-moth-slip.cyclic.app/api/bills';
+
+import BillForm from './createBills';
+const API_Bills = 'https://unusual-blue-button.cyclic.app/api/bills';
 const Bills = () => {
   const token = localStorage.getItem('token');
   const [bills, setBills] = useState([]);
@@ -41,12 +42,11 @@ const Bills = () => {
   return (
     <div>
       <LogOut/>
+      <Link className='btn btn-primary px-5' to='/CreateBillForm'>create</Link>
       {bills.map(bill => (
        <div  key={bill._id}>
- 
        <p>{bill.customerName}</p>
        <p>{bill.phone}</p>
-       <Link to='/CreateBillForm'>create</Link>
       <table>
 
       <thead>
@@ -77,9 +77,8 @@ const Bills = () => {
       </tbody>
     </table>
     </div>
-
+    
     ))}
-
     </div>
   )
 }

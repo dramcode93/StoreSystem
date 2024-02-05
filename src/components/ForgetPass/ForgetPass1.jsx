@@ -6,7 +6,7 @@ const [email, setEmail] = useState('');
 
   const handleForgetPassword = async () => {
     try {
-      const response = await axios.post('https://rich-blue-moth-slip.cyclic.app/api/auth/forgetPassword', {
+      const response = await axios.post('https://unusual-blue-button.cyclic.app/api/auth/forgetPassword', {
         email: email,
       });
             const resetToken = response.data.resetToken;

@@ -20,11 +20,13 @@ header #icon{
 @media only screen and (max-width: 1200px) {
   header #icon{
     margin-left: 7vw;
+    margin-right: 23vw;
   }
 }
 @media only screen and (max-width: 1100px) {
   header #icon{
     margin-left: 10vw;
+    margin-right: 27vw;
   }
 }
 @media only screen and (max-width: 1000px) {
@@ -35,16 +37,21 @@ header #icon{
 @media only screen and (max-width: 950px) {
   header #icon{
     margin-left: 15vw;
+    margin-right: 30vw;
+
   }
 }
 @media only screen and (max-width: 850px) {
   header #icon{
+    margin-right: 33vw;
     margin-left: 17vw;
   }
 }
 @media only screen and (max-width: 800px) {
   header #icon{
     margin-left: 20vw;
+    margin-right: 36vw;
+
   }
 }
 @media only screen and (max-width: 700px) {
@@ -61,6 +68,10 @@ header #icon{
 @media only screen and (max-width: 580px) {
   header #icon{
     margin-left: 35vw;
+    margin-right: 60vw;
+  }
+  .FormTranslate {
+      width: 115px; 
   }
 }
 @media only screen and (max-width: 530px) {
@@ -70,12 +81,18 @@ header #icon{
 }
 @media only screen and (max-width: 480px) {
   header #icon{
-    margin-left: 50vw;
+    margin-left: 39vw;
+    margin-right: 54vw;
   }
 }
 @media only screen and (max-width: 380px) {
   header #icon{
-    margin-left: 54vw;
+    margin-left: 41vw;
+  }
+}
+@media only screen and (max-width: 290px) {
+  header #icon{
+    margin-left: 37vw;
   }
 }
 
@@ -105,6 +122,25 @@ header #icon{
   text-align: center;
   height: 15px;
    vertical-align: middle;
+}
+@media only screen and (max-width: 768px) {
+
+  .FormTranslate {
+    margin: 5vh 10px 5vh 5vw;
+ 
+  }
+
+  /* Add more styles as needed for smaller screens */
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
+  
+
+  .FormTranslate {
+    margin: 5vh 50px 5vh 10vw;
+  }
+
+  /* Add more styles as needed for medium-sized screens */
 }
 .font{
   font-family: 'Lobster', sans-serif;
