@@ -9,6 +9,7 @@ body {
   display: flex;
   position: absolute;
   top: 30%;
+  z-index: 2;
 }
 
 .sidebar {

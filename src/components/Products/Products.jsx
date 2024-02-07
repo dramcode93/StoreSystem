@@ -9,8 +9,8 @@ import Loading from '../Loading/Loading';
 import ConfirmationModal from '../Category/ConfirmationModel';
 import MainComponent from '../Aside/MainComponent';
  
-const API_URL = 'https://unusual-blue-button.cyclic.app/api/products';
-const API_category = 'https://unusual-blue-button.cyclic.app/api/categories/list';
+const API_URL = 'https://lucky-fox-scarf.cyclic.app/api/products';
+const API_category = 'https://lucky-fox-scarf.cyclic.app/api/categories/list';
 
 const Products = () => {
   const token = localStorage.getItem('token');
