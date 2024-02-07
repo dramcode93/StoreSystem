@@ -1,13 +1,57 @@
- th,
- td {
+ 
+ 
+
+.billsContainer {
+  padding: 15vh 0;
+  margin: auto 5vw;
+ }
+ 
+ .btn {
+  padding: 10px 20px;
+  background-color: #2196f3;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.billsTable table{
+  color: var(--font);
+  border-collapse: collapse;
+  width: 90vw;
+  max-height: 60vh;
+  overflow-y: auto;
+  margin: 0 auto;
+}
+
+.billsTable th,
+.billsTable td {
   border: 1px solid #ddd;
-  width: 35vw;
-  padding: 8px;
+   padding: 8px;
   text-align: center;
 }
 
- th {
+.billsTable th {
   background-color: var(--card);
   font-weight: bold;
   font-size: 18px;
+}
+
+.deleteBtn,
+.updateBtn {
+  margin-right: 15px;
+  cursor: pointer;
+  width: fit-content;
+  border-radius: 10px;
+  color: var(--font);
+  padding: 1.5vh 1vw;
+}
+
+.updateBtn {
+  background-color: #4caf50;
+}
+
+.deleteBtn {
+   background-color: #f44336;
 }

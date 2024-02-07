@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Products.module.css';
 import { Translate } from 'translate-easy';
+ import MainComponent from './../Aside/MainComponent';
+import LogOut from '../LogOut/LogOut';
 function UpdateProduct() {
   const { id } = useParams();
   const [newProductName, setNewProductName] = useState('');
@@ -61,6 +63,8 @@ function UpdateProduct() {
 
   return (
     <div>
+    <LogOut/>
+    <MainComponent/>
       <div className={styles.updateCategoryContainer}>
         <h2><Translate>Update product</Translate></h2>
         <form>

@@ -60,6 +60,7 @@ body {
   transform: rotate(90deg);
   animation: none;
 }
+
 .logo-container img {
   width: 100px;
   object-fit: contain;
@@ -92,6 +93,7 @@ body {
     margin-right: -18vw;
   }
 }
+
 @media screen and (max-width: 1180px) {
   .toggle-button {
     margin: 0 23vw; 
@@ -103,6 +105,7 @@ body {
     margin-right: -21vw;
   }
 }
+
 @media screen and (max-width: 1020px) {
   .toggle-button {
     margin: 0 25vw; 
@@ -111,6 +114,7 @@ body {
     margin-right: -24vw;
   }
 }
+
 @media screen and (max-width: 940px) {
   .toggle-button {
     margin: 0 27vw; 
@@ -119,6 +123,7 @@ body {
     margin-right: -26vw;
   }
 }
+
 @media screen and (max-width: 866px) {
   .toggle-button {
     margin: 0 30vw; 
@@ -127,6 +132,7 @@ body {
     margin-right: -28vw;
   }
 }
+
 @media screen and (max-width: 780px) {
   .toggle-button {
     margin: 0 33vw; 
@@ -138,6 +144,7 @@ body {
     top: 45%;
   }
 }
+
 @media screen and (max-width: 708px) {
   .toggle-button {
     margin: 0 36vw; 
@@ -146,6 +153,7 @@ body {
     margin-right: -33vw;
   }
 }
+
 @media screen and (max-width: 644px) {
   .toggle-button {
     margin: 0 39vw; 
@@ -154,6 +162,7 @@ body {
     margin-right: -37vw;
   }
 }
+
 @media screen and (max-width: 590px) {
   .toggle-button {
     margin: 0 42vw; 
@@ -162,6 +171,7 @@ body {
     margin-right: -40vw;
   }
 }
+
 @media screen and (max-width: 550px) {
   .toggle-button {
     margin: 0 45vw; 
@@ -173,6 +183,7 @@ body {
     top: 43%;
   }
 }
+
 @media screen and (max-width: 516px) {
   .toggle-button {
     margin: 0 48vw; 
@@ -181,6 +192,7 @@ body {
     margin-right: -47vw;
   }
 }
+
 @media screen and (max-width: 480px) {
   .toggle-button {
     margin: 0 51vw; 
@@ -189,6 +201,7 @@ body {
     margin-right: -51vw;
   }
 }
+
 @media screen and (max-width: 450px) {
   .toggle-button {
     margin: 0 55vw; 
@@ -200,6 +213,7 @@ body {
     top: 49%;
   }
 }
+
 @media screen and (max-width: 420px) {
   .toggle-button {
     margin: 0 60vw; 
@@ -211,6 +225,7 @@ body {
     top: 47%;
   }
 }
+
 @media screen and (max-width: 385px) {
   .toggle-button {
     margin: 0 65vw; 
@@ -222,6 +237,7 @@ body {
     top: 48%;
   }
 }
+
 @media screen and (max-width: 355px) {
   .toggle-button {
     margin: 0 70vw; 

@@ -8,21 +8,21 @@ const CategoryProducts = ({ Products }) => {
     const [categoryProducts, setCategoryProducts] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await axios.get(`https://rich-blue-moth-slip.cyclic.app/api/categories/${id}/products`, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
-            const Products = response.data.data || ''; // Ensure it's not undefined
-            setCategoryProducts(Products);
-            console.log(response)
-  
-          } catch (error) {
-            console.error('Error fetching category:', error.message);
-          }
-        };
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`https://rich-blue-moth-slip.cyclic.app/api/categories/${id}/products`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const Products = response.data.data || ''; // Ensure it's not undefined
+      setCategoryProducts(Products);
+      console.log(response)
+
+    } catch (error) {
+      console.error('Error fetching category:', error.message);
+    }
+  };
     
         fetchData();
       }, [id, token]);

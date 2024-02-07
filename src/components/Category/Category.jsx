@@ -81,76 +81,76 @@ const CategoryTable = () => {
     });
   }
 
-  return (
+return (
+<div>
+  <LogOut />
+  <MainComponent/>
+  <div className={styles.flex}>
     <div>
-      <LogOut />
-      <MainComponent/>
-      <div className={styles.flex}>
-        <div>
-          <input type="search" name="search" className={styles.margin} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-          <button className='btn btn-primary' onClick={handleSearch}>
-            <Translate>A Search</Translate>
-          </button>
-        </div>
-        <div>
-          <input type="text" name="name" className={styles.margin} value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} />
-          <button className='btn btn-primary' onClick={confirmAddCategory}>
-            <Translate translations={{ ar: 'ضيف', en: 'Add' }}>{selectedLanguage === 'ar' ? 'ضيف' : 'Add'}</Translate>
-          </button>
-        </div>
-      </div>
-      <div className={styles.container}>
-        {loading && <div className='m-5 fs-3'><Loading /></div>}
-        {!loading && (
-          <>
-            <div className={styles.categoryTable}>
-              <table>
-                <thead>
-                  <tr>
-                    <th><Translate>ID</Translate></th>
-                    <th><Translate>Name</Translate></th>
-                    <th><Translate>Actions</Translate></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {categories.map(category => (
-                    <tr key={category._id}>
-                      <td>{category._id.slice(-4)}</td>
-                      <td>
-                        <Link to={`/category/${category._id}/products`} className={styles.categoryLink}>
-                          {category.name}
-                        </Link>
-                      </td>
-                      <td>
-                        <Link to={`/update/${category._id}`} className={styles.updateBtn}>
-                          <Translate translations={{ ar: 'تعديل', en: 'update' }}>{selectedLanguage === 'ar' ? 'تعديل' : 'update'}</Translate>
-                        </Link>
+      <input type="search" name="search" className={styles.margin} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+      <button className='btn btn-primary' onClick={handleSearch}>
+        <Translate>A Search</Translate>
+      </button>
+    </div>
+    <div>
+      <input type="text" name="name" className={styles.margin} value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} />
+      <button className='btn btn-primary' onClick={confirmAddCategory}>
+        <Translate translations={{ ar: 'ضيف', en: 'Add' }}>{selectedLanguage === 'ar' ? 'ضيف' : 'Add'}</Translate>
+      </button>
+    </div>
+  </div>
+  <div className={styles.container}>
+  {loading && <div className='m-5 fs-3'><Loading /></div>}
+  {!loading && (
+  <>
+  <div className={styles.categoryTable}>
+  <table>
+    <thead>
+      <tr>
+        <th><Translate>ID</Translate></th>
+        <th><Translate>Name</Translate></th>
+        <th><Translate>Actions</Translate></th>
+      </tr>
+    </thead>
+    <tbody>
+  {categories.map(category => (
+    <tr key={category._id}>
+      <td>{category._id.slice(-4)}</td>
+      <td>
+        <Link to={`/category/${category._id}/products`} className={styles.categoryLink}>
+          {category.name}
+        </Link>
+      </td>
+      <td>
+        <Link to={`/update/${category._id}`} className={styles.updateBtn}>
+          <Translate translations={{ ar: 'تعديل', en: 'update' }}>{selectedLanguage === 'ar' ? 'تعديل' : 'update'}</Translate>
+        </Link>
 
-                        <button className={styles.deleteBtn} onClick={() => handleDeleteCategory(category._id)}>
-                          <Translate translations={{ ar: 'حذف', en: "Delete" }}>{selectedLanguage === 'ar' ? "حذف" : "Delete"}</Translate>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <ConfirmationModal
-                show={showConfirmation}
-                onConfirm={confirmDelete}
-                onCancel={cancelDelete}
-              />
-              {categories.length === 0 && <p>No categories available</p>}
-            </div>
-          </>
-        )}
+        <button className={styles.deleteBtn} onClick={() => handleDeleteCategory(category._id)}>
+          <Translate translations={{ ar: 'حذف', en: "Delete" }}>{selectedLanguage === 'ar' ? "حذف" : "Delete"}</Translate>
+        </button>
+      </td>
+    </tr>
+            ))}
+          </tbody>
+        </table>
+        <ConfirmationModal
+          show={showConfirmation}
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
+        />
+        {categories.length === 0 && <p>No categories available</p>}
       </div>
-      <div>
-        <div className={styles.flex}>
-          {pagination.prev && (
-            <button onClick={() => handlePageChange(pagination.prev)} className={styles.paginationNext}>
-              {pagination.prev}
-            </button>
-          )}
+    </>
+  )}
+</div>
+<div>
+  <div className={styles.flex}>
+    {pagination.prev && (
+      <button onClick={() => handlePageChange(pagination.prev)} className={styles.paginationNext}>
+        {pagination.prev}
+      </button>
+    )}
           <button className={styles.paginationNext}><Translate>Page</Translate> {pagination.currentPge}</button>
           {pagination.next && (
             <button className={styles.paginationNext} onClick={() => handlePageChange(pagination.next)}>

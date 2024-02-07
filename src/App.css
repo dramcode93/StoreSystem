@@ -1,5 +1,4 @@
- 
-header {
+ header {
   position: fixed;
     margin: 5vh 0vh 5vh 20vw ;
     gap: 3vw;
@@ -129,19 +128,14 @@ header #icon{
     margin: 5vh 10px 5vh 5vw;
  
   }
-
-  /* Add more styles as needed for smaller screens */
-}
-
-@media only screen and (min-width: 769px) and (max-width: 1200px) {
-  
-
-  .FormTranslate {
-    margin: 5vh 50px 5vh 10vw;
   }
 
-  /* Add more styles as needed for medium-sized screens */
-}
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
+    .FormTranslate {
+    margin: 5vh 50px 5vh 10vw;
+  }
+  }
+
 .font{
   font-family: 'Lobster', sans-serif;
 }
@@ -158,16 +152,12 @@ ul:hover li{
   display: block;
 }
 
-
-.sticky-header {
-  background-color: #f8f8f8; /* Set the background color for the sticky header */
+ .sticky-header {
+  background-color: #f8f8f8; 
 }
 
-
-
-/* forget pass */
-  
-.container1 {
+  /* forget pass */
+ .container1 {
   width: 700px;
   margin: auto;
   padding-top: 20vh;
@@ -191,8 +181,7 @@ button {
   width: 100%;
 }
 
-
-.ForgotPasswordStep1 {
+ .ForgotPasswordStep1 {
   text-align: center;
 }
 
@@ -203,6 +192,7 @@ button {
 .ForgotPasswordStep3 {
   text-align: center;
 }
+
 button {
   background-color: #007bff;
   color: #fff;

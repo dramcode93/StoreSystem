@@ -5,17 +5,12 @@ import { Translate, useLanguage } from 'translate-easy';
 import { Link } from 'react-router-dom';
  import styles from './styles.module.css'
 
-import BillForm from './createBills';
-const API_Bills = 'https://unusual-blue-button.cyclic.app/api/bills';
+ const API_Bills = 'https://unusual-blue-button.cyclic.app/api/bills';
 const Bills = () => {
   const token = localStorage.getItem('token');
   const [bills, setBills] = useState([]);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  const [newCategoryName, setNewCategoryName] = useState('');
-  const [searchInput, setSearchInput] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [pagination, setPagination] = useState({});
+   const [searchInput, setSearchInput] = useState('');
+   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
   const { selectedLanguage } = useLanguage();
   const fetchData = useCallback(async () => {
@@ -41,10 +36,12 @@ const Bills = () => {
   }, [searchInput, fetchData]);
   return (
     <div>
-      <LogOut/>
+    <LogOut/>
+
+    <div className={styles.billsContainer}>
       <Link className='btn btn-primary px-5' to='/CreateBillForm'>create</Link>
       {bills.map(bill => (
-       <div  key={bill._id}>
+       <div  key={bill._id} className={styles.billsTable}>
        <p>{bill.customerName}</p>
        <p>{bill.phone}</p>
       <table>
@@ -66,7 +63,18 @@ const Bills = () => {
         <td>{product.product?.price}</td>
         <td>{product.productQuantity}</td>
         <td>{product.totalPrice}</td>
-      
+        <td>
+        <Link className={styles.updateBtn}>
+          <Translate translations={{ ar: 'تعديل', en: 'update' }}>
+            {selectedLanguage === 'ar' ? 'تعديل' : 'update'}
+          </Translate>
+        </Link>
+    <button className={styles.deleteBtn}>
+          <Translate translations={{ ar: 'حذف', en: 'Delete' }}>
+            {selectedLanguage === 'ar' ? 'حذف' : 'Delete'}
+          </Translate>
+        </button>
+      </td>
      </tr>
       ))}
       <tr>
@@ -77,8 +85,8 @@ const Bills = () => {
       </tbody>
     </table>
     </div>
-    
     ))}
+    </div>
     </div>
   )
 }

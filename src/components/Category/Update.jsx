@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Category.module.css';
 import { Translate } from 'translate-easy';
+ import MainComponent from './../Aside/MainComponent';
+import LogOut from './../LogOut/LogOut';
 
 function UpdateCategory() {
   const { id } = useParams();
@@ -46,6 +48,8 @@ function UpdateCategory() {
 
   return (
     <div>
+    <LogOut/>
+    <MainComponent/>
       <div className={styles.updateCategoryContainer}>
         <h2><Translate>Update Category</Translate></h2>
         <label>

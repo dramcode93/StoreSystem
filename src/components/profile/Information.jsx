@@ -52,8 +52,7 @@ const Information = () => {
     }));
   };
   
-
-  const handleEditToggle = (nameField,emailFields) => {
+   const handleEditToggle = (nameField,emailFields) => {
     if (nameField === 'name') {
       setIsNameEditing(!isNameEditing);
     }  
@@ -82,9 +81,7 @@ const Information = () => {
     }
   };
   
-  
-
-  return (
+    return (
     <div className={styles.profileInfo}>
       <h2>Information Page</h2>
       <ul>
@@ -92,7 +89,7 @@ const Information = () => {
           <div>
           <p>Name: {isNameEditing ? <input name="name" value={inputValues.name} onChange={handleInputChange} /> : info.name}</p>
           <p>Email: {isEmailEditing ? <input name="email" value={inputValues.email} onChange={handleInputChange} /> : info.email}</p>
-                     </div>
+           </div>
         </li>
         <li>
           {isNameEditing || isEmailEditing ? (

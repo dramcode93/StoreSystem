@@ -32,48 +32,47 @@ const Login = () => {
   };
 
   return (
-    <div>
-    <div className={styles.LoginContainer}>
-        {loading && <div className='m-5 fs-3'><Loading /></div>}
-        {!loading && (
-          <>
-             <form className={styles.LoginForm} onSubmit={handleSubmit}>
-        <div className={styles.FormGroup}>
-          <label htmlFor="email">
-            <Translate>Email :</Translate>
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            name="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className={styles.FormGroup}>
-          <label htmlFor="password">
-            <Translate>Password :</Translate>
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            name="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        {error && <p className={styles.error}>{error}</p>}   
-        <Link to='forgotPassword1' className={styles.forgetPass}>
-          <Translate>Forgot your password?</Translate>
-        </Link>
-        <div className={styles.login}>
-        <button type="submit" onClick={handleSubmit} disabled={loading}>
-        {loading ? <Translate><Loading/></Translate> : <Translate>Login</Translate>}
-        </button>
-        
-        </div>
-      </form>
-          </>
+<div>
+<div className={styles.LoginContainer}>
+  {loading && <div className='m-5 fs-3'><Loading /></div>}
+  {!loading && (
+    <>
+        <form className={styles.LoginForm} onSubmit={handleSubmit}>
+  <div className={styles.FormGroup}>
+    <label htmlFor="email">
+      <Translate>Email :</Translate>
+    </label>
+    <input
+      type="email"
+      id="email"
+      value={email}
+      name="email"
+      onChange={(e) => setEmail(e.target.value)}
+    />
+  </div>
+  <div className={styles.FormGroup}>
+    <label htmlFor="password">
+      <Translate>Password :</Translate>
+    </label>
+    <input
+      type="password"
+      id="password"
+      value={password}
+      name="password"
+      onChange={(e) => setPassword(e.target.value)}
+    />
+    </div>
+    {error && <p className={styles.error}>{error}</p>}   
+    <Link to='forgotPassword1' className={styles.forgetPass}>
+      <Translate>Forgot your password?</Translate>
+    </Link>
+    <div className={styles.login}>
+    <button type="submit" onClick={handleSubmit} disabled={loading}>
+    {loading ? <Translate><Loading/></Translate> : <Translate>Login</Translate>}
+    </button>
+     </div>
+  </form>
+      </>
         )}
       </div>
       </div>
