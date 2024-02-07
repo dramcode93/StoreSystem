@@ -1,10 +1,8 @@
-/* src/App.css */
-body {
+ body {
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  
-}
+ }
 
 .profileContainer {
   background-color: var(--back);
@@ -34,16 +32,17 @@ body {
     box-shadow: 2px 0px 0px var(--font);
    padding:30vh 40px;
    color: var(--font);
-
- }
+  }
 
  .changePassword{
   top: 30%;
+  z-index: -3243;
  }
 
 .changePassword label,.changePassword button{
 margin-top: 10px;
 }
+
 input {
   width: 100%;
   padding: 8px;
@@ -51,11 +50,11 @@ input {
   box-sizing: border-box;
   color: var(--font);
 }
-
- 
+  
 .AsideBar button{
   border-radius: 10px;
 }
+
 button:hover {
   background-color: rgba(0, 0, 255, 0.8);
 }
@@ -65,12 +64,13 @@ button:hover {
   .changePassword {
     width: 80%;
     left: 10%;
-    margin-top: 15vh;
+    margin: 15vh 5vw 0;
   }
 
   .AsideBar {
     width: 90%;
     left: 5%;
     padding: 10vh 20px;
+    box-shadow: 0px 0px;
   }
 }

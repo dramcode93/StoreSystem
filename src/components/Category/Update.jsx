@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Category.module.css';
 import { Translate } from 'translate-easy';
+ import MainComponent from './../Aside/MainComponent';
+import LogOut from './../LogOut/LogOut';
 
 function UpdateCategory() {
   const { id } = useParams();
@@ -13,7 +15,7 @@ function UpdateCategory() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://unusual-blue-button.cyclic.app/api/categories/${id}`, {
+        const response = await axios.get(`https://lucky-fox-scarf.cyclic.app/api/categories/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -30,7 +32,7 @@ function UpdateCategory() {
   }, [id, token]);
 
   const handleUpdateCategory = () => {
-    axios.put(`https://unusual-blue-button.cyclic.app/api/categories/${id}`, { name: newCategoryName }, {
+    axios.put(`https://lucky-fox-scarf.cyclic.app/api/categories/${id}`, { name: newCategoryName }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -46,6 +48,8 @@ function UpdateCategory() {
 
   return (
     <div>
+    <LogOut/>
+    <MainComponent/>
       <div className={styles.updateCategoryContainer}>
         <h2><Translate>Update Category</Translate></h2>
         <label>

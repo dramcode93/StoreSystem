@@ -1,7 +1,7 @@
 import React from 'react'
 import Information from './Information';
 import ChangPassword from './ChangPassword';
-const MainComponent = ({ selectedPage }) => {
+const  AllComponent = ({ selectedPage }) => {
     return (
         <div>
         <div>
@@ -12,4 +12,4 @@ const MainComponent = ({ selectedPage }) => {
     )
 }
 
-export default MainComponent
+export default AllComponent

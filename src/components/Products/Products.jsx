@@ -7,9 +7,10 @@ import LogOut from '../LogOut/LogOut';
 import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import ConfirmationModal from '../Category/ConfirmationModel';
+import MainComponent from '../Aside/MainComponent';
  
-const API_URL = 'https://unusual-blue-button.cyclic.app/api/products';
-const API_category = 'https://unusual-blue-button.cyclic.app/api/categories/list';
+const API_URL = 'https://lucky-fox-scarf.cyclic.app/api/products';
+const API_category = 'https://lucky-fox-scarf.cyclic.app/api/categories/list';
 
 const Products = () => {
   const token = localStorage.getItem('token');
@@ -91,7 +92,8 @@ const Products = () => {
   return (
     <div>
       <LogOut />
-      <div>
+      <MainComponent/>
+      <div className={styles.container2}>
       <form className={styles.AddSection}>
       <select
       name="category"
@@ -133,7 +135,7 @@ const Products = () => {
         />
      
      <input type="search" name="search" placeholder='search' className={styles.inputField} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-     <button className='btn btn-primary px-3 mx-2 py-2 fs-5' onClick={handleSearch} ><Translate translations={{ ar: 'بحث', en: 'search' }}>Searching</Translate></button>
+     <button className='btn btn-primary px-5 mx-2 py-2 fs-5' onClick={handleSearch} ><Translate translations={{ ar: 'بحث', en: 'search' }}>Searching</Translate></button>
      </form>
         <button onClick={confirmAddProduct} className={styles.addButton}>
           <Translate translations={{ ar: 'ضيف', en: 'Add' }}>
@@ -156,7 +158,7 @@ const Products = () => {
           <th><Translate>Quantity</Translate></th>
           <th><Translate>Price</Translate></th>
           <th><Translate>Sold</Translate></th>
-          <th><Translate>Actions</Translate></th>
+          <th className='px-5'><Translate>Actions</Translate></th>
         </tr>
       </thead>
       <tbody>

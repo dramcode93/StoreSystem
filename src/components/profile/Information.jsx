@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styles from './Profile.module.css';
 import axios from 'axios';
 
-const API_info = 'https://unusual-blue-button.cyclic.app/api/users/getMe';
-const API_update = 'https://unusual-blue-button.cyclic.app/api/users/updateMe';
+const API_info = 'https://lucky-fox-scarf.cyclic.app/api/users/getMe';
+const API_update = 'https://lucky-fox-scarf.cyclic.app/api/users/updateMe';
 
 const Information = () => {
   const [loading, setLoading] = useState(true);
@@ -52,8 +52,7 @@ const Information = () => {
     }));
   };
   
-
-  const handleEditToggle = (nameField,emailFields) => {
+   const handleEditToggle = (nameField,emailFields) => {
     if (nameField === 'name') {
       setIsNameEditing(!isNameEditing);
     }  
@@ -82,9 +81,7 @@ const Information = () => {
     }
   };
   
-  
-
-  return (
+    return (
     <div className={styles.profileInfo}>
       <h2>Information Page</h2>
       <ul>
@@ -92,7 +89,7 @@ const Information = () => {
           <div>
           <p>Name: {isNameEditing ? <input name="name" value={inputValues.name} onChange={handleInputChange} /> : info.name}</p>
           <p>Email: {isEmailEditing ? <input name="email" value={inputValues.email} onChange={handleInputChange} /> : info.email}</p>
-                     </div>
+           </div>
         </li>
         <li>
           {isNameEditing || isEmailEditing ? (

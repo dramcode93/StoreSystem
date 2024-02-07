@@ -15,54 +15,54 @@ const Home = () => {
       <MainComponent />
     <div className='marginHome'>
     <div className='cards grid'>
-        <Link to='/category' className='card1 back1'>
-            <div className='flex text1'>
-           <div>
-          <h2>135</h2>
-         <span><Translate>Category</Translate></span>
-           </div>
-           <FaCannabis className='productLogo' /> 
+    <Link to='/category' className='card1 back1'>
+        <div className='flex text1'>
+        <div>
+      <h2>135</h2>
+      <span><Translate>Category</Translate></span>
+        </div>
+        <FaCannabis className='productLogo' /> 
 
-            </div>
-            <div className='details1 border2'>  <Translate>Details</Translate> <FaChevronCircleRight /></div>
-        </Link>
+        </div>
+        <div className='details1 border2'>  <Translate>Details</Translate> <FaChevronCircleRight /></div>
+    </Link>
 
-        <Link to='/products' className='card1 back2'>
-            <div className='flex text1'>
-            <div>
-            <h2>65</h2>
-            <span><Translate>products</Translate></span>
-            </div>
-            <FaUbuntu className='productLogo' /> 
+    <Link to='/products' className='card1 back2'>
+        <div className='flex text1'>
+        <div>
+        <h2>65</h2>
+        <span><Translate>products</Translate></span>
+        </div>
+        <FaUbuntu className='productLogo' /> 
 
-            </div>
-            <div className='details2 border2'>  <Translate>Details</Translate> <FaChevronCircleRight /></div>
-        </Link>
+        </div>
+        <div className='details2 border2'>  <Translate>Details</Translate> <FaChevronCircleRight /></div>
+    </Link>
 
-        <Link to='/bills' className='card1 back3'>
-            <div className='flex text1'>
-            <div>
-            <h2><Translate>44</Translate></h2>
-            <span><Translate>bills</Translate></span>
-            </div>
-            <FaCloudMeatball className='productLogo' /> 
+    <Link to='/bills' className='card1 back3'>
+        <div className='flex text1'>
+        <div>
+        <h2><Translate>44</Translate></h2>
+        <span><Translate>bills</Translate></span>
+        </div>
+        <FaCloudMeatball className='productLogo' /> 
 
-            </div>
-            <div className='details3 border2'>  <Translate>Details</Translate> <FaChevronCircleRight /></div>
-        </Link>
+        </div>
+        <div className='details3 border2'>  <Translate>Details</Translate> <FaChevronCircleRight /></div>
+    </Link>
 
-        <Link to='/profile' className='card1 back4'>
-            <div className='flex text1'>
-            <div>
-            <h2>87</h2>
-            <span><Translate>the Profile</Translate></span>
-            </div>
-            <FaUser className='productLogo' /> 
+    <Link to='/profile' className='card1 back4'>
+        <div className='flex text1'>
+        <div>
+        <h2>87</h2>
+        <span><Translate>the Profile</Translate></span>
+        </div>
+        <FaUser className='productLogo' /> 
 
-            </div>
-            <div className='details4 border2'> <Translate>Details</Translate> <FaChevronCircleRight /></div>
-        </Link>
-        
+        </div>
+        <div className='details4 border2'> <Translate>Details</Translate> <FaChevronCircleRight /></div>
+    </Link>
+    
     </div>
     <div className='flex charts fw-bold fs-5 font'>
    

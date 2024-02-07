@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Products.module.css';
 import { Translate } from 'translate-easy';
+ import MainComponent from './../Aside/MainComponent';
+import LogOut from '../LogOut/LogOut';
 function UpdateProduct() {
   const { id } = useParams();
   const [newProductName, setNewProductName] = useState('');
@@ -12,12 +14,12 @@ function UpdateProduct() {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [token] = useState(localStorage.getItem('token'));
-  const API_category = 'https://unusual-blue-button.cyclic.app/api/categories/list';
+  const API_category = 'https://lucky-fox-scarf.cyclic.app/api/categories/list';
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: productData } = await axios.get(`https://unusual-blue-button.cyclic.app/api/products/${id}`, {
+        const { data: productData } = await axios.get(`https://lucky-fox-scarf.cyclic.app/api/products/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -41,7 +43,7 @@ function UpdateProduct() {
   }, [id, token]);
 
   const handleUpdateProduct = () => {
-    axios.put(`https://unusual-blue-button.cyclic.app/api/products/${id}`, { name: newProductName }, {
+    axios.put(`https://lucky-fox-scarf.cyclic.app/api/products/${id}`, { name: newProductName }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -61,6 +63,8 @@ function UpdateProduct() {
 
   return (
     <div>
+    <LogOut/>
+    <MainComponent/>
       <div className={styles.updateCategoryContainer}>
         <h2><Translate>Update product</Translate></h2>
         <form>

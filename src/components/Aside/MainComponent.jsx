@@ -33,8 +33,8 @@ const MainComponent = () => {
           <Link to="/bills">
             <Translate>Bills</Translate>
           </Link>
-          <Link to="/customer">
-            <Translate>Customers</Translate>
+          <Link to="/profile">
+            <Translate>The Profile</Translate>
           </Link>
         </div>
       </div>

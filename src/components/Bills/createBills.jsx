@@ -2,8 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import styles from './styles.module.css';
 import { Translate } from 'translate-easy';
+ import MainComponent from './../Aside/MainComponent';
+import LogOut from './../LogOut/LogOut';
 
-const API_URL = 'https://unusual-blue-button.cyclic.app/api/products/list';
+const API_URL = 'https://lucky-fox-scarf.cyclic.app/api/products/list';
 
 const BillForm = () => {
   const token = localStorage.getItem('token');
@@ -68,7 +70,7 @@ const BillForm = () => {
         paidAmount: Number(paidAmount),
       };
 
-      const response = await axios.post('https://unusual-blue-button.cyclic.app/api/bills', requestBody, {
+      const response = await axios.post('https://lucky-fox-scarf.cyclic.app/api/bills', requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -86,14 +88,18 @@ const BillForm = () => {
   };
 
   return (
-    <div className="p-5 m-5">
+    <div className={styles.createBill}>
+    <LogOut/>
+    <MainComponent/>
       <form>
-        <label htmlFor="customerName">Customer Name</label>
-        <input id="customerName" type="text" name="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
-        <label htmlFor="phoneNumber">Phone Number</label>
-        <input id="phoneNumber" type="text" name="phone" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-
-        {selectedProducts.map((selectedProduct, index) => (
+       <div> <label htmlFor="customerName"><Translate>client Name : </Translate></label>
+        <input id="customerName" type="text" placeholder='client Name' name="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
+        </div>
+        <div>
+        <label htmlFor="phoneNumber"><Translate>Phone Number : </Translate></label>
+        <input id="phoneNumber" placeholder='phone Number' type="text" name="phone" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+        </div>
+         {selectedProducts.map((selectedProduct, index) => (
           <div key={index}>
             <select
               name="product"
@@ -101,8 +107,8 @@ const BillForm = () => {
               onChange={(e) => handleProductChange(index, e.target.value)}
               value={selectedProduct.productId}
             >
-            <option disabled selected value=''>
-            <Translate>Select Product</Translate>   
+            <option disabled   value=''>
+            <Translate>Select Product : </Translate>   
               </option>
               {products.map((product) => (
                 <option key={product._id} value={product._id}>
@@ -110,25 +116,29 @@ const BillForm = () => {
                 </option>
               ))}
             </select>
-            <label htmlFor={`productQuantity${index}`}>Product Quantity</label>
+             <div>
+            <label htmlFor={`productQuantity${index}`}><Translate>Product Quantity : </Translate></label>
             <input
               id={`productQuantity${index}`}
               type="number"
               name={`productQuantity${index}`}
               value={selectedProduct.quantity}
+              placeholder='product Quantity'
               onChange={(e) => handleQuantityChange(index, e.target.value)}
             />
+            </div>
           </div>
         ))}
 
-        <button type="button" onClick={addProductFields}>
-          Add Product
+        <button type="button" onClick={addProductFields} className={styles.addBtn}>
+         <Translate>Add Product</Translate>
         </button>
-
-        <label htmlFor="paidAmount">Paid Amount</label>
-        <input id="paidAmount" type="text" name="paidAmount" value={Number(paidAmount)} onChange={(e) => setPaidAmount(e.target.value)} />
-        <button type="button" onClick={createBill}>
-          Create Bill
+<div>
+        <label htmlFor="paid Amount"><Translate>Paid Amount : </Translate></label>
+        <input placeholder='paid' id="paidAmount" type="text" name="paidAmount" value={Number(paidAmount)} onChange={(e) => setPaidAmount(e.target.value)} />
+        </div>
+        <button type="button" onClick={createBill} className={styles.addBtn}> 
+        <Translate>Create bill</Translate>  
         </button>
       </form>
     </div>

@@ -1,13 +1,184 @@
- th,
- td {
-  border: 1px solid #ddd;
-  width: 35vw;
-  padding: 8px;
-  text-align: center;
+.billsContainer {
+  padding: 15vh 0;
+  margin: auto 5vw;
 }
 
- th {
+.btn {
+  padding: 10px 20px;
+  background-color: #2196f3;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.billsTable p {
+  color: var(--font);
+}
+
+.billsTable :first-child {
+  margin-top: 3vh;
+}
+
+table {
+  color: var(--font);
+  border-collapse: collapse;
+  width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  margin: 0 auto;
+}
+
+table-wrapper {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  width: fit-content;
+}
+
+table th {
   background-color: var(--card);
   font-weight: bold;
   font-size: 18px;
+}
+
+.deleteBtn,
+.updateBtn,
+.addBtn {
+  cursor: pointer;
+  border-radius: 10px;
+  color: var(--font);
+  padding: 1.5vh 3vw;
+  width: fit-content;
+}
+
+.updateBtn {
+  background-color: #4caf50;
+  margin:0 2vw;
+}
+
+.deleteBtn {
+  background-color: #f44336;
+}
+
+.addBtn {
+  background-color: #2196f3;
+}
+
+form {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 1vw;
+  width: 40vw;
+  margin: auto;
+  padding: 12.5vh;
+  color: var(--font);
+}
+
+input {
+  width: 100%;
+  color: #000 !important;
+}
+
+.inputField {
+  margin: 2vh 0;
+}
+
+/* media queries */
+
+@media only screen and (max-width: 1300px) {
+  .inputField {
+    width: 15vw;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .inputField {
+    width: 13vw;
+  }
+}
+
+@media only screen and (max-width: 953px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 11vw;
+  }
+}
+
+@media only screen and (max-width: 890px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 7vw;
+    padding: 1.5vh 0.5vw;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .inputField {
+    width: 100%;
+  }
+
+  .btn {
+    border-radius: 8px;
+  }
+
+  .deleteBtn,
+  .updateBtn {
+    width: 9vw;
+  }
+
+  table th,
+  table td {
+    width: auto;
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+}
+
+.Actions{
+  margin: 2vh;
+  text-align: center;
+}
+
+@media only screen and (max-width: 750px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 8vw;
+  }
+
+  table th,
+  table td {
+    width: 50vw;
+  }
+}
+
+@media only screen and (max-width: 710px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 9vw;
+  }
+}
+
+@media only screen and (max-width: 690px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 10vw;
+    padding: 1.5vh;
+    margin: 0 2vw;
+  }
+}
+
+@media only screen and (max-width: 510px) {
+  .deleteBtn,
+  .updateBtn {
+    width: 12vw;
+  }
 }

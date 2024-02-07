@@ -1,7 +1,4 @@
-/* login */
-
-/* Common styles for all screens */
-.LoginContainer {
+   .LoginContainer {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -63,31 +60,26 @@ button {
     padding: 5px 0 10px;
 }
 
-/* Media queries for different screen sizes */
-@media only screen and (max-width: 600px) {
-    /* Adjust styles for screens up to 600px wide */
+@media only screen and (min-width: 1201px) {
     .LoginForm {
-        width: 80vw;
-    }
-}
-
-@media only screen and (min-width: 601px) and (max-width: 900px) {
-    /* Adjust styles for screens between 601px and 900px wide */
-    .LoginForm {
-        width: 60vw;
+        width: 40vw;
     }
 }
 
 @media only screen and (min-width: 901px) and (max-width: 1200px) {
-    /* Adjust styles for screens between 901px and 1200px wide */
     .LoginForm {
         width: 50vw;
     }
 }
 
-@media only screen and (min-width: 1201px) {
-    /* Adjust styles for screens wider than 1200px */
-    .LoginForm {
-        width: 40vw;
+@media only screen and (min-width: 601px) and (max-width: 900px) {
+     .LoginForm {
+        width: 60vw;
     }
 }
+
+ @media only screen and (max-width: 600px) {
+     .LoginForm {
+        width: 80vw;
+    }
+} 
