@@ -15,7 +15,7 @@ function UpdateCategory() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://lucky-fox-scarf.cyclic.app/api/categories/${id}`, {
+        const response = await axios.get(`https://helpful-worm-attire.cyclic.app/api/categories/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,7 +32,7 @@ function UpdateCategory() {
   }, [id, token]);
 
   const handleUpdateCategory = () => {
-    axios.put(`https://lucky-fox-scarf.cyclic.app/api/categories/${id}`, { name: newCategoryName }, {
+    axios.put(`https://helpful-worm-attire.cyclic.app/api/categories/${id}`, { name: newCategoryName }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
