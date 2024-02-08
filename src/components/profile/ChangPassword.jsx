@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './Profile.module.css';
 import axios from 'axios';
 
-const API_password = 'https://lucky-fox-scarf.cyclic.app/api/users/updateMyPassword';
+const API_password = 'https://helpful-worm-attire.cyclic.app/api/users/updateMyPassword';
 
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState('');

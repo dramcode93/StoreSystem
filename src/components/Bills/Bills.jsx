@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
 import ConfirmationModal from '../Category/ConfirmationModel';
 import MainComponent from './../Aside/MainComponent';
+import PrintButton from '../print/PrintButton';
 
-const API_Bills = 'https://lucky-fox-scarf.cyclic.app/api/bills';
+const API_Bills = 'https://helpful-worm-attire.cyclic.app/api/bills';
 
 const Bills = () => {
   const token = localStorage.getItem('token');
@@ -62,6 +63,55 @@ const Bills = () => {
     setSelectedBillId(null);
   }, []);
 
+// print
+const handlePrint = (billId) => {
+  const billToPrint = bills.find((bill) => bill._id === billId);
+
+  if (billToPrint) {
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Bill Print</title>
+        </head>
+        <body>
+          <h2>Bill Details</h2>
+          <p>Client Name: ${billToPrint.customerName}</p>
+          <p>Phone: ${billToPrint.phone}</p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${billToPrint.products.map((product) => `
+                <tr>
+                  <td>${product.product?.name}</td>
+                  <td>${product.product?.price}</td>
+                  <td>${product.productQuantity}</td>
+                  <td>${product.totalPrice}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <p>Total: ${billToPrint.totalAmount}</p>
+          <p>Paid: ${billToPrint.paidAmount}</p>
+          <p>Remaining: ${billToPrint.remainingAmount}</p>
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.print();
+    }
+  };
+
   return (
     <div>
       <LogOut />
@@ -73,12 +123,13 @@ const Bills = () => {
         {bills.map((bill) => (
           <div key={bill._id} className={styles.billsTable}>
             <p>
-              <Translate>Name :</Translate> {bill.customerName}
+              <Translate>Client Name :</Translate> {bill.customerName}
             </p>
             <p>
               <Translate>Phone :</Translate> {bill.phone}
             </p>
-            <table>
+            <PrintButton onPrint={() => handlePrint(bill._id)} />
+                        <table>
               <thead>
                 <tr>
                   <th>

@@ -5,7 +5,7 @@ import { Translate } from 'translate-easy';
  import MainComponent from './../Aside/MainComponent';
 import LogOut from './../LogOut/LogOut';
 
-const API_URL = 'https://lucky-fox-scarf.cyclic.app/api/products/list';
+const API_URL = 'https://helpful-worm-attire.cyclic.app/api/products/list';
 
 const BillForm = () => {
   const token = localStorage.getItem('token');
@@ -70,7 +70,7 @@ const BillForm = () => {
         paidAmount: Number(paidAmount),
       };
 
-      const response = await axios.post('https://lucky-fox-scarf.cyclic.app/api/bills', requestBody, {
+      const response = await axios.post('https://helpful-worm-attire.cyclic.app/api/bills', requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

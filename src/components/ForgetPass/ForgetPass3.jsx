@@ -7,7 +7,7 @@ const ForgotPassword3 = () => {
 
   const handleForgetPassword = async () => {
     try {
-      const response = await axios.put('https://lucky-fox-scarf.cyclic.app/api/auth/resetPassword', {
+      const response = await axios.put('https://helpful-worm-attire.cyclic.app/api/auth/resetPassword', {
         newPassword,
         confirmNewPassword,
       },{ headers: { Authorization: `Bearer ${resetToken}` } });

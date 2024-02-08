@@ -5,7 +5,7 @@ import React, { useState } from 'react';
    const resetToken = localStorage.getItem('resetToken');
    const handleForgetPassword = async () => {
     try {
-      const response = await axios.post('https://lucky-fox-scarf.cyclic.app/api/auth/verifyResetPasswordCode', {
+      const response = await axios.post('https://helpful-worm-attire.cyclic.app/api/auth/verifyResetPasswordCode', {
         resetCode: verificationCode,
       },{ headers: { Authorization: `Bearer ${resetToken}` } });
               window.location.href = '/forgotPassword3';
