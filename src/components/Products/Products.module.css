@@ -199,6 +199,13 @@ button {
   font-size: 20px;
 }
 
+.paginationNext{
+  width: fit-content;
+  padding: 1vh 3vw;
+  border-radius: 10px;
+margin: 1vh -2vw;
+}
+
  @media only screen and (max-width: 1300px) {
   .inputField{
     width: 15vw;
@@ -266,11 +273,14 @@ button {
   margin: 0 -3vw;
 }
 .container2 button{
-  width: 81vw;
-margin: 1vh 11vw;
+  width: 48vw;
+  margin-left: 24vw;
 }
+
   .addButton {
      border-radius: 8px;
+     margin-top: -10vh;
+     margin-right: 28vw;
       }
       
       .categoryTable {
@@ -303,6 +313,135 @@ width: 37%;
     margin: 0 2vw;
   }
   .container2 button{
-  margin: 1vh 12vw;
+width:53vw ;
   }
+  .addButton {
+    margin-right: 25vw;
+     }
+}
+@media only screen and (max-width: 630px) {
+ 
+  .container2 button{
+width:52vw ;
+  }
+  .addButton {
+    margin-right: 26vw;
+     }
+}
+@media only screen and (max-width: 620px) {
+ 
+  .container2 button{
+width:50vw ;
+  }
+  .addButton {
+    margin-right: 26vw;
+     }
+}
+@media only screen and (max-width: 560px) {
+ 
+  .container2 button{
+width:48vw ;
+  }
+  .addButton {
+    margin-right: 28vw;
+     }
+}
+@media only screen and (max-width: 520px) {
+ 
+  .container2 button{
+width:56vw ;
+  }
+  .addButton {
+    margin-right: 26vw;
+     }
+   .AddSection{
+    width: 90vw;
+    margin: auto;
+   }
+}
+@media only screen and (max-width: 490px) {
+ 
+  .container2 button{
+width:54vw ;
+  }
+  .addButton {
+    margin-right: 27vw;
+     }
+ 
+}
+@media only screen and (max-width: 450px) {
+ 
+  .container2 button{
+width:50vw ;
+  }
+  .addButton {
+    margin-right: 29vw;
+     }
+ 
+}
+
+@media only screen and (max-width: 440px) {
+ 
+  .container2 button{
+width:48vw ;
+  }
+  .addButton {
+    margin-right: 32vw;
+     }
+   .AddSection{
+    width: 100vw;
+   }
+}
+@media only screen and (max-width: 410px) {
+ 
+  .container2 button{
+width:68vw ;
+  }
+  .addButton {
+    margin-right: 25vw;
+     }
+   .AddSection{
+    width: 110vw;
+    margin: auto;
+   }
+}
+@media only screen and (max-width: 391px) {
+ 
+  .container2 button{
+width:58vw ;
+  }
+  .addButton {
+    margin-right: 29vw;
+     }
+   .AddSection{
+    width: 110vw;
+    margin: auto;
+   }
+}
+@media only screen and (max-width: 360px) {
+ 
+  .container2 button{
+width:65vw ;
+  }
+  .addButton {
+    margin-right: 28vw;
+     }
+   .AddSection{
+    width: 115vw;
+    margin: auto;
+   }
+}
+
+.paginationNext{
+  width: fit-content;
+  padding: 1vh 3vw;
+  border-radius: 10px;
+margin: 1vh -2vw;
+}
+.flex{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3vh ;
+  gap: 7vw;
 }

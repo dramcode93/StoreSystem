@@ -8,7 +8,7 @@ import Loading from '../Loading/Loading';
 import ConfirmationModal from './ConfirmationModel';
 import MainComponent from '../Aside/MainComponent';
 
-const API_category = 'https://helpful-worm-attire.cyclic.app/api/categories';
+const API_category = 'https://ill-pear-abalone-tie.cyclic.app/api/categories';
 
 const CategoryTable = () => {
   const token = localStorage.getItem('token');

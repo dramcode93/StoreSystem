@@ -6,7 +6,7 @@ import MainComponent from './../Aside/MainComponent';
 import LogOut from './../LogOut/LogOut';
 import { useParams } from 'react-router-dom';
 
-const API_URL = 'https://helpful-worm-attire.cyclic.app/api/products/list';
+const API_URL = 'https://ill-pear-abalone-tie.cyclic.app/api/products/list';
 
 const UpdateBills = () => {
   const token = localStorage.getItem('token');
@@ -16,8 +16,7 @@ const UpdateBills = () => {
   const [products, setProducts] = useState([]);
   const [billProducts, setBillProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-    const { id } = useParams();
-
+  const { id } = useParams();
   const [selectedProducts, setSelectedProducts] = useState([{ productId: '', quantity: '' }]);
 
   const fetchData = useCallback(async () => {
@@ -26,16 +25,15 @@ const UpdateBills = () => {
         setLoading(true);
         const productsResponse = await axios.get(`${API_URL}`, { headers: { Authorization: `Bearer ${token}` } });
         setProducts(productsResponse.data.data);
-        const billResponse=await axios.get(`https://helpful-worm-attire.cyclic.app/api/bills/${id}`, {
-                     headers: {
-                       Authorization: `Bearer ${token}`,
-                     },
-                  });
-                  setCustomerName(billResponse.data?.data?.customerName)
-                  setPhoneNumber(billResponse.data?.data?.phone)
-                  setBillProducts(billResponse.data?.data?.products)
-                  console.log(billResponse.data.data.products)
-                  setPaidAmount(billResponse.data?.data?.paidAmount)
+        const billResponse = await axios.get(`https://ill-pear-abalone-tie.cyclic.app/api/bills/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCustomerName(billResponse.data?.data?.customerName);
+        setPhoneNumber(billResponse.data?.data?.phone);
+        setBillProducts(billResponse.data?.data?.products);
+        setPaidAmount(billResponse.data?.data?.paidAmount);
       } else {
         console.error('No token found.');
       }
@@ -44,11 +42,18 @@ const UpdateBills = () => {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, [token, id]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  useEffect(() => {
+    setSelectedProducts(billProducts.map(({ product, productQuantity }) => ({
+      productId: product._id,
+      quantity: productQuantity
+    })));
+  }, [billProducts]);
 
   const handleProductChange = (index, productId) => {
     const newSelectedProducts = [...selectedProducts];
@@ -64,6 +69,12 @@ const UpdateBills = () => {
 
   const addProductFields = () => {
     setSelectedProducts([...selectedProducts, { productId: '', quantity: '' }]);
+  };
+
+  const deleteProductFromBill = (index) => {
+    const newBillProducts = [...billProducts];
+    newBillProducts.splice(index, 1);
+    setBillProducts(newBillProducts);
   };
 
   const updateBill = async () => {
@@ -84,7 +95,7 @@ const UpdateBills = () => {
         paidAmount: Number(paidAmount),
       };
 
-      const response = await axios.put(`https://helpful-worm-attire.cyclic.app/api/bills/${id}`, requestBody, {
+      const response = await axios.put(`https://ill-pear-abalone-tie.cyclic.app/api/bills/${id}`, requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -101,65 +112,6 @@ const UpdateBills = () => {
     }
   };
 
-  // return (
-  //   <div className={styles.createBill}>
-  //     <LogOut/>
-  //     <MainComponent/>
-  //     <form>
-  //       <div>
-  //         <label htmlFor="customerName"><Translate>client Name : </Translate></label>
-  //         <input id="customerName" type="text" placeholder='client Name' name="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
-  //       </div>
-  //       <div>
-  //         <label htmlFor="phoneNumber"><Translate>Phone Number : </Translate></label>
-  //         <input id="phoneNumber" placeholder='phone Number' type="text" name="phone" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-  //       </div>
-  //       {selectedProducts.map((selectedProduct, index) => (
-  //         <div key={index}>
-  //           <select
-  //             name="product"
-  //             className={styles.inputField}
-  //             onChange={(e) => handleProductChange(index, e.target.value)}
-  //             value={selectedProduct.productId}
-  //           >
-  //             <option disabled value=''>
-  //               <Translate>Select Product : </Translate>   
-  //             </option>
-  //             {products.map((product) => (
-  //               <option key={product._id} value={product._id}>
-  //                 {product.name}
-  //               </option>
-  //             ))}
-  //           </select>
-  //           <div>
-  //             <label htmlFor={`productQuantity${index}`}><Translate>Product Quantity : </Translate></label>
-  //             <input
-  //               id={`productQuantity${index}`}
-  //               type="number"
-  //               name={`productQuantity${index}`}
-  //               value={selectedProduct.quantity}
-  //               placeholder='product Quantity'
-  //               onChange={(e) => handleQuantityChange(index, e.target.value)}
-  //             />
-  //           </div>
-  //         </div>
-  //       ))}
-
-  //       <button type="button" onClick={addProductFields} className={styles.addBtn}>
-  //         <Translate>Add Product</Translate>
-  //       </button>
-
-  //       <div>
-  //         <label htmlFor="paid Amount"><Translate>Paid Amount : </Translate></label>
-  //         <input placeholder='paid' id="paidAmount" type="text" name="paidAmount" value={Number(paidAmount)} onChange={(e) => setPaidAmount(e.target.value)} />
-  //       </div>
-
-  //       <button type="button" onClick={updateBill} className={styles.addBtn}> 
-  //         <Translate>Update bill</Translate>  
-  //       </button>
-  //     </form>
-  //   </div>
-  // );
   return (
     <div className={styles.createBill}>
       <LogOut/>
@@ -175,7 +127,6 @@ const UpdateBills = () => {
         </div>
         {billProducts.map((billProduct, index) => (
           <div key={index}>
-            <span>{billProduct.product.name}: {billProduct.productQuantity}</span>
           </div>
         ))}
         {selectedProducts.map((selectedProduct, index) => (
@@ -206,25 +157,25 @@ const UpdateBills = () => {
                 onChange={(e) => handleQuantityChange(index, e.target.value)}
               />
             </div>
+            <button type="button" onClick={addProductFields} className={styles.addBtn}>
+            <Translate>Add Product</Translate>
+            </button>
+            <button type="button" className={styles.deleteButton} onClick={() => deleteProductFromBill(index)}><Translate>X</Translate></button>
           </div>
         ))}
-  
-        <button type="button" onClick={addProductFields} className={styles.addBtn}>
-          <Translate>Add Product</Translate>
-        </button>
-  
+      
+
         <div>
           <label htmlFor="paid Amount"><Translate>Paid Amount : </Translate></label>
           <input placeholder='paid' id="paidAmount" type="text" name="paidAmount" value={Number(paidAmount)} onChange={(e) => setPaidAmount(e.target.value)} />
         </div>
-  
+
         <button type="button" onClick={updateBill} className={styles.addBtn}> 
           <Translate>Update bill</Translate>  
         </button>
       </form>
     </div>
   );
-  
 };
 
 export default UpdateBills;
