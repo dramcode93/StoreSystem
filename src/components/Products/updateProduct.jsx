@@ -14,12 +14,12 @@ function UpdateProduct() {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [token] = useState(localStorage.getItem('token'));
-  const API_category = 'https://helpful-worm-attire.cyclic.app/api/categories/list';
+  const API_category = 'https://ill-pear-abalone-tie.cyclic.app/api/categories/list';
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: productData } = await axios.get(`https://helpful-worm-attire.cyclic.app/api/products/${id}`, {
+        const { data: productData } = await axios.get(`https://ill-pear-abalone-tie.cyclic.app/api/products/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -43,7 +43,7 @@ function UpdateProduct() {
   }, [id, token]);
 
   const handleUpdateProduct = () => {
-    axios.put(`https://helpful-worm-attire.cyclic.app/api/products/${id}`, { name: newProductName }, {
+    axios.put(`https://ill-pear-abalone-tie.cyclic.app/api/products/${id}`, { name: newProductName }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

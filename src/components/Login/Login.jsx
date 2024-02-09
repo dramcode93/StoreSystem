@@ -16,7 +16,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('https://helpful-worm-attire.cyclic.app/api/auth/login', {
+      const response = await axios.post('https://ill-pear-abalone-tie.cyclic.app/api/auth/login', {
         email,
         password,
       });

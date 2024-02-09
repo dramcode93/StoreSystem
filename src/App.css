@@ -87,6 +87,7 @@ header #icon{
 @media only screen and (max-width: 380px) {
   header #icon{
     margin-left: 41vw;
+    margin-right: 57vw;
   }
 }
 @media only screen and (max-width: 290px) {

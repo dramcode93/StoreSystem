@@ -10,7 +10,7 @@ const CategoryProducts = ({ Products }) => {
     useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await axios.get(`https://helpful-worm-attire.cyclic.app/api/categories/${id}/products`, {
+      const response = await axios.get(`https://ill-pear-abalone-tie.cyclic.app/api/categories/${id}/products`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

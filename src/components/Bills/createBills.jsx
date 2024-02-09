@@ -2,10 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import styles from './styles.module.css';
 import { Translate } from 'translate-easy';
- import MainComponent from './../Aside/MainComponent';
+import MainComponent from './../Aside/MainComponent';
 import LogOut from './../LogOut/LogOut';
 
-const API_URL = 'https://helpful-worm-attire.cyclic.app/api/products/list';
+const API_URL = 'https://ill-pear-abalone-tie.cyclic.app/api/products/list';
 
 const BillForm = () => {
   const token = localStorage.getItem('token');
@@ -52,6 +52,12 @@ const BillForm = () => {
     setSelectedProducts([...selectedProducts, { productId: '', quantity: '' }]);
   };
 
+  const deleteProduct = (index) => {
+    const newSelectedProducts = [...selectedProducts];
+    newSelectedProducts.splice(index, 1);
+    setSelectedProducts(newSelectedProducts);
+  };
+
   const createBill = async () => {
     try {
       setLoading(true);
@@ -70,7 +76,7 @@ const BillForm = () => {
         paidAmount: Number(paidAmount),
       };
 
-      const response = await axios.post('https://helpful-worm-attire.cyclic.app/api/bills', requestBody, {
+      const response = await axios.post('https://ill-pear-abalone-tie.cyclic.app/api/bills', requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -89,17 +95,18 @@ const BillForm = () => {
 
   return (
     <div className={styles.createBill}>
-    <LogOut/>
-    <MainComponent/>
+      <LogOut/>
+      <MainComponent/>
       <form>
-       <div> <label htmlFor="customerName"><Translate>client Name : </Translate></label>
-        <input id="customerName" type="text" placeholder='client Name' name="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
+        <div>
+          <label htmlFor="customerName"><Translate>client Name : </Translate></label>
+          <input id="customerName" type="text" placeholder='client Name' name="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
         </div>
         <div>
-        <label htmlFor="phoneNumber"><Translate>Phone Number : </Translate></label>
-        <input id="phoneNumber" placeholder='phone Number' type="text" name="phone" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+          <label htmlFor="phoneNumber"><Translate>Phone Number : </Translate></label>
+          <input id="phoneNumber" placeholder='phone Number' type="text" name="phone" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
         </div>
-         {selectedProducts.map((selectedProduct, index) => (
+        {selectedProducts.map((selectedProduct, index) => (
           <div key={index}>
             <select
               name="product"
@@ -107,8 +114,8 @@ const BillForm = () => {
               onChange={(e) => handleProductChange(index, e.target.value)}
               value={selectedProduct.productId}
             >
-            <option disabled   value=''>
-            <Translate>Select Product : </Translate>   
+              <option disabled value=''>
+                <Translate>Select Product : </Translate>   
               </option>
               {products.map((product) => (
                 <option key={product._id} value={product._id}>
@@ -116,29 +123,29 @@ const BillForm = () => {
                 </option>
               ))}
             </select>
-             <div>
-            <label htmlFor={`productQuantity${index}`}><Translate>Product Quantity : </Translate></label>
-            <input
-              id={`productQuantity${index}`}
-              type="number"
-              name={`productQuantity${index}`}
-              value={selectedProduct.quantity}
-              placeholder='product Quantity'
-              onChange={(e) => handleQuantityChange(index, e.target.value)}
-            />
+            <div>
+              <label htmlFor={`productQuantity${index}`}><Translate>Product Quantity : </Translate></label>
+              <input
+                id={`productQuantity${index}`}
+                type="number"
+                name={`productQuantity${index}`}
+                value={selectedProduct.quantity}
+                placeholder='product Quantity'
+                onChange={(e) => handleQuantityChange(index, e.target.value)}
+              />
             </div>
-          </div>
-        ))}
-
-        <button type="button" onClick={addProductFields} className={styles.addBtn}>
-         <Translate>Add Product</Translate>
-        </button>
-<div>
-        <label htmlFor="paid Amount"><Translate>Paid Amount : </Translate></label>
-        <input placeholder='paid' id="paidAmount" type="text" name="paidAmount" value={Number(paidAmount)} onChange={(e) => setPaidAmount(e.target.value)} />
+            <button type="button" onClick={addProductFields} className={styles.addBtn}>
+            <Translate>Add Product</Translate>
+            </button>
+            <button type="button" title='delete product' className={styles.deleteButton} onClick={() => deleteProduct(index)}><Translate>X</Translate></button>
+            </div>
+            ))}
+        <div>
+          <label htmlFor="paid Amount"><Translate>Paid Amount : </Translate></label>
+          <input placeholder='paid' id="paidAmount" type="text" name="paidAmount" value={Number(paidAmount)} onChange={(e) => setPaidAmount(e.target.value)} />
         </div>
         <button type="button" onClick={createBill} className={styles.addBtn}> 
-        <Translate>Create bill</Translate>  
+          <Translate>Create bill</Translate>  
         </button>
       </form>
     </div>
