@@ -16,6 +16,7 @@
   position: absolute;
   top: 40%;
   left: 38%; 
+  font-size: 18px;
  }
 
  .profileInfo p{
@@ -35,7 +36,7 @@
   }
 
  .changePassword{
-  top: 30%;
+  top: 20%;
   z-index: -3243;
  }
 

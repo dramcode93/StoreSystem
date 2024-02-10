@@ -34,8 +34,6 @@
   margin-top: 3vh;
 }
 
-
-
 table {
   color: var(--font);
   border-collapse: collapse;
@@ -177,11 +175,16 @@ input {
   .updateBtn {
     width: 9vw;
   }
+   
+  table {
+    width: auto; 
+    margin-left: 2vw; 
+  }
+
   table th,
   table td {
-    width: auto;
     white-space: nowrap;
-    overflow-x: auto;
+    min-width: 100px; 
   }
 }
 
@@ -231,6 +234,11 @@ input {
   .createBill form{
     width: 90vw;
   }
+  .billsTable{
+     padding: 3vh 8vw 3vh 0;
+    margin-top: 5vh;
+  }
+  
 }
 
 .printButton{
@@ -250,7 +258,13 @@ margin: 1vh -2vw;
 
 @media only screen and (max-width: 470px) {
   .createBill form{
-    width: 110vw;
-    margin: auto;
-  }
+    width: 100vw;
+    }
+  .billsTable{
+    padding: 3vh 5vw 3vh 0;
+ }
+ table th,
+ table td {
+   min-width: unset; 
+ }
 }
