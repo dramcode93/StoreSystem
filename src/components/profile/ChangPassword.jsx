@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './Profile.module.css';
 import axios from 'axios';
+import { Translate } from 'translate-easy';
 
 const API_password = 'https://ill-pear-abalone-tie.cyclic.app/api/users/updateMyPassword';
 
@@ -33,15 +34,15 @@ const ChangePassword = () => {
 
   return (
     <div className={styles.changePassword}>
-      <h2>Change Password Page</h2>
-      <form>
-        <label htmlFor='password'>Current Password:</label>
+      <h3 className='fw-bold'><Translate>Change Password Page :</Translate></h3>
+      <form className='px-2'>
+        <label htmlFor='password'><Translate>Current Password :</Translate></label>
         <input id='password' type='password' name='currentPassword' value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
-        <label htmlFor='newPassword'>New Password:</label>
+        <label htmlFor='newPassword'><Translate>New Password :</Translate></label>
         <input id='newPassword' type='password' name='password' value={password} onChange={(e) => setPassword(e.target.value)} />
-        <label htmlFor='confirmPassword'>Confirm New Password:</label>
+        <label htmlFor='confirmPassword'><Translate>Confirm New Password :</Translate></label>
         <input type='password' id='confirmPassword' name='confirmPassword' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-        <button onClick={handleEditPassword}>Edit</button>
+        <button onClick={handleEditPassword}><Translate>An Editing</Translate></button>
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>

@@ -4,6 +4,7 @@ import styles from './styles.module.css';
 import { Translate } from 'translate-easy';
 import MainComponent from './../Aside/MainComponent';
 import LogOut from './../LogOut/LogOut';
+import Loading from '../Loading/Loading'; // Import the Loading component
 
 const API_URL = 'https://ill-pear-abalone-tie.cyclic.app/api/products/list';
 
@@ -14,7 +15,7 @@ const BillForm = () => {
   const [paidAmount, setPaidAmount] = useState('');
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedProducts, setSelectedProducts] = useState([{ productId: '', quantity: '' }]);
+  const [selectedProducts, setSelectedProducts] = useState([{ productId: '', quantity: '', price: 0 }]);
 
   const fetchData = useCallback(async () => {
     try {
@@ -38,7 +39,14 @@ const BillForm = () => {
 
   const handleProductChange = (index, productId) => {
     const newSelectedProducts = [...selectedProducts];
-    newSelectedProducts[index].productId = productId;
+    const selectedProduct = products.find((product) => product._id === productId);
+
+    newSelectedProducts[index] = {
+      productId,
+      price: selectedProduct.price,
+      quantity: selectedProduct.quantity || '',
+    };
+
     setSelectedProducts(newSelectedProducts);
   };
 
@@ -49,7 +57,7 @@ const BillForm = () => {
   };
 
   const addProductFields = () => {
-    setSelectedProducts([...selectedProducts, { productId: '', quantity: '' }]);
+    setSelectedProducts([...selectedProducts, { productId: '', quantity: '', price: 0 }]);
   };
 
   const deleteProduct = (index) => {
@@ -63,9 +71,9 @@ const BillForm = () => {
       setLoading(true);
 
       const productQuantityMap = {};
-      const productsArray = selectedProducts.map(({ productId, quantity }) => {
+      const productsArray = selectedProducts.map(({ productId, quantity, price }) => {
         productQuantityMap[productId] = quantity;
-        return { product: productId, quantity };
+        return { product: productId, quantity, price };
       });
 
       const requestBody = {
@@ -84,8 +92,8 @@ const BillForm = () => {
       setCustomerName('');
       setPhoneNumber('');
       setPaidAmount('');
-      setSelectedProducts([{ productId: '', quantity: '' }]);
-      window.location.href='/bills';
+      setSelectedProducts([{ productId: '', quantity: '', price: 0 }]);
+      window.location.href = '/bills';
     } catch (error) {
       console.error('Error creating bill:', error.message);
     } finally {
@@ -95,9 +103,10 @@ const BillForm = () => {
 
   return (
     <div className={styles.createBill}>
-      <LogOut/>
-      <MainComponent/>
+      <LogOut />
+      <MainComponent />
       <form>
+        {loading &&<div className='m-5 fs-3 text-center'><Loading /></div>}
         <div>
           <label htmlFor="customerName"><Translate>client Name : </Translate></label>
           <input id="customerName" type="text" placeholder='client Name' name="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
@@ -115,7 +124,7 @@ const BillForm = () => {
               value={selectedProduct.productId}
             >
               <option disabled value=''>
-                <Translate>Select Product : </Translate>   
+                <Translate>Select Product : </Translate>
               </option>
               {products.map((product) => (
                 <option key={product._id} value={product._id}>
@@ -134,18 +143,37 @@ const BillForm = () => {
                 onChange={(e) => handleQuantityChange(index, e.target.value)}
               />
             </div>
+            {selectedProduct.productId ? (
+              <div className='fw-bold pt-3'>
+                <span className='p-5'><Translate>Price : </Translate> {selectedProduct.price}</span>
+                <span><Translate>Quantity : </Translate> {selectedProduct.quantity}</span>
+              </div>
+            ) : (
+              <div>
+                <label htmlFor={`productQuantity${index}`}><Translate>Product Quantity : </Translate></label>
+                <input
+                  id={`productQuantity${index}`}
+                  type="number"
+                  name={`productQuantity${index}`}
+                  value={selectedProduct.quantity}
+                  placeholder='product Quantity'
+                  onChange={(e) => handleQuantityChange(index, e.target.value)}
+                />
+              </div>
+            )}
             <button type="button" onClick={addProductFields} className={styles.addBtn}>
-            <Translate>Add Product</Translate>
+              <Translate>Add Product</Translate>
             </button>
             <button type="button" title='delete product' className={styles.deleteButton} onClick={() => deleteProduct(index)}><Translate>X</Translate></button>
-            </div>
-            ))}
+          </div>
+        ))}
+        
         <div>
           <label htmlFor="paid Amount"><Translate>Paid Amount : </Translate></label>
           <input placeholder='paid' id="paidAmount" type="text" name="paidAmount" value={Number(paidAmount)} onChange={(e) => setPaidAmount(e.target.value)} />
         </div>
-        <button type="button" onClick={createBill} className={styles.addBtn}> 
-          <Translate>Create bill</Translate>  
+        <button type="button" onClick={createBill} className={styles.addBtn}>
+          <Translate>Create bill</Translate>
         </button>
       </form>
     </div>

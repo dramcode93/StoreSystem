@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styles from './Profile.module.css';
 import axios from 'axios';
+import { Translate } from 'translate-easy';
 
 const API_info = 'https://ill-pear-abalone-tie.cyclic.app/api/users/getMe';
 const API_update = 'https://ill-pear-abalone-tie.cyclic.app/api/users/updateMe';
@@ -83,19 +84,19 @@ const Information = () => {
   
     return (
     <div className={styles.profileInfo}>
-      <h2>Information Page</h2>
+      <h3 className='fw-bold'><Translate>Information Page</Translate></h3>
       <ul>
         <li>
           <div>
-          <p>Name: {isNameEditing ? <input name="name" value={inputValues.name} onChange={handleInputChange} /> : info.name}</p>
-          <p>Email: {isEmailEditing ? <input name="email" value={inputValues.email} onChange={handleInputChange} /> : info.email}</p>
+          <p><Translate>Name :</Translate> {isNameEditing ? <input name="name" value={inputValues.name} onChange={handleInputChange} /> : info.name}</p>
+          <p><Translate>Email :</Translate> {isEmailEditing ? <input name="email" value={inputValues.email} onChange={handleInputChange} /> : info.email}</p>
            </div>
         </li>
         <li>
           {isNameEditing || isEmailEditing ? (
-            <button onClick={handleSaveChanges}>Save Changes</button>
+            <button onClick={handleSaveChanges}><Translate>Save Changes</Translate></button>
           ) : (
-            <button onClick={() => handleEditToggle('name','email')}>Edit</button>
+            <button onClick={() => handleEditToggle('name','email')}><Translate>An Editing</Translate></button>
           )}
         </li>
       </ul>
