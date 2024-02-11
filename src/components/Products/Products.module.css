@@ -79,6 +79,7 @@ table{
   color: #fff;
   border: none;
   border-radius: 3px;
+  margin-top: -14vh;
 }
 
 .confirmationModal {
@@ -129,11 +130,11 @@ table{
 }
 
 .updateCategoryContainer {
-  max-width: 400px;
+  max-width: 700px;
   position: absolute;
   top: 15%;
-  left: 40%;
-  margin: 0 auto;
+  left: 30%;
+  margin: 3vh auto;
   color: var(--font);
   padding: 20px;
   border: 1px solid #ccc;
@@ -143,6 +144,7 @@ table{
 
 .updateCategoryContainer input{
   margin-bottom: 20px;
+  width: 100%;
 }
 
 h2 {
@@ -180,7 +182,7 @@ button {
   display: flex;
 }
 
-.inputField {
+.inputField,.inputsearch {
   margin: 10px;
   width: 25vw;
 }
@@ -193,7 +195,7 @@ button {
 .addButton {
   width: 58.8vw;
   display: flex;
-  margin: 3vh 20vw;
+  margin: -10vh 20vw 3vh;
   justify-content: center;
   border-radius: 5px;
   font-size: 20px;
@@ -238,7 +240,7 @@ margin: 1vh -2vw;
 }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 769px) {
   .categoryTable td,
   .categoryTable th {
     width: 100%;
@@ -269,6 +271,11 @@ margin: 1vh -2vw;
   .buttonContainer {
     width: 100%;
   }
+  .inputsearch{
+    width: 30vw;
+    margin: 2vh 2vw 2vh 10vw;
+  }
+
 .container2{
   margin: 0 -3vw;
 }
@@ -279,7 +286,7 @@ margin: 1vh -2vw;
 
   .addButton {
      border-radius: 8px;
-     margin-top: -10vh;
+     margin-top: 0vh;
      margin-right: 28vw;
       }
       
@@ -343,7 +350,7 @@ width:50vw ;
 width:48vw ;
   }
   .addButton {
-    margin-right: 28vw;
+    margin-right: 29vw;
      }
 }
 @media only screen and (max-width: 520px) {
@@ -352,7 +359,7 @@ width:48vw ;
 width:56vw ;
   }
   .addButton {
-    margin-right: 26vw;
+    margin-right: 27vw;
      }
    .AddSection{
     width: 90vw;
@@ -410,9 +417,11 @@ width:68vw ;
   .container2 button{
 width:58vw ;
   }
+  
   .addButton {
     margin-right: 29vw;
      }
+
    .AddSection{
     width: 110vw;
     margin: auto;
@@ -427,7 +436,7 @@ width:65vw ;
     margin-right: 28vw;
      }
    .AddSection{
-    width: 115vw;
+    width: 105vw;
     margin: auto;
    }
 }

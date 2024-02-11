@@ -5,9 +5,9 @@ import { Translate } from 'translate-easy';
 import MainComponent from './../Aside/MainComponent';
 import LogOut from './../LogOut/LogOut';
 import { useParams } from 'react-router-dom';
-import Loading from '../Loading/Loading'; // Import the Loading component
+import Loading from '../Loading/Loading';
 
-const API_URL = 'https://ill-pear-abalone-tie.cyclic.app/api/products/list';
+const API_URL = 'https://sore-pink-dove-veil.cyclic.app/api/products/list';
 
 const UpdateBills = () => {
   const token = localStorage.getItem('token');
@@ -18,16 +18,18 @@ const UpdateBills = () => {
   const [paidAmount, setPaidAmount] = useState(0);
   const [products, setProducts] = useState([]);
   const [billProducts, setBillProducts] = useState([]);
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const [sellerName, setSellerName] = useState('');
+  const [customerAddress, setCustomerAddress] = useState('');
 
   const fetchData = useCallback(async () => {
     try {
       if (token) {
-        setLoading(true); // Set loading to true while fetching data
+        setLoading(true);
         const productsResponse = await axios.get(API_URL, { headers: { Authorization: `Bearer ${token}` } });
         setProducts(productsResponse.data.data);
-        const billResponse = await axios.get(`https://ill-pear-abalone-tie.cyclic.app/api/bills/${id}`, {
+        const billResponse = await axios.get(`https://sore-pink-dove-veil.cyclic.app/api/bills/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -36,13 +38,15 @@ const UpdateBills = () => {
         setPhoneNumber(billResponse.data?.data?.phone);
         setBillProducts(billResponse.data?.data?.products);
         setPaidAmount(billResponse.data?.data?.paidAmount || 0);
+        setSellerName(billResponse.data?.data?.sellerName || '');
+        setCustomerAddress(billResponse.data?.data?.customerAddress || '');
       } else {
         console.error('No token found.');
       }
     } catch (error) {
       console.error('Error fetching data:', error.message);
     } finally {
-      setLoading(false); // Set loading to false when data fetching is done
+      setLoading(false);
     }
   }, [token, id]);
 
@@ -55,6 +59,7 @@ const UpdateBills = () => {
       billProducts.map(({ product, productQuantity }) => ({
         productId: product._id,
         quantity: productQuantity,
+        price: product.price // Set initial price based on existing bill products
       }))
     );
   }, [billProducts]);
@@ -79,7 +84,7 @@ const UpdateBills = () => {
   };
 
   const addProductFields = () => {
-    setSelectedProducts([...selectedProducts, { productId: '', quantity: '' }]);
+    setSelectedProducts([...selectedProducts, { productId: '', quantity: '', price: 0 }]);
   };
 
   const deleteProductFromBill = (index) => {
@@ -102,9 +107,11 @@ const UpdateBills = () => {
         phone: phoneNumber,
         products: productsArray,
         paidAmount: Number(paidAmount),
+        sellerName,
+        customerAddress,
       };
 
-      const response = await axios.put(`https://ill-pear-abalone-tie.cyclic.app/api/bills/${id}`, requestBody, {
+      const response = await axios.put(`https://sore-pink-dove-veil.cyclic.app/api/bills/${id}`, requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -112,8 +119,10 @@ const UpdateBills = () => {
       setCustomerName('');
       setPhoneNumber('');
       setPaidAmount(0);
-      setSelectedProducts([{ productId: '', quantity: '' }]);
-      window.location.href = '/bills'; // Redirect to bills page after updating
+      setSellerName('');
+      setCustomerAddress('');
+      setSelectedProducts([{ productId: '', quantity: '', price: 0 }]);
+      window.location.href = '/bills';
     } catch (error) {
       console.error('Error updating bill:', error.message);
     } finally {
@@ -121,20 +130,24 @@ const UpdateBills = () => {
     }
   };
 
+  const cancelBill = () => {
+    window.location.href = '/bills';
+  };
+
   return (
     <div className={styles.createBill}>
       <LogOut />
       <MainComponent />
       <form>
-         {loading &&         <div className='m-5 fs-3 text-center'><Loading /></div>        }
+        {loading && <div className='m-5 fs-3 text-center'><Loading /></div>}
         <div>
           <label htmlFor="customerName">
-            <Translate>client Name : </Translate>
+            <Translate>Client Name : </Translate>
           </label>
           <input
             id="customerName"
             type="text"
-            placeholder="client Name"
+            placeholder="Client Name"
             name="customerName"
             value={customerName}
             onChange={(e) => setCustomerName(e.target.value)}
@@ -146,11 +159,37 @@ const UpdateBills = () => {
           </label>
           <input
             id="phoneNumber"
-            placeholder="phone Number"
+            placeholder="Phone Number"
             type="text"
             name="phone"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="sellerName">
+            <Translate>Seller Name : </Translate>
+          </label>
+          <input
+            id="sellerName"
+            placeholder="Seller Name"
+            type="text"
+            name="sellerName"
+            value={sellerName}
+            onChange={(e) => setSellerName(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="customerAddress">
+            <Translate>Customer Address : </Translate>
+          </label>
+          <input
+            id="customerAddress"
+            placeholder="Customer Address"
+            type="text"
+            name="customerAddress"
+            value={customerAddress}
+            onChange={(e) => setCustomerAddress(e.target.value)}
           />
         </div>
         {selectedProducts.map((selectedProduct, index) => (
@@ -179,7 +218,7 @@ const UpdateBills = () => {
                 type="number"
                 name={`productQuantity${index}`}
                 value={selectedProduct.quantity}
-                placeholder="product Quantity"
+                placeholder="Product Quantity"
                 onChange={(e) => handleQuantityChange(index, e.target.value)}
               />
             </div>
@@ -203,11 +242,11 @@ const UpdateBills = () => {
         ))}
 
         <div>
-          <label htmlFor="paid Amount">
+          <label htmlFor="paidAmount">
             <Translate>Paid Amount : </Translate>
           </label>
           <input
-            placeholder="paid"
+            placeholder="Paid Amount"
             id="paidAmount"
             type="number"
             name="paidAmount"
@@ -215,10 +254,14 @@ const UpdateBills = () => {
             onChange={(e) => setPaidAmount(e.target.value)}
           />
         </div>
-
-        <button type="button" onClick={updateBill} className={styles.addBtn}>
-          <Translate>Update bill</Translate>
-        </button>
+        <div className='flex my-2'>
+          <button type="button" onClick={updateBill} className={styles.addBtn}>
+            <Translate>Update Bill</Translate>
+          </button>
+          <button type="button" onClick={cancelBill} className='bg-danger w-25 rounded-2'>
+            <Translate>Cancel</Translate>
+          </button>
+        </div>
       </form>
     </div>
   );

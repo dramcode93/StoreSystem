@@ -3,8 +3,8 @@ import styles from './Profile.module.css';
 import axios from 'axios';
 import { Translate } from 'translate-easy';
 
-const API_info = 'https://ill-pear-abalone-tie.cyclic.app/api/users/getMe';
-const API_update = 'https://ill-pear-abalone-tie.cyclic.app/api/users/updateMe';
+const API_info = 'https://sore-pink-dove-veil.cyclic.app/api/users/getMe';
+const API_update = 'https://sore-pink-dove-veil.cyclic.app/api/users/updateMe';
 
 const Information = () => {
   const [loading, setLoading] = useState(true);
@@ -88,17 +88,17 @@ const Information = () => {
       <ul>
         <li>
           <div>
-          <p><Translate>Name :</Translate> {isNameEditing ? <input name="name" value={inputValues.name} onChange={handleInputChange} /> : info.name}</p>
-          <p><Translate>Email :</Translate> {isEmailEditing ? <input name="email" value={inputValues.email} onChange={handleInputChange} /> : info.email}</p>
+         <li> <p><Translate>Name :</Translate> {isNameEditing ? <input name="name" value={inputValues.name} onChange={handleInputChange} /> : info.name}</p></li>
+        <li>  <p><Translate>Email :</Translate> {isEmailEditing ? <input name="email" value={inputValues.email} onChange={handleInputChange} /> : info.email}</p></li>
            </div>
         </li>
-        <li>
+        <div>
           {isNameEditing || isEmailEditing ? (
             <button onClick={handleSaveChanges}><Translate>Save Changes</Translate></button>
           ) : (
             <button onClick={() => handleEditToggle('name','email')}><Translate>An Editing</Translate></button>
           )}
-        </li>
+        </div>
       </ul>
     </div>
   );

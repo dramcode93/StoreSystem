@@ -4,9 +4,9 @@ import styles from './styles.module.css';
 import { Translate } from 'translate-easy';
 import MainComponent from './../Aside/MainComponent';
 import LogOut from './../LogOut/LogOut';
-import Loading from '../Loading/Loading'; // Import the Loading component
+import Loading from '../Loading/Loading';
 
-const API_URL = 'https://ill-pear-abalone-tie.cyclic.app/api/products/list';
+const API_URL = 'https://sore-pink-dove-veil.cyclic.app/api/products/list';
 
 const BillForm = () => {
   const token = localStorage.getItem('token');
@@ -16,6 +16,8 @@ const BillForm = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState([{ productId: '', quantity: '', price: 0 }]);
+  const [sellerName, setSellerName] = useState('');
+  const [customerAddress, setCustomerAddress] = useState('');
 
   const fetchData = useCallback(async () => {
     try {
@@ -82,9 +84,11 @@ const BillForm = () => {
         products: productsArray,
         productQuantityMap,
         paidAmount: Number(paidAmount),
+        sellerName,
+        customerAddress
       };
 
-      const response = await axios.post('https://ill-pear-abalone-tie.cyclic.app/api/bills', requestBody, {
+      const response = await axios.post('https://sore-pink-dove-veil.cyclic.app/api/bills', requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -92,6 +96,8 @@ const BillForm = () => {
       setCustomerName('');
       setPhoneNumber('');
       setPaidAmount('');
+      setSellerName('');
+      setCustomerAddress('');
       setSelectedProducts([{ productId: '', quantity: '', price: 0 }]);
       window.location.href = '/bills';
     } catch (error) {
@@ -108,12 +114,20 @@ const BillForm = () => {
       <form>
         {loading &&<div className='m-5 fs-3 text-center'><Loading /></div>}
         <div>
-          <label htmlFor="customerName"><Translate>client Name : </Translate></label>
-          <input id="customerName" type="text" placeholder='client Name' name="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
+          <label htmlFor="customerName"><Translate>Client Name : </Translate></label>
+          <input id="customerName" type="text" placeholder='Client Name' name="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
         </div>
         <div>
           <label htmlFor="phoneNumber"><Translate>Phone Number : </Translate></label>
-          <input id="phoneNumber" placeholder='phone Number' type="text" name="phone" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+          <input id="phoneNumber" placeholder='Phone Number' type="text" name="phone" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+        </div>
+        <div>
+          <label htmlFor="sellerName"><Translate>Seller Name : </Translate></label>
+          <input id="sellerName" placeholder='Seller Name' type="text" name="sellerName" value={sellerName} onChange={(e) => setSellerName(e.target.value)} />
+        </div>
+        <div>
+          <label htmlFor="customerAddress"><Translate>Customer Address : </Translate></label>
+          <input id="customerAddress" placeholder='Customer Address' type="text" name="customerAddress" value={customerAddress} onChange={(e) => setCustomerAddress(e.target.value)} />
         </div>
         {selectedProducts.map((selectedProduct, index) => (
           <div key={index}>
@@ -139,7 +153,7 @@ const BillForm = () => {
                 type="number"
                 name={`productQuantity${index}`}
                 value={selectedProduct.quantity}
-                placeholder='product Quantity'
+                placeholder='Product Quantity'
                 onChange={(e) => handleQuantityChange(index, e.target.value)}
               />
             </div>
@@ -156,7 +170,7 @@ const BillForm = () => {
                   type="number"
                   name={`productQuantity${index}`}
                   value={selectedProduct.quantity}
-                  placeholder='product Quantity'
+                  placeholder='Product Quantity'
                   onChange={(e) => handleQuantityChange(index, e.target.value)}
                 />
               </div>
@@ -164,16 +178,16 @@ const BillForm = () => {
             <button type="button" onClick={addProductFields} className={styles.addBtn}>
               <Translate>Add Product</Translate>
             </button>
-            <button type="button" title='delete product' className={styles.deleteButton} onClick={() => deleteProduct(index)}><Translate>X</Translate></button>
+            <button type="button" title='Delete Product' className={styles.deleteButton} onClick={() => deleteProduct(index)}><Translate>X</Translate></button>
           </div>
         ))}
         
         <div>
-          <label htmlFor="paid Amount"><Translate>Paid Amount : </Translate></label>
-          <input placeholder='paid' id="paidAmount" type="text" name="paidAmount" value={Number(paidAmount)} onChange={(e) => setPaidAmount(e.target.value)} />
+          <label htmlFor="paidAmount"><Translate>Paid Amount : </Translate></label>
+          <input placeholder='Paid Amount' id="paidAmount" type="text" name="paidAmount" value={Number(paidAmount)} onChange={(e) => setPaidAmount(e.target.value)} />
         </div>
         <button type="button" onClick={createBill} className={styles.addBtn}>
-          <Translate>Create bill</Translate>
+          <Translate>Create Bill</Translate>
         </button>
       </form>
     </div>
