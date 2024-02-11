@@ -3,7 +3,7 @@ import styles from './Profile.module.css';
 import axios from 'axios';
 import { Translate } from 'translate-easy';
 
-const API_password = 'https://ill-pear-abalone-tie.cyclic.app/api/users/updateMyPassword';
+const API_password = 'https://sore-pink-dove-veil.cyclic.app/api/users/updateMyPassword';
 
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState('');

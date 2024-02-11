@@ -34,28 +34,6 @@
   margin-top: 3vh;
 }
 
-table {
-  color: var(--font);
-  border-collapse: collapse;
-  width: 100%;
-  max-height: 100%;
-  overflow-y: auto;
-  margin: 0 auto;
-}
-
-table-wrapper {
-  overflow-x: auto;
-  max-width: 100%;
-}
-
-table th,
-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: center;
-  width: fit-content;
-}
-
 table th {
   background-color: var(--card);
   font-weight: bold;
@@ -175,6 +153,9 @@ input {
   .updateBtn {
     width: 9vw;
   }
+  .tableWrapper {
+    overflow-x: scroll;
+  }
    
   table {
     width: auto; 
@@ -185,6 +166,9 @@ input {
   table td {
     white-space: nowrap;
     min-width: 100px; 
+  }
+  .billsTable table {
+    width: auto;
   }
 }
 
@@ -261,10 +245,32 @@ margin: 1vh -2vw;
     width: 100vw;
     }
   .billsTable{
-    padding: 3vh 5vw 3vh 0;
+    padding: 3vh 5vw 3vh 2vw;
  }
  table th,
  table td {
    min-width: unset; 
  }
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.billsTable {
+  color: var(--font);
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+ 
+
+.billsTable table th,
+.billsTable table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
 }

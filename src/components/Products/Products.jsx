@@ -8,8 +8,8 @@ import Loading from '../Loading/Loading';
 import ConfirmationModal from '../Category/ConfirmationModel';
 import MainComponent from '../Aside/MainComponent';
 
-const API_URL = 'https://ill-pear-abalone-tie.cyclic.app/api/products';
-const API_category = 'https://ill-pear-abalone-tie.cyclic.app/api/categories/list';
+const API_URL = 'https://sore-pink-dove-veil.cyclic.app/api/products';
+const API_category = 'https://sore-pink-dove-veil.cyclic.app/api/categories/list';
 
 const Products = () => {
   const token = localStorage.getItem('token');
@@ -30,7 +30,7 @@ const Products = () => {
   const fetchData = useCallback(async () => {
     try {
       if (token) {
-        const productsResponse = await axios.get(`${API_URL}?search=${searchTerm}&page=${pagination.currentPge}&limit=2`, { headers: { Authorization: `Bearer ${token}` } });
+        const productsResponse = await axios.get(`${API_URL}?search=${searchTerm}&page=${pagination.currentPge}&limit=20`, { headers: { Authorization: `Bearer ${token}` } });
         setProducts(productsResponse.data.data);
         setPagination(productsResponse.data.paginationResult);
         const categoriesResponse = await axios.get(`${API_category}`, { headers: { Authorization: `Bearer ${token}` } });
@@ -123,7 +123,7 @@ const Products = () => {
             type="text"
             name="name"
             className={styles.inputField}
-            placeholder="Product Name"
+            placeholder="إسم المنتج"
             value={newProductName}
             onChange={(e) => setNewProductName(e.target.value)}
           />
@@ -131,7 +131,7 @@ const Products = () => {
             type="text"
             name="price"
             className={styles.inputField}
-            placeholder="price"
+            placeholder="السعر"
             value={newProductPrice}
             onChange={(e) => setNewProductPrice(e.target.value)}
           />
@@ -139,14 +139,20 @@ const Products = () => {
             type="text"
             name="quantity"
             className={styles.inputField}
-            placeholder='Quantity'
+            placeholder='الكمية'
             value={newProductQuantity}
             onChange={(e) => setNewProductQuantity(e.target.value)}
           />
-          <div>
-            <input type="text" name="search" value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
-            <button className='btn btn-primary' onClick={handleSearch}>
-              <Translate>Search</Translate>
+          <div className='flex'>
+          <input
+            type="text"
+            name="search"
+            className={styles.inputsearch}
+            placeholder='إبحث'
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)} />
+            <button className='btn btn-primary py-2' onClick={handleSearch}>
+              <Translate>A Search</Translate> 
             </button>
           </div>
         </form>
