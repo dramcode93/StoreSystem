@@ -7,7 +7,7 @@ import LogOut from './../LogOut/LogOut';
 import { useParams } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 
-const API_URL = 'https://sore-pink-dove-veil.cyclic.app/api/products/list';
+const API_URL = 'https://rich-blue-ladybug-robe.cyclic.app/api/products/list';
 
 const UpdateBills = () => {
   const token = localStorage.getItem('token');
@@ -29,7 +29,7 @@ const UpdateBills = () => {
         setLoading(true);
         const productsResponse = await axios.get(API_URL, { headers: { Authorization: `Bearer ${token}` } });
         setProducts(productsResponse.data.data);
-        const billResponse = await axios.get(`https://sore-pink-dove-veil.cyclic.app/api/bills/${id}`, {
+        const billResponse = await axios.get(`https://rich-blue-ladybug-robe.cyclic.app/api/bills/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -97,21 +97,23 @@ const UpdateBills = () => {
     try {
       setLoading(true);
 
-      const productsArray = selectedProducts.map(({ productId, quantity }) => ({
-        product: productId,
-        quantity,
-      }));
+      const productQuantityMap = {};
+      const productsArray = selectedProducts.map(({ productId, quantity, price }) => {
+        productQuantityMap[productId] = quantity;
+        return { product: productId, quantity, price };
+      });
 
       const requestBody = {
         customerName,
         phone: phoneNumber,
         products: productsArray,
+        productQuantityMap,
         paidAmount: Number(paidAmount),
         sellerName,
         customerAddress,
       };
 
-      const response = await axios.put(`https://sore-pink-dove-veil.cyclic.app/api/bills/${id}`, requestBody, {
+      const response = await axios.put(`https://rich-blue-ladybug-robe.cyclic.app/api/bills/${id}`, requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -124,7 +126,7 @@ const UpdateBills = () => {
       setSelectedProducts([{ productId: '', quantity: '', price: 0 }]);
       window.location.href = '/bills';
     } catch (error) {
-      console.error('Error updating bill:', error.message);
+      console.error('Error updating bill:', error);
     } finally {
       setLoading(false);
     }

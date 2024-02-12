@@ -3,23 +3,23 @@ import React, { useState } from 'react';
 const ForgotPassword3 = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
-  const resetToken =  ('resetToken');
+  const resetToken = ('resetToken');
 
   const handleForgetPassword = async () => {
     try {
-      const response = await axios.put('https://sore-pink-dove-veil.cyclic.app/api/auth/resetPassword', {
+      const response = await axios.put('https://rich-blue-ladybug-robe.cyclic.app/api/auth/resetPassword', {
         newPassword,
         confirmNewPassword,
-      },{ headers: { Authorization: `Bearer ${resetToken}` } });
-              window.location.href = '/';
-       if (response.status === 200) {
+      }, { headers: { Authorization: `Bearer ${resetToken}` } });
+      window.location.href = '/';
+      if (response.status === 200) {
         console.log('new password code successfully!');
-       } else {
+      } else {
         console.error('Failed to send new password ');
-       }
+      }
     } catch (error) {
       console.error('An error occurred while sending the reset password request', error);
-     }
+    }
   };
 
   return (

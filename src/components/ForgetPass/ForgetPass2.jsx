@@ -1,25 +1,25 @@
 import axios from 'axios';
 import React, { useState } from 'react';
- const ForgotPassword2 = () => {
+const ForgotPassword2 = () => {
   const [verificationCode, setVerificationCode] = useState('');
-   const resetToken = localStorage.getItem('resetToken');
-   const handleForgetPassword = async () => {
+  const resetToken = localStorage.getItem('resetToken');
+  const handleForgetPassword = async () => {
     try {
-      const response = await axios.post('https://sore-pink-dove-veil.cyclic.app/api/auth/verifyResetPasswordCode', {
+      const response = await axios.post('https://rich-blue-ladybug-robe.cyclic.app/api/auth/verifyResetPasswordCode', {
         resetCode: verificationCode,
-      },{ headers: { Authorization: `Bearer ${resetToken}` } });
-              window.location.href = '/forgotPassword3';
-       if (response.status === 200) {
+      }, { headers: { Authorization: `Bearer ${resetToken}` } });
+      window.location.href = '/forgotPassword3';
+      if (response.status === 200) {
         console.log('Reset password code sent successfully!');
-       } else {
+      } else {
         console.error('Failed to send reset password code');
-       }
+      }
     } catch (error) {
       console.error('An error occurred while sending the reset password request', error);
-     }
+    }
   };
 
-  return ( 
+  return (
     <div className="container1 ForgotPasswordStep2">
       <h1>Step 2: Verify Identity</h1>
       <p>
@@ -31,8 +31,8 @@ import React, { useState } from 'react';
         value={verificationCode}
         onChange={(e) => setVerificationCode(e.target.value)}
       />
-      <button onClick={handleForgetPassword}> Reset Password</button> 
-      </div>
+      <button onClick={handleForgetPassword}> Reset Password</button>
+    </div>
   );
 };
 
