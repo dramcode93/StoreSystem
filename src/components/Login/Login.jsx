@@ -16,7 +16,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('https://sore-pink-dove-veil.cyclic.app/api/auth/login', {
+      const response = await axios.post('https://store-system-api.gleeze.com/api/auth/login', {
         email,
         password,
       });

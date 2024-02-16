@@ -10,15 +10,13 @@ const CategoryProducts = ({ Products }) => {
     useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await axios.get(`https://sore-pink-dove-veil.cyclic.app/api/categories/${id}/products`, {
+      const response = await axios.get(`https://store-system-api.gleeze.com/api/categories/${id}/products`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      const Products = response.data.data || ''; // Ensure it's not undefined
+      const Products = response.data.data || ''; 
       setCategoryProducts(Products);
-      console.log(response)
-
     } catch (error) {
       console.error('Error fetching category:', error.message);
     }

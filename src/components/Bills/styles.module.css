@@ -2,6 +2,7 @@
   padding: 15vh 0;
   margin: auto 5vw;
 }
+
 .flex{
   display: flex;
   justify-content: center;
@@ -9,6 +10,7 @@
   margin: 3vh ;
   gap: 7vw;
 }
+
 .btn {
   padding: 10px 20px;
   background-color: #2196f3;
@@ -20,24 +22,12 @@
   display: inline-block;
 }
 
-.billsTable{
-  border: 1px solid var(--font);
-  padding: 4vh;
-  margin-top: 5vh;
-}
-
 .billsTable p {
   color: var(--font);
 }
 
 .billsTable :first-child {
   margin-top: 3vh;
-}
-
-table th {
-  background-color: var(--card);
-  font-weight: bold;
-  font-size: 18px;
 }
 
 .deleteBtn,
@@ -264,12 +254,15 @@ margin: 1vh -2vw;
   width: 100%;
   margin: 0 auto;
   overflow-x: auto;
+  border: 1px solid var(--font);
+  padding: 4vh;
 }
-
- 
 
 .billsTable table th,
 .billsTable table td {
+  background-color: var(--card);
+  font-weight: bold;
+  font-size: 18px;
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;

@@ -1,33 +1,36 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Translate } from 'translate-easy';
+import forget from './forget.module.css'; // Import your CSS file
 
 const ForgetPassword1 = () => {
-const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleForgetPassword = async () => {
     try {
-      const response = await axios.post('https://sore-pink-dove-veil.cyclic.app/api/auth/forgetPassword', {
+      setLoading(true);
+      const response = await axios.post('https://store-system-api.gleeze.com/api/auth/forgetPassword', {
         email: email,
       });
-            const resetToken = response.data.resetToken;
-            localStorage.setItem('resetToken', resetToken);
-            window.location.href = '/forgotPassword2';
-       if (response.status === 200) {
-        console.log('Reset password code sent successfully!');
-       } else {
-        console.error('Failed to send reset password code');
-       }
+      const resetToken = response.data.resetToken;
+      localStorage.setItem('resetToken', resetToken);
+      window.location.href = '/forgotPassword2';
     } catch (error) {
       console.error('An error occurred while sending the reset password request', error);
-     }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div>
-      <label>Email:</label>
+    <div className={forget.forgetPasswordContainer}> 
+      <label><Translate>Email : </Translate></label>
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <button onClick={handleForgetPassword}>Send Reset Code</button> 
-    </div> 
+      <button onClick={handleForgetPassword} disabled={loading}>
+        {loading ? <Translate>Sending...</Translate> : <Translate>Send Reset Code</Translate>}
+      </button>
+    </div>
   );
 };
 

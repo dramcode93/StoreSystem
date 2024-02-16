@@ -1,0 +1,87 @@
+.forgetPasswordContainer,.forgetPasswordContainer3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5vh;
+    border: 1px solid gray;
+    width: 20vw;
+    height: fit-content;
+    position: absolute;
+    top: 35%;
+    left: 40%;
+    color: var(--font);
+    box-shadow: 1px 1px 3px 1px var(--font);
+
+  }
+  .forgetPasswordContainer3{
+    height: 50vh;
+    width: 25vw;
+    top:30%
+
+  }
+  
+  .firstInput{
+    margin-bottom: 2vh;
+  }
+  .forgetPasswordContainer label {
+    margin-bottom: 10px;
+  }
+  
+  .forgetPasswordContainer input {
+    padding: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .forgetPasswordContainer button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .forgetPasswordContainer button:hover {
+    background-color: #0056b3;
+  }
+  
+  @media screen and (max-width: 1200px) {
+    .forgetPasswordContainer,.forgetPasswordContainer3 {
+      width: 30vw;
+
+    }
+
+  }
+  @media screen and (max-width: 900px) {
+    .forgetPasswordContainer,.forgetPasswordContainer3 {
+      width: 40vw;
+      left: 35%;
+
+
+    }
+
+  }
+  @media screen and (max-width: 600px) {
+    .forgetPasswordContainer,.forgetPasswordContainer3 {
+      width: 50vw;
+      left: 25%;
+
+    }
+    
+  }
+  
+  @media screen and (max-width: 500px) {
+    .forgetPasswordContainer,.forgetPasswordContainer3 {
+      width: 60vw;
+      left: 20%;
+    }
+
+  }
+  @media screen and (max-width: 400px) {
+    .forgetPasswordContainer,.forgetPasswordContainer3 {
+      width: 70vw;
+      left: 15%;
+    }
+
+  }
