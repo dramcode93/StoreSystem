@@ -6,7 +6,7 @@ import MainComponent from './../Aside/MainComponent';
 import LogOut from './../LogOut/LogOut';
 import Loading from '../Loading/Loading';
 
-const API_URL = 'https://rich-blue-ladybug-robe.cyclic.app/api/products/list';
+const API_URL = 'https://store-system-api.gleeze.com/api/products/list';
 
 const BillForm = () => {
   const token = localStorage.getItem('token');
@@ -25,9 +25,7 @@ const BillForm = () => {
         setLoading(true);
         const productsResponse = await axios.get(`${API_URL}`, { headers: { Authorization: `Bearer ${token}` } });
         setProducts(productsResponse.data.data);
-      } else {
-        console.error('No token found.');
-      }
+      } 
     } catch (error) {
       console.error('Error fetching data:', error.message);
     } finally {
@@ -88,11 +86,10 @@ const BillForm = () => {
         customerAddress
       };
 
-      const response = await axios.post('https://rich-blue-ladybug-robe.cyclic.app/api/bills', requestBody, {
+      const response = await axios.post('https://store-system-api.gleeze.com/api/bills', requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log('Bill created:', response.data);
       setCustomerName('');
       setPhoneNumber('');
       setPaidAmount('');
@@ -186,9 +183,10 @@ const BillForm = () => {
           <label htmlFor="paidAmount"><Translate>Paid Amount : </Translate></label>
           <input placeholder='Paid Amount' id="paidAmount" type="text" name="paidAmount" value={Number(paidAmount)} onChange={(e) => setPaidAmount(e.target.value)} />
         </div>
-        <button type="button" onClick={createBill} className={styles.addBtn}>
-          <Translate>Create Bill</Translate>
-        </button>
+        <button type="button" onClick={createBill} className={styles.addBtn} disabled={loading}>
+        {loading ? <Translate>Adding...</Translate> : <Translate>Create bill</Translate>}
+      </button>
+      
       </form>
     </div>
   );

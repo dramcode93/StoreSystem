@@ -8,7 +8,8 @@ import Loading from '../Loading/Loading';
 import ConfirmationModal from './ConfirmationModel';
 import MainComponent from '../Aside/MainComponent';
 
-const API_category = 'https://rich-blue-ladybug-robe.cyclic.app/api/categories';
+
+const API_category = 'https://store-system-api.gleeze.com/api/categories';
 
 const CategoryTable = () => {
   const token = localStorage.getItem('token');
@@ -24,14 +25,11 @@ const CategoryTable = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      console.log('Fetching data with search input:', searchInput);
-      if (token) {
+       if (token) {
         const response = await axios.get(`${API_category}?search=${searchInput}&page=${pagination.currentPge}&limit=20`, { headers: { Authorization: `Bearer ${token}` } });
         setCategories(response.data.data);
         setPagination(response.data.paginationResult);
-      } else {
-        console.error('No token found.');
-      }
+       }  
     } catch (error) {
       console.error('Error fetching categories:', error.message);
     } finally {

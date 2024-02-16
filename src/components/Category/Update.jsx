@@ -15,7 +15,7 @@ function UpdateCategory() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://rich-blue-ladybug-robe.cyclic.app/api/categories/${id}`, {
+        const response = await axios.get(`https://store-system-api.gleeze.com/api/categories/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,13 +32,13 @@ function UpdateCategory() {
   }, [id, token]);
 
   const handleUpdateCategory = () => {
-    axios.put(`https://rich-blue-ladybug-robe.cyclic.app/api/categories/${id}`, { name: newCategoryName }, {
+
+    axios.put(`https://store-system-api.gleeze.com/api/categories/${id}`, { name: newCategoryName }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => {
-        console.log(response.data.message);
         window.location.href = '/category';
       })
       .catch((error) => {

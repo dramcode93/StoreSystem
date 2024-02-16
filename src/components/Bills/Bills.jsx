@@ -9,7 +9,8 @@ import axios from 'axios';
 import LogOut from './../LogOut/LogOut';
 import { Translate } from 'translate-easy';
 
-const API_Bills = 'https://rich-blue-ladybug-robe.cyclic.app/api/bills';
+
+const API_Bills = 'https://store-system-api.gleeze.com/api/bills';
 
 const Bills = () => {
   const token = localStorage.getItem('token');
@@ -27,9 +28,7 @@ const Bills = () => {
         const response = await axios.get(`${API_Bills}?search=${searchTerm}&page=${pagination.currentPge}&limit=20`, { headers: { Authorization: `Bearer ${token}` } });
         setBills(response.data.data);
         setPagination(response.data.paginationResult);
-      } else {
-        console.error('No token found.');
-      }
+      } 
     } catch (error) {
       console.error('Error fetching bills:', error.message);
     } finally {
@@ -72,7 +71,7 @@ const Bills = () => {
   const handleSearch = () => {
     setPagination(prevState => ({
       ...prevState,
-      currentPge: 1 // Reset pagination when searching
+      currentPge: 1
     }));
     setSearchTerm(searchTerm);
   };
@@ -241,10 +240,14 @@ const Bills = () => {
                     <Translate> Phone :</Translate> {bill.phone}
                   </p>
                   <p>
-                    <Translate> Seller Name :</Translate> {bill?.sellerName}
+                    <Translate> Name Seller :</Translate> {bill?.sellerName}
                   </p>
                   <p>
                     <Translate> customer Address :</Translate> {bill?.customerAddress}
+                  </p>
+                  <p>
+                  <Translate>Bill Date :</Translate> {bill?.createdAt && new Date(bill.createdAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+
                   </p>
                 </div>
                 <div>
