@@ -1,15 +1,15 @@
 import React from 'react'
 import Information from './Information';
 import ChangPassword from './ChangPassword';
-const  AllComponent = ({ selectedPage }) => {
-    return (
-        <div>
-        <div>
+const AllComponent = ({ selectedPage }) => {
+  return (
+    <div>
+      <div>
         {selectedPage === 'information' && <Information />}
         {selectedPage === 'changePassword' && <ChangPassword />}
       </div>
-        </div>
-    )
+    </div>
+  )
 }
 
 export default AllComponent

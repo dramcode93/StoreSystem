@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const CategoryProducts = ({ Products }) => {
-    const { id } = useParams();
-    const token = localStorage.getItem('token');
-    const [categoryProducts, setCategoryProducts] = useState([]);
+  const { id } = useParams();
+  const token = localStorage.getItem('token');
+  const [categoryProducts, setCategoryProducts] = useState([]);
+
 
     useEffect(() => {
   const fetchData = async () => {
@@ -18,7 +19,7 @@ const CategoryProducts = ({ Products }) => {
       const Products = response.data.data || ''; 
       setCategoryProducts(Products);
     } catch (error) {
-      console.error('Error fetching category:', error.message);
+      console.error('Error fetching category:', error);
     }
   };
     

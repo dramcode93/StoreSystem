@@ -21,7 +21,7 @@ const Login = () => {
         password,
       });
       const token = response.data.token;
-       localStorage.setItem('token', token);
+      localStorage.setItem('token', token);
       window.location.href = '/home';
     } catch (error) {
       console.error('Error logging in:', error.message);
@@ -75,7 +75,7 @@ const Login = () => {
       </>
         )}
       </div>
-      </div>
+    </div>
   );
 };
 

@@ -8,6 +8,7 @@ import Loading from '../Loading/Loading';
 import ConfirmationModal from '../Category/ConfirmationModel';
 import MainComponent from '../Aside/MainComponent';
 
+
 const API_URL = 'https://store-system-api.gleeze.com/api/products';
 const API_category = 'https://store-system-api.gleeze.com/api/categories/list';
 
@@ -26,7 +27,7 @@ const Products = () => {
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [pagination, setPagination] = useState({});
-  
+
   const fetchData = useCallback(async () => {
     try {
       if (token) {
@@ -75,14 +76,14 @@ const Products = () => {
       .post(
         `${API_URL}`,
         { name: newProductName, price: newProductPrice, quantity: newProductQuantity, category: selectedCategoryId },
-        { headers: { Authorization: `Bearer ${token}`} }
+        { headers: { Authorization: `Bearer ${token}` } }
       )
       .then(() => fetchData())
       .catch((error) => console.error('Error adding product:', error))
       .finally(() => {
         setNewProductName('');
-        setNewProductQuantity(0);  
-        setNewProductPrice('');    
+        setNewProductQuantity(0);
+        setNewProductPrice('');
         setSelectedCategoryId(null);
       });
   }, [newProductName, newProductPrice, newProductQuantity, selectedCategoryId, token, fetchData]);
@@ -102,7 +103,7 @@ const Products = () => {
   return (
     <div>
       <LogOut />
-      <MainComponent/>
+      <MainComponent />
       <div className={styles.container2}>
         <form className={styles.AddSection}>
           <select
@@ -110,8 +111,8 @@ const Products = () => {
             className={styles.inputField}
             onChange={(e) => setSelectedCategoryId(e.target.value)}
           >
-            <option disabled value=''>
-              <Translate>Select Category</Translate>   
+            <option selected disabled value=''>
+              <Translate>Select Category</Translate>
             </option>
             {categories.map((category) => (
               <option key={category._id} value={category._id}>
@@ -144,15 +145,15 @@ const Products = () => {
             onChange={(e) => setNewProductQuantity(e.target.value)}
           />
           <div className='flex'>
-          <input
-            type="text"
-            name="search"
-            className={styles.inputsearch}
-            placeholder='إبحث'
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)} />
+            <input
+              type="text"
+              name="search"
+              className={styles.inputsearch}
+              placeholder='إبحث'
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)} />
             <button className='btn btn-primary py-2' onClick={handleSearch}>
-              <Translate>A Search</Translate> 
+              <Translate>A Search</Translate>
             </button>
           </div>
         </form>

@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Category.module.css';
 import { Translate } from 'translate-easy';
- import MainComponent from './../Aside/MainComponent';
+import MainComponent from './../Aside/MainComponent';
 import LogOut from './../LogOut/LogOut';
 
 function UpdateCategory() {
@@ -32,6 +32,7 @@ function UpdateCategory() {
   }, [id, token]);
 
   const handleUpdateCategory = () => {
+
     axios.put(`https://store-system-api.gleeze.com/api/categories/${id}`, { name: newCategoryName }, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -47,15 +48,15 @@ function UpdateCategory() {
 
   return (
     <div>
-    <LogOut/>
-    <MainComponent/>
+      <LogOut />
+      <MainComponent />
       <div className={styles.updateCategoryContainer}>
         <h2><Translate>Update Category</Translate></h2>
         <label>
-        <Translate> New Category Name:</Translate> 
+          <Translate> New Category Name:</Translate>
           <input
             type="text"
-            value={newCategoryName || ''}  
+            value={newCategoryName || ''}
             onChange={(e) => setNewCategoryName(e.target.value)}
             placeholder={categoryNamePlaceholder || ''}
           />
