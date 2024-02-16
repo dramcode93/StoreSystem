@@ -10,7 +10,7 @@ const ForgetPassword1 = () => {
   const handleForgetPassword = async () => {
     try {
       setLoading(true);
-      const response = await axios.post('http://192.168.43.191:3030/api/auth/forgetPassword', {
+      const response = await axios.post('https://store-system-api.gleeze.com/api/auth/forgetPassword', {
         email: email,
       });
       const resetToken = response.data.resetToken;

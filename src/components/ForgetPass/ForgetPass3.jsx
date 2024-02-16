@@ -12,7 +12,7 @@ const ForgotPassword3 = () => {
   const handleForgetPassword = async () => {
     try {
       setLoading(true);
-      const response = await axios.put('http://192.168.43.191:3030/api/auth/resetPassword', {
+      const response = await axios.put('https://store-system-api.gleeze.com/api/auth/resetPassword', {
         newPassword,
         confirmNewPassword,
       },{ headers: { Authorization: `Bearer ${resetToken}` } });

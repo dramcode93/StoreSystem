@@ -8,8 +8,8 @@ import Loading from '../Loading/Loading';
 import ConfirmationModal from '../Category/ConfirmationModel';
 import MainComponent from '../Aside/MainComponent';
 
-const API_URL = 'http://192.168.43.191:3030/api/products';
-const API_category = 'http://192.168.43.191:3030/api/categories/list';
+const API_URL = 'https://store-system-api.gleeze.com/api/products';
+const API_category = 'https://store-system-api.gleeze.com/api/categories/list';
 
 const Products = () => {
   const token = localStorage.getItem('token');
