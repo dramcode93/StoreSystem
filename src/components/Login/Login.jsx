@@ -6,7 +6,7 @@ import Loading from '../Loading/Loading';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -16,8 +16,8 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('https://store-system-api.gleeze.com/api/auth/login', {
-        email,
+      const response = await axios.post('http://192.168.43.191:3030/api/auth/login', {
+        name,
         password,
       });
       const token = response.data.token;
@@ -25,7 +25,7 @@ const Login = () => {
       window.location.href = '/home';
     } catch (error) {
       console.error('Error logging in:', error.message);
-      setError('Invalid email or password. Please try again.');
+      setError('Invalid userName or password. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -39,15 +39,15 @@ const Login = () => {
     <>
         <form className={styles.LoginForm} onSubmit={handleSubmit}>
   <div className={styles.FormGroup}>
-    <label htmlFor="email">
-      <Translate>Email :</Translate>
+    <label htmlFor="name">
+      <Translate>userName :</Translate>
     </label>
     <input
-      type="email"
-      id="email"
-      value={email}
-      name="email"
-      onChange={(e) => setEmail(e.target.value)}
+      type="text"
+      id="name"
+      value={name}
+      name="name"
+      onChange={(e) => setName(e.target.value)}
     />
   </div>
   <div className={styles.FormGroup}>

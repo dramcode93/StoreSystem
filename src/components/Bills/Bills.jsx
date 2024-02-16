@@ -9,7 +9,7 @@ import axios from 'axios';
 import LogOut from './../LogOut/LogOut';
 import { Translate } from 'translate-easy';
 
-const API_Bills = 'https://store-system-api.gleeze.com/api/bills';
+const API_Bills = 'http://192.168.43.191:3030/api/bills';
 
 const Bills = () => {
   const token = localStorage.getItem('token');
@@ -236,10 +236,14 @@ const Bills = () => {
                   <Translate> Phone :</Translate> {bill.phone}
                   </p>
                   <p>
-                  <Translate> Seller Name :</Translate> {bill?.sellerName}
+                  <Translate> Name Seller:</Translate> {bill?.sellerName}
                   </p>
                   <p>
                   <Translate> customer Address :</Translate> {bill?.customerAddress}
+                  </p>
+                  <p>
+                  <Translate>Bill Date :</Translate> {bill?.createdAt && new Date(bill.createdAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+
                   </p>
                 </div>
                 <div>

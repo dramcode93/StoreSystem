@@ -8,7 +8,7 @@ import Loading from '../Loading/Loading';
 import ConfirmationModal from './ConfirmationModel';
 import MainComponent from '../Aside/MainComponent';
 
-const API_category = 'https://store-system-api.gleeze.com/api/categories';
+const API_category = 'http://192.168.43.191:3030/api/categories';
 
 const CategoryTable = () => {
   const token = localStorage.getItem('token');

@@ -3,8 +3,8 @@ import styles from './Profile.module.css';
 import axios from 'axios';
 import { Translate } from 'translate-easy';
 
-const API_info = 'https://store-system-api.gleeze.com/api/users/getMe';
-const API_update = 'https://store-system-api.gleeze.com/api/users/updateMe';
+const API_info = 'http://192.168.43.191:3030/api/users/getMe';
+const API_update = 'http://192.168.43.191:3030/api/users/updateMe';
 
 const Information = () => {
   const [loading, setLoading] = useState(true);
@@ -78,7 +78,7 @@ const Information = () => {
         console.error('No token found.');
       }
     } catch (error) {
-      console.error('Error updating user information:', error.message);
+      console.error('Error updating user information:', error);
     }
   };
   
