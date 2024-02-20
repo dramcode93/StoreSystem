@@ -488,3 +488,7 @@ button {
   margin: 3vh;
   gap: 7vw;
 }
+
+.hover1{
+  color: #f44336 !important;
+}
