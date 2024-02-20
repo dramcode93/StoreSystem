@@ -109,7 +109,7 @@ const BillForm = () => {
       <LogOut />
       <MainComponent />
       <form>
-        {loading &&<div className='m-5 fs-3 text-center'><Loading /></div>}
+        {loading && <div className='m-5 fs-3 text-center'><Loading /></div>}
         <div>
           <label htmlFor="customerName"><Translate>Client Name : </Translate></label>
           <input id="customerName" type="text" placeholder='Client Name' name="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
@@ -178,7 +178,7 @@ const BillForm = () => {
             <button type="button" title='Delete Product' className={styles.deleteButton} onClick={() => deleteProduct(index)}><Translate>X</Translate></button>
           </div>
         ))}
-        
+
         <div>
           <label htmlFor="paidAmount"><Translate>Paid Amount : </Translate></label>
           <input placeholder='Paid Amount' id="paidAmount" type="text" name="paidAmount" value={Number(paidAmount)} onChange={(e) => setPaidAmount(e.target.value)} />

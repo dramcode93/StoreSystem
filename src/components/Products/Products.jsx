@@ -76,14 +76,14 @@ const Products = () => {
       .post(
         `${API_URL}`,
         { name: newProductName, price: newProductPrice, quantity: newProductQuantity, category: selectedCategoryId },
-        { headers: { Authorization: `Bearer ${token}`} }
+        { headers: { Authorization: `Bearer ${token}` } }
       )
       .then(() => fetchData())
       .catch((error) => console.error('Error adding product:', error))
       .finally(() => {
         setNewProductName('');
-        setNewProductQuantity(0);  
-        setNewProductPrice('');    
+        setNewProductQuantity(0);
+        setNewProductPrice('');
         setSelectedCategoryId(null);
       });
   }, [newProductName, newProductPrice, newProductQuantity, selectedCategoryId, token, fetchData]);
@@ -103,7 +103,7 @@ const Products = () => {
   return (
     <div>
       <LogOut />
-      <MainComponent/>
+      <MainComponent />
       <div className={styles.container2}>
       <form className={styles.AddSection}>
       {decodedToken.role==="admin"&&
@@ -150,15 +150,15 @@ const Products = () => {
        </>
       }
           <div className='flex'>
-          <input
-            type="text"
-            name="search"
-            className={styles.inputsearch}
-            placeholder='إبحث'
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)} />
+            <input
+              type="text"
+              name="search"
+              className={styles.inputsearch}
+              placeholder='إبحث'
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)} />
             <button className='btn btn-primary py-2' onClick={handleSearch}>
-              <Translate>A Search</Translate> 
+              <Translate>A Search</Translate>
             </button>
           </div>
             

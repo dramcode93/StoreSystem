@@ -28,7 +28,7 @@ const CategoryTable = () => {
     try {
        if (token) {
         const response = await axios.get(`${API_category}?search=${searchInput}&page=${pagination.currentPge}&limit=20`, { headers: { Authorization: `Bearer ${token}` } });
-         setCategories(response.data.data);
+        setCategories(response.data.data);
         setPagination(response.data.paginationResult);
        }  
     } catch (error) {
@@ -146,16 +146,13 @@ return (
         />
         {categories.length === 0 && <p>No categories available</p>}
       </div>
-    </>
-  )}
-</div>
-<div>
-  <div className={styles.flex}>
-    {pagination.prev && (
-      <button onClick={() => handlePageChange(pagination.prev)} className={styles.paginationNext}>
-        {pagination.prev}
-      </button>
-    )}
+      <div>
+        <div className={styles.flex}>
+          {pagination.prev && (
+            <button onClick={() => handlePageChange(pagination.prev)} className={styles.paginationNext}>
+              {pagination.prev}
+            </button>
+          )}
           <button className={styles.paginationNext}><Translate>Page</Translate> {pagination.currentPge}</button>
           {pagination.next && (
             <button className={styles.paginationNext} onClick={() => handlePageChange(pagination.next)}>
