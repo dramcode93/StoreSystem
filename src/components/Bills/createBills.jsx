@@ -6,7 +6,7 @@ import MainComponent from './../Aside/MainComponent';
 import LogOut from './../LogOut/LogOut';
 import Loading from '../Loading/Loading';
 
-const API_URL = 'https://store-system-api.gleeze.com/api/products/list';
+const API_URL = 'http://192.168.43.191:3030/api/products/list';
 
 const BillForm = () => {
   const token = localStorage.getItem('token');
@@ -86,7 +86,7 @@ const BillForm = () => {
         customerAddress
       };
 
-      const response = await axios.post('https://store-system-api.gleeze.com/api/bills', requestBody, {
+      const response = await axios.post('http://192.168.43.191:3030/api/bills', requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

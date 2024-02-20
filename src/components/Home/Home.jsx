@@ -6,15 +6,21 @@ import image1 from '../../Images/Dark Orange Modern Circle Diagram Graph (1).svg
 import image2 from '../../Images/Dark Orange Modern Circle Diagram Graph (2).svg'
 import image3 from '../../Images/Dark Orange Modern Circle Diagram Graph.svg'
 import { Link } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 import LogOut from '../LogOut/LogOut';
 import MainComponent from '../Aside/MainComponent';
 const Home = () => {
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
   return (
     <div>
       <LogOut/>
+
       <MainComponent />
     <div className='marginHome'>
     <div className='cards grid'>
+    {decodedToken.role!=="manager" &&
+    <>
     <Link to='/category' className='card1 back1'>
         <div className='flex text1'>
         <div>
@@ -50,7 +56,8 @@ const Home = () => {
         </div>
         <div className='details3 border2'>  <Translate>Details</Translate> <FaChevronCircleRight /></div>
     </Link>
-
+</>
+  }
     <Link to='/profile' className='card1 back4'>
         <div className='flex text1'>
         <div>
@@ -63,21 +70,6 @@ const Home = () => {
         <div className='details4 border2'> <Translate>Details</Translate> <FaChevronCircleRight /></div>
     </Link>
     
-    </div>
-    <div className='flex charts fw-bold fs-5 font'>
-   
-    <div>
-      <img src={image2} alt='' className='mt-4'/>
-      <p className=' chartBack1'><Translate>CERAMIC</Translate></p>
-    </div>
-   <div>
-   <img src={image1} alt='' className='mt-4 image2'/>
-   <p className=' chartBack2'><Translate>SANITARY WARE</Translate> </p>
-    </div>
-   <div>
-     <img src={image3} alt='' className='mt-4'/>
-     <p className=' chartBack3'><Translate>LECICO</Translate></p>
-    </div>
     </div>
     </div>
     </div>

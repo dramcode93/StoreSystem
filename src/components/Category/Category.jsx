@@ -7,8 +7,9 @@ import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import ConfirmationModal from './ConfirmationModel';
 import MainComponent from '../Aside/MainComponent';
+import { jwtDecode } from "jwt-decode";
 
-const API_category = 'https://store-system-api.gleeze.com/api/categories';
+const API_category = 'http://192.168.43.191:3030/api/categories';
 
 const CategoryTable = () => {
   const token = localStorage.getItem('token');
@@ -21,6 +22,7 @@ const CategoryTable = () => {
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
   const { selectedLanguage } = useLanguage();
+  const decodedToken = jwtDecode(token);
 
   const fetchData = useCallback(async () => {
     try {
@@ -89,12 +91,14 @@ return (
         <Translate>A Search</Translate>
       </button>
     </div>
+{decodedToken.role==="admin"&&
     <div>
       <input type="text" name="name" className={styles.margin} value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} />
       <button className='btn btn-primary' onClick={confirmAddCategory}>
         <Translate translations={{ ar: 'ضيف', en: 'Add' }}>{selectedLanguage === 'ar' ? 'ضيف' : 'Add'}</Translate>
       </button>
     </div>
+}
   </div>
   <div className={styles.container}>
   {loading && <div className='m-5 fs-3'><Loading /></div>}
@@ -106,7 +110,9 @@ return (
       <tr>
         <th><Translate>ID</Translate></th>
         <th><Translate>Name</Translate></th>
+        {decodedToken.role==="admin"&&
         <th><Translate>Actions</Translate></th>
+  }
       </tr>
     </thead>
     <tbody>
@@ -118,6 +124,7 @@ return (
           {category.name}
         </Link>
       </td>
+      {decodedToken.role==="admin"&&
       <td>
         <Link to={`/update/${category._id}`} className={styles.updateBtn}>
           <Translate translations={{ ar: 'تعديل', en: 'update' }}>{selectedLanguage === 'ar' ? 'تعديل' : 'update'}</Translate>
@@ -127,6 +134,7 @@ return (
           <Translate translations={{ ar: 'حذف', en: "Delete" }}>{selectedLanguage === 'ar' ? "حذف" : "Delete"}</Translate>
         </button>
       </td>
+  }
     </tr>
             ))}
           </tbody>

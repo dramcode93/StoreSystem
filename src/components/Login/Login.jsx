@@ -16,7 +16,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('https://store-system-api.gleeze.com/api/auth/login', {
+      const response = await axios.post('http://192.168.43.191:3030/api/auth/login', {
         name,
         password,
       });
