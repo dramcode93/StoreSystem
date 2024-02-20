@@ -7,7 +7,7 @@ import LogOut from './../LogOut/LogOut';
 import { useParams } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 
-const API_URL = 'http://192.168.43.191:3030/api/products/list';
+const API_URL = 'http://localhost:3030/api/products/list';
 
 const UpdateBills = () => {
   const token = localStorage.getItem('token');
@@ -29,7 +29,7 @@ const UpdateBills = () => {
         setLoading(true);
         const productsResponse = await axios.get(API_URL, { headers: { Authorization: `Bearer ${token}` } });
         setProducts(productsResponse.data.data);
-        const billResponse = await axios.get(`http://192.168.43.191:3030/api/bills/${id}`, {
+        const billResponse = await axios.get(`http://localhost:3030/api/bills/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -113,7 +113,7 @@ const UpdateBills = () => {
         customerAddress,
       };
 
-      const response = await axios.put(`http://192.168.43.191:3030/api/bills/${id}`, requestBody, {
+      const response = await axios.put(`http://localhost:3030/api/bills/${id}`, requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
