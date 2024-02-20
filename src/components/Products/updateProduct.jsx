@@ -25,9 +25,9 @@ function UpdateProduct() {
             Authorization: `Bearer ${token}`,
           },
         });
-
+    
         const { data: categoriesData } = await axios.get(API_category, { headers: { Authorization: `Bearer ${token}` } });
-
+    
         setNewProductName(productData.data.name);
         setNewProductPrice(productData.data.price);
         setNewProductQuantity(productData.data.quantity);
@@ -39,7 +39,7 @@ function UpdateProduct() {
         setIsLoading(false);
       }
     };
-
+    
     fetchData();
   }, [id, token]);
 
@@ -64,18 +64,18 @@ function UpdateProduct() {
 
   return (
     <div>
-      <LogOut />
-      <MainComponent />
+      <LogOut/>
+      <MainComponent/>
       <div className={styles.updateCategoryContainer}>
         <h2><Translate>Update product</Translate></h2>
         <form>
           <select
-            name="category"
+            name="category"  
             onChange={(e) => setSelectedCategoryId(e.target.value)}
             value={selectedCategoryId}
           >
             <option disabled value=''>
-              <Translate>Select Category</Translate>
+              <Translate>Select Category</Translate>   
             </option>
             {categories.map((category) => (
               <option key={category._id} value={category._id}>
@@ -91,7 +91,7 @@ function UpdateProduct() {
             onChange={(e) => setNewProductName(e.target.value)}
           />
           <label htmlFor='price'>
-            <Translate> New product price :</Translate>
+            <Translate> New product price :</Translate>   
           </label>
           <input
             id='price'
@@ -100,7 +100,7 @@ function UpdateProduct() {
             onChange={(e) => setNewProductPrice(e.target.value)}
           />
           <label htmlFor='quantity'>
-            <Translate> New product quantity :</Translate>
+            <Translate> New product quantity :</Translate>   
           </label>
           <input
             id='quantity'
@@ -109,7 +109,7 @@ function UpdateProduct() {
             onChange={(e) => setNewProductQuantity(e.target.value)}
           />
           <button type="button" onClick={handleUpdateProduct} className='mb-2'><Translate>Update</Translate></button>
-          <Link to='/products' className='btn bg-danger w-100' ><Translate translations={{ ar: "الغي" }}>Canceling</Translate></Link>
+          <Link to='/products' className='btn bg-danger w-100' ><Translate translations={{ar:"الغي"}}>Canceling</Translate></Link>
         </form>
       </div>
     </div>

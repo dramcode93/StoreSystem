@@ -17,8 +17,8 @@ const AsideBar = ({ onSelect }) => {
     }
     
       </div>
-    </div>
-  )
+      </div>
+    )
 }
 
 export default AsideBar

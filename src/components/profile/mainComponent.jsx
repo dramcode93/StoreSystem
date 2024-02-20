@@ -10,8 +10,8 @@ const  AllComponent = ({ selectedPage }) => {
         {selectedPage === 'changePassword' && <ChangPassword />}
         {selectedPage === 'users' && <Users />}
       </div>
-    </div>
-  )
+        </div>
+    )
 }
 
 export default AllComponent

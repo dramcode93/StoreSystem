@@ -9,7 +9,7 @@ const MyComponent = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 100);
+      setIsScrolled(scrollPosition > 100); 
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -36,7 +36,7 @@ function LanguageSelector({ isScrolled }) {
   return (
     <div>
       <ul
-        className={`FormTranslate fw-bold font2 ${isScrolled ? "scrolled" : ""}`} >
+        className={`FormTranslate fw-bold font2 ${isScrolled ? "scrolled" : "" }`} >
         <p>
           <Translate translations={{ ar: "اختر اللغة" }}>
             Select Language

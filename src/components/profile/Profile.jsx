@@ -14,7 +14,7 @@ const Profile = () => {
   return (
     <div>
       <LogOut />
-      <MainComponent />
+      <MainComponent/>
       <div className={styles.profileContainer}>
         <div>
           <AsideBar onSelect={handlePageSelect} />

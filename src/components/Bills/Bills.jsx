@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 import ConfirmationModal from '../Category/ConfirmationModel';
 import MainComponent from './../Aside/MainComponent';
 import PrintButton from './PrintButton';
-import Loading from '../Loading/Loading';
+import Loading from '../Loading/Loading'; 
 import axios from 'axios';
 import LogOut from './../LogOut/LogOut';
 import { Translate } from 'translate-easy';
@@ -38,7 +38,7 @@ const Bills = () => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData, searchTerm, pagination.currentPge]);
+  }, [fetchData,searchTerm,pagination.currentPge]);
 
   const handleDeleteBill = useCallback((billId) => {
     setSelectedBillId(billId);
@@ -76,7 +76,7 @@ const Bills = () => {
     setSearchTerm(searchTerm);
   };
 
-  const handlePrint = (billId, sellerName, customerAddress) => {
+  const handlePrint = (billId,sellerName,customerAddress) => {
     const billToPrint = bills.find((bill) => bill._id === billId);
 
     if (billToPrint) {
@@ -170,7 +170,6 @@ const Bills = () => {
            <p> تاريخ الفاتورة : ${billToPrint.createdAt && new Date(billToPrint.createdAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })} </p>
            <p>النوع :  نقدى</p>
            <p> تاريخ تعديل الفاتورة : ${billToPrint.updatedAt && new Date(billToPrint.updatedAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })} </p>
-           <p>كود الفاتورة :  ${billToPrint._id.slice(-4)}</p>
            </div>
             </section>
             <h3> عنوان العميل : ${billToPrint.customerAddress}</h3>
@@ -225,28 +224,25 @@ const Bills = () => {
             <div>
               <input type="search" name="search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
               <button className='btn btn-primary' onClick={handleSearch}>
-                <Translate>A Search</Translate>
+               <Translate>A Search</Translate> 
               </button>
             </div>
           </div>
           {bills.map((bill) => (
             <div key={bill._id} className={styles.billsTable}>
-              <div className='flex '>
+              <div className='flex'>
                 <div>
                   <p>
-                    <Translate>Bill Code :</Translate>   {bill._id.slice(-4)}
+                  <Translate>Client Name :</Translate>   {bill.customerName}
                   </p>
                   <p>
-                    <Translate>Client Name :</Translate>   {bill.customerName}
-                  </p>
-                  <p>
-                    <Translate> Phone :</Translate> {bill.phone}
+                  <Translate> Phone :</Translate> {bill.phone}
                   </p>
                   <p>
                   <Translate> Name Seller:</Translate> {bill?.user.name}
                   </p>
                   <p>
-                    <Translate> customer Address :</Translate> {bill?.customerAddress}
+                  <Translate> customer Address :</Translate> {bill?.customerAddress}
                   </p>
                   <p>
                   <Translate>Bill Date :</Translate> {bill?.createdAt && new Date(bill.createdAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
@@ -264,7 +260,7 @@ const Bills = () => {
               <table>
                 <thead>
                   <tr>
-                    <th> <Translate>product</Translate> </th>
+                  <th> <Translate>product</Translate> </th>
                     <th><Translate>Price</Translate></th>
                     <th><Translate>Quantity</Translate></th>
                     <th><Translate>total price</Translate></th>
@@ -281,13 +277,13 @@ const Bills = () => {
                   ))}
                   <tr>
                     <td colSpan='2'>
-                      <Translate> Total :</Translate>  {bill.totalAmount}
+                    <Translate> Total :</Translate>  {bill.totalAmount}
                     </td>
                     <td>
-                      <Translate> Paid : </Translate> {bill.paidAmount}
+                    <Translate> Paid : </Translate> {bill.paidAmount}
                     </td>
                     <td>
-                      <Translate>Remaining : </Translate>  {bill.remainingAmount}
+                    <Translate>Remaining : </Translate>  {bill.remainingAmount}
                     </td>
                   </tr>
                 </tbody>
@@ -295,10 +291,10 @@ const Bills = () => {
               {decodedToken.role==="admin"&&
               <div className={styles.Actions}>
                 <Link to={`/updateBills/${bill._id}`} className={styles.updateBtn}>
-                  <Translate>Update</Translate>
+                 <Translate>Update</Translate> 
                 </Link>
                 <button className={styles.deleteBtn} onClick={() => handleDeleteBill(bill._id)}>
-                  <Translate>Delete</Translate>
+                 <Translate>Delete</Translate> 
                 </button>
               </div>
                   }

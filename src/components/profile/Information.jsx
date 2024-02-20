@@ -25,7 +25,7 @@ const Information = () => {
           const userData = response.data.data;
           setInfo(userData);
           setInputValues(userData);
-          return;
+          return; 
         } else {
           console.error('No token found.');
         }
@@ -41,7 +41,7 @@ const Information = () => {
     }
     setLoading(false);
   }, [token]);
-
+  
 
   useEffect(() => {
     fetchData();
@@ -54,16 +54,16 @@ const Information = () => {
       [name]: value,
     }));
   };
-
-  const handleEditToggle = (nameField, emailFields) => {
+  
+   const handleEditToggle = (nameField,emailFields) => {
     if (nameField === 'name') {
       setIsNameEditing(!isNameEditing);
-    }
+    }  
     if (emailFields === 'email') {
       setIsEmailEditing(!isEmailEditing);
     }
   };
-
+  
   const handleSaveChanges = async () => {
     try {
       if (token) {
@@ -79,6 +79,7 @@ const Information = () => {
           name: isNameEditing ? inputValues.name : prevInfo.name,
           email: isEmailEditing ? inputValues.email : prevInfo.email,
         }));
+  
         setIsNameEditing(false);
         setIsEmailEditing(false);
       } else {
@@ -88,10 +89,11 @@ const Information = () => {
       console.error('Error updating user information:', error);
     }
   };
-
+  
+  
     return (
     <div className={styles.profileInfo}>
-      <h3 className='fw-bold'><Translate>the Information</Translate></h3>
+      <h3 className='fw-bold'><Translate>Information Page</Translate></h3>
       <ul>
         <>
           <div>
@@ -104,7 +106,7 @@ const Information = () => {
           {isNameEditing || isEmailEditing ? (
             <button onClick={handleSaveChanges}><Translate>Save Changes</Translate></button>
           ) : (
-            <button onClick={() => handleEditToggle('name', 'email')}><Translate>An Editing</Translate></button>
+            <button onClick={() => handleEditToggle('name','email')}><Translate>An Editing</Translate></button>
           )}
         </div>
           }

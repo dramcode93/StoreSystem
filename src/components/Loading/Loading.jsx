@@ -6,9 +6,9 @@ import { Translate } from 'translate-easy';
 const Loading = () => {
   return (
     <div>
-      <div className="loading">
-      </div>
-      <Translate>LOADING</Translate>
+    <div className="loading">
+    </div>
+     <Translate>LOADING</Translate> 
     </div>
   );
 };
