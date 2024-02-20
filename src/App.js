@@ -18,6 +18,7 @@ import CategoryProducts from './components/Category/specificProducs';
 import ChangPassword from "./components/profile/ChangPassword.jsx";
  import CreateBillForm from "./components/Bills/createBills.jsx";
 import UpdateBills from "./components/Bills/UpdateBills.jsx";
+ import Users from "./components/profile/Users.jsx";
    
  
 const App = () => {
@@ -63,6 +64,8 @@ const App = () => {
               <Route path="/CreateBillForm" element={<CreateBillForm/>} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/Profile" element={<ChangPassword/>} />
+              <Route path="/Profile" element={<Users />} />
+              <Route path="/Profile/addUser" element={<formAdd/>} />
               <Route path="/category/:id/products" element={<CategoryProducts />} />
             </>
           ) : (

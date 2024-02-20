@@ -8,9 +8,8 @@ import Loading from '../Loading/Loading';
 import axios from 'axios';
 import LogOut from './../LogOut/LogOut';
 import { Translate } from 'translate-easy';
-
-
-const API_Bills = 'https://store-system-api.gleeze.com/api/bills';
+import { jwtDecode } from "jwt-decode";
+const API_Bills = 'http://192.168.43.191:3030/api/bills';
 
 const Bills = () => {
   const token = localStorage.getItem('token');
@@ -20,6 +19,7 @@ const Bills = () => {
   const [selectedBillId, setSelectedBillId] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const decodedToken = jwtDecode(token);
 
   const fetchData = useCallback(async () => {
     try {
@@ -166,7 +166,10 @@ const Bills = () => {
             <p>  رقم التليفون : ${billToPrint.phone} </p>
             </div>
            <div>
-           <p> اسم البائع : ${billToPrint.sellerName} </p>
+           <p> اسم البائع : ${billToPrint.user.name} </p>
+           <p> تاريخ الفاتورة : ${billToPrint.createdAt && new Date(billToPrint.createdAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })} </p>
+           <p>النوع :  نقدى</p>
+           <p> تاريخ تعديل الفاتورة : ${billToPrint.updatedAt && new Date(billToPrint.updatedAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })} </p>
            <p>كود الفاتورة :  ${billToPrint._id.slice(-4)}</p>
            </div>
             </section>
@@ -240,13 +243,17 @@ const Bills = () => {
                     <Translate> Phone :</Translate> {bill.phone}
                   </p>
                   <p>
-                    <Translate> Name Seller :</Translate> {bill?.sellerName}
+                  <Translate> Name Seller:</Translate> {bill?.user.name}
                   </p>
                   <p>
                     <Translate> customer Address :</Translate> {bill?.customerAddress}
                   </p>
                   <p>
                   <Translate>Bill Date :</Translate> {bill?.createdAt && new Date(bill.createdAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+
+                  </p>
+                  <p>
+                  <Translate>update Date :</Translate> {bill?.updatedAt && new Date(bill.updatedAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
 
                   </p>
                 </div>
@@ -285,6 +292,7 @@ const Bills = () => {
                   </tr>
                 </tbody>
               </table>
+              {decodedToken.role==="admin"&&
               <div className={styles.Actions}>
                 <Link to={`/updateBills/${bill._id}`} className={styles.updateBtn}>
                   <Translate>Update</Translate>
@@ -293,6 +301,7 @@ const Bills = () => {
                   <Translate>Delete</Translate>
                 </button>
               </div>
+                  }
             </div>
           ))}
           <ConfirmationModal show={showConfirmation} onConfirm={confirmDelete} onCancel={cancelDelete} />

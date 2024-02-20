@@ -11,7 +11,7 @@ const CategoryProducts = ({ Products }) => {
     useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await axios.get(`https://store-system-api.gleeze.com/api/categories/${id}/products`, {
+      const response = await axios.get(`http://192.168.43.191:3030/api/categories/${id}/products`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

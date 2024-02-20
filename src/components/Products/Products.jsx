@@ -7,10 +7,10 @@ import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import ConfirmationModal from '../Category/ConfirmationModel';
 import MainComponent from '../Aside/MainComponent';
+import { jwtDecode } from "jwt-decode";
 
-
-const API_URL = 'https://store-system-api.gleeze.com/api/products';
-const API_category = 'https://store-system-api.gleeze.com/api/categories/list';
+const API_URL = 'http://192.168.43.191:3030/api/products';
+const API_category = 'http://192.168.43.191:3030/api/categories/list';
 
 const Products = () => {
   const token = localStorage.getItem('token');
@@ -27,7 +27,7 @@ const Products = () => {
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [pagination, setPagination] = useState({});
-
+  const decodedToken = jwtDecode(token);
   const fetchData = useCallback(async () => {
     try {
       if (token) {
@@ -105,45 +105,50 @@ const Products = () => {
       <LogOut />
       <MainComponent />
       <div className={styles.container2}>
-        <form className={styles.AddSection}>
-          <select
-            name="category"
-            className={styles.inputField}
-            onChange={(e) => setSelectedCategoryId(e.target.value)}
-          >
-            <option selected disabled value=''>
-              <Translate>Select Category</Translate>
-            </option>
-            {categories.map((category) => (
-              <option key={category._id} value={category._id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-          <input
-            type="text"
-            name="name"
-            className={styles.inputField}
-            placeholder="إسم المنتج"
-            value={newProductName}
-            onChange={(e) => setNewProductName(e.target.value)}
-          />
-          <input
-            type="text"
-            name="price"
-            className={styles.inputField}
-            placeholder="السعر"
-            value={newProductPrice}
-            onChange={(e) => setNewProductPrice(e.target.value)}
-          />
-          <input
-            type="text"
-            name="quantity"
-            className={styles.inputField}
-            placeholder='الكمية'
-            value={newProductQuantity}
-            onChange={(e) => setNewProductQuantity(e.target.value)}
-          />
+      <form className={styles.AddSection}>
+      {decodedToken.role==="admin"&&
+       <>
+       <select
+       name="category"
+       className={styles.inputField}
+       onChange={(e) => setSelectedCategoryId(e.target.value)}
+     >
+       <option disabled selected value=''>
+         <Translate>Select Category</Translate>   
+       </option>
+       {categories.map((category) => (
+         <option key={category._id} value={category._id}>
+           {category.name}
+         </option>
+       ))}
+     </select>
+       
+     <input
+       type="text"
+       name="name"
+       className={styles.inputField}
+       placeholder="إسم المنتج"
+       value={newProductName}
+       onChange={(e) => setNewProductName(e.target.value)}
+     />
+     <input
+       type="text"
+       name="price"
+       className={styles.inputField}
+       placeholder="السعر"
+       value={newProductPrice}
+       onChange={(e) => setNewProductPrice(e.target.value)}
+     />
+     <input
+       type="text"
+       name="quantity"
+       className={styles.inputField}
+       placeholder='الكمية'
+       value={newProductQuantity}
+       onChange={(e) => setNewProductQuantity(e.target.value)}
+     />
+       </>
+      }
           <div className='flex'>
             <input
               type="text"
@@ -156,13 +161,17 @@ const Products = () => {
               <Translate>A Search</Translate>
             </button>
           </div>
+            
         </form>
+        {decodedToken.role==="admin"&&
         <button onClick={confirmAddProduct} className={styles.addButton}>
           <Translate translations={{ ar: 'ضيف', en: 'Add' }}>
             {selectedLanguage === 'ar' ? 'ضيف' : 'Add'}
           </Translate>
         </button>
-      </div>
+      }
+       </div>
+            
       <div className={styles.container}>
         {loading && <div className="m-5 fs-3"><Loading /></div>}
         {!loading && (
@@ -177,7 +186,9 @@ const Products = () => {
                     <th><Translate>Quantity</Translate></th>
                     <th><Translate>Price</Translate></th>
                     <th><Translate>Sold</Translate></th>
+                    {decodedToken.role==="admin"&&
                     <th className='px-5'><Translate>Actions</Translate></th>
+        }
                   </tr>
                 </thead>
                 <tbody>
@@ -189,6 +200,7 @@ const Products = () => {
                       <td>{product.quantity}</td>
                       <td>{product.price}</td>
                       <td>{product.sold}</td>
+                      {decodedToken.role==="admin"&&
                       <td>
                         <Link to={`/updateProduct/${product._id}`} className={styles.updateBtn}>
                           <Translate translations={{ ar: 'تعديل', en: 'update' }}>
@@ -201,6 +213,7 @@ const Products = () => {
                           </Translate>
                         </button>
                       </td>
+                  }
                     </tr>
                   ))}
                 </tbody>
