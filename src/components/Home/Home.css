@@ -1,188 +1,196 @@
-.marginHome{
-    padding-top: 8rem;
+.marginHome {
+  padding-top: 8rem;
 }
 
-.grid{
-    display: grid;
-    grid-template-columns: auto auto;
-    gap:4vw;
-    margin:10vh 25vw 0 ;
-    text-align: center;
-    }
-    
-    .imageSanitary{
-    width: 100px;
-    object-fit: contain;
-    }
-    
- .card1{
-    color: #f0f0f0;
-    width: 23vw;  
-    height: 22vh;
-    font-size: 20px;
-    border-radius:20px ;
-    font-weight: bold;
-    }
-    
-.back1{
-    background:#dc3546;
+.grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 4vw;
+  margin: 10vh 25vw 0;
+  text-align: center;
 }
 
-.back2{
-    background:#fec107 ;
+.imageSanitary {
+  width: 100px;
+  object-fit: contain;
 }
 
-.back3{
-    background:#27a844;
+.card1 {
+  color: #f0f0f0;
+  width: 23vw;
+  height: 22vh;
+  font-size: 20px;
+  border-radius: 20px;
+  font-weight: bold;
 }
 
-.back4{
-    background:#17a3b8;
+.back1 {
+  background: #dc3546;
 }
 
-.card1 .text1{
-    height: 14vh;
-    padding: 15px;
+.back2 {
+  background: #fec107;
 }
 
-.flex{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.back3 {
+  background: #27a844;
 }
 
-.border2{
-    border-top: 1px solid #f0f0f0;
-    border-end-start-radius:20px ;
-    border-end-end-radius: 20px;
-    width: 100%;
-    height: 35px;
-    padding: 4px;
-    margin: 3vh 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.back4 {
+  background: #17a3b8;
 }
 
-  .details1{
+.card1 .text1 {
+  height: 14vh;
+  padding: 15px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.border2 {
+  border-top: 1px solid #f0f0f0;
+  border-end-start-radius: 20px;
+  border-end-end-radius: 20px;
+  width: 100%;
+  height: 35px;
+  padding: 4px;
+  margin: 3vh 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.details1 {
   background-color: #c62f3e;
-  }
-
-  .details2{
-  background-color: #e6ad06;
-  }
-
-  .details3{
-  background-color: #24963e;
-  }
-
-  .details4{
-  background-color: #1491a5;
-  }
-
-.productLogo{
-    font-size: 60px;
-    opacity: .3;
 }
 
-  .font2{
-    font-family: 'Fjalla One', sans-serif;
-  } 
+.details2 {
+  background-color: #e6ad06;
+}
 
-  .charts{
+.details3 {
+  background-color: #24963e;
+}
+
+.details4 {
+  background-color: #1491a5;
+}
+
+.productLogo {
+  font-size: 60px;
+  opacity: .3;
+}
+
+.font2 {
+  font-family: 'Fjalla One', sans-serif;
+}
+
+.charts {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  }
-
-.charts img{
-  width: 15vw;
-  object-fit: contain;
-  padding-bottom:40px ;
 }
 
-.charts p{
+.charts img {
+  width: 15vw;
+  object-fit: contain;
+  padding-bottom: 40px;
+}
+
+.charts p {
   margin: auto;
   text-align: center;
   border-radius: 10px;
   padding: 5px;
 }
 
-  .chartBack1{
-    background-color: #FF914D;
-  }
+.chartBack1 {
+  background-color: #FF914D;
+}
 
-  .chartBack2{
-    background-color: #FFBD59;
-  }
+.chartBack2 {
+  background-color: #FFBD59;
+}
 
-  .chartBack3{
-    background-color: #FFDE59;
-  }
-  
-  
+.chartBack3 {
+  background-color: #FFDE59;
+}
 
-  @media (max-width: 1200px) {
-    .grid {
+
+
+@media (max-width: 1200px) {
+  .grid {
     grid-template-columns: auto auto auto;
     gap: 2vw;
   }
+
   .charts img {
     width: 20vw;
   }
+
   .card1 {
     width: 30vw;
   }
-.charts{
+
+  .charts {
     margin: auto;
-}
+  }
 }
 
 @media (max-width: 768px) {
-    .grid {
+  .grid {
     grid-template-columns: auto auto;
   }
-  .charts p{
+
+  .charts p {
     font-size: 16px;
   }
-  .grid{
+
+  .grid {
     gap: 5vw;
   }
+
   .charts img {
-      padding-bottom: 20px;
+    padding-bottom: 20px;
   }
+
   .card1 {
     width: 45vw;
   }
+}
+
+@media (max-width: 648px) {
+  .image2 {
+    margin: 0 3vw;
+  }
+}
+
+@media (max-width: 518px) {
+  .image2 {
+    margin: 0 5vw;
+  }
+}
+
+@media (max-width: 440px) {
+  .image2 {
+    margin: 0 7vw;
   }
 
-  @media (max-width: 648px) {
-.image2{
-  margin: 0 3vw;
+  .grid {
+    margin: 8vh 4vw;
+  }
 }
+
+@media (max-width: 400px) {
+  .image2 {
+    margin: 0 10vw;
   }
 
-  @media (max-width: 518px) {
-.image2{
-  margin: 0 5vw;
-}
+  .charts p {
+    font-size: 14px;
   }
-
-  @media (max-width: 440px) {
-.image2{
-  margin: 0 7vw;
 }
-.grid{
-  margin: 8vh 4vw;
-}
-  }
-  
-  @media (max-width: 400px) {
-.image2{
-  margin: 0 10vw;
-}
-.charts p{
-  font-size: 14px;
-}
-  }
-

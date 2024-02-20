@@ -3,14 +3,14 @@ import styles from './Profile.module.css';
 import axios from 'axios';
 import { Translate } from 'translate-easy';
 
-const API_password = 'http://192.168.43.191:3030/api/users/updateMyPassword';
+const API_password = 'https://store-system-api.gleeze.com/api/users/updateMyPassword';
 
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  
+
   let token = localStorage.getItem("token");
 
   const handleEditPassword = async (e) => {
@@ -22,14 +22,14 @@ const ChangePassword = () => {
         password,
         confirmPassword,
       }, { headers: { Authorization: `Bearer ${token}` } });
-      localStorage.setItem('token',response.data.token)
+      localStorage.setItem('token', response.data.token)
       console.log(response);
-      
+
     } catch (error) {
       console.error('An error occurred while sending the reset password request', error);
       setError('Password change failed. Please check your inputs and try again.');
     }
-    window.location.href='/profile'
+    window.location.href = '/profile'
   };
 
   return (

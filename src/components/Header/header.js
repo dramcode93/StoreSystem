@@ -2,15 +2,15 @@ import { useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 import "../../App.css"
 function Header() {
-  const[show,setshow]=useState(true)
-  const mode=()=>{
+  const [show, setshow] = useState(true)
+  const mode = () => {
     setshow(!show)
-    if(window.localStorage.getItem("mode")==="light"){
+    if (window.localStorage.getItem("mode") === "light") {
       document.body.classList.add('light');
       window.localStorage.setItem("mode", "dark")
       console.log(localStorage.getItem('mode'))
     }
-    else if(window.localStorage.getItem("mode")==="dark"){
+    else if (window.localStorage.getItem("mode") === "dark") {
       document.body.classList.remove('light');
       window.localStorage.setItem("mode", "light")
       console.log(localStorage.getItem('mode'))
@@ -18,19 +18,19 @@ function Header() {
   }
 
   if (window.localStorage.getItem("mode")) {
-    document.body.classList=localStorage.getItem("mode");
+    document.body.classList = localStorage.getItem("mode");
   }
-  else{
+  else {
     window.localStorage.setItem("mode", "dark")
-  }  
-  
+  }
+
   return (
     <>
-        <header className="flex"> 
-            <div id="icon" onClick={mode}>
-            {window.localStorage.getItem("mode")==="light"? <FaMoon/>:<FaSun/>}
-            </div>
-        </header>
+      <header className="flex">
+        <div id="icon" onClick={mode}>
+          {window.localStorage.getItem("mode") === "light" ? <FaMoon /> : <FaSun />}
+        </div>
+      </header>
     </>
   );
 }

@@ -9,7 +9,7 @@ import axios from 'axios';
 import LogOut from './../LogOut/LogOut';
 import { Translate } from 'translate-easy';
 import { jwtDecode } from "jwt-decode";
-const API_Bills = 'http://localhost:3030/api/bills';
+const API_Bills = 'https://store-system-api.gleeze.com/api/bills';
 
 const Bills = () => {
   const token = localStorage.getItem('token');
