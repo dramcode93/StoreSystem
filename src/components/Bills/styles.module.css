@@ -3,11 +3,11 @@
   margin: auto 5vw;
 }
 
-.flex{
+.flex {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 3vh ;
+  margin: 3vh;
   gap: 7vw;
 }
 
@@ -22,12 +22,24 @@
   display: inline-block;
 }
 
+.billsTable {
+  border: 1px solid var(--font);
+  padding: 4vh;
+  margin-top: 5vh;
+}
+
 .billsTable p {
   color: var(--font);
 }
 
 .billsTable :first-child {
   margin-top: 3vh;
+}
+
+table th {
+  background-color: var(--card);
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .deleteBtn,
@@ -42,7 +54,7 @@
 
 .updateBtn {
   background-color: #4caf50;
-  margin:0 2vw;
+  margin: 0 2vw;
 }
 
 .deleteBtn {
@@ -72,7 +84,7 @@ input {
   margin: 2vh 0;
 }
 
-.deleteButton{
+.deleteButton {
   width: fit-content;
   margin: 3vh;
   padding: 1vh 1vw;
@@ -81,12 +93,13 @@ input {
   background-color: #f44336;
 }
 
-.createBill form{
+.createBill form {
   width: 40vw;
   padding-top: 15vh;
 }
 
-.createBill form input,.createBill form select{
+.createBill form input,
+.createBill form select {
   width: 100%;
 }
 
@@ -100,22 +113,26 @@ input {
   .inputField {
     width: 13vw;
   }
-  .createBill form{
+
+  .createBill form {
     width: 52vw;
   }
 }
 
 @media only screen and (max-width: 953px) {
+
   .deleteBtn,
   .updateBtn {
     width: 11vw;
   }
-  .createBill form{
+
+  .createBill form {
     width: 60vw;
   }
 }
 
 @media only screen and (max-width: 890px) {
+
   .deleteBtn,
   .updateBtn {
     width: 7vw;
@@ -127,51 +144,60 @@ input {
   .inputField {
     width: 100%;
   }
-  .createBill form{
+
+  .createBill form {
     width: 75vw;
   }
-  .createBill form label{
+
+  .createBill form label {
     margin-top: 1vw;
   }
-  .deleteButton{
-    padding:1vh 2vw;
+
+  .deleteButton {
+    padding: 1vh 2vw;
   }
+
   .btn {
     border-radius: 8px;
   }
+
   .deleteBtn,
   .updateBtn {
     width: 9vw;
   }
+
   .tableWrapper {
     overflow-x: scroll;
   }
-   
+
   table {
-    width: auto; 
-    margin-left: 2vw; 
+    width: auto;
+    margin-left: 2vw;
   }
 
   table th,
   table td {
     white-space: nowrap;
-    min-width: 100px; 
+    min-width: 100px;
   }
+
   .billsTable table {
     width: auto;
   }
 }
 
-.Actions{
+.Actions {
   margin: 2vh;
   text-align: center;
 }
 
 @media only screen and (max-width: 750px) {
+
   .deleteBtn,
   .updateBtn {
     width: 8vw;
   }
+
   table th,
   table td {
     width: 50vw;
@@ -179,43 +205,50 @@ input {
 }
 
 @media only screen and (max-width: 710px) {
+
   .deleteBtn,
   .updateBtn {
     width: 9vw;
   }
-  .createBill form{
+
+  .createBill form {
     width: 70vw;
   }
 }
 
 @media only screen and (max-width: 690px) {
+
   .deleteBtn,
   .updateBtn {
     width: 10vw;
     padding: 1.5vh;
     margin: 0 2vw;
   }
-  .createBill form{
+
+  .createBill form {
     width: 75vw;
   }
 }
 
 @media only screen and (max-width: 510px) {
+
   .deleteBtn,
   .updateBtn {
     width: 12vw;
   }
-  .createBill form{
+
+  .createBill form {
     width: 90vw;
   }
-  .billsTable{
-     padding: 3vh 8vw 3vh 0;
+
+  .billsTable {
+    padding: 3vh 8vw 3vh 0;
     margin-top: 5vh;
   }
-  
+
 }
 
-.printButton{
+.printButton {
   width: fit-content;
   padding: 2vh 4vw;
   font-size: 18px;
@@ -223,24 +256,26 @@ input {
   border-radius: 10px;
 }
 
-.paginationNext{
+.paginationNext {
   width: fit-content;
   padding: 1vh 3vw;
   border-radius: 10px;
-margin: 1vh -2vw;
+  margin: 1vh -2vw;
 }
 
 @media only screen and (max-width: 470px) {
-  .createBill form{
+  .createBill form {
     width: 100vw;
-    }
-  .billsTable{
+  }
+
+  .billsTable {
     padding: 3vh 5vw 3vh 2vw;
- }
- table th,
- table td {
-   min-width: unset; 
- }
+  }
+
+  table th,
+  table td {
+    min-width: unset;
+  }
 }
 
 .tableWrapper {
@@ -252,17 +287,14 @@ margin: 1vh -2vw;
   color: var(--font);
   border-collapse: collapse;
   width: 100%;
-  margin: 3vh auto;
+  margin: 5vh auto;
   overflow-x: auto;
-  border: 1px solid var(--font);
-  padding: 4vh;
 }
+
+
 
 .billsTable table th,
 .billsTable table td {
-  background-color: var(--card);
-  font-weight: bold;
-  font-size: 18px;
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;

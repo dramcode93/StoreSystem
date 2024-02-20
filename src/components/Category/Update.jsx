@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Category.module.css';
 import { Translate } from 'translate-easy';
- import MainComponent from './../Aside/MainComponent';
+import MainComponent from './../Aside/MainComponent';
 import LogOut from './../LogOut/LogOut';
 
 function UpdateCategory() {
@@ -15,7 +15,7 @@ function UpdateCategory() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://192.168.43.191:3030/api/categories/${id}`, {
+        const response = await axios.get(`https://rich-blue-ladybug-robe.cyclic.app/api/categories/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,12 +32,13 @@ function UpdateCategory() {
   }, [id, token]);
 
   const handleUpdateCategory = () => {
-    axios.put(`http://192.168.43.191:3030/api/categories/${id}`, { name: newCategoryName }, {
+    axios.put(`https://rich-blue-ladybug-robe.cyclic.app/api/categories/${id}`, { name: newCategoryName }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => {
+        console.log(response.data.message);
         window.location.href = '/category';
       })
       .catch((error) => {
@@ -47,15 +48,15 @@ function UpdateCategory() {
 
   return (
     <div>
-    <LogOut/>
-    <MainComponent/>
+      <LogOut />
+      <MainComponent />
       <div className={styles.updateCategoryContainer}>
         <h2><Translate>Update Category</Translate></h2>
         <label>
-        <Translate> New Category Name:</Translate> 
+          <Translate> New Category Name:</Translate>
           <input
             type="text"
-            value={newCategoryName || ''}  
+            value={newCategoryName || ''}
             onChange={(e) => setNewCategoryName(e.target.value)}
             placeholder={categoryNamePlaceholder || ''}
           />

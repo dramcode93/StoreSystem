@@ -6,7 +6,7 @@ import MainComponent from './../Aside/MainComponent';
 import LogOut from './../LogOut/LogOut';
 import Loading from '../Loading/Loading';
 
-const API_URL = 'http://192.168.43.191:3030/api/products/list';
+const API_URL = 'https://rich-blue-ladybug-robe.cyclic.app/api/products/list';
 
 const BillForm = () => {
   const token = localStorage.getItem('token');
@@ -25,7 +25,9 @@ const BillForm = () => {
         setLoading(true);
         const productsResponse = await axios.get(`${API_URL}`, { headers: { Authorization: `Bearer ${token}` } });
         setProducts(productsResponse.data.data);
-      } 
+      } else {
+        console.error('No token found.');
+      }
     } catch (error) {
       console.error('Error fetching data:', error.message);
     } finally {
@@ -86,10 +88,11 @@ const BillForm = () => {
         customerAddress
       };
 
-      const response = await axios.post('http://192.168.43.191:3030/api/bills', requestBody, {
+      const response = await axios.post('https://rich-blue-ladybug-robe.cyclic.app/api/bills', requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
+      console.log('Bill created:', response.data);
       setCustomerName('');
       setPhoneNumber('');
       setPaidAmount('');
@@ -109,7 +112,7 @@ const BillForm = () => {
       <LogOut />
       <MainComponent />
       <form>
-        {loading &&<div className='m-5 fs-3 text-center'><Loading /></div>}
+        {loading && <div className='m-5 fs-3 text-center'><Loading /></div>}
         <div>
           <label htmlFor="customerName"><Translate>Client Name : </Translate></label>
           <input id="customerName" type="text" placeholder='Client Name' name="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
@@ -178,15 +181,14 @@ const BillForm = () => {
             <button type="button" title='Delete Product' className={styles.deleteButton} onClick={() => deleteProduct(index)}><Translate>X</Translate></button>
           </div>
         ))}
-        
+
         <div>
           <label htmlFor="paidAmount"><Translate>Paid Amount : </Translate></label>
           <input placeholder='Paid Amount' id="paidAmount" type="text" name="paidAmount" value={Number(paidAmount)} onChange={(e) => setPaidAmount(e.target.value)} />
         </div>
-        <button type="button" onClick={createBill} className={styles.addBtn} disabled={loading}>
-        {loading ? <Translate>Adding...</Translate> : <Translate>Create bill</Translate>}
-      </button>
-      
+        <button type="button" onClick={createBill} className={styles.addBtn}>
+          <Translate>Create Bill</Translate>
+        </button>
       </form>
     </div>
   );
