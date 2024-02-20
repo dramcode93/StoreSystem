@@ -274,3 +274,6 @@ width: 3vw;
     margin: 0 2vw;
   }
 }
+.categoryLink:hover{
+ color: #f44336 !important;
+}
