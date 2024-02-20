@@ -110,6 +110,15 @@ const Information = () => {
           )}
         </div>
           }
+        {decodedToken.role!=='user' &&
+        <div>
+          {isNameEditing || isEmailEditing ? (
+            <button onClick={handleSaveChanges}><Translate>Save Changes</Translate></button>
+          ) : (
+            <button onClick={() => handleEditToggle('name','email')}><Translate>An Editing</Translate></button>
+          )}
+        </div>
+          }
       </ul>
     </div>
   );
