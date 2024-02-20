@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Translate } from 'translate-easy';
-import forget from './forget.module.css'; 
+import forget from './forget.module.css';
 
 const ForgotPassword3 = () => {
   const [newPassword, setNewPassword] = useState('');
@@ -12,10 +12,10 @@ const ForgotPassword3 = () => {
   const handleForgetPassword = async () => {
     try {
       setLoading(true);
-      const response = await axios.put('http://192.168.43.191:3030/api/auth/resetPassword', {
+      const response = await axios.put('https://store-system-api.gleeze.com/api/auth/resetPassword', {
         newPassword,
         confirmNewPassword,
-      },{ headers: { Authorization: `Bearer ${resetToken}` } });
+      }, { headers: { Authorization: `Bearer ${resetToken}` } });
       setLoading(false);
       window.location.href = '/';
     } catch (error) {

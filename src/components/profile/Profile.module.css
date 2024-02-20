@@ -1,46 +1,48 @@
- body {
+body {
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
- }
+}
 
 .profileContainer {
   background-color: var(--back);
-   color: var(--font);
+  color: var(--font);
   display: flex;
   justify-content: space-between;
-   }
+}
 
-.profileInfo,.changePassword {
+.profileInfo,
+.changePassword {
   width: 40vw;
   position: absolute;
   top: 40%;
-  left: 38%; 
- }
+  left: 38%;
+}
 
- .profileInfo p{
+.profileInfo p {
   color: var(--font);
- }
+}
 
 .AsideBar {
-   position: absolute;
+  position: absolute;
   top: 14%;
-   left: 7%; 
+  left: 7%;
   width: 26vw;
   height: 80vh;
-    z-index: -2323;
-    box-shadow: 2px 0px 0px var(--font);
-   padding:30vh 40px;
-   color: var(--font);
-  }
+  z-index: -2323;
+  box-shadow: 2px 0px 0px var(--font);
+  padding: 30vh 40px;
+  color: var(--font);
+}
 
- .changePassword{
+.changePassword {
   top: 30%;
   z-index: -3243;
- }
+}
 
-.changePassword label,.changePassword button{
-margin-top: 10px;
+.changePassword label,
+.changePassword button {
+  margin-top: 10px;
 }
 
 input {
@@ -50,8 +52,8 @@ input {
   box-sizing: border-box;
   color: var(--font);
 }
-  
-.AsideBar button{
+
+.AsideBar button {
   border-radius: 10px;
 }
 
@@ -60,6 +62,7 @@ button:hover {
 }
 
 @media only screen and (max-width: 768px) {
+
   .profileInfo,
   .changePassword {
     width: 80%;
@@ -73,8 +76,9 @@ button:hover {
     padding: 10vh 20px;
     box-shadow: 0px 0px;
   }
+
   form {
     width: 70vw;
     padding: 5vh 7vh;
-}
+  }
 }

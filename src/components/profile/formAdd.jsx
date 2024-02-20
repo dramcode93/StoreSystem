@@ -3,8 +3,8 @@ import React from 'react'
 const formAdd = () => {
     return (
         <div>
-        formAdd
-        formAdd
+            formAdd
+            formAdd
         </div>
     )
 }

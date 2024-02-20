@@ -4,8 +4,8 @@ import axios from 'axios';
 import { Translate } from 'translate-easy';
 import { jwtDecode } from "jwt-decode";
 
-const API_info = 'http://192.168.43.191:3030/api/users/getMe';
-const API_update = 'http://192.168.43.191:3030/api/users/updateMe';
+const API_info = 'https://store-system-api.gleeze.com/api/users/getMe';
+const API_update = 'https://store-system-api.gleeze.com/api/users/updateMe';
 
 const Information = () => {
   const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ const Information = () => {
           const userData = response.data.data;
           setInfo(userData);
           setInputValues(userData);
-          return; 
+          return;
         } else {
           console.error('No token found.');
         }
@@ -41,7 +41,7 @@ const Information = () => {
     }
     setLoading(false);
   }, [token]);
-  
+
 
   useEffect(() => {
     fetchData();
@@ -54,16 +54,16 @@ const Information = () => {
       [name]: value,
     }));
   };
-  
-   const handleEditToggle = (nameField,emailFields) => {
+
+  const handleEditToggle = (nameField, emailFields) => {
     if (nameField === 'name') {
       setIsNameEditing(!isNameEditing);
-    }  
+    }
     if (emailFields === 'email') {
       setIsEmailEditing(!isEmailEditing);
     }
   };
-  
+
   const handleSaveChanges = async () => {
     try {
       if (token) {
@@ -73,13 +73,13 @@ const Information = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         console.log('Save Changes Response:', response.data.data);
-  
+
         setInfo(prevInfo => ({
           ...prevInfo,
           name: isNameEditing ? inputValues.name : prevInfo.name,
           email: isEmailEditing ? inputValues.email : prevInfo.email,
         }));
-  
+
         setIsNameEditing(false);
         setIsEmailEditing(false);
       } else {
@@ -89,27 +89,27 @@ const Information = () => {
       console.error('Error updating user information:', error);
     }
   };
-  
-  
-    return (
+
+
+  return (
     <div className={styles.profileInfo}>
       <h3 className='fw-bold'><Translate>Information Page</Translate></h3>
       <ul>
         <>
           <div>
-         <li> <p><Translate>Name :</Translate> {isNameEditing ? <input name="name" value={inputValues.name} onChange={handleInputChange} /> : info.name}</p></li>
-        <li>  <p><Translate>Email :</Translate> {isEmailEditing ? <input name="email" value={inputValues.email} onChange={handleInputChange} /> : info.email}</p></li>
-           </div>
+            <li> <p><Translate>Name :</Translate> {isNameEditing ? <input name="name" value={inputValues.name} onChange={handleInputChange} /> : info.name}</p></li>
+            <li>  <p><Translate>Email :</Translate> {isEmailEditing ? <input name="email" value={inputValues.email} onChange={handleInputChange} /> : info.email}</p></li>
+          </div>
         </>
-        {decodedToken.role!=='user' &&
-        <div>
-          {isNameEditing || isEmailEditing ? (
-            <button onClick={handleSaveChanges}><Translate>Save Changes</Translate></button>
-          ) : (
-            <button onClick={() => handleEditToggle('name','email')}><Translate>An Editing</Translate></button>
-          )}
-        </div>
-          }
+        {decodedToken.role !== 'user' &&
+          <div>
+            {isNameEditing || isEmailEditing ? (
+              <button onClick={handleSaveChanges}><Translate>Save Changes</Translate></button>
+            ) : (
+              <button onClick={() => handleEditToggle('name', 'email')}><Translate>An Editing</Translate></button>
+            )}
+          </div>
+        }
       </ul>
     </div>
   );

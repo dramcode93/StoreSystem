@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Translate } from 'translate-easy';
-import forget from './forget.module.css'; 
+import forget from './forget.module.css';
 
 const ForgotPassword2 = () => {
   const [verificationCode, setVerificationCode] = useState('');
@@ -11,9 +11,9 @@ const ForgotPassword2 = () => {
   const handleForgetPassword = async () => {
     try {
       setLoading(true);
-      const response = await axios.post('http://192.168.43.191:3030/api/auth/verifyResetPasswordCode', {
+      const response = await axios.post('https://store-system-api.gleeze.com/api/auth/verifyResetPasswordCode', {
         resetCode: verificationCode,
-      },{ headers: { Authorization: `Bearer ${resetToken}` } });
+      }, { headers: { Authorization: `Bearer ${resetToken}` } });
       setLoading(false);
       window.location.href = '/forgotPassword3';
     } catch (error) {
@@ -22,7 +22,7 @@ const ForgotPassword2 = () => {
     }
   };
 
-  return ( 
+  return (
     <div className={forget.forgetPasswordContainer}>
       <h4><Translate>Step 2 : Verify Identity</Translate></h4>
       <p><Translate>We've sent a verification code to your email. Please enter the code below.</Translate></p>
@@ -34,7 +34,7 @@ const ForgotPassword2 = () => {
       />
       <button onClick={handleForgetPassword} disabled={loading}>
         {loading ? <Translate>Loading...</Translate> : <Translate>Reset Password</Translate>}
-      </button> 
+      </button>
     </div>
   );
 };

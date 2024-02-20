@@ -1,116 +1,129 @@
- header {
+header {
   position: fixed;
-    margin: 5vh 0vh 5vh 20vw ;
-    gap: 3vw;
-  }
+  margin: 5vh 0vh 5vh 20vw;
+  gap: 3vw;
+}
 
-header #icon{
-   font-size: 2rem;
+header #icon {
+  font-size: 2rem;
   cursor: pointer;
   margin: 1% 70px 0 2vw;
   color: var(--font);
- }
+}
 
- @media only screen and (max-width: 1300px) {
-  header #icon{
+@media only screen and (max-width: 1300px) {
+  header #icon {
     margin-left: 80px;
   }
 }
+
 @media only screen and (max-width: 1200px) {
-  header #icon{
+  header #icon {
     margin-left: 7vw;
     margin-right: 23vw;
   }
 }
+
 @media only screen and (max-width: 1100px) {
-  header #icon{
+  header #icon {
     margin-left: 10vw;
     margin-right: 27vw;
   }
 }
+
 @media only screen and (max-width: 1000px) {
-  header #icon{
+  header #icon {
     margin-left: 12vw;
   }
 }
+
 @media only screen and (max-width: 950px) {
-  header #icon{
+  header #icon {
     margin-left: 15vw;
     margin-right: 30vw;
 
   }
 }
+
 @media only screen and (max-width: 850px) {
-  header #icon{
+  header #icon {
     margin-right: 33vw;
     margin-left: 17vw;
   }
 }
+
 @media only screen and (max-width: 800px) {
-  header #icon{
+  header #icon {
     margin-left: 20vw;
     margin-right: 36vw;
 
   }
 }
+
 @media only screen and (max-width: 700px) {
-  header #icon{
+  header #icon {
     margin-left: 24vw;
   }
 }
+
 @media only screen and (max-width: 650px) {
-  header #icon{
+  header #icon {
     margin-left: 30vw;
   }
 }
 
 @media only screen and (max-width: 580px) {
-  header #icon{
+  header #icon {
     margin-left: 35vw;
     margin-right: 60vw;
   }
+
   .FormTranslate {
-      width: 115px; 
+    width: 115px;
   }
 }
+
 @media only screen and (max-width: 530px) {
-  header #icon{
+  header #icon {
     margin-left: 40vw;
   }
 }
+
 @media only screen and (max-width: 480px) {
-  header #icon{
+  header #icon {
     margin-left: 39vw;
     margin-right: 54vw;
   }
 }
+
 @media only screen and (max-width: 380px) {
-  header #icon{
+  header #icon {
     margin-left: 41vw;
     margin-right: 57vw;
   }
 }
+
 @media only screen and (max-width: 290px) {
-  header #icon{
+  header #icon {
     margin-left: 37vw;
   }
 }
 
 /* login */
-.FormTranslate{
+.FormTranslate {
   margin: 5vh 170px 5vh 70px;
   border-radius: 8px;
   box-shadow: 0px 0px 1px 1px var(--font);
-   position: fixed;
+  position: fixed;
   width: 185px;
   padding: 10px;
-   text-align: center;
-  z-index: 2; 
+  text-align: center;
+  z-index: 2;
   background-color: var(--title);
-  color:var(--font);
+  color: var(--font);
 }
 
-.FormTranslate li{
+.FormTranslate li {
   list-style: none;
   border: 1px solid var(--font);
   padding: 5px 10px;
@@ -118,30 +131,31 @@ header #icon{
   display: none;
 }
 
-.FormTranslate p{
+.FormTranslate p {
   text-align: center;
   height: 15px;
-   vertical-align: middle;
+  vertical-align: middle;
 }
+
 @media only screen and (max-width: 768px) {
 
   .FormTranslate {
     margin: 5vh 10px 5vh 5vw;
- 
+
   }
-  }
+}
 
 @media only screen and (min-width: 769px) and (max-width: 1200px) {
-    .FormTranslate {
+  .FormTranslate {
     margin: 5vh 50px 5vh 10vw;
   }
-  }
+}
 
-.font{
+.font {
   font-family: 'Lobster', sans-serif;
 }
 
-ul:hover .arrow{
+ul:hover .arrow {
   rotate: 180deg;
   transition: all 1s;
   -webkit-transition: all 1s;
@@ -149,20 +163,21 @@ ul:hover .arrow{
   -ms-transition: all 1s;
   -o-transition: all 1s;
 }
-ul:hover li{
+
+ul:hover li {
   display: block;
 }
 
- .sticky-header {
-  background-color: #f8f8f8; 
+.sticky-header {
+  background-color: #f8f8f8;
 }
 
-  /* forget pass */
- .container1 {
+/* forget pass */
+.container1 {
   width: 700px;
   margin: auto;
   padding-top: 20vh;
-  background-color:var(--back);
+  background-color: var(--back);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   color: var(--font);
 }
@@ -182,7 +197,7 @@ button {
   width: 100%;
 }
 
- .ForgotPasswordStep1 {
+.ForgotPasswordStep1 {
   text-align: center;
 }
 

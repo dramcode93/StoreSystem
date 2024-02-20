@@ -1,4 +1,4 @@
- .container {
+.container {
   color: var(--font);
   display: flex;
   justify-content: center;
@@ -18,14 +18,14 @@
   margin: 0 auto;
 }
 
-table{
+table {
   width: 100%;
 }
 
 .categoryTable th,
 .categoryTable td {
   border: 1px solid #ddd;
-   padding: 8px;
+  padding: 8px;
   text-align: center;
 }
 
@@ -50,7 +50,7 @@ table{
 }
 
 .deleteBtn {
-   background-color: #f44336;
+  background-color: #f44336;
 }
 
 .AddSection {
@@ -142,7 +142,7 @@ table{
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
-.updateCategoryContainer input{
+.updateCategoryContainer input {
   margin-bottom: 20px;
   width: 100%;
 }
@@ -159,7 +159,8 @@ label {
   font-size: 16px;
 }
 
-input,select {
+input,
+select {
   width: 100%;
   padding: 8px;
   font-size: 16px;
@@ -182,7 +183,8 @@ button {
   display: flex;
 }
 
-.inputField,.inputsearch {
+.inputField,
+.inputsearch {
   margin: 10px;
   width: 25vw;
 }
@@ -201,27 +203,28 @@ button {
   font-size: 20px;
 }
 
-.paginationNext{
+.paginationNext {
   width: fit-content;
   padding: 1vh 3vw;
   border-radius: 10px;
-margin: 1vh -2vw;
+  margin: 1vh -2vw;
 }
 
- @media only screen and (max-width: 1300px) {
-  .inputField{
+@media only screen and (max-width: 1300px) {
+  .inputField {
     width: 15vw;
-}
+  }
 }
 
 @media only screen and (max-width: 1200px) {
-  .inputField{
+  .inputField {
     width: 13vw;
+  }
 }
-}
- 
+
 
 @media only screen and (max-width: 953px) {
+
   .deleteBtn,
   .updateBtn {
     width: 7vw;
@@ -229,26 +232,29 @@ margin: 1vh -2vw;
 }
 
 @media only screen and (max-width: 890px) {
-.deleteBtn,
-.updateBtn {
-  width: 7vw;
-  padding: 1.5vh .5vw;
-}
+
+  .deleteBtn,
+  .updateBtn {
+    width: 7vw;
+    padding: 1.5vh .5vw;
+  }
 }
 
 @media only screen and (max-width: 769px) {
+
   .categoryTable td,
   .categoryTable th {
     width: 100%;
-    white-space: nowrap; 
+    white-space: nowrap;
   }
-  table{
+
+  table {
     width: 100%;
   }
 
   .addCategory {
     width: 70%;
-    margin: auto ;
+    margin: auto;
   }
 
   .AddSection {
@@ -267,186 +273,218 @@ margin: 1vh -2vw;
   .buttonContainer {
     width: 100%;
   }
-  .inputsearch{
+
+  .inputsearch {
     width: 30vw;
     margin: 2vh 2vw 2vh 10vw;
   }
 
-.container2{
-  margin: 0 -3vw;
-}
-.container2 button{
-  width: 48vw;
-  margin-left: 24vw;
-}
+  .container2 {
+    margin: 0 -3vw;
+  }
+
+  .container2 button {
+    width: 48vw;
+    margin-left: 24vw;
+  }
 
   .addButton {
-     border-radius: 8px;
-     margin-top: 0vh;
-     margin-right: 28vw;
-      }
-      
-      .categoryTable {
-        width: 100%; 
-        margin: 1vh 6vw;
-      }
- }
- 
- @media only screen and (max-width: 750px) {
-.deleteBtn,
-.updateBtn {
-  width: 10vw;
+    border-radius: 8px;
+    margin-top: 0vh;
+    margin-right: 28vw;
+  }
+
+  .categoryTable {
+    width: 100%;
+    margin: 1vh 6vw;
+  }
 }
-.categoryTable th,
-.categoryTable td {
-  width: 25vw;
-}
+
+@media only screen and (max-width: 750px) {
+
+  .deleteBtn,
+  .updateBtn {
+    width: 10vw;
+  }
+
+  .categoryTable th,
+  .categoryTable td {
+    width: 25vw;
+  }
 }
 
 @media only screen and (max-width: 710px) {
-  .deleteBtn,.updateBtn {
-width: 37%;
-}
-}
- 
-@media only screen and (max-width: 690px) {
+
   .deleteBtn,
   .updateBtn {
-     padding: 1.5vh;
+    width: 37%;
+  }
+}
+
+@media only screen and (max-width: 690px) {
+
+  .deleteBtn,
+  .updateBtn {
+    padding: 1.5vh;
     margin: 0 2vw;
   }
-  .container2 button{
-width:53vw ;
+
+  .container2 button {
+    width: 53vw;
   }
+
   .addButton {
     margin-right: 25vw;
-     }
+  }
 }
+
 @media only screen and (max-width: 630px) {
- 
-  .container2 button{
-width:52vw ;
+
+  .container2 button {
+    width: 52vw;
   }
+
   .addButton {
     margin-right: 26vw;
-     }
+  }
 }
+
 @media only screen and (max-width: 620px) {
- 
-  .container2 button{
-width:50vw ;
+
+  .container2 button {
+    width: 50vw;
   }
+
   .addButton {
     margin-right: 26vw;
-     }
-}
-@media only screen and (max-width: 560px) {
- 
-  .container2 button{
-width:48vw ;
   }
+}
+
+@media only screen and (max-width: 560px) {
+
+  .container2 button {
+    width: 48vw;
+  }
+
   .addButton {
     margin-right: 29vw;
-     }
-}
-@media only screen and (max-width: 520px) {
- 
-  .container2 button{
-width:56vw ;
   }
+}
+
+@media only screen and (max-width: 520px) {
+
+  .container2 button {
+    width: 56vw;
+  }
+
   .addButton {
     margin-right: 27vw;
-     }
-   .AddSection{
+  }
+
+  .AddSection {
     width: 90vw;
     margin: auto;
-   }
-}
-@media only screen and (max-width: 490px) {
- 
-  .container2 button{
-width:54vw ;
   }
+}
+
+@media only screen and (max-width: 490px) {
+
+  .container2 button {
+    width: 54vw;
+  }
+
   .addButton {
     margin-right: 27vw;
-     }
- 
-}
-@media only screen and (max-width: 450px) {
- 
-  .container2 button{
-width:50vw ;
   }
+
+}
+
+@media only screen and (max-width: 450px) {
+
+  .container2 button {
+    width: 50vw;
+  }
+
   .addButton {
     margin-right: 29vw;
-     }
- 
+  }
+
 }
 
 @media only screen and (max-width: 440px) {
- 
-  .container2 button{
-width:48vw ;
+
+  .container2 button {
+    width: 48vw;
   }
+
   .addButton {
     margin-right: 32vw;
-     }
-   .AddSection{
-    width: 100vw;
-   }
-}
-@media only screen and (max-width: 410px) {
- 
-  .container2 button{
-width:68vw ;
   }
+
+  .AddSection {
+    width: 100vw;
+  }
+}
+
+@media only screen and (max-width: 410px) {
+
+  .container2 button {
+    width: 68vw;
+  }
+
   .addButton {
     margin-right: 25vw;
-     }
-   .AddSection{
+  }
+
+  .AddSection {
     width: 110vw;
     margin: auto;
-   }
-}
-@media only screen and (max-width: 391px) {
- 
-  .container2 button{
-width:58vw ;
   }
-  
+}
+
+@media only screen and (max-width: 391px) {
+
+  .container2 button {
+    width: 58vw;
+  }
+
   .addButton {
     margin-right: 29vw;
-     }
+  }
 
-   .AddSection{
+  .AddSection {
     width: 110vw;
     margin: auto;
-   }
-}
-@media only screen and (max-width: 360px) {
- 
-  .container2 button{
-width:65vw ;
   }
-  .addButton {
-    margin-right: 28vw;
-     }
-   .AddSection{
-    width: 105vw;
-    margin: auto;
-   }
 }
 
-.paginationNext{
+@media only screen and (max-width: 360px) {
+
+  .container2 button {
+    width: 65vw;
+  }
+
+  .addButton {
+    margin-right: 28vw;
+  }
+
+  .AddSection {
+    width: 105vw;
+    margin: auto;
+  }
+}
+
+.paginationNext {
   width: fit-content;
   padding: 1vh 3vw;
   border-radius: 10px;
-margin: 1vh -2vw;
+  margin: 1vh -2vw;
 }
-.flex{
+
+.flex {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 3vh ;
+  margin: 3vh;
   gap: 7vw;
 }
