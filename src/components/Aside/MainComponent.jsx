@@ -28,7 +28,7 @@ const MainComponent = () => {
           <Link to="/home">
             <Translate>Main Page</Translate>
           </Link>
-    {decodedToken.role === "admin" &&
+    {decodedToken.role !== "manager" &&
           <>
           <Link to="/category">
             <Translate>Categories</Translate>
