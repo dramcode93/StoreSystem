@@ -13,13 +13,13 @@ const API_Bills = 'http://localhost:3030/api/bills';
 
 const Bills = () => {
   const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
   const [bills, setBills] = useState([]);
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
   const [selectedBillId, setSelectedBillId] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const decodedToken = jwtDecode(token);
 
   const fetchData = useCallback(async () => {
     try {

@@ -109,7 +109,7 @@ const Users = () => {
                       <td>{user?.role}</td>
                       {decodedToken._id !== user._id &&
                       <td>
-                        <button
+                        <button className='border'
                           value={!user.active}
                           onClick={() => handleUpdateActive(user._id, !user.active)}
                         >
