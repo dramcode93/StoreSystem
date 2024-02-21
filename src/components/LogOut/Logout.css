@@ -1,11 +1,19 @@
-.LogOutBtn {
+.LogOutBtn,.userName {
     width: 10vw;
     border-radius: 10px;
     font-weight: bold;
     position: fixed;
-    margin: 5vh 86vw 5vh 86vw;
+    margin: 5vh 70vw 5vh 86vw;
     padding: 14px 0;
     color: var(--font);
+}
+
+.userName{
+    margin: 5vh 81vw 5vh 86vw;
+    font-size: 18px;
+    width: 18vw;
+    padding: 14px 10px;
+    border: 1px solid var(--card);
 }
 
 @media only screen and (min-width: 769px) and (max-width: 1200px) {

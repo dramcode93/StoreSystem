@@ -66,7 +66,7 @@ const App = () => {
               <Route path="/CreateBillForm" element={<CreateBillForm />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/Profile" element={<ChangPassword />} />
-              <Route path="/Profile" element={<Users />} />
+              <Route path="/Profile/Users" element={<Users />} />
               <Route path="/Profile/addUser" element={<formAdd />} />
               <Route path="/category/:id/products" element={<CategoryProducts />} />
             </>

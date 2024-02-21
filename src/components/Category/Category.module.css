@@ -29,6 +29,7 @@
   width: 35vw;
   padding: 8px;
   text-align: center;
+  color: var(--font);
 }
 
 .categoryTable th {
@@ -305,6 +306,5 @@ label {
 
 .index {
   z-index: 235;
-  background-color: var(--back);
   height: 100%;
  }

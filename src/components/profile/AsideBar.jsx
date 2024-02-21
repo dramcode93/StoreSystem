@@ -2,6 +2,7 @@ import React from 'react'
 import styles from '../profile/Profile.module.css'
 import { Translate } from 'translate-easy'
 import { jwtDecode } from "jwt-decode";
+import { Link } from 'react-router-dom';
 
 const AsideBar = ({ onSelect }) => {
   const token = localStorage.getItem('token');
@@ -13,7 +14,7 @@ const AsideBar = ({ onSelect }) => {
         <button onClick={() => onSelect('information')} className='my-3'><Translate>the Information</Translate></button>
         <button onClick={() => onSelect('changePassword')}><Translate>Change Password</Translate></button>
         {decodedToken.role !== 'user' &&
-          <button className='mt-3' onClick={() => onSelect('users')}><Translate>Users</Translate></button>
+          <Link to= '/Profile/Users' className='mt-3'><Translate>Users</Translate></Link>
         }
 
       </div>
