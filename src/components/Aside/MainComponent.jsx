@@ -4,15 +4,18 @@ import { Translate } from 'translate-easy';
 import { FaBars } from 'react-icons/fa';
 import LogoImage from '../../Images/Modern Creative Technology Logo.svg';
 import './styles.css';
-
+import { jwtDecode } from "jwt-decode";
 const MainComponent = () => {
   const [showSidebar, setShowSidebar] = useState(false);
-
+  const token = localStorage.getItem('token');
+  
+  const decodedToken = jwtDecode(token);
   const toggleSidebar = () => {
     setShowSidebar(prevState => !prevState);
   };
 
   return (
+    
     <div className={`main-container ${showSidebar ? 'show-sidebar' : ''}`}>
       <div className={`sidebar ${showSidebar ? 'show-sidebar' : ''}`}>
         <button className="toggle-button" onClick={toggleSidebar}>
@@ -25,6 +28,8 @@ const MainComponent = () => {
           <Link to="/home">
             <Translate>Main Page</Translate>
           </Link>
+    {decodedToken.role === "admin" &&
+          <>
           <Link to="/category">
             <Translate>Categories</Translate>
           </Link>
@@ -34,6 +39,8 @@ const MainComponent = () => {
           <Link to="/bills">
             <Translate>Bills</Translate>
           </Link>
+            </>
+          }
           <Link to="/profile">
             <Translate>Profile</Translate>
           </Link>

@@ -9,8 +9,8 @@ import ConfirmationModal from '../Category/ConfirmationModel';
 import MainComponent from '../Aside/MainComponent';
 import { jwtDecode } from "jwt-decode";
 
-const API_URL = 'https://store-system-api.gleeze.com/api/products';
-const API_category = 'https://store-system-api.gleeze.com/api/categories/list';
+const API_URL = 'http://localhost:3030/api/products';
+const API_category = 'http://localhost:3030/api/categories/list';
 
 const Products = () => {
   const token = localStorage.getItem('token');
@@ -40,7 +40,7 @@ const Products = () => {
         console.error('No token found.');
       }
     } catch (error) {
-      console.error('Error fetching data:', error.message);
+      console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
     }
@@ -219,7 +219,7 @@ const Products = () => {
                 </tbody>
               </table>
               <ConfirmationModal show={showConfirmation} onConfirm={confirmDelete} onCancel={cancelDelete} />
-              {products.length === 0 && <p>No categories available</p>}
+              {products.length === 0 && <p>No Products available</p>}
             </div>
           </>
         )}

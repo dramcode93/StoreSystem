@@ -4,8 +4,8 @@ import axios from 'axios';
 import { Translate } from 'translate-easy';
 import { jwtDecode } from "jwt-decode";
 
-const API_info = 'https://store-system-api.gleeze.com/api/users/getMe';
-const API_update = 'https://store-system-api.gleeze.com/api/users/updateMe';
+const API_info = 'http://localhost:3030/api/users/getMe';
+const API_update = 'http://localhost:3030/api/users/updateMe';
 
 const Information = () => {
   const [loading, setLoading] = useState(true);
@@ -30,7 +30,7 @@ const Information = () => {
           console.error('No token found.');
         }
       } catch (error) {
-        console.error('Error fetching user information:', error.message);
+        console.error('Error fetching user information:', error);
         retries--;
         if (retries === 0) {
           console.error('Maximum retries reached.');
@@ -72,7 +72,6 @@ const Information = () => {
           { name: isNameEditing ? inputValues.name : info.name, email: isEmailEditing ? inputValues.email : info.email },
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        console.log('Save Changes Response:', response.data.data);
 
         setInfo(prevInfo => ({
           ...prevInfo,

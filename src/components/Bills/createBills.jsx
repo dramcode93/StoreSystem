@@ -6,7 +6,7 @@ import MainComponent from './../Aside/MainComponent';
 import LogOut from './../LogOut/LogOut';
 import Loading from '../Loading/Loading';
 
-const API_URL = 'https://store-system-api.gleeze.com/api/products/list';
+const API_URL = 'http://localhost:3030/api/products/list';
 
 const BillForm = () => {
   const token = localStorage.getItem('token');
@@ -27,7 +27,7 @@ const BillForm = () => {
         setProducts(productsResponse.data.data);
       }
     } catch (error) {
-      console.error('Error fetching data:', error.message);
+      console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
     }
@@ -86,7 +86,7 @@ const BillForm = () => {
         customerAddress
       };
 
-      const response = await axios.post('https://store-system-api.gleeze.com/api/bills', requestBody, {
+      const response = await axios.post('http://localhost:3030/api/bills', requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -98,7 +98,7 @@ const BillForm = () => {
       setSelectedProducts([{ productId: '', quantity: '', price: 0 }]);
       window.location.href = '/bills';
     } catch (error) {
-      console.error('Error creating bill:', error.message);
+      console.error('Error creating bill:', error);
     } finally {
       setLoading(false);
     }
