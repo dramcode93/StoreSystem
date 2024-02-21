@@ -1,23 +1,23 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react';
 import { Translate, useLanguage } from 'translate-easy';
-import ConfirmationModal from '../Category/ConfirmationModel';
-import styles from "../Category/Category.module.css"
-import { Link } from 'react-router-dom';
+import styles from '../Category/Category.module.css';
+import { Link, useParams } from 'react-router-dom';
 import Loading from '../Loading/Loading';
-const API_users = 'https://store-system-api.gleeze.com/api/users';
+
+const API_users = 'http://localhost:3030/api/users';
+
 const Users = () => {
   const token = localStorage.getItem('token');
   const [users, setUsers] = useState([]);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
   const { selectedLanguage } = useLanguage();
   const decodedToken = jwtDecode(token);
+  const { id } = useParams();
 
   const fetchData = useCallback(async () => {
     try {
@@ -27,7 +27,7 @@ const Users = () => {
         setPagination(response.data.paginationResult);
       }
     } catch (error) {
-      console.error('Error fetching categories:', error.message);
+      console.error('Error fetching users:', error);
     } finally {
       setLoading(false);
     }
@@ -41,32 +41,31 @@ const Users = () => {
     setSearchInput(searchTerm);
   };
 
-
-  const confirmDelete = useCallback(() => {
-    axios.delete(`${API_users}/${selectedCategoryId}`, { headers: { Authorization: `Bearer ${token}` } })
-      .then(() => fetchData())
-      .catch((error) => console.error('Error deleting category:', error))
-      .finally(() => {
-        setShowConfirmation(false);
-        setSelectedCategoryId(null);
-      });
-  }, [selectedCategoryId, token, fetchData]);
-
-  const cancelDelete = useCallback(() => {
-    setShowConfirmation(false);
-    setSelectedCategoryId(null);
-  }, []);
-
-
-
   const handlePageChange = (newPage) => {
     setPagination({
       ...pagination,
-      currentPge: newPage
+      currentPge: newPage,
     });
-  }
+  };
+
+  const handleUpdateActive = (id, newActiveStatus) => {
+    axios
+      .put(`http://localhost:3030/api/users/${id}`, { active: newActiveStatus }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        // Refresh the user list after updating the active status
+        fetchData();
+      })
+      .catch((error) => {
+        console.error('Error updating user:', error);
+      });
+  };
+
   return (
-    <div>
+    <div className={styles.index}>
       <div className={styles.flex}>
         <div>
           <input type="search" name="search" className={styles.margin} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
@@ -74,15 +73,13 @@ const Users = () => {
             <Translate>A Search</Translate>
           </button>
         </div>
-        {decodedToken.role !== "user" &&
-          <div>
-            <Link to='/profile/formAdd' className='btn btn-primary' >
-              <Translate translations={{ ar: 'ضيف', en: 'Add' }}>{selectedLanguage === 'ar' ? 'ضيف' : 'Add'}</Translate>
-            </Link>
-          </div>
-        }
+        <div>
+          <Link to='/profile/formAdd' className='btn btn-primary' >
+            <Translate translations={{ ar: 'ضيف', en: 'Add' }}>{selectedLanguage === 'ar' ? 'ضيف' : 'Add'}</Translate>
+          </Link>
+        </div>
       </div>
-      <div className={styles.container}>
+      <div className={styles.container4}>
         {loading && <div className='m-5 fs-3'><Loading /></div>}
         {!loading && (
           <>
@@ -92,43 +89,49 @@ const Users = () => {
                   <tr>
                     <th><Translate>ID</Translate></th>
                     <th><Translate>Name</Translate></th>
-                    <th><Translate>Email</Translate></th>
                     <th><Translate>Role</Translate></th>
                     <th><Translate>Active</Translate></th>
-                    {decodedToken.role !== "user" &&
-                      <th><Translate>Actions</Translate></th>
-                    }
+                    <th><Translate>Actions</Translate></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map(category => (
-                    <tr key={category._id}>
-                      <td>{category._id.slice(-4)}</td>
-                      <td>
-                        <Link to={`/category/${category._id}/products`} className={styles.categoryLink}>
-                          {category.name}
-                        </Link>
-                      </td>
-                      <td>{category?.email}</td>
-                      <td>{category?.role}</td>
-                      <td><button>{category.active === true ? <Translate>active</Translate> : <Translate>deactive</Translate>}</button></td>
-                      {decodedToken.role !== "user" &&
+                  {users.map((user) => (
+                    <tr key={user._id}>
+                      <td>{user._id.slice(-4)}</td>
+                      {decodedToken.role === 'admin' && (
                         <td>
-                          <Link to={`/update/${category._id}`} className={styles.updateBtn}>
-                            <Translate translations={{ ar: 'تعديل', en: 'update' }}>{selectedLanguage === 'ar' ? 'تعديل' : 'update'}</Translate>
+                          <Link to={`/users/${user._id}/userBills`} className={styles.categoryLink}>
+                            {user.name}
                           </Link>
                         </td>
-                      }
+                      )}
+                      {decodedToken.role === 'manager' && <td>{user.name}</td>}
+                      <td>{user?.role}</td>
+                      {decodedToken._id !== user._id &&
+                      <td>
+                        <button
+                          value={!user.active}
+                          onClick={() => handleUpdateActive(user._id, !user.active)}
+                        >
+                          {user.active === true ? (
+                            <Translate>active</Translate>
+                          ) : (
+                            <Translate>deactive</Translate>
+                          )}
+                        </button>
+                      </td>}
+                      {decodedToken.role !== 'user' &&
+                        user.role !== 'manager' && (
+                          <td>
+                            <Link to={`/changeUserPassword/${user._id}`} className={styles.deleteBtn}>
+                              <Translate translations={{ ar: 'تغيير كلمة المرور', en: 'change password' }}>{selectedLanguage === 'ar' ? 'تغيير كلمة المرور' : 'change password'}</Translate>
+                            </Link>
+                          </td>
+                        )}
                     </tr>
                   ))}
                 </tbody>
               </table>
-              <ConfirmationModal
-                show={showConfirmation}
-                onConfirm={confirmDelete}
-                onCancel={cancelDelete}
-              />
-              {users.length === 0 && <p>No categories available</p>}
             </div>
           </>
         )}
@@ -149,7 +152,7 @@ const Users = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Users
+export default Users;

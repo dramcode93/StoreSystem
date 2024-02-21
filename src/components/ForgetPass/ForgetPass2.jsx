@@ -11,7 +11,7 @@ const ForgotPassword2 = () => {
   const handleForgetPassword = async () => {
     try {
       setLoading(true);
-      const response = await axios.post('https://store-system-api.gleeze.com/api/auth/verifyResetPasswordCode', {
+      const response = await axios.post('http://localhost:3030/api/auth/verifyResetPasswordCode', {
         resetCode: verificationCode,
       }, { headers: { Authorization: `Bearer ${resetToken}` } });
       setLoading(false);

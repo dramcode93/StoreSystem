@@ -1,9 +1,14 @@
-.container {
+.containe,
+.container4 {
   color: var(--font);
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
+}
+
+.container4 {
+  margin: auto 6vw;
 }
 
 .margin {
@@ -13,9 +18,9 @@
 .categoryTable {
   border-collapse: collapse;
   width: 85vw;
-  max-height: 60vh; 
-  overflow-y: auto; 
-  margin: 0 auto 2vh; 
+  max-height: 60vh;
+  overflow-y: auto;
+  margin: 0 auto 2vh;
 }
 
 .categoryTable th,
@@ -32,7 +37,8 @@
   font-size: 18px;
 }
 
-.deleteBtn,.updateBtn {
+.deleteBtn,
+.updateBtn {
   margin-right: 15px;
   cursor: pointer;
   width: 8vw;
@@ -131,11 +137,11 @@
   color: #fff;
 }
 
-.flex{
+.flex {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 3vh ;
+  margin: 3vh;
   gap: 7vw;
 }
 
@@ -151,8 +157,8 @@
   border-radius: 8px;
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
 }
- 
- h2 {
+
+h2 {
   color: #333;
   font-size: 24px;
   margin-bottom: 20px;
@@ -164,23 +170,24 @@ label {
   font-size: 16px;
 }
 
- .navigation1{
+.navigation1 {
   text-align: center;
-  margin: 4vh 40vw ;
+  margin: 4vh 40vw;
 }
 
-.paginationNext{
+.paginationNext {
   width: fit-content;
   padding: 1vh 3vw;
   border-radius: 10px;
-margin: 1vh -2vw;
+  margin: 1vh -2vw;
 }
 
- @media only screen and (max-width: 768px) {
+@media only screen and (max-width: 768px) {
   .categoryTable {
-    width: 100%; 
+    width: 100%;
     margin: 0 6vw;
   }
+
   .updateCategoryContainer {
     width: 80vw;
     left: 10%;
@@ -188,54 +195,8 @@ margin: 1vh -2vw;
   }
 }
 
- @media only screen and (max-width: 890px) {
-  .deleteBtn,.updateBtn {
-width: 9vw;
-}
-}
-
 @media only screen and (max-width: 890px) {
-  .deleteBtn,.updateBtn {
-width: 11vw;
-}
-}
 
-@media only screen and (max-width: 750px) {
-  .deleteBtn,.updateBtn {
-width: 10vw;
-}
-.categoryTable th,
-.categoryTable td {
-  width: 25vw;
-}
-}
-
-@media only screen and (max-width: 710px) {
-  .deleteBtn,.updateBtn {
-width: 37%;
-}
-}
-
-@media only screen and (max-width: 690px) {
-  .deleteBtn,.updateBtn {
-width: 3vw;
-}
-}
-
- @media only screen and (max-width: 768px) {
-  .categoryTable {
-    width: 100%;
-    margin: 0 6vw;
-    overflow-x: auto;  
-  }
-
-  .categoryTable th,
-  .categoryTable td {
-    white-space: nowrap;  
-  }
-}
-
- @media only screen and (max-width: 890px) {
   .deleteBtn,
   .updateBtn {
     width: 9vw;
@@ -243,6 +204,7 @@ width: 3vw;
 }
 
 @media only screen and (max-width: 890px) {
+
   .deleteBtn,
   .updateBtn {
     width: 11vw;
@@ -250,10 +212,12 @@ width: 3vw;
 }
 
 @media only screen and (max-width: 750px) {
+
   .deleteBtn,
   .updateBtn {
     width: 10vw;
   }
+
   .categoryTable th,
   .categoryTable td {
     width: 25vw;
@@ -261,6 +225,7 @@ width: 3vw;
 }
 
 @media only screen and (max-width: 710px) {
+
   .deleteBtn,
   .updateBtn {
     width: 37%;
@@ -268,12 +233,78 @@ width: 3vw;
 }
 
 @media only screen and (max-width: 690px) {
+
+  .deleteBtn,
+  .updateBtn {
+    width: 3vw;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .categoryTable {
+    width: 100%;
+    margin: 0 6vw;
+    overflow-x: auto;
+  }
+
+  .categoryTable th,
+  .categoryTable td {
+    white-space: nowrap;
+  }
+}
+
+@media only screen and (max-width: 890px) {
+
+  .deleteBtn,
+  .updateBtn {
+    width: 9vw;
+  }
+}
+
+@media only screen and (max-width: 890px) {
+
+  .deleteBtn,
+  .updateBtn {
+    width: 11vw;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+
+  .deleteBtn,
+  .updateBtn {
+    width: 10vw;
+  }
+
+  .categoryTable th,
+  .categoryTable td {
+    width: 25vw;
+  }
+}
+
+@media only screen and (max-width: 710px) {
+
+  .deleteBtn,
+  .updateBtn {
+    width: 37%;
+  }
+}
+
+@media only screen and (max-width: 690px) {
+
   .deleteBtn,
   .updateBtn {
     width: 20vw;
     margin: 0 2vw;
   }
 }
-.categoryLink:hover{
- color: #f44336 !important;
+
+.categoryLink:hover {
+  color: #f44336 !important;
 }
+
+.index {
+  z-index: 235;
+  background-color: var(--back);
+  height: 100%;
+ }

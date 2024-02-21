@@ -9,7 +9,7 @@ import axios from 'axios';
 import LogOut from './../LogOut/LogOut';
 import { Translate } from 'translate-easy';
 import { jwtDecode } from "jwt-decode";
-const API_Bills = 'https://store-system-api.gleeze.com/api/bills';
+const API_Bills = 'http://localhost:3030/api/bills';
 
 const Bills = () => {
   const token = localStorage.getItem('token');
@@ -30,7 +30,7 @@ const Bills = () => {
         setPagination(response.data.paginationResult);
       }
     } catch (error) {
-      console.error('Error fetching bills:', error.message);
+      console.error('Error fetching bills:', error);
     } finally {
       setLoading(false);
     }
@@ -76,7 +76,7 @@ const Bills = () => {
     setSearchTerm(searchTerm);
   };
 
-  const handlePrint = (billId, sellerName, customerAddress) => {
+  const handlePrint = (billId) => {
     const billToPrint = bills.find((bill) => bill._id === billId);
 
     if (billToPrint) {
@@ -151,8 +151,8 @@ const Bills = () => {
                 }
                 footer{
                   border-bottom:1px dashed black;
-                   margin:5vh auto;
-                   padding:4vh 0;
+                  margin:5vh auto;
+                  padding:4vh 0;
                   width:25vw;
                   text-align: center;
                 }
@@ -165,12 +165,12 @@ const Bills = () => {
             <p>  اسم العميل : ${billToPrint.customerName} </p>
             <p>  رقم التليفون : ${billToPrint.phone} </p>
             </div>
-           <div>
-           <p> اسم البائع : ${billToPrint.user.name} </p>
-           <p> تاريخ الفاتورة : ${billToPrint.createdAt && new Date(billToPrint.createdAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })} </p>
-           <p>النوع :  نقدى</p>
-           <p> تاريخ تعديل الفاتورة : ${billToPrint.updatedAt && new Date(billToPrint.updatedAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })} </p>
-           </div>
+          <div>
+            <p> اسم البائع : ${billToPrint.user.name} </p>
+            <p>النوع :  نقدى</p>
+            <p> تاريخ الفاتورة : ${billToPrint.createdAt && new Date(billToPrint.createdAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })} </p>
+            <p> آخر تعديل للفاتورة : ${billToPrint.updatedAt && new Date(billToPrint.updatedAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })} </p>
+            </div>
             </section>
             <h3> عنوان العميل : ${billToPrint.customerAddress}</h3>
             <table>

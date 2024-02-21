@@ -16,7 +16,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('https://store-system-api.gleeze.com/api/auth/login', {
+      const response = await axios.post('http://localhost:3030/api/auth/login', {
         name,
         password,
       });
@@ -24,8 +24,8 @@ const Login = () => {
       localStorage.setItem('token', token);
       window.location.href = '/home';
     } catch (error) {
-      console.error('Error logging in:', error.message);
-      setError('Invalid userName or password. Please try again.');
+      console.error('Error logging in:', error);
+      setError('Invalid username or password. Please try again.');
     } finally {
       setLoading(false);
     }

@@ -9,7 +9,7 @@ import ConfirmationModal from './ConfirmationModel';
 import MainComponent from '../Aside/MainComponent';
 import { jwtDecode } from "jwt-decode";
 
-const API_category = 'https://store-system-api.gleeze.com/api/categories';
+const API_category = 'http://localhost:3030/api/categories';
 
 const CategoryTable = () => {
   const token = localStorage.getItem('token');
@@ -32,7 +32,7 @@ const CategoryTable = () => {
         setPagination(response.data.paginationResult);
       }
     } catch (error) {
-      console.error('Error fetching categories:', error.message);
+      console.error('Error fetching categories:', error);
     } finally {
       setLoading(false);
     }
