@@ -9,10 +9,11 @@ import axios from 'axios';
 import LogOut from './../LogOut/LogOut';
 import { Translate } from 'translate-easy';
 import { jwtDecode } from "jwt-decode";
+import Cookies from 'js-cookie';
 const API_Bills = 'http://localhost:3030/api/bills';
 
 const Bills = () => {
-  const token = localStorage.getItem('token');
+  const token = Cookies.get('token');
   const decodedToken = jwtDecode(token);
   const [bills, setBills] = useState([]);
   const [pagination, setPagination] = useState({});

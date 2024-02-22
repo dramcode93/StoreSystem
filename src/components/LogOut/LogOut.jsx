@@ -2,12 +2,13 @@ import React from 'react'
 import { Translate } from 'translate-easy';
 import './Logout.css'
 import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
 const LogOut = () => {
-  const token = localStorage.getItem('token');
+  const token = Cookies.get('token');
   const decodedToken = jwtDecode(token);
 
   const handle = () => {
-    localStorage.removeItem('token');
+    Cookies.remove('token');
     window.location.href = '/'
   }
   return (

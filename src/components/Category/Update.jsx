@@ -5,12 +5,13 @@ import styles from './Category.module.css';
 import { Translate } from 'translate-easy';
 import MainComponent from './../Aside/MainComponent';
 import LogOut from './../LogOut/LogOut';
+import Cookies from 'js-cookie';
 
 function UpdateCategory() {
   const { id } = useParams();
   const [newCategoryName, setNewCategoryName] = useState('');
   const [categoryNamePlaceholder, setCategoryNamePlaceholder] = useState('');
-  const token = localStorage.getItem('token');
+  const token = Cookies.get('token');
 
   useEffect(() => {
     const fetchData = async () => {

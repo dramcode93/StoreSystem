@@ -5,11 +5,12 @@ import { Translate, useLanguage } from 'translate-easy';
 import styles from '../Category/Category.module.css';
 import { Link, useParams } from 'react-router-dom';
 import Loading from '../Loading/Loading';
+import Cookies from 'js-cookie';
 
 const API_users = 'http://localhost:3030/api/users';
 
 const Users = () => {
-  const token = localStorage.getItem('token');
+  const token = Cookies.get('token');
   const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './Profile.module.css';
 import axios from 'axios';
 import { Translate } from 'translate-easy';
+import Cookies from 'js-cookie';
 
 const API_password = 'http://localhost:3030/api/users/updateMyPassword';
 
@@ -11,7 +12,7 @@ const ChangePassword = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
 
-  let token = localStorage.getItem("token");
+  let token = Cookies.get("token");
 
   const handleEditPassword = async (e) => {
     e.preventDefault(); // Prevent default form submission

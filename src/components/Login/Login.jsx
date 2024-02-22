@@ -4,6 +4,7 @@ import styles from './Login.module.css';
 import axios from 'axios';
 import Loading from '../Loading/Loading';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const Login = () => {
   const [name, setName] = useState('');
@@ -21,7 +22,8 @@ const Login = () => {
         password,
       });
       const token = response.data.token;
-      localStorage.setItem('token', token);
+      const tokenTime = 2
+      Cookies.set('token', token, { expires: tokenTime, secure: true, sameSite: 'strict' })
       window.location.href = '/home';
     } catch (error) {
       console.error('Error logging in:', error);

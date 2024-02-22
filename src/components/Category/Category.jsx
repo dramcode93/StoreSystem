@@ -8,11 +8,12 @@ import Loading from '../Loading/Loading';
 import ConfirmationModal from './ConfirmationModel';
 import MainComponent from '../Aside/MainComponent';
 import { jwtDecode } from "jwt-decode";
+import Cookies from 'js-cookie';
 
 const API_category = 'http://localhost:3030/api/categories';
 
 const CategoryTable = () => {
-  const token = localStorage.getItem('token');
+  const token = Cookies.get('token');
   const [categories, setCategories] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);

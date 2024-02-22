@@ -3,13 +3,14 @@ import styles from './Profile.module.css';
 import axios from 'axios';
 import { Translate } from 'translate-easy';
 import { jwtDecode } from "jwt-decode";
+import Cookies from 'js-cookie';
 
 const API_info = 'http://localhost:3030/api/users/getMe';
 const API_update = 'http://localhost:3030/api/users/updateMe';
 
 const Information = () => {
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem('token');
+  const token = Cookies.get('token');
   const [info, setInfo] = useState({ name: '', email: '' });
   const [inputValues, setInputValues] = useState({ email: '' });
   const [isNameEditing, setIsNameEditing] = useState(false);
@@ -72,6 +73,9 @@ const Information = () => {
           { name: isNameEditing ? inputValues.name : info.name, email: isEmailEditing ? inputValues.email : info.email },
           { headers: { Authorization: `Bearer ${token}` } }
         );
+        const newToken = response.data.token;
+        const tokenTime = 2
+        Cookies.set('token', newToken, { expires: tokenTime, secure: true, sameSite: 'strict' })
 
         setInfo(prevInfo => ({
           ...prevInfo,

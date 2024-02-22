@@ -2,11 +2,12 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Translate } from 'translate-easy';
 import forget from './forget.module.css';
+import Cookies from 'js-cookie';
 
 const ForgotPassword2 = () => {
   const [verificationCode, setVerificationCode] = useState('');
   const [loading, setLoading] = useState(false);
-  const resetToken = localStorage.getItem('resetToken');
+  const resetToken = Cookies.get('resetToken');
 
   const handleForgetPassword = async () => {
     try {
