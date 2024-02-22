@@ -3,6 +3,7 @@ import styles from './Profile.module.css';
 import axios from 'axios';
 import { Translate } from 'translate-easy';
 import { useParams } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const ChangeUserPassword = () => {
     const [password, setPassword] = useState('');
@@ -10,7 +11,7 @@ const ChangeUserPassword = () => {
     const [error, setError] = useState('');
     const { id } = useParams(); // Extract id from useParams
     const API_password1 = `http://localhost:3030/api/users/changeUserPassword/${id}`;
-    let token = localStorage.getItem("token");
+    let token = Cookies.get("token");
 
     const handleEditPassword = async (e) => {
         e.preventDefault(); // Prevent default form submission

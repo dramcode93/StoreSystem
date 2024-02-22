@@ -5,6 +5,7 @@ import styles from './Products.module.css';
 import { Translate } from 'translate-easy';
 import MainComponent from './../Aside/MainComponent';
 import LogOut from '../LogOut/LogOut';
+import Cookies from 'js-cookie';
 
 function UpdateProduct() {
   const { id } = useParams();
@@ -14,7 +15,7 @@ function UpdateProduct() {
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [token] = useState(localStorage.getItem('token'));
+  const [token] = useState(Cookies.get('token'));
   const API_category = 'http://localhost:3030/api/categories/list';
 
   useEffect(() => {

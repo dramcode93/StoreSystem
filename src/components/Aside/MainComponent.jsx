@@ -5,9 +5,10 @@ import { FaBars } from 'react-icons/fa';
 import LogoImage from '../../Images/Modern Creative Technology Logo.svg';
 import './styles.css';
 import { jwtDecode } from "jwt-decode";
+import Cookies from 'js-cookie';
 const MainComponent = () => {
   const [showSidebar, setShowSidebar] = useState(false);
-  const token = localStorage.getItem('token');
+  const token = Cookies.get('token');
   
   const decodedToken = jwtDecode(token);
   const toggleSidebar = () => {

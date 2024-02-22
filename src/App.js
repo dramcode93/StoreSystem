@@ -20,29 +20,81 @@ import CreateBillForm from "./components/Bills/createBills.jsx";
 import UpdateBills from "./components/Bills/UpdateBills.jsx";
 import Users from "./components/profile/Users.jsx";
 import ChangeUserPassword from "./components/profile/changeUserPassword.jsx";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
 
+  // useEffect(() => {
+  //   const token = Cookies.get('token')
+
+  //   if (token) {
+  //     const decodedToken = jwtDecode(token);
+  //     const isExpired = decodedToken.exp < Date.now() / 1000;
+
+  //     if (isExpired) {
+  //       setTokenExpired(true);
+  //       Cookies.remove("token");
+  //     } else {
+  //       setLoggedIn(true);
+  //       if (window.location.pathname === '/') {
+  //         window.location.href = '/home';
+  //       }
+  //     }
+  //   }
+  // }, []);
+
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const checkToken = async () => {
+      const token = Cookies.get('token');
 
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      const isExpired = decodedToken.exp < Date.now() / 1000;
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token);
+          const isExpired = decodedToken.exp < Date.now() / 1000;
 
-      if (isExpired) {
-        setTokenExpired(true);
-        localStorage.removeItem('token');
-      } else {
-        setLoggedIn(true);
-        if (window.location.pathname === '/') {
-          window.location.href = '/home';
+          if (isExpired) {
+            setTokenExpired(true);
+            Cookies.remove('token');
+            return 0;
+          } else {
+            setLoggedIn(true);
+            if (window.location.pathname === '/') {
+              window.location.href = '/home';
+            }
+          }
+
+          // Refresh the token if it expires within the next 24 hours
+          const expirationThreshold = 24 * 60 * 60; // 24 hours in seconds
+          if (decodedToken.exp - Date.now() / 1000 < expirationThreshold) {
+            try {
+              const response = await axios.get('http://localhost:3030/api/auth/refreshToken', { headers: { Authorization: `Bearer ${token}` } });
+              const newToken = response.data.token;
+              const tokenTime = 2
+              Cookies.set('token', newToken, { expires: tokenTime, secure: true, sameSite: 'strict' }); // Set the new token with a 1-day expiration
+            } catch (error) { console.error('Error refreshing token:', error); }
+          }
+        } catch (error) {
+          // Handle token decoding error, if any
+          console.error('Error decoding token:', error);
+          setTokenExpired(true);
+          Cookies.remove('token');
         }
       }
-    }
+    };
+
+    // Initial check
+    checkToken();
+
+    // Check for token refresh every hour (adjust as needed)
+    const refreshInterval = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
+    const intervalId = setInterval(checkToken, refreshInterval);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   return (

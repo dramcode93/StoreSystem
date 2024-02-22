@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Translate } from 'translate-easy';
 import forget from './forget.module.css';
+import Cookies from 'js-cookie';
 
 const ForgetPassword1 = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +15,8 @@ const ForgetPassword1 = () => {
         email: email,
       });
       const resetToken = response.data.resetToken;
-      localStorage.setItem('resetToken', resetToken);
+      const tokenTime = 1
+      Cookies.set('resetToken', resetToken, { expires: tokenTime, secure: true, sameSite: 'strict' });
       window.location.href = '/forgotPassword2';
     } catch (error) {
       console.error('An error occurred while sending the reset password request', error);

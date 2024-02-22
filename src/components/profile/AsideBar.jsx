@@ -3,9 +3,10 @@ import styles from '../profile/Profile.module.css'
 import { Translate } from 'translate-easy'
 import { jwtDecode } from "jwt-decode";
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const AsideBar = ({ onSelect }) => {
-  const token = localStorage.getItem('token');
+  const token = Cookies.get('token');
   const decodedToken = jwtDecode(token);
 
   return (

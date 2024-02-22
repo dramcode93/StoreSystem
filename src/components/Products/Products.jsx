@@ -8,12 +8,13 @@ import Loading from '../Loading/Loading';
 import ConfirmationModal from '../Category/ConfirmationModel';
 import MainComponent from '../Aside/MainComponent';
 import { jwtDecode } from "jwt-decode";
+import Cookies from 'js-cookie';
 
 const API_URL = 'http://localhost:3030/api/products';
 const API_category = 'http://localhost:3030/api/categories/list';
 
 const Products = () => {
-  const token = localStorage.getItem('token');
+  const token = Cookies.get('token');
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);

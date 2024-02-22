@@ -5,11 +5,12 @@ import { Translate } from 'translate-easy';
 import MainComponent from './../Aside/MainComponent';
 import LogOut from './../LogOut/LogOut';
 import Loading from '../Loading/Loading';
+import Cookies from 'js-cookie';
 
 const API_URL = 'http://localhost:3030/api/products/list';
 
 const BillForm = () => {
-  const token = localStorage.getItem('token');
+  const token = Cookies.get('token');
   const [customerName, setCustomerName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [paidAmount, setPaidAmount] = useState('');
