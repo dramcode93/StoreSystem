@@ -10,7 +10,7 @@ import MainComponent from '../Aside/MainComponent';
 import { jwtDecode } from "jwt-decode";
 import Cookies from 'js-cookie';
 
-const API_category = 'http://localhost:3030/api/categories';
+const API_category = 'https://store-system-api.gleeze.com/api/categories';
 
 const CategoryTable = () => {
   const token = Cookies.get('token');

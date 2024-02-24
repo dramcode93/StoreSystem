@@ -15,7 +15,7 @@ function FormAdd() {
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const [role, setRole] = useState('user');
     const [token] = useState(Cookies.get('token'));
-    const API_users = 'http://localhost:3030/api/users';
+    const API_users = 'https://store-system-api.gleeze.com/api/users';
     const decodedToken = jwtDecode(token);
 
     const addUser = () => {

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Translate } from 'translate-easy';
 import Cookies from 'js-cookie';
 
-const API_password = 'http://localhost:3030/api/users/updateMyPassword';
+const API_password = 'https://store-system-api.gleeze.com/api/users/updateMyPassword';
 
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState('');

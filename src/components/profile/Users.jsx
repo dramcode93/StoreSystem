@@ -10,7 +10,7 @@ import LogOut from '../LogOut/LogOut';
 import MyComponent from '../MyComponent';
 import MainComponent from '../Aside/MainComponent';
 
-const API_users = 'http://localhost:3030/api/users';
+const API_users = 'https://store-system-api.gleeze.com/api/users';
 
 const Users = () => {
   const token = Cookies.get('token');
@@ -53,7 +53,7 @@ const Users = () => {
 
   const handleUpdateActive = (id, newActiveStatus) => {
     axios
-      .put(`http://localhost:3030/api/users/${id}`, { active: newActiveStatus }, {
+      .put(`https://store-system-api.gleeze.com/api/users/${id}`, { active: newActiveStatus }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

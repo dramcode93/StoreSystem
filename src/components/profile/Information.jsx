@@ -5,8 +5,8 @@ import { Translate } from 'translate-easy';
 import { jwtDecode } from "jwt-decode";
 import Cookies from 'js-cookie';
 
-const API_info = 'http://localhost:3030/api/users/getMe';
-const API_update = 'http://localhost:3030/api/users/updateMe';
+const API_info = 'https://store-system-api.gleeze.com/api/users/getMe';
+const API_update = 'https://store-system-api.gleeze.com/api/users/updateMe';
 
 const Information = () => {
   const [loading, setLoading] = useState(true);

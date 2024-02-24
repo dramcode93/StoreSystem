@@ -16,12 +16,12 @@ function UpdateProduct() {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [token] = useState(Cookies.get('token'));
-  const API_category = 'http://localhost:3030/api/categories/list';
+  const API_category = 'https://store-system-api.gleeze.com/api/categories/list';
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: productData } = await axios.get(`http://localhost:3030/api/products/${id}`, {
+        const { data: productData } = await axios.get(`https://store-system-api.gleeze.com/api/products/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -45,7 +45,7 @@ function UpdateProduct() {
   }, [id, token]);
 
   const handleUpdateProduct = () => {
-    axios.put(`http://localhost:3030/api/products/${id}`, { name: newProductName, price: newProductPrice, quantity: newProductQuantity, category: selectedCategoryId }, {
+    axios.put(`https://store-system-api.gleeze.com/api/products/${id}`, { name: newProductName, price: newProductPrice, quantity: newProductQuantity, category: selectedCategoryId }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
