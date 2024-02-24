@@ -22,30 +22,13 @@ import Users from "./components/profile/Users.jsx";
 import ChangeUserPassword from "./components/profile/changeUserPassword.jsx";
 import Cookies from "js-cookie";
 import axios from "axios";
+import FormAdd from "./components/profile/formAdd.jsx";
+import UserBills from "./components/Bills/UserBills.jsx";
 
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
-
-  // useEffect(() => {
-  //   const token = Cookies.get('token')
-
-  //   if (token) {
-  //     const decodedToken = jwtDecode(token);
-  //     const isExpired = decodedToken.exp < Date.now() / 1000;
-
-  //     if (isExpired) {
-  //       setTokenExpired(true);
-  //       Cookies.remove("token");
-  //     } else {
-  //       setLoggedIn(true);
-  //       if (window.location.pathname === '/') {
-  //         window.location.href = '/home';
-  //       }
-  //     }
-  //   }
-  // }, []);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -119,7 +102,8 @@ const App = () => {
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/Profile" element={<ChangPassword />} />
               <Route path="/Profile/Users" element={<Users />} />
-              <Route path="/Profile/addUser" element={<formAdd />} />
+              <Route path="/users/addUser" element={<FormAdd />} />
+              <Route path="/users/:id/userBills" element={<UserBills />} />
               <Route path="/category/:id/products" element={<CategoryProducts />} />
             </>
           ) : (

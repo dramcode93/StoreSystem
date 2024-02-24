@@ -3,9 +3,12 @@ import { jwtDecode } from 'jwt-decode';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Translate, useLanguage } from 'translate-easy';
 import styles from '../Category/Category.module.css';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import Cookies from 'js-cookie';
+import LogOut from '../LogOut/LogOut';
+import MyComponent from '../MyComponent';
+import MainComponent from '../Aside/MainComponent';
 
 const API_users = 'http://localhost:3030/api/users';
 
@@ -18,7 +21,6 @@ const Users = () => {
   const [loading, setLoading] = useState(true);
   const { selectedLanguage } = useLanguage();
   const decodedToken = jwtDecode(token);
-  const { id } = useParams();
 
   const fetchData = useCallback(async () => {
     try {
@@ -66,90 +68,95 @@ const Users = () => {
   };
 
   return (
-    <div className={styles.index}>
-      <div className={styles.flex}>
-        <div>
-          <input type="search" name="search" className={styles.margin} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-          <button className='btn btn-primary' onClick={handleSearch}>
-            <Translate>A Search</Translate>
-          </button>
+    <div>
+      <LogOut />
+      <MyComponent />
+      <MainComponent/>
+      <div className={styles.index}>
+        <div className={styles.flex}>
+          <div>
+            <input type="search" name="search" className={styles.margin} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+            <button className='btn btn-primary' onClick={handleSearch}>
+              <Translate>A Search</Translate>
+            </button>
+          </div>
+          <div>
+            <Link to='/users/addUser' className='btn btn-primary AddUser p-2' >
+              <Translate>ِAdd user</Translate>
+            </Link>
+          </div>
         </div>
-        <div>
-          <Link to='/profile/formAdd' className='btn btn-primary' >
-            <Translate translations={{ ar: 'ضيف', en: 'Add' }}>{selectedLanguage === 'ar' ? 'ضيف' : 'Add'}</Translate>
-          </Link>
-        </div>
-      </div>
-      <div className={styles.container4}>
-        {loading && <div className='m-5 fs-3'><Loading /></div>}
-        {!loading && (
-          <>
-            <div className={styles.categoryTable}>
-              <table>
-                <thead>
-                  <tr>
-                    <th><Translate>ID</Translate></th>
-                    <th><Translate>Name</Translate></th>
-                    <th><Translate>Role</Translate></th>
-                    <th><Translate>Active</Translate></th>
-                    <th><Translate>Actions</Translate></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((user) => (
-                    <tr key={user._id}>
-                      <td>{user._id.slice(-4)}</td>
-                      {decodedToken.role === 'admin' && (
-                        <td>
-                          <Link to={`/users/${user._id}/userBills`} className={styles.categoryLink}>
-                            {user.name}
-                          </Link>
-                        </td>
-                      )}
-                      {decodedToken.role === 'manager' && <td>{user.name}</td>}
-                      <td>{user?.role}</td>
-                      {decodedToken._id !== user._id &&
-                      <td>
-                        <button className='border'
-                          value={!user.active}
-                          onClick={() => handleUpdateActive(user._id, !user.active)}
-                        >
-                          {user.active === true ? (
-                            <Translate>active</Translate>
-                          ) : (
-                            <Translate>deactive</Translate>
-                          )}
-                        </button>
-                      </td>}
-                      {decodedToken.role !== 'user' &&
-                        user.role !== 'manager' && (
+        <div className={styles.container4}>
+          {loading && <div className='m-5 fs-3'><Loading /></div>}
+          {!loading && (
+            <>
+              <div className={styles.categoryTable}>
+                <table>
+                  <thead>
+                    <tr>
+                      <th><Translate>ID</Translate></th>
+                      <th><Translate>Name</Translate></th>
+                      <th><Translate>Role</Translate></th>
+                      <th><Translate>Active</Translate></th>
+                      <th><Translate>Actions</Translate></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map((user) => (
+                      <tr key={user._id}>
+                        <td>{user._id.slice(-4)}</td>
+                        {decodedToken.role === 'admin' && (
                           <td>
-                            <Link to={`/changeUserPassword/${user._id}`} className={styles.deleteBtn}>
-                              <Translate translations={{ ar: 'تغيير كلمة المرور', en: 'change password' }}>{selectedLanguage === 'ar' ? 'تغيير كلمة المرور' : 'change password'}</Translate>
+                            <Link to={`/users/${user._id}/userBills`} className={styles.categoryLink}>
+                              {user.name}
                             </Link>
                           </td>
                         )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </>
-        )}
-      </div>
-      <div>
-        <div className={styles.flex}>
-          {pagination.prev && (
-            <button onClick={() => handlePageChange(pagination.prev)} className={styles.paginationNext}>
-              {pagination.prev}
-            </button>
+                        {decodedToken.role === 'manager' && <td>{user.name}</td>}
+                        <td>{user?.role}</td>
+                        {decodedToken._id !== user._id &&
+                          <td>
+                            <button className='border'
+                              value={!user.active}
+                              onClick={() => handleUpdateActive(user._id, !user.active)}
+                            >
+                              {user.active === true ? (
+                                <Translate>active</Translate>
+                              ) : (
+                                <Translate>deactive</Translate>
+                              )}
+                            </button>
+                          </td>}
+                        {decodedToken.role !== 'user' &&
+                          user.role !== 'manager' && (
+                            <td>
+                              <Link to={`/changeUserPassword/${user._id}`} className={styles.deleteBtn}>
+                                <Translate translations={{ ar: 'تغيير كلمة المرور', en: 'change password' }}>{selectedLanguage === 'ar' ? 'تغيير كلمة المرور' : 'change password'}</Translate>
+                              </Link>
+                            </td>
+                          )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
-          <button className={styles.paginationNext}><Translate>Page</Translate> {pagination.currentPge}</button>
-          {pagination.next && (
-            <button className={styles.paginationNext} onClick={() => handlePageChange(pagination.next)}>
-              {pagination.next}
-            </button>
-          )}
+        </div>
+        <div>
+          <div className={styles.flex}>
+            {pagination.prev && (
+              <button onClick={() => handlePageChange(pagination.prev)} className={styles.paginationNext}>
+                {pagination.prev}
+              </button>
+            )}
+            <button className={styles.paginationNext}><Translate>Page</Translate> {pagination.currentPge}</button>
+            {pagination.next && (
+              <button className={styles.paginationNext} onClick={() => handlePageChange(pagination.next)}>
+                {pagination.next}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -35,7 +35,7 @@
 .addBtn {
   cursor: pointer;
   border-radius: 10px;
-  color: var(--font);
+  color: #fff !important;
   padding: 1.5vh 3vw;
   width: fit-content;
 }
@@ -255,7 +255,7 @@ margin: 1vh -2vw;
   margin: 3vh auto;
   overflow-x: auto;
   border: 1px solid var(--font);
-  padding: 4vh;
+  padding:0vw 4vh;
 }
 
 .billsTable table th,
