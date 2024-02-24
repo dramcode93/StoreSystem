@@ -10,7 +10,7 @@ const ChangeUserPassword = () => {
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const [error, setError] = useState('');
     const { id } = useParams(); // Extract id from useParams
-    const API_password1 = `http://localhost:3030/api/users/changeUserPassword/${id}`;
+    const API_password1 = `https://store-system-api.gleeze.com/api/users/changeUserPassword/${id}`;
     let token = Cookies.get("token");
 
     const handleEditPassword = async (e) => {

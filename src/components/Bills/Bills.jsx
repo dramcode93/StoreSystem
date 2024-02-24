@@ -11,7 +11,7 @@ import { Translate } from 'translate-easy';
 import { jwtDecode } from "jwt-decode";
 import Cookies from 'js-cookie';
 import { handlePrint } from './handlePrint';
-const API_Bills = 'http://localhost:3030/api/bills';
+const API_Bills = 'https://store-system-api.gleeze.com/api/bills';
 
 const Bills = () => {
   const token = Cookies.get('token');

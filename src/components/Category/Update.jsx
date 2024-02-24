@@ -16,7 +16,7 @@ function UpdateCategory() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3030/api/categories/${id}`, {
+        const response = await axios.get(`https://store-system-api.gleeze.com/api/categories/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -33,7 +33,7 @@ function UpdateCategory() {
   }, [id, token]);
 
   const handleUpdateCategory = () => {
-    axios.put(`http://localhost:3030/api/categories/${id}`, { name: newCategoryName }, {
+    axios.put(`https://store-system-api.gleeze.com/api/categories/${id}`, { name: newCategoryName }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -23,7 +23,7 @@ const UserBills = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchInput, setSearchInput] = useState('');
     const { id } = useParams();
-    const API_Bills = `http://localhost:3030/api/bills/${id}/userBills`;
+    const API_Bills = `https://store-system-api.gleeze.com/api/bills/${id}/userBills`;
 
     const fetchData = useCallback(async () => {
         try {

@@ -12,8 +12,8 @@ import Cookies from 'js-cookie';
 
 const CategoryProducts = () => {
   const {id} = useParams();
-  const API_URL = `http://localhost:3030/api/categories/${id}/products`;
-  const API_category = 'http://localhost:3030/api/categories/list';
+  const API_URL = `https://store-system-api.gleeze.com/api/categories/${id}/products`;
+  const API_category = 'https://store-system-api.gleeze.com/api/categories/list';
   const token = Cookies.get('token');
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);

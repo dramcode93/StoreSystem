@@ -7,7 +7,7 @@ import LogOut from './../LogOut/LogOut';
 import Loading from '../Loading/Loading';
 import Cookies from 'js-cookie';
 
-const API_URL = 'http://localhost:3030/api/products/list';
+const API_URL = 'https://store-system-api.gleeze.com/api/products/list';
 
 const BillForm = () => {
   const token = Cookies.get('token');
@@ -87,7 +87,7 @@ const BillForm = () => {
         customerAddress
       };
 
-      const response = await axios.post('http://localhost:3030/api/bills', requestBody, {
+      const response = await axios.post('https://store-system-api.gleeze.com/api/bills', requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
