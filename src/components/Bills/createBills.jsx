@@ -14,10 +14,10 @@ const BillForm = () => {
   const [customerName, setCustomerName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [paidAmount, setPaidAmount] = useState('');
+  const [quantity, setQuantity] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState([{ productId: '', quantity: '', price: 0 }]);
-  const [sellerName, setSellerName] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
 
   const fetchData = useCallback(async () => {
@@ -49,6 +49,7 @@ const BillForm = () => {
     };
 
     setSelectedProducts(newSelectedProducts);
+    setQuantity(selectedProduct.quantity)
   };
 
   const handleQuantityChange = (index, quantity) => {
@@ -83,7 +84,6 @@ const BillForm = () => {
         products: productsArray,
         productQuantityMap,
         paidAmount: Number(paidAmount),
-        sellerName,
         customerAddress
       };
 
@@ -94,7 +94,6 @@ const BillForm = () => {
       setCustomerName('');
       setPhoneNumber('');
       setPaidAmount('');
-      setSellerName('');
       setCustomerAddress('');
       setSelectedProducts([{ productId: '', quantity: '', price: 0 }]);
       window.location.href = '/bills';
@@ -119,10 +118,7 @@ const BillForm = () => {
           <label htmlFor="phoneNumber"><Translate>Phone Number : </Translate></label>
           <input id="phoneNumber" placeholder='Phone Number' type="text" name="phone" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
         </div>
-        <div>
-          <label htmlFor="sellerName"><Translate>Seller Name : </Translate></label>
-          <input id="sellerName" placeholder='Seller Name' type="text" name="sellerName" value={sellerName} onChange={(e) => setSellerName(e.target.value)} />
-        </div>
+
         <div>
           <label htmlFor="customerAddress"><Translate>Customer Address : </Translate></label>
           <input id="customerAddress" placeholder='Customer Address' type="text" name="customerAddress" value={customerAddress} onChange={(e) => setCustomerAddress(e.target.value)} />
@@ -149,8 +145,8 @@ const BillForm = () => {
               <input
                 id={`productQuantity${index}`}
                 type="number"
+                min={0}
                 name={`productQuantity${index}`}
-                value={selectedProduct.quantity}
                 placeholder='Product Quantity'
                 onChange={(e) => handleQuantityChange(index, e.target.value)}
               />
@@ -158,20 +154,10 @@ const BillForm = () => {
             {selectedProduct.productId ? (
               <div className='fw-bold pt-3'>
                 <span className='p-5'><Translate>Price : </Translate> {selectedProduct.price}</span>
-                <span><Translate>Quantity : </Translate> {selectedProduct.quantity}</span>
+                <span><Translate>Quantity : </Translate> {quantity}</span>
               </div>
             ) : (
-              <div>
-                <label htmlFor={`productQuantity${index}`}><Translate>Product Quantity : </Translate></label>
-                <input
-                  id={`productQuantity${index}`}
-                  type="number"
-                  name={`productQuantity${index}`}
-                  value={selectedProduct.quantity}
-                  placeholder='Product Quantity'
-                  onChange={(e) => handleQuantityChange(index, e.target.value)}
-                />
-              </div>
+              <div></div>
             )}
             <button type="button" onClick={addProductFields} className={styles.addBtn}>
               <Translate>Add Product</Translate>

@@ -15,7 +15,7 @@ const AsideBar = ({ onSelect }) => {
         <button onClick={() => onSelect('information')} className='my-3'><Translate>the Information</Translate></button>
         <button onClick={() => onSelect('changePassword')}><Translate>Change Password</Translate></button>
         {decodedToken.role !== 'user' &&
-          <Link to= '/Profile/Users' className='mt-3'><Translate>Users</Translate></Link>
+          <Link to='/Profile/Users' className='mt-3 btn btn-primary w-100 py-2 fw-bold'><Translate>Users</Translate></Link>
         }
 
       </div>

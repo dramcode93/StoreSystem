@@ -5,7 +5,7 @@
     position: fixed;
     margin: 5vh 70vw 5vh 86vw;
     padding: 14px 0;
-    color: var(--font);
+    color: #fff;
 }
 
 .userName{
@@ -13,6 +13,7 @@
     font-size: 18px;
     width: 18vw;
     padding: 14px 10px;
+    color: var(--font);
     border: 1px solid var(--card);
 }
 

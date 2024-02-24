@@ -21,7 +21,6 @@ const UpdateBills = () => {
   const [billProducts, setBillProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [sellerName, setSellerName] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
 
   const fetchData = useCallback(async () => {
@@ -39,7 +38,6 @@ const UpdateBills = () => {
         setPhoneNumber(billResponse.data?.data?.phone);
         setBillProducts(billResponse.data?.data?.products);
         setPaidAmount(billResponse.data?.data?.paidAmount || 0);
-        setSellerName(billResponse.data?.data?.sellerName || '');
         setCustomerAddress(billResponse.data?.data?.customerAddress || '');
       } else {
         console.error('No token found.');
@@ -110,7 +108,6 @@ const UpdateBills = () => {
         products: productsArray,
         productQuantityMap,
         paidAmount: Number(paidAmount),
-        sellerName,
         customerAddress,
       };
 
@@ -121,7 +118,6 @@ const UpdateBills = () => {
       setCustomerName('');
       setPhoneNumber('');
       setPaidAmount(0);
-      setSellerName('');
       setCustomerAddress('');
       setSelectedProducts([{ productId: '', quantity: '', price: 0 }]);
       window.location.href = '/bills';
@@ -168,19 +164,7 @@ const UpdateBills = () => {
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
         </div>
-        <div>
-          <label htmlFor="sellerName">
-            <Translate>Seller Name : </Translate>
-          </label>
-          <input
-            id="sellerName"
-            placeholder="Seller Name"
-            type="text"
-            name="sellerName"
-            value={sellerName}
-            onChange={(e) => setSellerName(e.target.value)}
-          />
-        </div>
+
         <div>
           <label htmlFor="customerAddress">
             <Translate>Customer Address : </Translate>
