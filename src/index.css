@@ -81,5 +81,57 @@ html {
 }
 
 a {
-  color: var(--font) !important;
+  color: var(--font) ;
+}
+
+/* dark */
+.darkForm{
+  
+  label{
+    color: var(--title) !important ;
+  };
+  
+  input{
+    background-color: var(--back) !important;
+    
+    }
+
+}
+.pdarkForm{
+  
+    color: var(--font)  ;
+  
+}
+.pdarkForm{
+  
+  color: var(--title)  ;
+
+}
+::placeholder{
+  color: var(--font) !important ;
+}
+/* light */
+.lightForm{
+
+    label{
+      color: var(--title) ;
+    };
+  input{
+  background-color: var(--back);
+  
+  }
+}
+.plightForm{
+  
+    color: var(--title)  ;
+  
+}
+.hlightForm{
+  color: var(--back)  ;
+}
+/* .inputdarkForm{
+  color: var(--back) !important;
+} */
+::placeholder{
+  color: var(--back) ;
 }
