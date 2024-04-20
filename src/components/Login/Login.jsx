@@ -53,16 +53,16 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
   return (
-    <div className="min-h-screen  flex items-center  justify-center">
-      <div className="bg-gray-900 dark:bg-gray-300 border-2 parentDiv  rounded-xl shadow-md w-30 mb-5 m-auto" dir="rtl">
-        <div className="flex flex-col  justify-content-center me-auto  gap-2 p-8 items-center w-80 text-white">
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="bg-gray-900 border-2  rounded-xl shadow-md  min-w-full" dir="rtl">
+        <div className="flex flex-col gap-2 p-3 items-center w-full text-white">
           <h1 className="font-medium text-base">{usernameError || passwordError}</h1>
-          <h1 className="font-semibold text-center pdarkForm plightForm text-2xl">سجل دخول</h1>
-          <p className="text-center hdarkForm hlightForm font-medium text-base">
+          <h1 className="font-semibold text-2xl">سجل دخول</h1>
+          <p className="text-center font-medium text-base">
             الوصول إلى لوحة المعلومات باستخدام اسم المستخدم وكلمة المرور
           </p>
         </div>
-        <form onSubmit={handleLogin} className="p-8 darkForm lightForm">
+        <form onSubmit={handleLogin} className="p-8">
           <div className="space-y-8">
             <div className="relative">
               <label htmlFor="username" className="block font-semibold absolute -top-7 right-0 py-0 px-1 text-white">
@@ -74,7 +74,7 @@ const Login = () => {
                 value={username}
                 onChange={handleUsernameChange}
                 name="username"
-                className={`w-full inputdarkForm inputlightForm px-3 py-3 border-2 text-white bg-gray-900 rounded-md focus:border-orange-400 outline-none ${usernameError ? "border-red-500" : "border-gray-200"} placeholder:tracking-wide text-left mb-2`}
+                className={`w-full px-3 py-3 border-2 text-white bg-gray-900 rounded-md focus:border-orange-400 outline-none ${usernameError ? "border-red-500" : "border-gray-200"} placeholder:tracking-wide text-left mb-2`}
                 placeholder="Ahmed mohamed "
               />
               {usernameError && <p className="text-red-500 text-sm">{usernameError}</p>}
@@ -90,7 +90,7 @@ const Login = () => {
                 value={password}
                 onChange={handlePasswordChange}
                 name="password"
-                className={`w-full darkForm lightForm px-3 py-3 border-2 text-white bg-gray-900 rounded-md focus:border-orange-400 outline-none ${passwordError ? "border-red-500" : "border-gray-200"} placeholder:tracking-wide text-left`}
+                className={`w-full px-3 py-3 border-2 text-white bg-gray-900 rounded-md focus:border-orange-400 outline-none ${passwordError ? "border-red-500" : "border-gray-200"} placeholder:tracking-wide text-left`}
                 placeholder="***********"
               />
               <div className="absolute top-full left-1 mt-2 mx-5 cursor-pointer text-sm font-bold text-gray-500 hover:text-gray-800" onClick={toggleShowPassword}>
@@ -117,3 +117,4 @@ const Login = () => {
 
 export default Login;
 
+ 
