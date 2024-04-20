@@ -1,8 +1,13 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400&display=swap');
 
 body {
-  overflow-x: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -76,5 +81,57 @@ html {
 }
 
 a {
-  color: var(--font) !important;
+  color: var(--font) ;
+}
+
+/* dark */
+.darkForm{
+  
+  label{
+    color: var(--title) !important ;
+  };
+  
+  input{
+    background-color: var(--back) !important;
+    
+    }
+
+}
+.pdarkForm{
+  
+    color: var(--font)  ;
+  
+}
+.pdarkForm{
+  
+  color: var(--title)  ;
+
+}
+::placeholder{
+  color: var(--font) !important ;
+}
+/* light */
+.lightForm{
+
+    label{
+      color: var(--title) ;
+    };
+  input{
+  background-color: var(--back);
+  
+  }
+}
+.plightForm{
+  
+    color: var(--title)  ;
+  
+}
+.hlightForm{
+  color: var(--back)  ;
+}
+/* .inputdarkForm{
+  color: var(--back) !important;
+} */
+::placeholder{
+  color: var(--back) ;
 }

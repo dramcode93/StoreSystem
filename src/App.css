@@ -143,11 +143,39 @@ header #icon {
     margin: 5vh 10px 5vh 5vw;
 
   }
+
+  .parentDiv {
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
+
+
+  }
 }
+
+@media only screen and (max-width: 360px) {
+
+  .parentDiv {
+    position: absolute;
+    bottom: 5%;
+    left: 4%;
+width: 80%;
+
+  }
+}
+
 
 @media only screen and (min-width: 769px) and (max-width: 1200px) {
   .FormTranslate {
     margin: 5vh 50px 5vh 10vw;
+  }
+
+  .parentDiv {
+    position: absolute;
+    top: 80%;
+    right: 13%;
+
+
   }
 }
 
@@ -222,6 +250,6 @@ button:hover {
 }
 
 
-.AddUser{
+.AddUser {
   margin-top: 20vh;
 }
