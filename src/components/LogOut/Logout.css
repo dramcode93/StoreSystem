@@ -12,8 +12,7 @@
     font-size: 18px;
     width: 18vw;
     padding: 14px 10px;
-    color: #fff;
-        border: 1px solid var(--card);
+         border: 1px solid var(--card);
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;

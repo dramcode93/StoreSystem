@@ -13,18 +13,18 @@ const MyComponent = () => {
   const { language, changeLanguage} = useI18nContext();
 
   return (
-    <div className="flex items-center shadow-lg shadow-gray-900	 justify-content-around bg-gray-900 p-6 ">
-      <div className='userName text-center'>
+    <div className="flex items-center shadow-lg shadow-gray-900 justify-content-around bg-gray-100 dark:bg-gray-900  p-6 ">
+      <div className='userName text-center text-gray-900 dark:text-gray-100'>
         User Name : {decodedToken.name}
       </div>
-      <h3 className="text-gray-100 font">Sales Management</h3>
+      <h3 className="text-gray-900 dark:text-gray-100 font">Sales Management</h3>
 
       <div className="flex items-center justify-content-center">
       <LogOut />
         <button
           type="button"
-          className="relative rounded-full dark:bg-gray-900 p-1 ms-3
-                    dark:text-gray-400 dark:hover:text-white focus:outline-none
+          className="relative bg-transparent rounded-full p-1 ms-3
+                     text-gray-500  dark:hover:text-white focus:outline-none
                     hover:text-slate-500 w-fit"
           onClick={() => {
             changeLanguage(language === "en" ? "ar" : "en");
