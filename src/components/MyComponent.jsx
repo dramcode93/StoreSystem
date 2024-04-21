@@ -13,7 +13,7 @@ const MyComponent = () => {
   const { language, changeLanguage} = useI18nContext();
 
   return (
-    <div className="flex items-center shadow-lg shadow-gray-900 justify-content-around bg-gray-100 dark:bg-gray-900  p-6 ">
+    <div className="flex items-center dark:shadow-lg shadow shadow-gray-600 justify-content-around bg-gray-100 dark:bg-gray-900  p-6 ">
       <div className='userName text-center text-gray-900 dark:text-gray-100'>
         User Name : {decodedToken.name}
       </div>
