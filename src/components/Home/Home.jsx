@@ -29,31 +29,31 @@ const Home = () => {
                   <FaCannabis className='productLogo' />
 
                 </div>
-                <div className='details1 border2'>  <Translate>Details</Translate> <FaChevronCircleRight /></div>
+                <div className='details1 border2'>   {t("Details.Detail")} <FaChevronCircleRight /></div>
               </Link>
 
               <Link to='/products' className='card1 back2'>
                 <div className='flex text1'>
                   <div>
                     <h2>65</h2>
-                    <span><Translate>products</Translate></span>
+                    <span> {t("Products.Product")}</span>
                   </div>
                   <FaUbuntu className='productLogo' />
 
                 </div>
-                <div className='details2 border2'>  <Translate>Details</Translate> <FaChevronCircleRight /></div>
+                <div className='details2 border2'> {t("Details.Detail")} <FaChevronCircleRight /></div>
               </Link>
 
               <Link to='/bills' className='card1 back3'>
                 <div className='flex text1'>
                   <div>
                     <h2><Translate>44</Translate></h2>
-                    <span><Translate>bills</Translate></span>
+                    <span> {t("Bills.Bill")}</span>
                   </div>
                   <FaCloudMeatball className='productLogo' />
 
                 </div>
-                <div className='details3 border2'>  <Translate>Details</Translate> <FaChevronCircleRight /></div>
+                <div className='details3 border2'>  {t("Details.Detail")} <FaChevronCircleRight /></div>
               </Link>
             </>
           }
@@ -61,12 +61,12 @@ const Home = () => {
             <div className='flex text1'>
               <div>
                 <h2>87</h2>
-                <span><Translate>the Profile</Translate></span>
+                <span> {t("Profiles.Profile")}</span>
               </div>
               <FaUser className='productLogo' />
 
             </div>
-            <div className='details4 border2'> <Translate>Details</Translate> <FaChevronCircleRight /></div>
+            <div className='details4 border2'> {t("Details.Detail")} <FaChevronCircleRight /></div>
           </Link>
 
         </div>
