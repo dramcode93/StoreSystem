@@ -1,9 +1,9 @@
 import React from "react";
 import Header from "./Header/header";
 import { useI18nContext } from "./context/i18n-context";
-import { Translate } from "@phosphor-icons/react"; // Correct import path
+import { Translate } from "@phosphor-icons/react"; 
 import LogOut from "./LogOut/LogOut";
-import { jwtDecode } from "jwt-decode"; // Correct import
+import { jwtDecode } from "jwt-decode";
 
 import Cookies from 'js-cookie';
 

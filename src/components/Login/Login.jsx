@@ -53,7 +53,7 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
   return (
-    <div className="min-h-screen  flex items-center  justify-center">
+    <div className="min-h-screen flex items-center justify-center">
       <div className="bg-gray-900 dark:bg-gray-300 border-2 parentDiv min-w-80  rounded-xl shadow-md w-96" dir="rtl">
         <div className="flex flex-col  gap-2 p-3 items-center w-full text-white">
           <h1 className="font-medium text-base">{usernameError || passwordError}</h1>

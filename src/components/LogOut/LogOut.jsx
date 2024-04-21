@@ -1,20 +1,20 @@
-import React from 'react'
- import './Logout.css'
- import Cookies from 'js-cookie';
+import React from 'react';
+import './Logout.css';
+import Cookies from 'js-cookie';
 import { User } from '@phosphor-icons/react';
-const LogOut = () => {
-     const handle = () => {
+
+const logOut = () => {
+  const handle = () => {
     Cookies.remove('token');
-    window.location.href = '/'
-  }
+    window.location.href = '/';
+  };
+
   return (
     <div>
-      <User color="gray"  size={25} /> 
-      <button className='LogOutBtn' onClick={handle}>
-      </button>
+      <User color="gray" size={25} onClick={handle} />
+       
     </div>
-  )
-}
+  );
+};
 
-export default LogOut
-
+export default logOut; // Changed the export name to logOut
