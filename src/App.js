@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
- import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MyComponent from "./components/MyComponent.jsx";
 import Category from "./components/Category/Category.jsx";
 import Home from "./components/Home/Home.jsx";
 import Products from "./components/Products/Products.jsx";
 import Bills from "./components/Bills/Bills.jsx";
 import Login from "./components/Login/Login.jsx";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"; 
+import Dashboard from "./components/Dashboard/Dashboard.jsx"
 import Update from "./components/Category/Update.jsx";
 import UpdateProduct from "./components/Products/updateProduct.jsx";
 import ForgotPassword1 from "./components/ForgetPass/ForgetPass1.jsx";
@@ -51,7 +52,7 @@ const App = () => {
             }
           }
 
-           const expirationThreshold = 24 * 60 * 60; // 24 hours in seconds
+          const expirationThreshold = 24 * 60 * 60; // 24 hours in seconds
           if (decodedToken.exp - Date.now() / 1000 < expirationThreshold) {
             try {
               const response = await axios.get('http://localhost:3030/api/auth/refreshToken', { headers: { Authorization: `Bearer ${token}` } });
@@ -61,51 +62,53 @@ const App = () => {
             } catch (error) { console.error('Error refreshing token:', error); }
           }
         } catch (error) {
-           console.error('Error decoding token:', error);
+          console.error('Error decoding token:', error);
           setTokenExpired(true);
           Cookies.remove('token');
         }
       }
     };
 
-     checkToken();
+    checkToken();
 
-     const refreshInterval = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
+    const refreshInterval = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
     const intervalId = setInterval(checkToken, refreshInterval);
 
-     return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId);
   }, []);
-  const { language} = useI18nContext();
+  const { language } = useI18nContext();
 
   return (
     <BrowserRouter dir={language === "ar" ? "rtl" : "ltr"}>
-        <MyComponent />
-        <Routes>
-          <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
-          <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
-          <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
-          {isLoggedIn && !isTokenExpired ? (
-            <>
-              <Route path="/home" element={<Home lang={lang} />} />
-              <Route path="/category" element={<Category lang={lang}/>} />
-              <Route path="/update/:id" element={<Update lang={lang}/>} />
-              <Route path="/updateProduct/:id" element={<UpdateProduct lang={lang}/>} />
-              <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/bills" element={<Bills />} />
-              <Route path="/UpdateBills/:id" element={<UpdateBills />} />
-              <Route path="/CreateBillForm" element={<CreateBillForm />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/Profile" element={<ChangPassword />} />
-              <Route path="/Profile/Users" element={<Users />} />
-              <Route path="/users/addUser" element={<FormAdd />} />
-              <Route path="/users/:id/userBills" element={<UserBills />} />
-              <Route path="/category/:id/products" element={<CategoryProducts />} />
-            </>
-          ) : (
-            <Route path="/*" element={<Login />} />
-          )}
-        </Routes>
+      <MyComponent />
+      <Dashboard>
+      <Routes>
+        <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
+        <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
+        <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
+        {isLoggedIn && !isTokenExpired ? (
+          <>
+            <Route path="/home" element={<Home lang={lang} />} />
+            <Route path="/category" element={<Category lang={lang} />} />
+            <Route path="/update/:id" element={<Update lang={lang} />} />
+            <Route path="/updateProduct/:id" element={<UpdateProduct lang={lang} />} />
+            <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/bills" element={<Bills />} />
+            <Route path="/UpdateBills/:id" element={<UpdateBills />} />
+            <Route path="/CreateBillForm" element={<CreateBillForm />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/Profile" element={<ChangPassword />} />
+            <Route path="/Profile/Users" element={<Users />} />
+            <Route path="/users/addUser" element={<FormAdd />} />
+            <Route path="/users/:id/userBills" element={<UserBills />} />
+            <Route path="/category/:id/products" element={<CategoryProducts />} />
+          </>
+        ) : (
+          <Route path="/*" element={<Login />} />
+        )}
+      </Routes>
+      </Dashboard>
     </BrowserRouter>
   );
 };
