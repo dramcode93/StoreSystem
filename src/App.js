@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { LanguageProvider } from "translate-easy";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MyComponent from "./components/MyComponent.jsx";
 import Category from "./components/Category/Category.jsx";
 import Home from "./components/Home/Home.jsx";
@@ -24,7 +23,9 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import FormAdd from "./components/profile/formAdd.jsx";
 import UserBills from "./components/Bills/UserBills.jsx";
+import { useI18nContext } from "./components/context/i18n-context.jsx";
 
+const lang = localStorage.getItem("language");
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -50,8 +51,7 @@ const App = () => {
             }
           }
 
-          // Refresh the token if it expires within the next 24 hours
-          const expirationThreshold = 24 * 60 * 60; // 24 hours in seconds
+           const expirationThreshold = 24 * 60 * 60; // 24 hours in seconds
           if (decodedToken.exp - Date.now() / 1000 < expirationThreshold) {
             try {
               const response = await axios.get('http://localhost:3030/api/auth/refreshToken', { headers: { Authorization: `Bearer ${token}` } });
@@ -61,28 +61,24 @@ const App = () => {
             } catch (error) { console.error('Error refreshing token:', error); }
           }
         } catch (error) {
-          // Handle token decoding error, if any
-          console.error('Error decoding token:', error);
+           console.error('Error decoding token:', error);
           setTokenExpired(true);
           Cookies.remove('token');
         }
       }
     };
 
-    // Initial check
-    checkToken();
+     checkToken();
 
-    // Check for token refresh every hour (adjust as needed)
-    const refreshInterval = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
+     const refreshInterval = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
     const intervalId = setInterval(checkToken, refreshInterval);
 
-    // Cleanup interval on component unmount
-    return () => clearInterval(intervalId);
+     return () => clearInterval(intervalId);
   }, []);
+  const { language} = useI18nContext();
 
   return (
-    <BrowserRouter>
-      <LanguageProvider>
+    <BrowserRouter dir={language === "ar" ? "rtl" : "ltr"}>
         <MyComponent />
         <Routes>
           <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
@@ -90,10 +86,10 @@ const App = () => {
           <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
           {isLoggedIn && !isTokenExpired ? (
             <>
-              <Route path="/home" element={<Home />} />
-              <Route path="/category" element={<Category />} />
-              <Route path="/update/:id" element={<Update />} />
-              <Route path="/updateProduct/:id" element={<UpdateProduct />} />
+              <Route path="/home" element={<Home lang={lang} />} />
+              <Route path="/category" element={<Category lang={lang}/>} />
+              <Route path="/update/:id" element={<Update lang={lang}/>} />
+              <Route path="/updateProduct/:id" element={<UpdateProduct lang={lang}/>} />
               <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
               <Route path="/products" element={<Products />} />
               <Route path="/bills" element={<Bills />} />
@@ -110,7 +106,6 @@ const App = () => {
             <Route path="/*" element={<Login />} />
           )}
         </Routes>
-      </LanguageProvider>
     </BrowserRouter>
   );
 };

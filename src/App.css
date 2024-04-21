@@ -1,13 +1,9 @@
-header {
-  position: fixed;
-  margin: 5vh 0vh 5vh 20vw;
-  gap: 3vw;
-}
+
 
 header #icon {
   font-size: 2rem;
   cursor: pointer;
-  margin: 1% 70px 0 2vw;
+  margin-left: 1vw;
   color: var(--font);
 }
 
@@ -136,32 +132,34 @@ header #icon {
   height: 15px;
   vertical-align: middle;
 }
-
+.parentDiv {
+    position: relative;
+    margin: auto;
+ }
 @media only screen and (max-width: 768px) {
 
   .FormTranslate {
     margin: 5vh 10px 5vh 5vw;
-
-  }
-
-  .parentDiv {
-    position: absolute;
-    bottom: 10%;
-    right: 10%;
-
-
   }
 }
 
-@media only screen and (max-width: 360px) {
-
-  .parentDiv {
-    position: absolute;
-    bottom: 5%;
-    left: 4%;
-width: 80%;
-
+@media only screen and (max-width: 930px) {
+.parentDiv input,.parentDiv button{
+  width: 19rem;
+      margin: auto;
   }
+}
+@media only screen and (max-width: 480px) {
+.parentDiv input,
+  .parentDiv button{
+  width: 17rem;
+    }
+}
+@media only screen and (max-width: 420px) {
+.parentDiv input,
+  .parentDiv button{
+  width: 15rem;
+    }
 }
 
 
@@ -170,13 +168,7 @@ width: 80%;
     margin: 5vh 50px 5vh 10vw;
   }
 
-  .parentDiv {
-    position: absolute;
-    top: 80%;
-    right: 13%;
 
-
-  }
 }
 
 .font {

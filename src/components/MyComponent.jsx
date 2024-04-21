@@ -1,63 +1,40 @@
-import React, { useState, useEffect } from "react";
-import { Translate, useLanguage } from "translate-easy";
-import { FaArrowUp } from "react-icons/fa";
-import Header from "./Header/header";
+import React  from "react";
+  import Header from "./Header/header";
+import { useI18nContext } from "./context/i18n-context";
+import { Translate } from "@phosphor-icons/react";
+import LogOut from "./LogOut/LogOut";
+import { jwtDecode } from "jwt-decode";
+import Cookies from 'js-cookie';
 
 const MyComponent = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 100);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  
+  const token = Cookies.get('token');
+  const decodedToken = jwtDecode(token);
+  const { language, changeLanguage} = useI18nContext();
 
   return (
-    <div>
-      <LanguageSelector isScrolled={isScrolled} />
-    </div>
-  );
-};
+    <div className="flex items-center shadow-lg shadow-gray-900	 justify-content-around bg-gray-900 p-6 ">
+      <div className='userName text-center'>
+        User Name : {decodedToken.name}
+      </div>
+      <h3 className="text-gray-100 font">Sales Management</h3>
 
-function LanguageSelector({ isScrolled }) {
-  const { selectedLanguage, handleChangeLanguage, languages } = useLanguage();
+      <div className="flex items-center justify-content-center">
+      <LogOut />
+        <button
+          type="button"
+          className="relative rounded-full dark:bg-gray-900 p-1 ms-3
+                    dark:text-gray-400 dark:hover:text-white focus:outline-none
+                    hover:text-slate-500 w-fit"
+          onClick={() => {
+            changeLanguage(language === "en" ? "ar" : "en");
+          }}
+        >
+          <span className="absolute -inset-1.5" />
+          <Translate className="h-6 w-10" aria-hidden="true"/>
+        </button>
 
-  const handleLanguageClick = (languageCode) => {
-    handleChangeLanguage(languageCode);
-  };
-
-  return (
-    <div>
-      <ul
-        className={`FormTranslate fw-bold font2 ${isScrolled ? "scrolled" : ""}`} >
-        <p>
-          <Translate translations={{ ar: "اختر اللغة" }}>
-            Select Language
-          </Translate>
-          <FaArrowUp className="arrow mx-1 fs-5" />
-        </p>
-        {languages.map((language) => (
-          <li
-            key={language.code}
-            onClick={() => handleLanguageClick(language.code)}
-            style={{
-              fontWeight:
-                selectedLanguage.code === language.code ? "bold" : "normal",
-            }}
-          >
-            {language.name}
-          </li>
-        ))}
-      </ul>
       <Header />
-      <div>
       </div>
     </div>
   );

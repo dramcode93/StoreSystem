@@ -53,19 +53,19 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-gray-900 border-2  rounded-xl shadow-md  min-w-full" dir="rtl">
-        <div className="flex flex-col gap-2 p-3 items-center w-full text-white">
+    <div className="min-h-screen  flex items-center  justify-center">
+      <div className="bg-gray-900 dark:bg-gray-300 border-2 parentDiv min-w-80  rounded-xl shadow-md w-96" dir="rtl">
+        <div className="flex flex-col  gap-2 p-3 items-center w-full text-white">
           <h1 className="font-medium text-base">{usernameError || passwordError}</h1>
-          <h1 className="font-semibold text-2xl">سجل دخول</h1>
-          <p className="text-center font-medium text-base">
+          <h1 className="font-semibold text-center pdarkForm plightForm text-2xl">سجل دخول</h1>
+          <p className="text-center hdarkForm hlightForm font-medium text-base">
             الوصول إلى لوحة المعلومات باستخدام اسم المستخدم وكلمة المرور
           </p>
         </div>
-        <form onSubmit={handleLogin} className="p-8">
+        <form onSubmit={handleLogin} className="p-8  darkForm lightForm">
           <div className="space-y-8">
-            <div className="relative">
-              <label htmlFor="username" className="block font-semibold absolute -top-7 right-0 py-0 px-1 text-white">
+            <div className="relative right-1">
+              <label htmlFor="username" className="block font-semibold absolute -top-8 right-0 py-0 px-1 text-white">
                 اسم المستخدم
               </label>
               <input
@@ -74,14 +74,14 @@ const Login = () => {
                 value={username}
                 onChange={handleUsernameChange}
                 name="username"
-                className={`w-full px-3 py-3 border-2 text-white bg-gray-900 rounded-md focus:border-orange-400 outline-none ${usernameError ? "border-red-500" : "border-gray-200"} placeholder:tracking-wide text-left mb-2`}
+                className={`w-80 inputdarkForm inputlightForm px-3 py-3 border-2 text-white bg-gray-900 rounded-md focus:border-orange-400 outline-none ${usernameError ? "border-red-500" : "border-gray-200"} placeholder:tracking-wide text-left mb-2`}
                 placeholder="Ahmed mohamed "
               />
               {usernameError && <p className="text-red-500 text-sm">{usernameError}</p>}
             </div>
 
-            <div className="relative">
-              <label htmlFor="password" className="block font-semibold absolute -top-7 right-0 py-0 px-1 text-white">
+            <div className="relative right-1">
+              <label htmlFor="password" className="block font-semibold absolute -top-8 right-0 py-1 px-1 text-white">
                 كلمة المرور
               </label>
               <input
@@ -90,11 +90,11 @@ const Login = () => {
                 value={password}
                 onChange={handlePasswordChange}
                 name="password"
-                className={`w-full px-3 py-3 border-2 text-white bg-gray-900 rounded-md focus:border-orange-400 outline-none ${passwordError ? "border-red-500" : "border-gray-200"} placeholder:tracking-wide text-left`}
+                className={`w-80 darkForm lightForm px-3 py-3 border-2 text-white bg-gray-900 rounded-md focus:border-orange-400 outline-none ${passwordError ? "border-red-500" : "border-gray-200"} placeholder:tracking-wide text-left`}
                 placeholder="***********"
               />
-              <div className="absolute top-full left-1 mt-2 mx-5 cursor-pointer text-sm font-bold text-gray-500 hover:text-gray-800" onClick={toggleShowPassword}>
-                نسيت كلمة السر
+              <div className="absolute top-full right-0 my-3 tracking-wide mx-0  cursor-pointer text-xl font-bold text-gray-500 hover:text-gray-800" onClick={toggleShowPassword}>
+                 نسيت كلمة السر ؟
               </div>
               <div className="absolute top-1/2 right-2 text-gray-700 -translate-x-1/2 -translate-y-1/2 cursor-pointer" onClick={toggleShowPassword}>
                 {showPassword ? <Eye size={25} weight="bold" /> : <EyeClosed size={25} weight="bold" />}
@@ -104,7 +104,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-yellow-900 text-white border-2 border-yellow-400 font-semibold rounded-md py-2 tracking-wide mt-5 ease-linear duration-150 hover:bg-transparent hover:text-themeColor border-2 border-themeColor text-gray-900 rounded-md py-2 tracking-wide mt-5"
+              className="w-80 bg-yellow-900 text-white border-2  border-yellow-400 font-semibold rounded-md  ease-linear duration-150 hover:bg-transparent     text-gray-900 rounded-md py-2 tracking-wide mt-5"
             >
               تسجيل الدخول
             </button>
@@ -116,5 +116,3 @@ const Login = () => {
 };
 
 export default Login;
-
- 

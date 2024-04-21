@@ -28,7 +28,7 @@ function Header() {
     <>
       <header className="flex">
         <div id="icon" onClick={mode}>
-          {window.localStorage.getItem("mode") === "light" ? <FaMoon /> : <FaSun />}
+          {window.localStorage.getItem("mode") === "light" ? <FaMoon color="gray"  size={25}/> : <FaSun color="gray"  size={28}/>}
         </div>
       </header>
     </>
