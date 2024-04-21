@@ -2,20 +2,18 @@ import React from 'react'
 import './Home.css'
 import { FaCannabis, FaChevronCircleRight, FaCloudMeatball, FaUbuntu, FaUser } from 'react-icons/fa';
 import { Translate } from 'translate-easy';
-import image1 from '../../Images/Dark Orange Modern Circle Diagram Graph (1).svg'
-import image2 from '../../Images/Dark Orange Modern Circle Diagram Graph (2).svg'
-import image3 from '../../Images/Dark Orange Modern Circle Diagram Graph.svg'
-import { Link } from 'react-router-dom';
+ import { Link } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
-import LogOut from '../LogOut/LogOut';
-import MainComponent from '../Aside/MainComponent';
+ import MainComponent from '../Aside/MainComponent';
 import Cookies from 'js-cookie';
+ import { useI18nContext } from '../context/i18n-context';
 const Home = () => {
   const token = Cookies.get('token');
   const decodedToken = jwtDecode(token);
+  const { t } = useI18nContext();
+
   return (
     <div>
-      <LogOut />
 
       <MainComponent />
       <div className='marginHome'>
@@ -26,7 +24,7 @@ const Home = () => {
                 <div className='flex text1'>
                   <div>
                     <h2>135</h2>
-                    <span><Translate>Category</Translate></span>
+                  <span>   {t("Home.Category")}</span>
                   </div>
                   <FaCannabis className='productLogo' />
 

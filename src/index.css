@@ -52,7 +52,7 @@ li {
 
 .dark {
   --hover: rgb(56, 74, 235);
-  --back: #000000db;
+  --back:#111827;
   --font: #fff;
   --foot: rgba(0, 0, 0, 00.9);
   --title: #000;
@@ -64,7 +64,7 @@ li {
   --card: #f0f0f0;
   --hover: rgb(56, 74, 235);
   --back: #ffffff7a;
-  --font: #000;
+  --font: #111827;
   --foot: rgba(0, 0, 0, 0.1);
   --title: #fff;
   --icon: rgb(241, 246, 247);
