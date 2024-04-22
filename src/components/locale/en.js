@@ -1,7 +1,7 @@
 const en = {
  
   Home:{
-    Category:"category"
+    Category:"category",
   },
   Details:{
     Detail:"Details"
