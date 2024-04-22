@@ -26,7 +26,6 @@ import FormAdd from "./components/profile/formAdd.jsx";
 import UserBills from "./components/Bills/UserBills.jsx";
 import { useI18nContext } from "./components/context/i18n-context.jsx";
 
-
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
@@ -51,13 +50,13 @@ const App = () => {
             }
           }
 
-          const expirationThreshold = 24 * 60 * 60;  
+          const expirationThreshold = 24 * 60 * 60; // 24 hours in seconds
           if (decodedToken.exp - Date.now() / 1000 < expirationThreshold) {
             try {
               const response = await axios.get('https://store-system-api.gleeze.com/api/auth/refreshToken', { headers: { Authorization: `Bearer ${token}` } });
               const newToken = response.data.token;
               const tokenTime = 2
-              Cookies.set('token', newToken, { expires: tokenTime, secure: true, sameSite: 'strict' }); 
+              Cookies.set('token', newToken, { expires: tokenTime, secure: true, sameSite: 'strict' }); // Set the new token with a 1-day expiration
             } catch (error) { console.error('Error refreshing token:', error); }
           }
         } catch (error) {
@@ -80,13 +79,12 @@ const App = () => {
   return (
     <BrowserRouter dir={language === "ar" ? "rtl" : "ltr"}>
       <MyComponent />
-        <Dashboard>
       <Routes>
         <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
         <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
         <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
         {isLoggedIn && !isTokenExpired ? (
-          <>
+          <Route element={<Dashboard />}>
             <Route path="/home" element={<Home />} />
             <Route path="/category" element={<Category />} />
             <Route path="/update/:id" element={<Update  />} />
@@ -102,17 +100,13 @@ const App = () => {
             <Route path="/users/addUser" element={<FormAdd />} />
             <Route path="/users/:id/userBills" element={<UserBills />} />
             <Route path="/category/:id/products" element={<CategoryProducts />} />
-          </>
+          </Route>
         ) : (
           <Route path="/*" element={<Login />} />
         )}
       </Routes>
-        </Dashboard>
     </BrowserRouter>
   );
 };
 
 export default App;
-
-
-

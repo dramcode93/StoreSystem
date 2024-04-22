@@ -53,8 +53,8 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
   return (
-    <div className="mt-5 flex items-center justify-center">
-      <div className="bg-gray-900 dark:bg-gray-100 border-2 mt-5 parentDiv min-w-80  rounded-xl shadow-md w-96" dir="rtl">
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="bg-gray-900 dark:bg-gray-100 border-2 parentDiv  rounded-xl shadow-md w-96" dir="rtl">
         <div className="flex flex-col  gap-2 p-3 items-center w-full text-white">
           <h1 className="font-medium text-base">{usernameError || passwordError}</h1>
           <h1 className="font-semibold text-center pdarkForm plightForm text-2xl">سجل دخول</h1>

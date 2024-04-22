@@ -6,7 +6,7 @@ import { MdProductionQuantityLimits } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { NavLink } from 'react-router-dom';
 import { useI18nContext } from "../context/i18n-context";
-import { House, SketchLogo } from "@phosphor-icons/react";
+import { House } from "@phosphor-icons/react";
 
 const Dashboard = ({ children }) => {
     const menuDashboard = [
@@ -38,9 +38,10 @@ const Dashboard = ({ children }) => {
     ];
     const { language } = useI18nContext();
     const sidebarStyle = {
-        width: "24vw",
+        width: "18vw",
          height:"98vh",
-         paddingRight:"20px",
+         paddingRight:"2vw",
+         paddingTop:"13vh",
          boxShadow: language === "ar" ? "-5px 0px 3px  rgba(0, 0, 0, 0.1)" : "none",
     };
     const [activeLink, setActiveLink] = useState(null);
@@ -50,7 +51,6 @@ const Dashboard = ({ children }) => {
     return (
         <div className="text-gray-900 dark:text-gray-100 " dir={language === "ar" ? "rtl" : "ltr"}>
             <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
-            <h3 className="text-gray-900 pt-5 dark:text-gray-100 font flex justify-content-center gap-2 " > <SketchLogo /> Sales Management</h3>
                 <div className={module.top_section}>
                 </div>
                 {
