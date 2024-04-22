@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Header/header";
 import { useI18nContext } from "./context/i18n-context";
-import { Translate } from "@phosphor-icons/react"; 
+import {   Bell, Translate } from "@phosphor-icons/react"; 
 import LogOut from "./LogOut/LogOut";
 import { jwtDecode } from "jwt-decode";
 
@@ -16,29 +16,39 @@ const MyComponent = () => {
   }
 
   const { language, changeLanguage } = useI18nContext();
-
+ 
   return (
-    <div className="flex items-center dark:shadow-lg shadow shadow-gray-600 justify-content-around bg-gray-100 dark:bg-gray-900  p-6 ">
-      <div className='userName text-center text-gray-900 dark:text-gray-100'>
-        User Name : {decodedToken ? decodedToken.name : ''}
-      </div>
-      <h3 className="text-gray-900 dark:text-gray-100 font">Sales Management</h3>
-      <div className="flex items-center justify-content-center">
-        <LogOut />
-        <button
-          type="button"
-          className="relative bg-transparent rounded-full p-1 ms-3
+    <div className="fixed w-75 shadow shadow-gray-200 dark:shadow-gray-900  bg-gray dark:bg-gray-900  p-6"  >
+      <div className="flex   justify-content-between gap-5" >
+        <div className='userName text-center text-gray-900 dark:text-gray-100'>
+          User Name : {decodedToken ? decodedToken.name : ''}
+        </div>
+        <div className="flex items-center justify-content-center">
+          <LogOut />
+          <button
+            type="button"
+            className="relative bg-transparent rounded-full p-1 ms-3
                      text-gray-500  dark:hover:text-white focus:outline-none
                     hover:text-slate-500 w-fit"
-          onClick={() => {
-            changeLanguage(language === "en" ? "ar" : "en");
-          }}
-        >
-          <span className="absolute -inset-1.5" />
-          <Translate className="h-6 w-10" aria-hidden="true" />
-        </button>
-        <Header />
-      </div>
+            onClick={() => {
+              changeLanguage(language === "en" ? "ar" : "en");
+            }}
+          >
+            <span className="absolute -inset-1.5" />
+            <Translate className="h-6 w-10" aria-hidden="true" />
+          </button>
+          <Header />
+          <button
+            type="button"
+            className="relative bg-transparent rounded-full p-1 ms-3
+                     text-gray-500  dark:hover:text-white focus:outline-none
+                    hover:text-slate-500 w-fit">
+            <span className="absolute -inset-1.5" />
+            <span className="sr-only">View notifications</span>
+             <Bell className="h-6 w-10" aria-hidden="true" />
+          </button>
+        </div>
+     </div>
     </div>
   );
 }

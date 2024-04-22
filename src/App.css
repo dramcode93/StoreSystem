@@ -245,3 +245,8 @@ button:hover {
 .AddUser {
   margin-top: 20vh;
 }
+
+.house {
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  /* Adjust values as needed */
+}
