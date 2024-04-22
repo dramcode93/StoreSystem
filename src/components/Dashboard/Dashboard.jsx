@@ -36,7 +36,10 @@ const Dashboard = ({ children }) => {
             icon: <CgProfile />
         },
     ];
-    const { language } = useI18nContext();
+    //manager : profile(change pass , info ), users (admin , manager)
+    //admin : profile(change pass , info ), users ( users ) , category,products,bills,shop
+    //user : profile( info ) , category,products,bills{create bill},order(agree , accept), customer(create , show bills )
+     const { language } = useI18nContext();
     const sidebarStyle = {
         width: "18vw",
          height:"98vh",
