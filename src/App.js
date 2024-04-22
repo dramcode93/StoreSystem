@@ -51,13 +51,13 @@ const App = () => {
             }
           }
 
-          const expirationThreshold = 24 * 60 * 60; // 24 hours in seconds
+          const expirationThreshold = 24 * 60 * 60;  
           if (decodedToken.exp - Date.now() / 1000 < expirationThreshold) {
             try {
-              const response = await axios.get('http://localhost:3030/api/auth/refreshToken', { headers: { Authorization: `Bearer ${token}` } });
+              const response = await axios.get('https://store-system-api.gleeze.com/api/auth/refreshToken', { headers: { Authorization: `Bearer ${token}` } });
               const newToken = response.data.token;
               const tokenTime = 2
-              Cookies.set('token', newToken, { expires: tokenTime, secure: true, sameSite: 'strict' }); // Set the new token with a 1-day expiration
+              Cookies.set('token', newToken, { expires: tokenTime, secure: true, sameSite: 'strict' }); 
             } catch (error) { console.error('Error refreshing token:', error); }
           }
         } catch (error) {
