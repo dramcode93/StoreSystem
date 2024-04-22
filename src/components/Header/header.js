@@ -27,8 +27,14 @@ function Header() {
   return (
     <>
       <header className="flex">
-        <div id="icon" onClick={mode}>
-          {window.localStorage.getItem("mode") === "light" ? <FaMoon color="gray"  size={25}/> : <FaSun color="gray"  size={28}/>}
+        <div id="icon"  onClick={mode}>
+          {window.localStorage.getItem("mode") === "light" ? <FaMoon 
+           className="relative bg-transparent rounded-full p-1  
+                    text-gray-500  dark:hover:text-white focus:outline-none
+                    hover:text-slate-500 w-fit"  size={32}/> : <FaSun
+                     className="relative bg-transparent rounded-full p-1  
+                     text-gray-500  dark:hover:text-white focus:outline-none
+                    hover:text-slate-500 w-fit"  size={32}/>}
         </div>
       </header>
     </>

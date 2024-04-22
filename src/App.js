@@ -26,7 +26,6 @@ import FormAdd from "./components/profile/formAdd.jsx";
 import UserBills from "./components/Bills/UserBills.jsx";
 import { useI18nContext } from "./components/context/i18n-context.jsx";
 
-const lang = localStorage.getItem("language");
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -81,17 +80,17 @@ const App = () => {
   return (
     <BrowserRouter dir={language === "ar" ? "rtl" : "ltr"}>
       <MyComponent />
-      <Dashboard>
+        <Dashboard>
       <Routes>
         <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
         <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
         <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
         {isLoggedIn && !isTokenExpired ? (
           <>
-            <Route path="/home" element={<Home lang={lang} />} />
-            <Route path="/category" element={<Category lang={lang} />} />
-            <Route path="/update/:id" element={<Update lang={lang} />} />
-            <Route path="/updateProduct/:id" element={<UpdateProduct lang={lang} />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/category" element={<Category />} />
+            <Route path="/update/:id" element={<Update  />} />
+            <Route path="/updateProduct/:id" element={<UpdateProduct />} />
             <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
             <Route path="/products" element={<Products />} />
             <Route path="/bills" element={<Bills />} />
@@ -108,7 +107,7 @@ const App = () => {
           <Route path="/*" element={<Login />} />
         )}
       </Routes>
-      </Dashboard>
+        </Dashboard>
     </BrowserRouter>
   );
 };

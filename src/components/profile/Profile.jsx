@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import LogOut from '../LogOut/LogOut';
 import AsideBar from './AsideBar';
 import AllComponent from './mainComponent';
 import styles from './Profile.module.css'
@@ -13,7 +12,6 @@ const Profile = () => {
 
   return (
     <div>
-      <LogOut />
       <MainComponent />
       <div className={styles.profileContainer}>
         <div>
