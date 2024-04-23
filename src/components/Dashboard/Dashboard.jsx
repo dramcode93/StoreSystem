@@ -9,15 +9,17 @@ import { useI18nContext } from "../context/i18n-context";
 import { House } from "@phosphor-icons/react";
 
 const Dashboard = ({ children }) => {
+    const {t, language } = useI18nContext();  
+
     const menuDashboard = [
         {
             path: '/Home',
-            name: "Home",
+            name: "Home",  
             icon: <House />,
-         },
+        },
         {
             path: '/category',
-            name: "Category",
+            name: t("Home.Category"),  
             icon: <BiCategory />
         },
         {
@@ -27,40 +29,39 @@ const Dashboard = ({ children }) => {
         },
         {
             path: "/bills",
-            name: "Bill",
+            name: "Bill",  
             icon: <LiaMoneyBillSolid />
         },
         {
             path: "/profile",
-            name: "Profile",
+            name: "Profile",  
             icon: <CgProfile />
         },
     ];
-    //manager : profile(change pass , info ), users (admin , manager)
-    //admin : profile(change pass , info ), users ( users ) , category,products,bills,shop
-    //user : profile( info ) , category,products,bills{create bill},order(agree , accept), customer(create , show bills )
-     const { language } = useI18nContext();
+
     const sidebarStyle = {
         width: "18vw",
-         height:"98vh",
-         paddingRight:"2vw",
-         paddingTop:"13vh",
-         boxShadow: language === "ar" ? "-5px 0px 3px  rgba(0, 0, 0, 0.1)" : "none",
+        height: "98vh",
+        paddingRight: "2vw",
+        paddingTop: "13vh",
+        boxShadow: language === "ar" ? "-5px 0px 3px  rgba(0, 0, 0, 0.1)" : "none",
     };
+
     const [activeLink, setActiveLink] = useState(null);
+
     const handleLinkClick = (index) => {
         setActiveLink(index);
     };
+
     return (
         <div className="text-gray-900 dark:text-gray-100 " dir={language === "ar" ? "rtl" : "ltr"}>
             <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
-                <div className={module.top_section}>
-                </div>
+                <div className={module.top_section}></div>
                 {
                     menuDashboard.map((item, index) => (
                         <NavLink to={item.path} key={index} className={module.link} activeClassName={module.active}
-                            onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#713f12",borderRadius:"10px" } : {}}
->
+                            onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}
+                        >
                             <div className={module.icon}>{item.icon}</div>
                             <div className={module.link_text}>{item.name}</div>
                         </NavLink>

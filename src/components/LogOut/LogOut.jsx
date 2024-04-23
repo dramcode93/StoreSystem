@@ -11,7 +11,10 @@ const logOut = () => {
 
   return (
     <div>
-      <User color="gray" size={25} onClick={handle} />
+      <User className='relative bg-transparent rounded-full p-1
+                     text-gray-500  dark:hover:text-white focus:outline-none
+                    hover:text-slate-500 w-fit'
+                     size={32} onClick={handle} />
        
     </div>
   );
