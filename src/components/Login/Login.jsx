@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Eye, EyeClosed } from '@phosphor-icons/react';
+import { useI18nContext } from '../context/i18n-context';
 
 const Login = () => {
+  const { language } = useI18nContext();
+  const { t } = useI18nContext();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
@@ -51,22 +54,26 @@ const Login = () => {
   };
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
+    
   };
+
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-gray-900 dark:bg-gray-100 border-2 parentDiv  rounded-xl shadow-md w-96" dir="rtl">
+    <div className="min-h-screen flex items-center justify-center" >
+      <div className="bg-gray-900 dark:bg-gray-100 border-2 parentDiv  rounded-xl shadow-md w-96" dir='rtl' >
         <div className="flex flex-col  gap-2 p-3 items-center w-full text-white">
           <h1 className="font-medium text-base">{usernameError || passwordError}</h1>
-          <h1 className="font-semibold text-center pdarkForm plightForm text-2xl">سجل دخول</h1>
+          <h1 className=" font-semibold text-center pdarkForm plightForm text-2xl">
+            {t("Home.Login")}
+          </h1>
           <p className="text-center hdarkForm hlightForm font-medium text-base">
-            الوصول إلى لوحة المعلومات باستخدام اسم المستخدم وكلمة المرور
+            {t("Home.Describe")}
           </p>
         </div>
         <form onSubmit={handleLogin} className="p-8  darkForm lightForm">
           <div className="space-y-8">
             <div className="relative right-1">
-              <label htmlFor="username" className="block font-semibold absolute -top-8 right-0 py-0 px-1 text-white">
-                اسم المستخدم
+              <label htmlFor="username" className={` block font-semibold absolute -top-8 right-0 py-0 px-1 text-white ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+                {t("Home.Username")}
               </label>
               <input
                 type="text"
@@ -82,7 +89,7 @@ const Login = () => {
 
             <div className="relative right-1">
               <label htmlFor="password" className="block font-semibold absolute -top-8 right-0 py-1 px-1 text-white">
-                كلمة المرور
+                {t("Home.Password")}
               </label>
               <input
                 type={showPassword ? "text" : "password"}
@@ -94,7 +101,7 @@ const Login = () => {
                 placeholder="***********"
               />
               <div className="absolute top-full right-0 my-3 tracking-wide mx-0  cursor-pointer text-xl font-bold text-gray-500 hover:text-gray-800" onClick={toggleShowPassword}>
-                 نسيت كلمة السر ؟
+                {t("Home.ForgetPass")}
               </div>
               <div className="absolute top-1/2 right-2 text-gray-700 -translate-x-1/2 -translate-y-1/2 cursor-pointer" onClick={toggleShowPassword}>
                 {showPassword ? <Eye size={25} weight="bold" /> : <EyeClosed size={25} weight="bold" />}
@@ -106,7 +113,7 @@ const Login = () => {
               type="submit"
               className="w-80 bg-yellow-900 text-white border-2 outline-yellow-900 font-semibold rounded-md  ease-linear duration-150 hover:bg-gray-900 rounded-md py-2 tracking-wide mt-5"
             >
-              تسجيل الدخول
+              {t("Home.Login")}
             </button>
           </div>
         </form>
