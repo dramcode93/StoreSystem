@@ -4,42 +4,44 @@ import { BiCategory } from "react-icons/bi";
 import { LiaMoneyBillSolid } from "react-icons/lia";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
+
 import { NavLink } from 'react-router-dom';
 import { useI18nContext } from "../context/i18n-context";
-import { House } from "@phosphor-icons/react";
 
+import { House } from "@phosphor-icons/react";
 const Dashboard = ({ children }) => {
+    const { t } = useI18nContext();
     const menuDashboard = [
         {
             path: '/Home',
-            name: "Home",
+            name: t("Home.Home"),
             icon: <House />,
          },
         {
             path: '/category',
-            name: "Category",
+            name: t("Home.Category"),
             icon: <BiCategory />
         },
         {
             path: "/products",
-            name: "Product",
+            name: t("Home.Detail"),
             icon: <MdProductionQuantityLimits />
         },
         {
             path: "/bills",
-            name: "Bill",
+            name: t("Home.Bill"),
             icon: <LiaMoneyBillSolid />
         },
         {
             path: "/profile",
-            name: "Profile",
+            name: t("Home.Profile"),
             icon: <CgProfile />
         },
     ];
     //manager : profile(change pass , info ), users (admin , manager)
     //admin : profile(change pass , info ), users ( users ) , category,products,bills,shop
     //user : profile( info ) , category,products,bills{create bill},order(agree , accept), customer(create , show bills )
-     const { language } = useI18nContext();
+    const { language } = useI18nContext();
     const sidebarStyle = {
         width: "18vw",
          height:"98vh",
