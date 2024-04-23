@@ -20,10 +20,8 @@ const MyComponent = () => {
   return (
     <div className="fixed w-100 shadow shadow-gray-200 dark:shadow-gray-900  bg-gray dark:bg-gray-900  p-6" dir={language === "ar" ? "rtl" : "ltr"}>
       <div className="flex  items-center justify-content-between" >
-        <h3 className="text-gray-900  dark:text-gray-100 font flex justify-content-center gap-2 " > Sales Management <SketchLogo /> </h3>
-        <div className='userName text-center text-gray-900 dark:text-gray-100'>
-          User Name : {decodedToken ? decodedToken.name : ''}
-        </div>
+        <h3 className="text-gray-900  dark:text-gray-100 font flex justify-content-center gap-2 " ><SketchLogo /> Sales Management  </h3>
+       
         <div className="flex items-center justify-content-center">
           <LogOut />
           <button
@@ -48,6 +46,9 @@ const MyComponent = () => {
             <span className="sr-only">View notifications</span>
              <Bell className="h-6 w-10" aria-hidden="true" />
           </button>
+        </div>
+        <div className='userName text-center text-gray-900 dark:text-gray-100'>
+          User Name : {decodedToken ? decodedToken.name : ''}
         </div>
      </div>
     </div>
