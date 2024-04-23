@@ -1,19 +1,12 @@
  const ar = {
   Home:{
-    Category:"الفئة"
-  },
-  Details:{
-    Detail:"التفاصيل"
-  },
-  Products:{
-    Product:"مننج"
-  },
-  Bills:{
+    Home:"الرئسيه",
+    Category:"الفئة",
+    Detail:"التفاصيل",
+    Profile:"الملف الشخصي",
     Bill:"فاتوره"
   },
-  Profiles:{
-    Profile:"الملف الشخصي"
-  },
+
 }
 
 export default ar;

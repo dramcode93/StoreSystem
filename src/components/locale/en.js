@@ -1,19 +1,13 @@
 const en = {
  
   Home:{
+    Home:"Home",
     Category:"category",
-  },
-  Details:{
-    Detail:"Details"
-  },
-  Products:{
-    Product:"Product"
-  },
-  Bills:{
-    Bill:"Bill"
-  },
-  Profiles:{
+    Detail:"Details",
+    Product:"Product",
+    Bill:"Bill",
     Profile:"The Profile"
   },
+ 
 }
 export default en;
