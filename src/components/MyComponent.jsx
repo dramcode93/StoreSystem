@@ -52,6 +52,38 @@ const MyComponent = () => {
         </div>
       </div>
     </div>
+// fixed w-100
+// flex justify-between relative
+  //   <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative  bg-blue-500">
+  //   <button
+  //     title="Menu"
+  //     // customFunc={handleActiveMenu}
+  //     // color={currentColor}
+  //     // icon={<AiOutlineMenu />}
+  //   />
+  //   <div className="flex">
+  //     <button
+  //       title="Cart"
+  //       // customFunc={() => handleClick("cart")}
+  //       // color={currentColor}
+  //       // icon={<FiShoppingCart />}
+  //     />
+  //     <button
+  //       title="Chat"
+  //       dotColor="#03C9D7"
+  //       // customFunc={() => handleClick("chat")}
+  //       // color={currentColor}
+  //       // icon={<BsChatLeft />}
+  //     />
+  //     <button
+  //       title="Notification"
+  //       dotColor="rgb(254, 201, 15)"
+  //       // customFunc={() => handleClick("notification")}
+  //       // color={currentColor}
+  //       // icon={<RiNotification3Line />}
+  //     />
+  //   </div>
+  // </div>
   );
 }
 

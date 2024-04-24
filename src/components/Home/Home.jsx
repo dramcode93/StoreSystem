@@ -7,7 +7,7 @@ const Home = () => {
 
   return (
     <div>
-      <h1 dir={language === "ar" ? "rtl" : "ltr"}>xzzzzzzxxx</h1>
+      <h1 dir={language === "ar" ? "rtl" : "ltr"}>home</h1>
     </div>
   );
 };

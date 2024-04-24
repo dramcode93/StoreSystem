@@ -15,6 +15,5 @@ const en = {
     ForgetPass:"Forget Your Password",
 
   },
- 
-}
+};
 export default en;
