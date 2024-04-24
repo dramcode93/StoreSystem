@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import { Button } from 'react-bootstrap';
 import { CiSearch } from "react-icons/ci";
-//import { IoAddOutline } from "react-icons/io5";
-const Category = () => {
-  // Sample data
-  const head = ["ID", "Name", "Actions", "Edit"];
+ const Category = () => {
+   const head = ["ID", "Name", "Actions", "Edit"];
   const data = [
     { id: 1, name: 'John', age: 30, city: 'New York' },
     { id: 2, name: 'Alice', age: 25, city: 'Los Angeles' },

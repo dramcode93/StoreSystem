@@ -24,7 +24,7 @@ const Dashboard = ({ children }) => {
         },
         {
             path: "/products",
-            name: t("Home.Detail"),
+            name: t("Home.products"),
             icon: <MdProductionQuantityLimits />
         },
         {
@@ -46,10 +46,10 @@ const Dashboard = ({ children }) => {
 
     const sidebarStyle = {
         width: "18vw",
-        height: "98vh",
+        height: "97vh",
         paddingRight: "2vw",
-        paddingTop: "13vh",
-        boxShadow: language === "ar" ? "-5px 0px 3px  rgba(0, 0, 0, 0.1)" : "none",
+        paddingTop: "20vh",
+        boxShadow: language === "ar" ? "-5px 0px 3px  rgba(0, 0, 0, 0.1)" : "5px 0px 3px  rgba(0, 0, 0, 0.1)"
     };
 
     const [activeLink, setActiveLink] = useState(null);
@@ -59,9 +59,8 @@ const Dashboard = ({ children }) => {
     };
 
     return (
-        <div className="text-gray-900 dark:text-gray-100 " dir={language === "ar" ? "rtl" : "ltr"}>
+        <div className="text-gray-900 dark:text-gray-100 w-100" dir={language === "ar" ? "rtl" : "ltr"}>
             <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
-                <div className={module.top_section}></div>
                 {
                     menuDashboard.map((item, index) => (
                         <NavLink to={item.path} key={index} className={module.link} activeClassName={module.active}
