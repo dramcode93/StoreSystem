@@ -10,17 +10,17 @@ import { useI18nContext } from "../context/i18n-context";
 
 import { House } from "@phosphor-icons/react";
 const Dashboard = ({ children }) => {
-     const { t,language } = useI18nContext();
+    const { t, language } = useI18nContext();
     const menuDashboard = [
         {
             path: '/Home',
             name: t("Home.Home"),
-                        icon: <House />
-        },      
+            icon: <House />
+        },
         {
             path: '/category',
-             name: t("Home.Category"),
-              icon: <BiCategory />
+            name: t("Home.Category"),
+            icon: <BiCategory />
         },
         {
             path: "/products",
@@ -29,21 +29,22 @@ const Dashboard = ({ children }) => {
         },
         {
             path: "/bills",
-             name: t("Home.Bill"),
-              icon: <LiaMoneyBillSolid />
+            name: t("Home.Bill"),
+            icon: <LiaMoneyBillSolid />
         },
         {
             path: "/profile",
-             name: t("Home.Profile"),
+            name: t("Home.Profile"),
             icon: <CgProfile />
         },
     ];
     //manager : profile(change pass , info ), users (admin , manager)
     //admin : profile(change pass , info ), users ( users ) , category,products,bills,shop
     //user : profile( info ) , category,products,bills{create bill},order(agree , accept), customer(create , show bills )
-  
 
-     const sidebarStyle = {
+
+
+    const sidebarStyle = {
         width: "18vw",
         height: "98vh",
         paddingRight: "2vw",
