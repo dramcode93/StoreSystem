@@ -6,7 +6,7 @@ import Home from "./components/Home/Home.jsx";
 import Products from "./components/Products/Products.jsx";
 import Bills from "./components/Bills/Bills.jsx";
 import Login from "./components/Login/Login.jsx";
-import { jwtDecode } from "jwt-decode"; 
+import { jwtDecode } from "jwt-decode";
 import Dashboard from "./components/Dashboard/Dashboard.jsx"
 import Update from "./components/Category/Update.jsx";
 import UpdateProduct from "./components/Products/updateProduct.jsx";
@@ -25,7 +25,6 @@ import axios from "axios";
 import FormAdd from "./components/profile/formAdd.jsx";
 import UserBills from "./components/Bills/UserBills.jsx";
 import { useI18nContext } from "./components/context/i18n-context.jsx";
-
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
@@ -79,34 +78,72 @@ const App = () => {
   return (
     <BrowserRouter dir={language === "ar" ? "rtl" : "ltr"}>
       <MyComponent />
-      <Routes>
-        <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
-        <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
-        <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
-        {isLoggedIn && !isTokenExpired ? (
-          <Route element={<Dashboard />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/category" element={<Category />} />
-            <Route path="/update/:id" element={<Update  />} />
-            <Route path="/updateProduct/:id" element={<UpdateProduct />} />
-            <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/bills" element={<Bills />} />
-            <Route path="/UpdateBills/:id" element={<UpdateBills />} />
-            <Route path="/CreateBillForm" element={<CreateBillForm />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/Profile" element={<ChangPassword />} />
-            <Route path="/Profile/Users" element={<Users />} />
-            <Route path="/users/addUser" element={<FormAdd />} />
-            <Route path="/users/:id/userBills" element={<UserBills />} />
-            <Route path="/category/:id/products" element={<CategoryProducts />} />
-          </Route>
-        ) : (
-          <Route path="/*" element={<Login />} />
-        )}
-      </Routes>
+      <div className="flex items-start">
+        {isLoggedIn && !isTokenExpired && <Dashboard />}
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
+            <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
+            <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
+            <Route path="/" element={<Login />} />
+            {isLoggedIn && !isTokenExpired && (
+              <>
+                <Route path="/home" element={<Home />} />
+                <Route path="/category" element={<Category />} />
+                <Route path="/update/:id" element={<Update />} />
+                <Route path="/updateProduct/:id" element={<UpdateProduct />} />
+                <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/bills" element={<Bills />} />
+                <Route path="/UpdateBills/:id" element={<UpdateBills />} />
+                <Route path="/CreateBillForm" element={<CreateBillForm />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/Profile" element={<ChangPassword />} />
+                <Route path="/Profile/Users" element={<Users />} />
+                <Route path="/users/addUser" element={<FormAdd />} />
+                <Route path="/users/:id/userBills" element={<UserBills />} />
+                <Route path="/category/:id/products" element={<CategoryProducts />} />
+              </>
+            )}
+          </Routes>
+        </div>
+      </div>
     </BrowserRouter>
   );
+
+  // return (
+  //   <BrowserRouter dir={language === "ar" ? "rtl" : "ltr"}>
+  //     <MyComponent />
+  //     <Routes>
+  //       <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
+  //       <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
+  //       <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
+  //       {isLoggedIn && !isTokenExpired ? (
+
+  //         <Route element={<Dashboard />}>
+  //           <Route path="/" element={<Home />} />
+  //           <Route path="/category" element={<Dina />} />
+  //           <Route path="/update/:id" element={<Update />} />
+  //           <Route path="/updateProduct/:id" element={<UpdateProduct />} />
+  //           <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
+  //           <Route path="/products" element={<Products />} />
+  //           <Route path="/bills" element={<Bills />} />
+  //           <Route path="/UpdateBills/:id" element={<UpdateBills />} />
+  //           <Route path="/CreateBillForm" element={<CreateBillForm />} />
+  //           <Route path="/profile" element={<ProfilePage />} />
+  //           <Route path="/Profile" element={<ChangPassword />} />
+  //           <Route path="/Profile/Users" element={<Users />} />
+  //           <Route path="/users/addUser" element={<FormAdd />} />
+  //           <Route path="/users/:id/userBills" element={<UserBills />} />
+  //           <Route path="/category/:id/products" element={<CategoryProducts />} />
+  //         </Route>
+
+  //       ) : (
+  //         <Route path="/*" element={<Login />} />
+  //       )}
+  //     </Routes>
+  //   </BrowserRouter>
+  // );
 };
 
 export default App;
