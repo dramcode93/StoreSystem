@@ -76,9 +76,9 @@ const App = () => {
   const { language } = useI18nContext();
 
   return (
-    <BrowserRouter dir={language === "ar" ? "rtl" : "ltr"}>
+    <BrowserRouter>
       <MyComponent />
-      <div className="flex items-start">
+      <div className="flex items-start justify-center" dir={language === "ar" ? "rtl" : "ltr"}>
         {isLoggedIn && !isTokenExpired && <Dashboard dir={language === "ar" ? "rtl" : "ltr"}/>}
         <div className="flex-grow">
           <Routes>
