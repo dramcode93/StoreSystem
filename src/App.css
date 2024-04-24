@@ -135,6 +135,7 @@ header #icon {
 .parentDiv {
     position: relative;
     margin: auto;
+    top: 7vh;
  }
 @media only screen and (max-width: 768px) {
 
