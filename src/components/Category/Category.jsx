@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { CiSearch } from "react-icons/ci";
- const Category = () => {
-   const head = ["ID", "Name", "Actions", "Edit"];
+import { useI18nContext } from '../context/i18n-context';
+
+const Category = () => {
+  const head = ["ID", "Name", "Actions", "Edit"];
   const data = [
     { id: 1, name: 'John', age: 30, city: 'New York' },
     { id: 2, name: 'Alice', age: 25, city: 'Los Angeles' },
@@ -10,13 +12,14 @@ import { CiSearch } from "react-icons/ci";
     { id: 4, name: 'Emma', age: 28, city: 'San Francisco' },
   ];
   const [searchTerm, setSearchTerm] = useState('');
+  const language = useI18nContext();
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
   return (
-    <div className="bg-slate-700 py-10  m-3 rounded-md">
+    <div className={`bg-slate-700 py-10 absolute bottom-5 z-3 m-3 rounded-md ${language === "ar" ? "left-0" : "right-0"}`}>
       <div className="flex justify-between items-center px-5">
         <div className="relative w-96">
           <input
@@ -38,7 +41,6 @@ import { CiSearch } from "react-icons/ci";
             {head.map((item) => (
               <th className="text-white px-4 py-3 text-xl">{item}</th>
             ))}
-
           </tr>
         </thead>
         <tbody>
@@ -56,7 +58,8 @@ import { CiSearch } from "react-icons/ci";
   );
 }
 
-export default Category
+export default Category;
+
 
 
 // import React, { useState, useEffect, useCallback } from 'react';

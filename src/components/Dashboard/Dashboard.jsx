@@ -60,11 +60,12 @@ const Dashboard = ({ children }) => {
 
     return (
         <div className="text-gray-900 dark:text-gray-100 w-100" dir={language === "ar" ? "rtl" : "ltr"}>
+
             <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
                 {
                     menuDashboard.map((item, index) => (
                         <NavLink to={item.path} key={index} className={module.link} activeClassName={module.active}
-                            onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}
+                        onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}
                         >
                             <div className={module.icon}>{item.icon}</div>
                             <div className={module.link_text}>{item.name}</div>
