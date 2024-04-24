@@ -79,7 +79,7 @@ const App = () => {
     <BrowserRouter dir={language === "ar" ? "rtl" : "ltr"}>
       <MyComponent />
       <div className="flex items-start">
-        {isLoggedIn && !isTokenExpired && <Dashboard />}
+        {isLoggedIn && !isTokenExpired && <Dashboard dir={language === "ar" ? "rtl" : "ltr"}/>}
         <div className="flex-grow">
           <Routes>
             <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
