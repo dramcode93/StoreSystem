@@ -42,8 +42,6 @@ const Dashboard = ({ children }) => {
     //admin : profile(change pass , info ), users ( users ) , category,products,bills,shop
     //user : profile( info ) , category,products,bills{create bill},order(agree , accept), customer(create , show bills )
   
-        },
-    ];
 
      const sidebarStyle = {
         width: "18vw",
