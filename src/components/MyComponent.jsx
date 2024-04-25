@@ -20,9 +20,9 @@ const MyComponent = () => {
   return (
     <div className="fixed w-100 shadow shadow-gray-200 dark:shadow-gray-900  bg-gray dark:bg-gray-900  p-6" dir={language === "ar" ? "rtl" : "ltr"}>
       <div className="flex  items-center justify-content-between" >
-        <h3 className="text-gray-900  dark:text-gray-100 font flex justify-content-center gap-2 " ><SketchLogo /> {t(`Home.salesManagement`)}  </h3>
+        <h3 className="text-gray-900  dark:text-gray-100 font flex justify-content-center w-25 gap-2 " ><SketchLogo /> {t(`Home.salesManagement`)}  </h3>
 
-        <div className="flex items-center justify-content-center">
+        <div className="w-50 flex items-center justify-content-center">
           <LogOut />
           <button
             type="button"
@@ -47,43 +47,12 @@ const MyComponent = () => {
             <Bell className="h-6 w-10" aria-hidden="true" />
           </button>
         </div>
-        <div className='userName text-center text-gray-900 dark:text-gray-100'>
+        <div className='userName w-25 text-center text-gray-900 dark:text-gray-100'>
           {t(`Home.Username`)}   : {decodedToken ? decodedToken.name : ''}
         </div>
       </div>
     </div>
-// fixed w-100
-// flex justify-between relative
-  //   <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative  bg-blue-500">
-  //   <button
-  //     title="Menu"
-  //     // customFunc={handleActiveMenu}
-  //     // color={currentColor}
-  //     // icon={<AiOutlineMenu />}
-  //   />
-  //   <div className="flex">
-  //     <button
-  //       title="Cart"
-  //       // customFunc={() => handleClick("cart")}
-  //       // color={currentColor}
-  //       // icon={<FiShoppingCart />}
-  //     />
-  //     <button
-  //       title="Chat"
-  //       dotColor="#03C9D7"
-  //       // customFunc={() => handleClick("chat")}
-  //       // color={currentColor}
-  //       // icon={<BsChatLeft />}
-  //     />
-  //     <button
-  //       title="Notification"
-  //       dotColor="rgb(254, 201, 15)"
-  //       // customFunc={() => handleClick("notification")}
-  //       // color={currentColor}
-  //       // icon={<RiNotification3Line />}
-  //     />
-  //   </div>
-  // </div>
+ 
   );
 }
 

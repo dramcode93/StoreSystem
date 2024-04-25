@@ -63,7 +63,7 @@ const Dashboard = ({ children }) => {
             <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
                 {
                     menuDashboard.map((item, index) => (
-                        <NavLink to={item.path} key={index} className={module.link} activeClassName={module.active}
+                        <NavLink to={item.path} key={index} className={module.link}
                         onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}
                         >
                             <div className={module.icon}>{item.icon}</div>
