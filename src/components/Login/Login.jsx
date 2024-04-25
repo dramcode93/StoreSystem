@@ -65,9 +65,7 @@ const Login = () => {
           <h1 className="font-semibold text-center pdarkForm plightForm text-2xl">
             {t("Home.Login")}
           </h1>
-          <p className="text-center hdarkForm hlightForm font-medium text-base">
-            {t("Home.Describe")}
-          </p>
+          
         </div>
         <form onSubmit={handleLogin} className="p-8 darkForm lightForm relative">
           <div className="space-y-8">

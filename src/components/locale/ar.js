@@ -12,6 +12,30 @@ const ar = {
     salesManagement: "إدارة المبيعات",
     ForgetPass: "نسيت كلمه المرور",
   },
+  Category:{
+    Search:"بحث",
+    Add:"ضيف",
+    Code:"الكود",
+    Name:"الإسم",
+    appear:"ظهر",
+    from:"من",
+    Actions:"الإجراءات",
+    available:"الفئات غير متاحة",
+  },
+  Products:{
+    Search:"بحث",
+    Add:"ضيف",
+    Code:"الكود",
+    Name:"الإسم",
+    Sold:"المباع",
+    Price:"السعر",
+    Quantity:"الكمية",
+    Category:"الفئة",
+    appear:"ظهر",
+    from:"من",
+    Actions:"الإجراءات",
+    available:"الفئات غير متاحة",
+  },
 };
 
 export default ar;

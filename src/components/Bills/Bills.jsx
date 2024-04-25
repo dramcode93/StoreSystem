@@ -2,12 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
 import ConfirmationModal from '../Category/ConfirmationModel';
-import MainComponent from './../Aside/MainComponent';
-import PrintButton from './PrintButton';
+ import PrintButton from './PrintButton';
 import Loading from '../Loading/Loading';
 import axios from 'axios';
-import LogOut from './../LogOut/LogOut';
-import { Translate } from 'translate-easy';
+ import { Translate } from 'translate-easy';
 import { jwtDecode } from "jwt-decode";
 import Cookies from 'js-cookie';
 import { handlePrint } from './handlePrint';
@@ -81,9 +79,7 @@ const Bills = () => {
 
   return (
     <div>
-      <LogOut />
-      <MainComponent />
-    
+      
         <div className={styles.billsContainer}>
           <div className='flex gap-5'>
             <Link className='btn btn-primary px-5 my-3 fs-5 text-light' to='/CreateBillForm'>
