@@ -45,6 +45,7 @@ const ar = {
   Products: {
     Search: "بحث",
     Add: "ضيف",
+    AddProduct: "إضافة منتج",
     Code: "الكود",
     Name: "الإسم",
     Sold: "المباع",
