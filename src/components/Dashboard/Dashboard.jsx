@@ -8,10 +8,46 @@ import { useI18nContext } from "../context/i18n-context";
 import module from "./Dashboard.module.css";
 import { House } from "@phosphor-icons/react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
 
 const Dashboard = ({ children }) => {
+    const token = Cookies.get('token');
+    const decodedToken = jwtDecode(token);
     const { t, language } = useI18nContext();
-    const menuDashboard = [
+
+    // const admin = [
+    //     {
+    //         path: '/Home',
+    //         name: t("Home.Home"),
+    //         icon: <House />
+    //     },
+    //     {
+    //         path: '/category',
+    //         name: t("Home.Category"),
+    //         icon: <BiCategory />
+    //     },
+    //     {
+    //         path: "/products",
+    //         name: t("Home.products"),
+    //         icon: <MdProductionQuantityLimits />
+    //     },
+    //     {
+    //         path: "/bills",
+    //         name: t("Home.Bill"),
+    //         icon: <LiaMoneyBillSolid />
+    //     },
+    //     {
+    //         name: t("Home.Profile"),
+    //         icon: <CgProfile />,
+    //         dropdownItems: [
+    //             { text: 'Information', path: '/information' },
+    //             { text: 'Change Password', path: '/change-password' },
+    //             { text: 'Users', path: '/users' }
+    //         ]
+    //     },
+    // ];
+    const admin = [
         {
             path: '/Home',
             name: t("Home.Home"),
@@ -43,6 +79,69 @@ const Dashboard = ({ children }) => {
         },
     ];
 
+
+
+    const manager = [
+        {
+            path: '/Home',
+            name: t("Home.Home"),
+            icon: <House />
+        },
+
+
+
+        {
+            path: "/products",
+            name: t("Home.products"),
+            icon: <MdProductionQuantityLimits />
+        },
+        {
+            path: "/bills",
+            name: t("Home.Bill"),
+            icon: <LiaMoneyBillSolid />
+        },
+        {
+            name: t("Home.Profile"),
+            icon: <CgProfile />,
+            dropdownItems: [
+                { text: 'Information', path: '/information' },
+                { text: 'Change Password', path: '/change-password' },
+                { text: 'Users', path: '/users' }
+            ]
+        },
+    ];
+
+
+
+
+    const user = [
+        {
+            path: '/Home',
+            name: t("Home.Home"),
+            icon: <House />
+        },
+        {
+            path: '/category',
+            name: t("Home.Category"),
+            icon: <BiCategory />
+        },
+
+        {
+            path: "/bills",
+            name: t("Home.Bill"),
+            icon: <LiaMoneyBillSolid />
+        },
+        {
+            name: t("Home.Profile"),
+            icon: <CgProfile />,
+            dropdownItems: [
+                { text: 'Information', path: '/information' },
+                { text: 'Change Password', path: '/change-password' },
+                { text: 'Users', path: '/users' }
+            ]
+        },
+    ];
+
     const sidebarStyle = {
         width: "18vw",
         height: "97vh",
@@ -51,47 +150,112 @@ const Dashboard = ({ children }) => {
         boxShadow: language === "ar" ? "-5px 0px 3px  rgba(0, 0, 0, 0.1)" : "5px 0px 3px  rgba(0, 0, 0, 0.1)"
     };
 
+    // Initialize the active link state
     const [activeLink, setActiveLink] = useState(null);
     const [isProfileActive, setIsProfileActive] = useState(false);
 
+    // Handle the click event for the links
     const handleLinkClick = (index) => {
         setActiveLink(index);
-        if (index === menuDashboard.length - 1) {
+        if (index === admin.length - 1) {
             setIsProfileActive(!isProfileActive);
         } else {
             setIsProfileActive(false);
         }
     };
 
+    // Render the dashboard
     return (
-        <div className="text-gray-900 dark:text-gray-100 min-h-screen" dir={language === "ar" ? "rtl" : "ltr"}>
-            <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
-                {
-                    menuDashboard.map((item, index) => (
-                        <div key={index}>
-                            <NavLink to={item.path} className={module.link} onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}>
-                                <div className={module.icon}>{item.icon}</div>
-                                {item.name === "The Profile" ? (
-                                    <div className={`${module.link_text} flex`}>{item.name} {activeLink === index ? <FiChevronUp /> : <FiChevronDown />}</div>
-                                ) : (
-                                    <div className={module.link_text}>{item.name}</div>
-                                )}
-                            </NavLink>
-                            {activeLink === index && isProfileActive && item.dropdownItems && (
-                                <div className='transition ease-in-out duration-75' dir={language === "ar" ? "rtl" : "ltr"}>
-                                    <div className='flex flex-col w-full mx-auto justify-start font-bold text-white'>
-                                        {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
-                                            <NavLink key={dropdownIndex} to={dropdownItem.path} className={module.link}>
-                                                <p className='text-white'>{dropdownItem.text}</p>
-                                            </NavLink>
-                                        ))}
+
+
+
+        <div className="text-gray-900 dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
+            {decodedToken.role === "admin" &&
+                <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
+                    {
+                        admin.map((item, index) => (
+                            <div key={index}>
+                                <NavLink to={item.path} className={module.link} onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}>
+                                    <div className={module.icon}>{item.icon}</div>
+                                    {item.name === "The Profile" ? (
+                                        <div className={`${module.link_text} flex`}>{item.name} {activeLink === index ? <FiChevronUp /> : <FiChevronDown />}</div>
+                                    ) : (
+                                        <div className={module.link_text}>{item.name}</div>
+                                    )}
+                                </NavLink>
+                                {activeLink === index && isProfileActive && item.dropdownItems && (
+                                    <div className='transition ease-in-out duration-75' dir={language === "ar" ? "rtl" : "ltr"}>
+                                        <div className='flex flex-col w-full mx-auto justify-start font-bold text-white'>
+                                            {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
+                                                <NavLink key={dropdownIndex} to={dropdownItem.path} className={module.link}>
+                                                    <p className='text-white'>{dropdownItem.text}</p>
+                                                </NavLink>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                        </div>
-                    ))
-                }
-            </div>
+                                )}
+                            </div>
+                        ))
+                    }
+                </div>}
+            {decodedToken.role === "user" &&
+                <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
+                    {
+                        user.map((item, index) => (
+                            <div key={index}>
+                                <NavLink to={item.path} className={module.link} onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}>
+                                    <div className={module.icon}>{item.icon}</div>
+                                    {item.name === "The Profile" ? (
+                                        <div className={`${module.link_text} flex`}>{item.name} {activeLink === index ? <FiChevronUp /> : <FiChevronDown />}</div>
+                                    ) : (
+                                        <div className={module.link_text}>{item.name}</div>
+                                    )}
+                                </NavLink>
+                                {activeLink === index && isProfileActive && item.dropdownItems && (
+                                    <div className='transition ease-in-out duration-75' dir={language === "ar" ? "rtl" : "ltr"}>
+                                        <div className='flex flex-col w-full mx-auto justify-start font-bold text-white'>
+                                            {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
+                                                <NavLink key={dropdownIndex} to={dropdownItem.path} className={module.link}>
+                                                    <p className='text-white'>{dropdownItem.text}</p>
+                                                </NavLink>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ))
+                    }
+                </div>}
+
+
+            {decodedToken.role === "manager" &&
+                <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
+                    {
+                        manager.map((item, index) => (
+                            <div key={index}>
+                                <NavLink to={item.path} className={module.link} onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}>
+                                    <div className={module.icon}>{item.icon}</div>
+                                    {item.name === "The Profile" ? (
+                                        <div className={`${module.link_text} flex`}>{item.name} {activeLink === index ? <FiChevronUp /> : <FiChevronDown />}</div>
+                                    ) : (
+                                        <div className={module.link_text}>{item.name}</div>
+                                    )}
+                                </NavLink>
+                                {activeLink === index && isProfileActive && item.dropdownItems && (
+                                    <div className='transition ease-in-out duration-75' dir={language === "ar" ? "rtl" : "ltr"}>
+                                        <div className='flex flex-col w-full mx-auto justify-start font-bold text-white'>
+                                            {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
+                                                <NavLink key={dropdownIndex} to={dropdownItem.path} className={module.link}>
+                                                    <p className='text-white'>{dropdownItem.text}</p>
+                                                </NavLink>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ))
+                    }
+                </div>}
             <main>{children}</main>
         </div>
     );

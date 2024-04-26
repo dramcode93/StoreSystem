@@ -39,7 +39,7 @@ const MyComponent = () => {
           <Header />
           <button
             type="button"
-            className="relative bg-transparent rounded-full p-1 ms-3
+            className="relative bg-transparent rounded-full p-1 
                      text-gray-500  dark:hover:text-white focus:outline-none
                     hover:text-slate-500 w-fit">
             <span className="absolute -inset-1.5" />

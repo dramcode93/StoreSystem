@@ -65,7 +65,7 @@ const Login = () => {
           <h1 className="font-semibold text-center pdarkForm plightForm text-2xl">
             {t("Home.Login")}
           </h1>
-          
+
         </div>
         <form onSubmit={handleLogin} className="p-8 darkForm lightForm relative">
           <div className="space-y-8">
@@ -98,11 +98,11 @@ const Login = () => {
                 className={` ${language === 'ar' ? 'rtl' : 'ltr'} relative w-80 darkForm lightForm px-3 py-3 border-2 text-white bg-gray-900 rounded-md focus:border-orange-400 outline-none ${passwordError ? "border-red-500" : "border-gray-200"} placeholder:tracking-wide `}
                 placeholder={language === 'en' ? 'Enter your password' : t("Home.Password")}
               />
-             
+
               <div className={`${language === 'ar' ? 'rtl' : 'ltr'} absolute top-full my-2 tracking-wide mx-0  cursor-pointer text-lg font-bold text-gray-500 hover:text-gray-800`} onClick={toggleShowPassword}>
                 {t("Home.ForgetPass")}
               </div>
-               <div className={`absolute top-1/2 text-gray-700 px-3 -translate-y-1/2 cursor-pointer ${language === 'en' ? 'left-64' : 'right-64'}`} onClick={toggleShowPassword}>
+              <div className={`absolute top-1/2 text-gray-700 px-3 -translate-y-1/2 cursor-pointer ${language === 'en' ? 'left-64' : 'right-64'}`} onClick={toggleShowPassword}>
                 {showPassword ? <Eye size={25} weight="bold" /> : <EyeClosed size={25} weight="bold" />}
               </div>
               {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}

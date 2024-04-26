@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
 
 
 header #icon {
@@ -173,7 +174,10 @@ header #icon {
 }
 
 .font {
-  font-family: 'Lobster', sans-serif;
+font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
 }
 
 ul:hover .arrow {
