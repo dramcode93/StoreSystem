@@ -2,9 +2,12 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { CiSearch } from "react-icons/ci";
-import { CaretLeft, CaretRight } from "@phosphor-icons/react";
+import { CaretLeft, CaretRight, X } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
+import Modal from "react-modal";
 import Loading from "../Loading/Loading";
+import { Link } from "react-router-dom";
+import FormText from "../../form/FormText";
 const API_URL = "https://store-system-api.gleeze.com/api/products";
 const API_category = "https://store-system-api.gleeze.com/api/categories/list";
 
@@ -26,7 +29,6 @@ const Products = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setProducts(productsResponse.data.data);
-        console.log('products',products)
         setPagination(productsResponse.data.paginationResult);
         const categoriesResponse = await axios.get(`${API_category}`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -43,14 +45,14 @@ const Products = () => {
   }, [token, searchTerm, pagination.currentPge]);
 
   useEffect(() => {
-     fetchData();
-  }, [searchTerm, pagination.currentPge, fetchData,products]);
+    fetchData();
+  }, [searchTerm, pagination.currentPge, fetchData, products]);
 
   const handleDeleteProduct = (productId) => {
     setSelectedProductsId(productId);
     setShowConfirmation(true);
   };
-
+  console.log("products:", products);
   const confirmDelete = useCallback(() => {
     axios
       .delete(`${API_URL}/${selectedProductsId}`, {
@@ -69,8 +71,6 @@ const Products = () => {
     setSelectedProductsId(null);
   }, []);
 
- 
-
   const handlePageChange = (newPage) => {
     setPagination({
       ...pagination,
@@ -84,57 +84,149 @@ const Products = () => {
   };
   const { t, language } = useI18nContext();
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+  };
   return (
     <>
-    <div>
-      <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2">
-        <div className="flex justify-between">
-          {" "}
-          <div className="relative w-96 m-3">
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={handleCloseModal}
+        contentLabel="Add Product Modal"
+        className={` w-110 bg-gray-200 dark:bg-gray-800 p-5
+            rounded-r-2xl duration-200 ease-linear
+           absolute left-0 top-0
+           h-screen overflow-auto`}
+        overlayClassName="Overlay"
+        
+      >
+        <>
+          <div className="flex pb-4  mb-5 rounded-t border-b dark:border-gray-600">
+            <h3 className="text-2xl font-bold flex-grow text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
+              {t("ExpensesForm.createExpenses")}
+            </h3>
+            <button
+              type="button"
+              onClick={handleCloseModal}
+              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm  dark:hover:bg-gray-600 dark:hover:text-white w-fit"
+            >
+              <X size={18} weight="bold" />
+              <span className="sr-only">Close modal</span>
+            </button>
+          </div>
+          <form className="grid grid-cols-2 gap-5 p-0 m-0 text-start ">
+            <FormText
+              label="Code"
+              name="Code"
+              onChange={() => {}}
+              placeholder="Code"
+              className="placeholder:text-gray-400"
+            />
+            <FormText
+              label="Name"
+              name="Code"
+              onChange={() => {}}
+              placeholder="Name"
+            />
+            <FormText
+              label="Category"
+              name="Code"
+              onChange={() => {}}
+              placeholder="Category"
+            />
+            <FormText
+              label="Quantity"
+              name="Code"
+              onChange={() => {}}
+              placeholder="Quantity"
+            />
+            <FormText
+              label="Price"
+              name="Code"
+              onChange={() => {}}
+              placeholder="Price"
+            />
+            <FormText
+              label="Sold"
+              name="Code"
+              onChange={() => {}}
+              placeholder="Sold"
+            />
+            <FormText
+              label="Actions"
+              name="Code"
+              onChange={() => {}}
+              placeholder="Actions"
+            />
+            <div className="col-span-2 flex justify-center">
+              <button className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl">
+                {t("Products.AddProduct")}
+              </button>
+              <div>&nbsp;</div>
+            </div>
+          </form>
+        </>
+      </Modal>
+      <div>
+        <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
+          <div className="flex justify-between">
             {" "}
-            <input
-              className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
-              type="text"
+            <div className="relative w-96 m-3">
+              {" "}
+              <input
+                className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
+                type="text"
                 onClick={handleSearch}
-                placeholder={t('Products.Search')}
-            />{" "}
-            <CiSearch className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" :"right-3"} `}  />{" "}
+                placeholder={t("Products.Search")}
+              />{" "}
+              <CiSearch
+                className={`absolute top-2 text-white text-xl ${
+                  language === "ar" ? "left-3" : "right-3"
+                } `}
+              />{" "}
+            </div>
+            <div>
+              <button
+                className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
+                onClick={handleOpenModal}
+              >
+                {t("Products.Add")}{" "}
+              </button>
+            </div>
           </div>
-          <div>
-              <button className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold">{t('Products.Add')} </button>
-          </div>
-        </div>
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
-          <thead className="text-xm text-gray-200 uppercase">
-            <tr className="text-center bg-gray-500 bg-opacity-25 transition ease-out duration-200">
-              <th scope="col" className="px-4 py-4">
-                  {t('Products.Code')}
-              </th>
-              <th scope="col" className="px-4 py-4">
-                  {t('Products.Name')}
-              </th>
-              <th scope="col" className="px-4 py-4">
-                  {t('Products.Category')}
-  
-              </th>
-              <th scope="col" className="px-4 py-4">
-                  {t('Products.Quantity')}
-  
-              </th>
-              <th scope="col" className="px-4 py-4">
-                  {t('Products.Price')}
- 
-              </th>
-              <th scope="col" className="px-4 py-4">
-                  {t('Products.Sold')}
-  
-              </th>
-              <th scope="col" className="px-4 py-4">
-                  {t('Products.Actions')}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
+            <thead className="text-xm text-gray-200 uppercase">
+              <tr className="text-center bg-gray-500 bg-opacity-25 transition ease-out duration-200">
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.Code")}
+                </th>
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.Name")}
+                </th>
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.Category")}
+                </th>
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.Quantity")}
+                </th>
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.Price")}
+                </th>
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.Sold")}
+                </th>
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.Actions")}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
               {loading ? (
                 <tr>
                   <td colSpan="7" className=" fs-4 text-center mb-5 pb-3">
@@ -143,38 +235,42 @@ const Products = () => {
                 </tr>
               ) : (
                 <>
-                   {products.map((product) => (
-                      <tr key={product._id} className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200">
-                        <th
-                          scope="row"
-                          className="px-4 py-4 font-medium text-gray-900
+                  {products.length === 0 && (
+                    <tr className="text-xl text-center">
+                      <td colSpan="7">No Products available</td>
+                    </tr>
+                  )}
+                  {products.map((product) => (
+                    <tr
+                      key={product._id}
+                      className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
+                    >
+                      <th
+                        scope="row"
+                        className="px-4 py-4 font-medium text-gray-900
                          whitespace-nowrap dark:text-white max-w-[5rem] truncate"
-                        >
-                          {product._id}
-                        </th>
-                        <td className="px-4 py-4">{product.name}</td>
-                        <td className="px-4 py-4">{product._id.slice(-4)}</td>
-                        <td className="px-4 py-4">{product.category.name}</td>
-                        <td className="px-4 py-4">{product.quantity}</td>
-                        <td className="px-4 py-4">{product.price}</td>
-                        <td className="px-4 py-4">{product.sold}</td>
-                      </tr>
-                    ))}
+                      >
+                        {product._id}
+                      </th>
+                      <td className="px-4 py-4">{product.name}</td>
+                      <td className="px-4 py-4">{product._id.slice(-4)}</td>
+                      <td className="px-4 py-4">{product.category.name}</td>
+                      <td className="px-4 py-4">{product.quantity}</td>
+                      <td className="px-4 py-4">{product.price}</td>
+                      <td className="px-4 py-4">{product.sold}</td>
+                    </tr>
+                  ))}
                 </>
               )}
-
-          {products.length === 0 && <tr className="text-xl text-center">
-            <td colSpan="7" >No Products available</td>
-          </tr>}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
           <nav
             className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 "
             dir="rtl"
           >
             <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ">
-
-              {"      "} {t('Products.appear')}{"   "}
+              {"      "} {t("Products.appear")}
+              {"   "}
               <span
                 className="font-semibold text-gray-900 dark:text-white m-2"
                 dir="ltr"
@@ -182,9 +278,10 @@ const Products = () => {
                 {"     "} 1-10 {"      "}
               </span>{" "}
               {"  "}
-              {"   "}{t('Products.from')}
+              {"   "}
+              {t("Products.from")}
               <span className="font-semibold text-gray-900 dark:text-white m-2">
-                {"   "}1000  {"   "}
+                {"   "}1000 {"   "}
               </span>
             </span>
             <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
@@ -249,8 +346,8 @@ const Products = () => {
               </li>
             </ul>
           </nav>
-      </section>
-    </div>
+        </section>
+      </div>
     </>
   );
 };
