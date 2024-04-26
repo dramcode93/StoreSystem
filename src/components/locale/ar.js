@@ -15,6 +15,7 @@ const ar = {
 
   Category: {
     createCategory:"إنشاء فئة",
+    addCategory:"إضافة فئة",
     Search: "بحث",
     Add: "ضيف",
     Code: "الكود",
