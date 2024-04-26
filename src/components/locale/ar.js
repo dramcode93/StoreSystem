@@ -56,6 +56,16 @@ const ar = {
     Actions:"الإجراءات",
     available:"الفئات غير متاحة",
   },
+   previewForm: {
+    title: "البيانات الأساسية",
+    name: "الإسم",
+    detailsHead: "التفاصيل",
+    job: "الوظيفة",
+    place: "المكان",
+    unDefind: "لم يتم التحديد",
+    edit: "تعديل",
+    delete: "حذف",
+   },
 };
 
 export default ar;

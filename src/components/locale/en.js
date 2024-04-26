@@ -57,6 +57,16 @@ const en = {
     Actions: "Actions",
     available: "No categories available",
   },
+   previewForm: {
+    title: "Main Data",
+    name: "Name",
+    detailsHead: "Details",
+    job: "job",
+    place: "place",
+    unDefind: "undefind",
+    edit: "Edit",
+    delete: "delete",
+   },
 };
 
 export default en;
