@@ -14,6 +14,7 @@ const en = {
     ForgetPass: "Forget Your Password",
   },
   Category: {
+    createCategory:"create Category",
     teachingPlace: "teaching Place",
     month: " month ",
     gender: "gender",

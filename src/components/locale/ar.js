@@ -12,7 +12,9 @@ const ar = {
     salesManagement: "إدارة المبيعات",
     ForgetPass: "نسيت كلمه المرور",
   },
+
   Category: {
+    createCategory:"إنشاء فئة",
     Search: "بحث",
     Add: "ضيف",
     Code: "الكود",
@@ -26,13 +28,9 @@ const ar = {
     gender: "النوع",
     academicSubscribe: "الإشتراك الأكاديمي",
     Groups: "المجموعات",
-    addAssistant: "إضافة مساعد",
-    AddSubscribe: "اضافه الاشتراك",
     class: "الصف",
     range: "الرينج",
     stage: " المرحلة",
-    specialtyName: " التخصص",
-    name: "محمد احمد",
     Edit: " تعديل",
     email: " البريد الإلكتروني",
     phone: " رقم الهاتف",

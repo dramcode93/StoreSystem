@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './Category.module.css';
 import { Translate } from 'translate-easy';
-import Loading from '../Loading/Loading';
 
 const ConfirmationModal = ({ show, onConfirm, onCancel }) => {
   if (!show) {
