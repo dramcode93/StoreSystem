@@ -6,8 +6,8 @@ import { CaretLeft, CaretRight, X } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
 import Modal from "react-modal";
 import Loading from "../Loading/Loading";
-import { Link } from "react-router-dom";
-import FormText from "../../form/FormText";
+ import FormText from "../../form/FormText";
+
 const API_URL = "https://store-system-api.gleeze.com/api/products";
 const API_category = "https://store-system-api.gleeze.com/api/categories/list";
 
@@ -21,15 +21,17 @@ const Products = () => {
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({});
-  const fetchData = useCallback(async () => {
+
+   const fetchData = useCallback(async () => {
     try {
       if (token) {
         const productsResponse = await axios.get(
-          `${API_URL}?search=${searchTerm}&page=${pagination.currentPge}&limit=20`,
+          `${API_URL}?search=${searchTerm}&page=${pagination.currentPage}&limit=20`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setProducts(productsResponse.data.data);
         setPagination(productsResponse.data.paginationResult);
+
         const categoriesResponse = await axios.get(`${API_category}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -42,16 +44,17 @@ const Products = () => {
     } finally {
       setLoading(false);
     }
-  }, [token, searchTerm, pagination.currentPge]);
+  }, [token, searchTerm, pagination.currentPage]);
 
-  useEffect(() => {
+   useEffect(() => {
     fetchData();
-  }, [searchTerm, pagination.currentPge, fetchData, products]);
+  }, [searchTerm, pagination.currentPage, fetchData]);
 
-  const handleDeleteProduct = (productId) => {
+   const handleDeleteProduct = (productId) => {
     setSelectedProductsId(productId);
     setShowConfirmation(true);
   };
+
    const confirmDelete = useCallback(() => {
     axios
       .delete(`${API_URL}/${selectedProductsId}`, {
@@ -65,31 +68,32 @@ const Products = () => {
       });
   }, [selectedProductsId, token, fetchData]);
 
-  const cancelDelete = useCallback(() => {
+   const cancelDelete = useCallback(() => {
     setShowConfirmation(false);
     setSelectedProductsId(null);
   }, []);
 
-  const handlePageChange = (newPage) => {
+   const handlePageChange = (newPage) => {
     setPagination({
       ...pagination,
-      currentPge: newPage,
+      currentPage: newPage,
     });
   };
 
-  const handleSearch = (e) => {
+   const handleSearch = (e) => {
     e.preventDefault();
     setSearchTerm(searchInput);
   };
-  const { t, language } = useI18nContext();
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+   const { t, language } = useI18nContext();
 
-  const handleOpenModal = () => {
+   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+   const handleOpenModal = () => {
     setModalIsOpen(true);
   };
 
-  const handleCloseModal = () => {
+   const handleCloseModal = () => {
     setModalIsOpen(false);
   };
   return (
