@@ -6,7 +6,7 @@ import { CaretLeft, CaretRight, X } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
 import Modal from "react-modal";
 import Loading from "../Loading/Loading";
- import FormText from "../../form/FormText";
+import FormText from "../../form/FormText";
 
 const API_URL = "https://store-system-api.gleeze.com/api/products";
 const API_category = "https://store-system-api.gleeze.com/api/categories/list";
@@ -22,11 +22,11 @@ const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({});
 
-   const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async () => {
     try {
       if (token) {
         const productsResponse = await axios.get(
-          `${API_URL}?search=${searchTerm}&page=${pagination.currentPage}&limit=20`,
+          `${API_URL}?sort=category name&search=${searchTerm}&page=${pagination.currentPge}&limit=20`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setProducts(productsResponse.data.data);
@@ -44,18 +44,18 @@ const Products = () => {
     } finally {
       setLoading(false);
     }
-  }, [token, searchTerm, pagination.currentPage]);
+  }, [token, searchTerm, pagination.currentPge]);
 
-   useEffect(() => {
+  useEffect(() => {
     fetchData();
-  }, [searchTerm, pagination.currentPage, fetchData]);
+  }, [searchTerm, pagination.currentPge, fetchData]);
 
-   const handleDeleteProduct = (productId) => {
+  const handleDeleteProduct = (productId) => {
     setSelectedProductsId(productId);
     setShowConfirmation(true);
   };
 
-   const confirmDelete = useCallback(() => {
+  const confirmDelete = useCallback(() => {
     axios
       .delete(`${API_URL}/${selectedProductsId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -68,32 +68,32 @@ const Products = () => {
       });
   }, [selectedProductsId, token, fetchData]);
 
-   const cancelDelete = useCallback(() => {
+  const cancelDelete = useCallback(() => {
     setShowConfirmation(false);
     setSelectedProductsId(null);
   }, []);
 
-   const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage) => {
     setPagination({
       ...pagination,
-      currentPage: newPage,
+      currentPge: newPage,
     });
   };
 
-   const handleSearch = (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
     setSearchTerm(searchInput);
   };
 
-   const { t, language } = useI18nContext();
+  const { t, language } = useI18nContext();
 
-   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-   const handleOpenModal = () => {
+  const handleOpenModal = () => {
     setModalIsOpen(true);
   };
 
-   const handleCloseModal = () => {
+  const handleCloseModal = () => {
     setModalIsOpen(false);
   };
   return (
@@ -104,10 +104,10 @@ const Products = () => {
         contentLabel="Add Product Modal"
         className={` w-110 bg-gray-200 dark:bg-gray-800 p-5
             rounded-r-2xl duration-200 ease-linear
-           absolute left-0 top-0
-           h-screen overflow-auto`}
+            absolute left-0 top-0
+            h-screen overflow-auto`}
         overlayClassName="Overlay"
-        
+
       >
         <>
           <div className="flex pb-4  mb-5 rounded-t border-b dark:border-gray-600">
@@ -127,44 +127,44 @@ const Products = () => {
             <FormText
               label="Code"
               name="Code"
-              onChange={() => {}}
+              onChange={() => { }}
               placeholder="Code"
               className="placeholder:text-gray-400"
             />
             <FormText
               label="Name"
               name="Code"
-              onChange={() => {}}
+              onChange={() => { }}
               placeholder="Name"
             />
             <FormText
               label="Category"
               name="Code"
-              onChange={() => {}}
+              onChange={() => { }}
               placeholder="Category"
             />
             <FormText
               label="Quantity"
               name="Code"
-              onChange={() => {}}
+              onChange={() => { }}
               placeholder="Quantity"
             />
             <FormText
               label="Price"
               name="Code"
-              onChange={() => {}}
+              onChange={() => { }}
               placeholder="Price"
             />
             <FormText
               label="Sold"
               name="Code"
-              onChange={() => {}}
+              onChange={() => { }}
               placeholder="Sold"
             />
             <FormText
               label="Actions"
               name="Code"
-              onChange={() => {}}
+              onChange={() => { }}
               placeholder="Actions"
             />
             <div className="col-span-2 flex justify-center">
@@ -189,9 +189,8 @@ const Products = () => {
                 placeholder={t("Products.Search")}
               />{" "}
               <CiSearch
-                className={`absolute top-2 text-white text-xl ${
-                  language === "ar" ? "left-3" : "right-3"
-                } `}
+                className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
+                  } `}
               />{" "}
             </div>
             <div>
@@ -219,7 +218,10 @@ const Products = () => {
                   {t("Products.Quantity")}
                 </th>
                 <th scope="col" className="px-4 py-4">
-                  {t("Products.Price")}
+                  {t("Products.ProductPrice")}
+                </th>
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.SellingPrice")}
                 </th>
                 <th scope="col" className="px-4 py-4">
                   {t("Products.Sold")}
@@ -251,15 +253,15 @@ const Products = () => {
                       <th
                         scope="row"
                         className="px-4 py-4 font-medium text-gray-900
-                         whitespace-nowrap dark:text-white max-w-[5rem] truncate"
+                          whitespace-nowrap dark:text-white max-w-[5rem] truncate"
                       >
-                        {product._id}
+                        {product._id.slice(-4)}
                       </th>
                       <td className="px-4 py-4">{product.name}</td>
-                      <td className="px-4 py-4">{product._id.slice(-4)}</td>
                       <td className="px-4 py-4">{product.category.name}</td>
                       <td className="px-4 py-4">{product.quantity}</td>
-                      <td className="px-4 py-4">{product.price}</td>
+                      <td className="px-4 py-4">{product.productPrice}</td>
+                      <td className="px-4 py-4">{product.sellingPrice}</td>
                       <td className="px-4 py-4">{product.sold}</td>
                     </tr>
                   ))}

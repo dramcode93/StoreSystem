@@ -88,8 +88,8 @@ const Dashboard = ({ children }) => {
             icon: <House />
         },
 
-        
-       
+
+
         {
             path: "/products",
             name: t("Home.products"),
@@ -125,7 +125,7 @@ const Dashboard = ({ children }) => {
             name: t("Home.Category"),
             icon: <BiCategory />
         },
-        
+
         {
             path: "/bills",
             name: t("Home.Bill"),
@@ -150,9 +150,11 @@ const Dashboard = ({ children }) => {
         boxShadow: language === "ar" ? "-5px 0px 3px  rgba(0, 0, 0, 0.1)" : "5px 0px 3px  rgba(0, 0, 0, 0.1)"
     };
 
+    // Initialize the active link state
     const [activeLink, setActiveLink] = useState(null);
     const [isProfileActive, setIsProfileActive] = useState(false);
 
+    // Handle the click event for the links
     const handleLinkClick = (index) => {
         setActiveLink(index);
         if (index === admin.length - 1) {
@@ -162,10 +164,11 @@ const Dashboard = ({ children }) => {
         }
     };
 
+    // Render the dashboard
     return (
 
 
-        
+
         <div className="text-gray-900 dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
             {decodedToken.role === "admin" &&
                 <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
@@ -195,7 +198,7 @@ const Dashboard = ({ children }) => {
                         ))
                     }
                 </div>}
-                {decodedToken.role === "user" &&
+            {decodedToken.role === "user" &&
                 <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
                     {
                         user.map((item, index) => (
@@ -225,7 +228,7 @@ const Dashboard = ({ children }) => {
                 </div>}
 
 
-                {decodedToken.role === "manager" &&
+            {decodedToken.role === "manager" &&
                 <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
                     {
                         manager.map((item, index) => (

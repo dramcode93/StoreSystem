@@ -31,7 +31,7 @@ const CategoryTable = (openEdit, openPreview) => {
     try {
       if (token) {
         const response = await axios.get(
-          `${API_category}?search=${searchInput}&page=${pagination.currentPge}&limit=20`,
+          `${API_category}?sort=name&search=${searchInput}&page=${pagination.currentPge}&limit=20`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setCategories(response.data.data);
@@ -168,11 +168,11 @@ const CategoryTable = (openEdit, openPreview) => {
                   <th
                     scope="row"
                     className="px-4 py-4 font-medium text-gray-900
-                     whitespace-nowrap dark:text-white max-w-[5rem] truncate"
+                      whitespace-nowrap dark:text-white max-w-[5rem] truncate"
                   >
-                    {category._id}
+                    {category._id.slice(-4)}
                   </th>
-                  <td className="px-4 py-4">{category.name.slice(-4)}</td>
+                  <td className="px-4 py-4">{category.name}</td>
 
                   <td className="px-4 py-3 flex items-center justify-end">
                     <button
