@@ -64,7 +64,7 @@ const Dashboard = ({ children }) => {
     };
 
     return (
-        <div className="text-gray-900 dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
+        <div className="text-gray-900 dark:text-gray-100 min-h-screen" dir={language === "ar" ? "rtl" : "ltr"}>
             <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
                 {
                     menuDashboard.map((item, index) => (

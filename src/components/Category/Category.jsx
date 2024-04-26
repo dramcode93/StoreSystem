@@ -1,32 +1,44 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 import { CiSearch } from "react-icons/ci";
-import { CaretLeft, CaretRight, DotsThree, Eye, NotePencil, Plus, TrashSimple, UsersFour } from "@phosphor-icons/react";
+import {
+  CaretLeft,
+  CaretRight,
+  DotsThree,
+  Eye,
+  NotePencil,
+  Plus,
+  TrashSimple,
+  UsersFour,
+} from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
-import Loading from '../Loading/Loading';
-const API_category = 'https://store-system-api.gleeze.com/api/categories';
+import Loading from "../Loading/Loading";
+const API_category = "https://store-system-api.gleeze.com/api/categories";
 
 const CategoryTable = (openEdit, openPreview) => {
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
   const [categories, setCategories] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  const [newCategoryName, setNewCategoryName] = useState('');
-  const [searchInput, setSearchInput] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(async () => {
     try {
       if (token) {
-        const response = await axios.get(`${API_category}?search=${searchInput}&page=${pagination.currentPge}&limit=20`, { headers: { Authorization: `Bearer ${token}` } });
+        const response = await axios.get(
+          `${API_category}?search=${searchInput}&page=${pagination.currentPge}&limit=20`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
         setCategories(response.data.data);
         setPagination(response.data.paginationResult);
       }
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error("Error fetching categories:", error);
     } finally {
       setLoading(false);
     }
@@ -46,9 +58,12 @@ const CategoryTable = (openEdit, openPreview) => {
   };
 
   const confirmDelete = useCallback(() => {
-    axios.delete(`${API_category}/${selectedCategoryId}`, { headers: { Authorization: `Bearer ${token}` } })
+    axios
+      .delete(`${API_category}/${selectedCategoryId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then(() => fetchData())
-      .catch((error) => console.error('Error deleting category:', error))
+      .catch((error) => console.error("Error deleting category:", error))
       .finally(() => {
         setShowConfirmation(false);
         setSelectedCategoryId(null);
@@ -61,19 +76,24 @@ const CategoryTable = (openEdit, openPreview) => {
   }, []);
 
   const confirmCategory = useCallback(() => {
-    axios.post(`${API_category}`, { name: newCategoryName }, { headers: { Authorization: `Bearer ${token}` } })
+    axios
+      .post(
+        `${API_category}`,
+        { name: newCategoryName },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
       .then(() => fetchData())
-      .catch((error) => console.error('Error adding category:', error))
-      .finally(() => setNewCategoryName(''));
+      .catch((error) => console.error("Error adding category:", error))
+      .finally(() => setNewCategoryName(""));
   }, [newCategoryName, token, fetchData]);
 
   const handlePageChange = (newPage) => {
     setPagination({
       ...pagination,
-      currentPge: newPage
+      currentPge: newPage,
     });
-  }
- 
+  };
+
   const { t, language } = useI18nContext();
   const toggleEditDropdown = (CategoryId) => {
     setSelectedCategoryId((prevCategoryId) =>
@@ -87,7 +107,10 @@ const CategoryTable = (openEdit, openPreview) => {
   const lang = localStorage.getItem("language");
 
   return (
-    <section className=" bg-gray-700 bg-opacity-25 w-full  mx-10 rounded-md pt-2 absolute top-32 -z-2" dir={language === "ar" ? "rtl" : "ltr"}>
+    <section
+      className=" bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-40 w-3/4 z-2"
+      dir={language === "ar" ? "rtl" : "ltr"}
+    >
       <div className="flex justify-between">
         {" "}
         <div className="relative w-96 m-3">
@@ -95,23 +118,28 @@ const CategoryTable = (openEdit, openPreview) => {
           <input
             className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
             type="text"
-            placeholder={t('Category.Search')}
+            placeholder={t("Category.Search")}
           />{" "}
-          <CiSearch className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"} `} />{" "}
+          <CiSearch
+            className={`absolute top-2 text-white text-xl ${
+              language === "ar" ? "left-3" : "right-3"
+            } `}
+          />{" "}
         </div>
         <div>
-          <button className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold">{t('Category.Add')} </button>
+          <button className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold">
+            {t("Category.Add")}{" "}
+          </button>
         </div>
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
         <thead className="text-xm text-gray-200 uppercase">
           <tr className="text-center fs-6 bg-gray-500 tracking-wide  bg-opacity-25 transition ease-out duration-200">
             <th scope="col" className="px-5 py-4">
-              {t('Category.Code')}
+              {t("Category.Code")}
             </th>
             <th scope="col" className="px-5 py-4">
-              {t('Category.Name')}
-  
+              {t("Category.Name")}
             </th>
             <th scope="col" className="px-4 py-3">
               <span className="sr-only">Actions</span>
@@ -121,14 +149,22 @@ const CategoryTable = (openEdit, openPreview) => {
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan="7" className=" fs-4 text-center mb-5 pb-3">
+              <td colSpan="2" className=" fs-4 text-center mb-5 pb-3">
                 <Loading />
               </td>
             </tr>
           ) : (
             <>
+              {categories.length === 0 && (
+                <tr className="text-xl text-center">
+                  <td colSpan="2"> {t("Category.available")}</td>
+                </tr>
+              )}
               {categories.map((category) => (
-                <tr key={category._id} className="border-b dark:border-gray-700 text-center transition ease-out duration-200">
+                <tr
+                  key={category._id}
+                  className="border-b dark:border-gray-700 text-center transition ease-out duration-200"
+                >
                   <th
                     scope="row"
                     className="px-4 py-4 font-medium text-gray-900
@@ -145,18 +181,27 @@ const CategoryTable = (openEdit, openPreview) => {
                       onClick={() => toggleEditDropdown(category._id)}
                       ref={(el) => (dropdownRefs.current[category._id] = el)}
                     >
-                      <DotsThree size={25} weight="bold" className=' hover:bg-gray-700 w-10 rounded-lg'/>
+                      <DotsThree
+                        size={25}
+                        weight="bold"
+                        className=" hover:bg-gray-700 w-10 rounded-lg"
+                      />
                     </button>
-                    <div className="absolute z-50" dir={language === "ar" ? "rtl" : "ltr"}>
+                    <div
+                      className="absolute z-50"
+                      dir={language === "ar" ? "rtl" : "ltr"}
+                    >
                       <div
-                        className={`${selectedCategoryId === category._id
-                          ? `absolute -top-3 ${lang === "en" ? "right-full" : "left-full"
-                          } overflow-auto`
-                          : "hidden"
-                          } z-10 w-44 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                        className={`${
+                          selectedCategoryId === category._id
+                            ? `absolute -top-3 ${
+                                lang === "en" ? "right-full" : "left-full"
+                              } overflow-auto`
+                            : "hidden"
+                        } z-10 w-44 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
                         <ul className="text-sm bg-transparent">
-                          <li className=''>
+                          <li className="">
                             <button
                               type="button"
                               className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
@@ -170,7 +215,7 @@ const CategoryTable = (openEdit, openPreview) => {
                             <button
                               type="button"
                               className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                             >
+                            >
                               <Eye size={18} weight="bold" />
                               {t("Category.Preview")}
                             </button>
@@ -189,14 +234,10 @@ const CategoryTable = (openEdit, openPreview) => {
                       </div>
                     </div>
                   </td>
-
                 </tr>
               ))}
             </>
           )}
-          {categories.length === 0 && <tr className="text-xl text-center">
-            <td colSpan="3" > {t('Category.available')}</td>
-          </tr>}
         </tbody>
       </table>
       <nav
@@ -204,8 +245,8 @@ const CategoryTable = (openEdit, openPreview) => {
         dir="rtl"
       >
         <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ">
-         
-          {"      "} {t('Category.appear')}{"   "}
+          {"      "} {t("Category.appear")}
+          {"   "}
           <span
             className="font-semibold text-gray-900 dark:text-white m-2"
             dir="ltr"
@@ -213,9 +254,10 @@ const CategoryTable = (openEdit, openPreview) => {
             {"     "} 1-10 {"      "}
           </span>{" "}
           {"  "}
-          {"   "}{t('Category.from')}  
+          {"   "}
+          {t("Category.from")}
           <span className="font-semibold text-gray-900 dark:text-white m-2">
-            {"   "}1000  {"   "}
+            {"   "}1000 {"   "}
           </span>
         </span>
         <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
