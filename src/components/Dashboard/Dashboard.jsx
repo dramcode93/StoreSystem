@@ -87,6 +87,8 @@ const Dashboard = ({ children }) => {
             name: t("Home.Home"),
             icon: <House />
         },
+
+        
        
         {
             path: "/products",
