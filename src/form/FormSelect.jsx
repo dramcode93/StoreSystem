@@ -1,5 +1,5 @@
 import React from "react";
-import { useI18nContext } from "../../context/i18n-context";
+import { useI18nContext } from "../components/context/i18n-context";
 
 function FormSelect({ selectLabel, handleChange, options, value, name }) {
   const { t } = useI18nContext();
