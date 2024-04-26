@@ -29,7 +29,6 @@ const Products = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setProducts(productsResponse.data.data);
-        console.log("products", products);
         setPagination(productsResponse.data.paginationResult);
         const categoriesResponse = await axios.get(`${API_category}`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -53,8 +52,7 @@ const Products = () => {
     setSelectedProductsId(productId);
     setShowConfirmation(true);
   };
-  console.log("products:", products);
-  const confirmDelete = useCallback(() => {
+   const confirmDelete = useCallback(() => {
     axios
       .delete(`${API_URL}/${selectedProductsId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -100,35 +98,77 @@ const Products = () => {
         isOpen={modalIsOpen}
         onRequestClose={handleCloseModal}
         contentLabel="Add Product Modal"
-        className={` w-1/2 bg-gray-700 p-3
-            rounded-r-lg duration-200 ease-linear
+        className={` w-110 bg-gray-200 dark:bg-gray-800 p-5
+            rounded-r-2xl duration-200 ease-linear
            absolute left-0 top-0
-           h-screen overflow-auto
-           
-           `}
+           h-screen overflow-auto`}
         overlayClassName="Overlay"
+        
       >
         <>
-          <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b dark:border-gray-600">
-            <h3 className="text-lg font-semibold flex-grow- text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
+          <div className="flex pb-4  mb-5 rounded-t border-b dark:border-gray-600">
+            <h3 className="text-2xl font-bold flex-grow text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
               {t("ExpensesForm.createExpenses")}
             </h3>
             <button
               type="button"
               onClick={handleCloseModal}
-              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 mr-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm  dark:hover:bg-gray-600 dark:hover:text-white w-fit"
             >
               <X size={18} weight="bold" />
               <span className="sr-only">Close modal</span>
             </button>
           </div>
-          <form className="">
-            <FormText label="Code" name="Code" onChange={()=>{}} placeholder='Code'  />
-            <FormText label="Code" name="Code" onChange={()=>{}} placeholder='Code'  />
-            <FormText label="Code" name="Code" onChange={()=>{}} placeholder='Code'  />
-            <FormText label="Code" name="Code" onChange={()=>{}} placeholder='Code'  />
-            <FormText label="Code" name="Code" onChange={()=>{}} placeholder='Code'  />
-            <FormText label="Code" name="Code" onChange={()=>{}} placeholder='Code'  />
+          <form className="grid grid-cols-2 gap-5 p-0 m-0 text-start ">
+            <FormText
+              label="Code"
+              name="Code"
+              onChange={() => {}}
+              placeholder="Code"
+              className="placeholder:text-gray-400"
+            />
+            <FormText
+              label="Name"
+              name="Code"
+              onChange={() => {}}
+              placeholder="Name"
+            />
+            <FormText
+              label="Category"
+              name="Code"
+              onChange={() => {}}
+              placeholder="Category"
+            />
+            <FormText
+              label="Quantity"
+              name="Code"
+              onChange={() => {}}
+              placeholder="Quantity"
+            />
+            <FormText
+              label="Price"
+              name="Code"
+              onChange={() => {}}
+              placeholder="Price"
+            />
+            <FormText
+              label="Sold"
+              name="Code"
+              onChange={() => {}}
+              placeholder="Sold"
+            />
+            <FormText
+              label="Actions"
+              name="Code"
+              onChange={() => {}}
+              placeholder="Actions"
+            />
+            <div className="col-span-2 flex justify-center">
+              <button className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl">
+                {t("Products.AddProduct")}
+              </button>
+              <div>&nbsp;</div>
+            </div>
           </form>
         </>
       </Modal>

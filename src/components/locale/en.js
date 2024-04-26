@@ -46,6 +46,7 @@ const en = {
   Products: {
     Search: "Search",
     Add: "Add",
+    AddProduct: "Add Product +",
     Code: "Code",
     Name: "Name",
     Sold: "Sold",
