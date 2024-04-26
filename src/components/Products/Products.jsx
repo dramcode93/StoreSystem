@@ -52,8 +52,7 @@ const Products = () => {
     setSelectedProductsId(productId);
     setShowConfirmation(true);
   };
-  console.log("products:", products);
-  const confirmDelete = useCallback(() => {
+   const confirmDelete = useCallback(() => {
     axios
       .delete(`${API_URL}/${selectedProductsId}`, {
         headers: { Authorization: `Bearer ${token}` },
