@@ -87,7 +87,7 @@ const CategoryTable = (openEdit, openPreview) => {
   const lang = localStorage.getItem("language");
 
   return (
-    <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 relative top-20" dir={language === "ar" ? "rtl" : "ltr"}>
+    <section className=" bg-gray-700 bg-opacity-25 w-full  mx-10 rounded-md pt-2 absolute top-32 -z-2" dir={language === "ar" ? "rtl" : "ltr"}>
       <div className="flex justify-between">
         {" "}
         <div className="relative w-96 m-3">
