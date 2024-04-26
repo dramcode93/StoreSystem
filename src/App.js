@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MyComponent from "./components/MyComponent.jsx";
-import Category from "./components/Category/Category.jsx";
 import Home from "./components/Home/Home.jsx";
 import Products from "./components/Products/Products.jsx";
 import Bills from "./components/Bills/Bills.jsx";
 import Login from "./components/Login/Login.jsx";
 import { jwtDecode } from "jwt-decode";
 import Dashboard from "./components/Dashboard/Dashboard.jsx"
-import Update from "./components/Category/Update.jsx";
-import UpdateProduct from "./components/Products/updateProduct.jsx";
 import ForgotPassword1 from "./components/ForgetPass/ForgetPass1.jsx";
 import ForgotPassword2 from "./components/ForgetPass/ForgetPass2.jsx";
 import ForgotPassword3 from "./components/ForgetPass/ForgetPass3.jsx";
-import CategoryProducts from './components/Category/specificProducs';
 import ProfilePage from "./components/profile/Profile.jsx";
 import ChangPassword from "./components/profile/ChangPassword.jsx";
 import CreateBillForm from "./components/Bills/createBills.jsx";
@@ -26,7 +22,7 @@ import FormAdd from "./components/profile/formAdd.jsx";
 import UserBills from "./components/Bills/UserBills.jsx";
 import { useI18nContext } from "./components/context/i18n-context.jsx";
 import Information from "./components/profile/Information.jsx";
-import AddProduct from "./components/Products/addProduct.jsx";
+import Category from "./components/Category/Category.jsx";
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
@@ -92,8 +88,6 @@ const App = () => {
               <>
                 <Route path="/home" element={<Home />} />
                 <Route path="/category" element={<Category />} />
-                <Route path="/update/:id" element={<Update />} />
-                <Route path="/updateProduct/:id" element={<UpdateProduct />} />
                 <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/bills" element={<Bills />} />
@@ -106,7 +100,6 @@ const App = () => {
                 <Route path="/Profile/Users" element={<Users />} />
                 <Route path="/users/addUser" element={<FormAdd />} />
                 <Route path="/users/:id/userBills" element={<UserBills />} />
-                <Route path="/category/:id/products" element={<CategoryProducts />} />
               </>
             )}
           </Routes>

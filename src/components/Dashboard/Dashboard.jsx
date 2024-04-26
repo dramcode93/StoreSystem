@@ -16,37 +16,6 @@ const Dashboard = ({ children }) => {
     const decodedToken = jwtDecode(token);
     const { t, language } = useI18nContext();
 
-    // const admin = [
-    //     {
-    //         path: '/Home',
-    //         name: t("Home.Home"),
-    //         icon: <House />
-    //     },
-    //     {
-    //         path: '/category',
-    //         name: t("Home.Category"),
-    //         icon: <BiCategory />
-    //     },
-    //     {
-    //         path: "/products",
-    //         name: t("Home.products"),
-    //         icon: <MdProductionQuantityLimits />
-    //     },
-    //     {
-    //         path: "/bills",
-    //         name: t("Home.Bill"),
-    //         icon: <LiaMoneyBillSolid />
-    //     },
-    //     {
-    //         name: t("Home.Profile"),
-    //         icon: <CgProfile />,
-    //         dropdownItems: [
-    //             { text: 'Information', path: '/information' },
-    //             { text: 'Change Password', path: '/change-password' },
-    //             { text: 'Users', path: '/users' }
-    //         ]
-    //     },
-    // ];
     const admin = [
         {
             path: '/Home',
@@ -79,17 +48,12 @@ const Dashboard = ({ children }) => {
         },
     ];
 
-
-
     const manager = [
         {
             path: '/Home',
             name: t("Home.Home"),
             icon: <House />
         },
-
-
-
         {
             path: "/products",
             name: t("Home.products"),
@@ -110,9 +74,6 @@ const Dashboard = ({ children }) => {
             ]
         },
     ];
-
-
-
 
     const user = [
         {
@@ -150,12 +111,10 @@ const Dashboard = ({ children }) => {
         boxShadow: language === "ar" ? "-5px 0px 3px  rgba(0, 0, 0, 0.1)" : "5px 0px 3px  rgba(0, 0, 0, 0.1)"
     };
 
-    // Initialize the active link state
-    const [activeLink, setActiveLink] = useState(null);
+     const [activeLink, setActiveLink] = useState(null);
     const [isProfileActive, setIsProfileActive] = useState(false);
 
-    // Handle the click event for the links
-    const handleLinkClick = (index) => {
+     const handleLinkClick = (index) => {
         setActiveLink(index);
         if (index === admin.length - 1) {
             setIsProfileActive(!isProfileActive);
@@ -164,11 +123,7 @@ const Dashboard = ({ children }) => {
         }
     };
 
-    // Render the dashboard
-    return (
-
-
-
+     return (
         <div className="text-gray-900 dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
             {decodedToken.role === "admin" &&
                 <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
