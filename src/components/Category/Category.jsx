@@ -233,7 +233,7 @@ const CategoryTable = () => {
     //     </div>
     //   </div>
     // </div>
-    <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2">
+    <section className=" bg-gray-700 bg-opacity-25  mx-10 my-36 rounded-md pt-2">
     <div className="flex justify-between">
       {" "}
       <div className="relative w-96 m-3">
@@ -282,7 +282,7 @@ const CategoryTable = () => {
         </tr>
       ))}
       {categories.length === 0 && <tr className="text-xl text-center">
-        <td colSpan="3" >No Products available</td>
+        <td colSpan="2" >No Products available</td>
       </tr>}
       </tbody>
     </table>

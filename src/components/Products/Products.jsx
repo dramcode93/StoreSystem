@@ -55,15 +55,14 @@ const Products = () => {
   }, [token, searchTerm, pagination.currentPge]);
 
   useEffect(() => {
-    console.log("products:", products);
     fetchData();
-  }, [searchTerm, pagination.currentPge, fetchData,products]);
+  }, [searchTerm, pagination.currentPge, fetchData,]);
 
   const handleDeleteProduct = (productId) => {
     setSelectedProductsId(productId);
     setShowConfirmation(true);
   };
-
+  console.log("products:", products);
   const confirmDelete = useCallback(() => {
     axios
       .delete(`${API_URL}/${selectedProductsId}`, {
@@ -356,14 +355,14 @@ const Products = () => {
                 className="px-4 py-4 font-medium text-gray-900
                          whitespace-nowrap dark:text-white max-w-[5rem] truncate"
               >
-                {product._id}
+                {product._id.slice(-4)}
               </th>
               <td className="px-4 py-4">{product.name}</td>
-              <td className="px-4 py-4">{product._id.slice(-4)}</td>
               <td className="px-4 py-4">{product.category.name}</td>
               <td className="px-4 py-4">{product.quantity}</td>
-              <td className="px-4 py-4">{product.price}</td>
+              <td className="px-4 py-4">{product.sellingPrice}</td>
               <td className="px-4 py-4">{product.sold}</td>
+              <td className="px-4 py-4">{product.shop}</td>
             </tr>
           ))}
           {products.length === 0 && <tr className="text-xl text-center">
