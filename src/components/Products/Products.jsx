@@ -26,7 +26,7 @@ const Products = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setProducts(productsResponse.data.data);
-        console.log('products',products)
+        console.log("products", products);
         setPagination(productsResponse.data.paginationResult);
         const categoriesResponse = await axios.get(`${API_category}`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -43,8 +43,8 @@ const Products = () => {
   }, [token, searchTerm, pagination.currentPge]);
 
   useEffect(() => {
-     fetchData();
-  }, [searchTerm, pagination.currentPge, fetchData,products]);
+    fetchData();
+  }, [searchTerm, pagination.currentPge, fetchData, products]);
 
   const handleDeleteProduct = (productId) => {
     setSelectedProductsId(productId);
@@ -69,8 +69,6 @@ const Products = () => {
     setSelectedProductsId(null);
   }, []);
 
- 
-
   const handlePageChange = (newPage) => {
     setPagination({
       ...pagination,
@@ -86,55 +84,57 @@ const Products = () => {
 
   return (
     <>
-    <div>
-      <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2">
-        <div className="flex justify-between">
-          {" "}
-          <div className="relative w-96 m-3">
+      <div>
+        <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
+          <div className="flex justify-between">
             {" "}
-            <input
-              className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
-              type="text"
+            <div className="relative w-96 m-3">
+              {" "}
+              <input
+                className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
+                type="text"
                 onClick={handleSearch}
-                placeholder={t('Products.Search')}
-            />{" "}
-            <CiSearch className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" :"right-3"} `}  />{" "}
+                placeholder={t("Products.Search")}
+              />{" "}
+              <CiSearch
+                className={`absolute top-2 text-white text-xl ${
+                  language === "ar" ? "left-3" : "right-3"
+                } `}
+              />{" "}
+            </div>
+            <div>
+              <button className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold">
+                {t("Products.Add")}{" "}
+              </button>
+            </div>
           </div>
-          <div>
-              <button className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold">{t('Products.Add')} </button>
-          </div>
-        </div>
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
-          <thead className="text-xm text-gray-200 uppercase">
-            <tr className="text-center bg-gray-500 bg-opacity-25 transition ease-out duration-200">
-              <th scope="col" className="px-4 py-4">
-                  {t('Products.Code')}
-              </th>
-              <th scope="col" className="px-4 py-4">
-                  {t('Products.Name')}
-              </th>
-              <th scope="col" className="px-4 py-4">
-                  {t('Products.Category')}
-  
-              </th>
-              <th scope="col" className="px-4 py-4">
-                  {t('Products.Quantity')}
-  
-              </th>
-              <th scope="col" className="px-4 py-4">
-                  {t('Products.Price')}
- 
-              </th>
-              <th scope="col" className="px-4 py-4">
-                  {t('Products.Sold')}
-  
-              </th>
-              <th scope="col" className="px-4 py-4">
-                  {t('Products.Actions')}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
+            <thead className="text-xm text-gray-200 uppercase">
+              <tr className="text-center bg-gray-500 bg-opacity-25 transition ease-out duration-200">
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.Code")}
+                </th>
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.Name")}
+                </th>
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.Category")}
+                </th>
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.Quantity")}
+                </th>
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.Price")}
+                </th>
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.Sold")}
+                </th>
+                <th scope="col" className="px-4 py-4">
+                  {t("Products.Actions")}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
               {loading ? (
                 <tr>
                   <td colSpan="7" className=" fs-4 text-center mb-5 pb-3">
@@ -143,38 +143,42 @@ const Products = () => {
                 </tr>
               ) : (
                 <>
-                   {products.map((product) => (
-                      <tr key={product._id} className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200">
-                        <th
-                          scope="row"
-                          className="px-4 py-4 font-medium text-gray-900
+                  {products.length === 0 && (
+                    <tr className="text-xl text-center">
+                      <td colSpan="7">No Products available</td>
+                    </tr>
+                  )}
+                  {products.map((product) => (
+                    <tr
+                      key={product._id}
+                      className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
+                    >
+                      <th
+                        scope="row"
+                        className="px-4 py-4 font-medium text-gray-900
                          whitespace-nowrap dark:text-white max-w-[5rem] truncate"
-                        >
-                          {product._id}
-                        </th>
-                        <td className="px-4 py-4">{product.name}</td>
-                        <td className="px-4 py-4">{product._id.slice(-4)}</td>
-                        <td className="px-4 py-4">{product.category.name}</td>
-                        <td className="px-4 py-4">{product.quantity}</td>
-                        <td className="px-4 py-4">{product.price}</td>
-                        <td className="px-4 py-4">{product.sold}</td>
-                      </tr>
-                    ))}
+                      >
+                        {product._id}
+                      </th>
+                      <td className="px-4 py-4">{product.name}</td>
+                      <td className="px-4 py-4">{product._id.slice(-4)}</td>
+                      <td className="px-4 py-4">{product.category.name}</td>
+                      <td className="px-4 py-4">{product.quantity}</td>
+                      <td className="px-4 py-4">{product.price}</td>
+                      <td className="px-4 py-4">{product.sold}</td>
+                    </tr>
+                  ))}
                 </>
               )}
-
-          {products.length === 0 && <tr className="text-xl text-center">
-            <td colSpan="7" >No Products available</td>
-          </tr>}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
           <nav
             className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 "
             dir="rtl"
           >
             <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ">
-
-              {"      "} {t('Products.appear')}{"   "}
+              {"      "} {t("Products.appear")}
+              {"   "}
               <span
                 className="font-semibold text-gray-900 dark:text-white m-2"
                 dir="ltr"
@@ -182,9 +186,10 @@ const Products = () => {
                 {"     "} 1-10 {"      "}
               </span>{" "}
               {"  "}
-              {"   "}{t('Products.from')}
+              {"   "}
+              {t("Products.from")}
               <span className="font-semibold text-gray-900 dark:text-white m-2">
-                {"   "}1000  {"   "}
+                {"   "}1000 {"   "}
               </span>
             </span>
             <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
@@ -249,8 +254,8 @@ const Products = () => {
               </li>
             </ul>
           </nav>
-      </section>
-    </div>
+        </section>
+      </div>
     </>
   );
 };

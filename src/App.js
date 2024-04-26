@@ -98,8 +98,8 @@ const App = () => {
                 <Route path="/bills" element={<Bills />} />
                 <Route path="/UpdateBills/:id" element={<UpdateBills />} />
                 <Route path="/CreateBillForm" element={<CreateBillForm />} />
-                // <Route path="/profile" element={<ProfilePage />} />
-                // <Route path="/Profile" element={<ChangPassword />} />
+                 <Route path="/profile" element={<ProfilePage />} />
+                 <Route path="/Profile" element={<ChangPassword />} />
                 <Route path="/information" element={<Information />} />
                 <Route path="/change-password" element={<ChangPassword />} />
                 <Route path="/Profile/Users" element={<Users />} />
