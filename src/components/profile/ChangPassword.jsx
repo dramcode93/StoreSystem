@@ -33,16 +33,19 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className={styles.changePassword}>
-      <h3 className='fw-bold'><Translate>Change Password Page :</Translate></h3>
-      <form className='px-2'>
+    <div className="bg-gray-700 bg-opacity-25 mx-10 rounded-md py-4 px-4  text-gray-200">
+      <h3 className='font-bold text-white'>Change Password Page</h3>
+      <form className=''>
         <label htmlFor='password'><Translate>Current Password :</Translate></label>
-        <input id='password' type='password' name='currentPassword' value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
+        <input id='password' className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
+          type='password' name='currentPassword' value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
         <label htmlFor='newPassword'><Translate>New Password :</Translate></label>
-        <input id='newPassword' type='password' name='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input id='newPassword' className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
+          type='password' name='password' value={password} onChange={(e) => setPassword(e.target.value)} />
         <label htmlFor='confirmPassword'><Translate>Confirm New Password :</Translate></label>
-        <input type='password' id='confirmPassword' name='confirmPassword' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-        <button onClick={handleEditPassword}><Translate>An Editing</Translate></button>
+        <input type='password' className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
+          id='confirmPassword' name='confirmPassword' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+        <button onClick={handleEditPassword} className="bg-yellow-900  rounded-lg hover:bg-yellow-800 fw-bold"><Translate>An Editing</Translate></button>
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>

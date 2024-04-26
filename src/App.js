@@ -25,6 +25,7 @@ import axios from "axios";
 import FormAdd from "./components/profile/formAdd.jsx";
 import UserBills from "./components/Bills/UserBills.jsx";
 import { useI18nContext } from "./components/context/i18n-context.jsx";
+import Information from "./components/profile/Information.jsx";
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
@@ -79,7 +80,7 @@ const App = () => {
     <BrowserRouter>
       <MyComponent />
       <div className="flex items-start justify-center" dir={language === "ar" ? "rtl" : "ltr"}>
-        {isLoggedIn && !isTokenExpired && <Dashboard dir={language === "ar" ? "rtl" : "ltr"}/>}
+        {isLoggedIn && !isTokenExpired && <Dashboard dir={language === "ar" ? "rtl" : "ltr"} />}
         <div className="flex-grow">
           <Routes>
             <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
@@ -97,8 +98,10 @@ const App = () => {
                 <Route path="/bills" element={<Bills />} />
                 <Route path="/UpdateBills/:id" element={<UpdateBills />} />
                 <Route path="/CreateBillForm" element={<CreateBillForm />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/Profile" element={<ChangPassword />} />
+                // <Route path="/profile" element={<ProfilePage />} />
+                // <Route path="/Profile" element={<ChangPassword />} />
+                <Route path="/information" element={<Information />} />
+                <Route path="/change-password" element={<ChangPassword />} />
                 <Route path="/Profile/Users" element={<Users />} />
                 <Route path="/users/addUser" element={<FormAdd />} />
                 <Route path="/users/:id/userBills" element={<UserBills />} />
