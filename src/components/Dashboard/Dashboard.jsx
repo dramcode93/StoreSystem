@@ -8,10 +8,107 @@ import { useI18nContext } from "../context/i18n-context";
 import module from "./Dashboard.module.css";
 import { House } from "@phosphor-icons/react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { jwtDecode } from 'jwt-decode';
+import token from 'surge/lib/middleware/token';
 
 const Dashboard = ({ children }) => {
+    const decodedToken = jwtDecode(token);
     const { t, language } = useI18nContext();
+    const admin = [
+        {
+            path: '/Home',
+            name: t("Home.Home"),
+            icon: <House />
+        },
+        {
+            path: '/category',
+            name: t("Home.Category"),
+            icon: <BiCategory />
+        },
+        {
+            path: "/products",
+            name: t("Home.products"),
+            icon: <MdProductionQuantityLimits />
+        },
+        {
+            path: "/bills",
+            name: t("Home.Bill"),
+            icon: <LiaMoneyBillSolid />
+        },
+        {
+            name: t("Home.Profile"),
+            icon: <CgProfile />,
+            dropdownItems: [
+                { text: 'Information', path: '/information' },
+                { text: 'Change Password', path: '/change-password' },
+                { text: 'Users', path: '/users' }
+            ]
+        },
+    ];
     const menuDashboard = [
+        {
+            path: '/Home',
+            name: t("Home.Home"),
+            icon: <House />
+        },
+        {
+            path: '/category',
+            name: t("Home.Category"),
+            icon: <BiCategory />
+        },
+        {
+            path: "/products",
+            name: t("Home.products"),
+            icon: <MdProductionQuantityLimits />
+        },
+        {
+            path: "/bills",
+            name: t("Home.Bill"),
+            icon: <LiaMoneyBillSolid />
+        },
+        {
+            name: t("Home.Profile"),
+            icon: <CgProfile />,
+            dropdownItems: [
+                { text: 'Information', path: '/information' },
+                { text: 'Change Password', path: '/change-password' },
+                { text: 'Users', path: '/users' }
+            ]
+        },
+    ];
+    const manger = [
+        {
+            path: '/Home',
+            name: t("Home.Home"),
+            icon: <House />
+        },
+        {
+            path: '/category',
+            name: t("Home.Category"),
+            icon: <BiCategory />
+        },
+        {
+            path: "/products",
+            name: t("Home.products"),
+            icon: <MdProductionQuantityLimits />
+        },
+        {
+            path: "/bills",
+            name: t("Home.Bill"),
+            icon: <LiaMoneyBillSolid />
+        },
+        {
+            name: t("Home.Profile"),
+            icon: <CgProfile />,
+            dropdownItems: [
+                { text: 'Information', path: '/information' },
+                { text: 'Change Password', path: '/change-password' },
+                { text: 'Users', path: '/users' }
+            ]
+        },
+    ];
+
+    const user = [
         {
             path: '/Home',
             name: t("Home.Home"),
@@ -65,6 +162,7 @@ const Dashboard = ({ children }) => {
 
     return (
         <div className="text-gray-900 dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
+            {decodedToken.role === "admin" &&
             <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
                 {
                     menuDashboard.map((item, index) => (
@@ -91,7 +189,7 @@ const Dashboard = ({ children }) => {
                         </div>
                     ))
                 }
-            </div>
+            </div>}
             <main>{children}</main>
         </div>
     );
