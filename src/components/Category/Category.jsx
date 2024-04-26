@@ -147,7 +147,7 @@ const CategoryTable = (openEdit, openPreview) => {
                     >
                       <DotsThree size={25} weight="bold" className=' hover:bg-gray-700 w-10 rounded-lg'/>
                     </button>
-                    <div className="absolute z-50">
+                    <div className="absolute z-50" dir={language === "ar" ? "rtl" : "ltr"}>
                       <div
                         className={`${selectedCategoryId === category._id
                           ? `absolute -top-3 ${lang === "en" ? "right-full" : "left-full"
