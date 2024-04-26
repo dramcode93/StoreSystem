@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { X } from "@phosphor-icons/react";
+import {Plus, X } from "@phosphor-icons/react";
 import FormInput from "../../../form/FormInput";
 import { useI18nContext } from "../../context/i18n-context";
+import FormBtnIcon from "../../../form/FormBtnIcon";
 
 export default function CreateCategory({ closeModal, role, modal }) {
 
@@ -62,8 +63,11 @@ export default function CreateCategory({ closeModal, role, modal }) {
                                     onChange={handleChange}
                                 />
 
-
-                            </div>
+</div>
+                                <FormBtnIcon
+                                    label={t("Category.addCategory")}
+                                    icon={<Plus size={18} weight="bold" />}
+                                />
                         </form>
                     </div>
                 </div>

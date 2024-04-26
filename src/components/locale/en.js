@@ -15,6 +15,7 @@ const en = {
   },
   Category: {
     createCategory:"create Category",
+    addCategory:"  add Category",
     teachingPlace: "teaching Place",
     month: " month ",
     gender: "gender",
