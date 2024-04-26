@@ -87,15 +87,7 @@
   border-radius: 4px;
 }
 
-.confirmationModalCon button:first-child {
-  background-color: #f44336;
-  color: #fff;
-}
-
-.confirmationModalCon button:last-child {
-  background-color: #4caf50;
-  color: #fff;
-}
+ 
 
 .confirmationModal {
   position: fixed;
@@ -128,15 +120,7 @@
   border-radius: 4px;
 }
 
-.confirmationModalCon button:first-child {
-  background-color: #f44336;
-  color: #fff;
-}
-
-.confirmationModalCon button:last-child {
-  background-color: #4caf50;
-  color: #fff;
-}
+ 
 
 .flex {
   display: flex;

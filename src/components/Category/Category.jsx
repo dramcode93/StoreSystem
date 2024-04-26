@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { CiSearch } from "react-icons/ci";
-import { CaretLeft, CaretRight } from "@phosphor-icons/react";
+import { CaretLeft, CaretRight, DotsThree, Eye, NotePencil, Plus, TrashSimple, UsersFour } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
 import Loading from '../Loading/Loading';
 const API_category = 'https://store-system-api.gleeze.com/api/categories';
 
-const CategoryTable = () => {
+const CategoryTable = (openEdit, openPreview) => {
   const token = Cookies.get('token');
   const [categories, setCategories] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -60,7 +60,7 @@ const CategoryTable = () => {
     setSelectedCategoryId(null);
   }, []);
 
-  const confirmAddCategory = useCallback(() => {
+  const confirmCategory = useCallback(() => {
     axios.post(`${API_category}`, { name: newCategoryName }, { headers: { Authorization: `Bearer ${token}` } })
       .then(() => fetchData())
       .catch((error) => console.error('Error adding category:', error))
@@ -73,10 +73,21 @@ const CategoryTable = () => {
       currentPge: newPage
     });
   }
+ 
   const { t, language } = useI18nContext();
+  const toggleEditDropdown = (CategoryId) => {
+    setSelectedCategoryId((prevCategoryId) =>
+      prevCategoryId === CategoryId ? null : CategoryId
+    );
+  };
+  const dropdownRefs = useRef({});
+  const handleEditCategory = (category) => {
+    openEdit(category);
+  };
+  const lang = localStorage.getItem("language");
 
   return (
-    <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2" dir={language === "ar" ? "rtl" : "ltr"}>
+    <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 relative top-20" dir={language === "ar" ? "rtl" : "ltr"}>
       <div className="flex justify-between">
         {" "}
         <div className="relative w-96 m-3">
@@ -95,16 +106,15 @@ const CategoryTable = () => {
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
         <thead className="text-xm text-gray-200 uppercase">
           <tr className="text-center fs-6 bg-gray-500 tracking-wide  bg-opacity-25 transition ease-out duration-200">
-            <th scope="col" className="px-4 py-4">
+            <th scope="col" className="px-5 py-4">
               {t('Category.Code')}
             </th>
-            <th scope="col" className="px-4 py-4">
+            <th scope="col" className="px-5 py-4">
               {t('Category.Name')}
   
             </th>
-            <th scope="col" className="px-4 py-4">
-              {t('Category.Actions')}
-  
+            <th scope="col" className="px-4 py-3">
+              <span className="sr-only">Actions</span>
             </th>
           </tr>
         </thead>
@@ -118,7 +128,7 @@ const CategoryTable = () => {
           ) : (
             <>
               {categories.map((category) => (
-                <tr key={category._id} className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200">
+                <tr key={category._id} className="border-b dark:border-gray-700 text-center transition ease-out duration-200">
                   <th
                     scope="row"
                     className="px-4 py-4 font-medium text-gray-900
@@ -126,9 +136,60 @@ const CategoryTable = () => {
                   >
                     {category._id}
                   </th>
-                  <td className="px-4 py-4">{category._id}</td>
                   <td className="px-4 py-4">{category.name.slice(-4)}</td>
-                  <td className="px-4 py-4">{category.actions}</td>
+
+                  <td className="px-4 py-3 flex items-center justify-end">
+                    <button
+                      className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
+                      type="button"
+                      onClick={() => toggleEditDropdown(category._id)}
+                      ref={(el) => (dropdownRefs.current[category._id] = el)}
+                    >
+                      <DotsThree size={25} weight="bold" className=' hover:bg-gray-700 w-10 rounded-lg'/>
+                    </button>
+                    <div className="absolute z-50">
+                      <div
+                        className={`${selectedCategoryId === category._id
+                          ? `absolute -top-3 ${lang === "en" ? "right-full" : "left-full"
+                          } overflow-auto`
+                          : "hidden"
+                          } z-10 w-44 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                      >
+                        <ul className="text-sm bg-transparent">
+                          <li className=''>
+                            <button
+                              type="button"
+                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                              onClick={() => handleEditCategory(category._id)}
+                            >
+                              <NotePencil size={18} weight="bold" />
+                              {t("Category.Edit")}
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              type="button"
+                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                             >
+                              <Eye size={18} weight="bold" />
+                              {t("Category.Preview")}
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              type="button"
+                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                              onClick={() => handleDeleteCategory(category._id)}
+                            >
+                              <TrashSimple size={18} weight="bold" />
+                              {t("Category.Delete")}
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </td>
+
                 </tr>
               ))}
             </>
