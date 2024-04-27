@@ -10,6 +10,7 @@ import { House } from "@phosphor-icons/react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
+import { FaPeopleArrows, FaPeopleCarry } from 'react-icons/fa';
 
 const Dashboard = ({ children }) => {
     const token = Cookies.get('token');
@@ -26,6 +27,11 @@ const Dashboard = ({ children }) => {
             path: '/category',
             name: t("Home.Category"),
             icon: <BiCategory />
+        },
+        {
+            path: "/customers",
+            name: t("Home.Customers"),
+            icon: <FaPeopleArrows />
         },
         {
             path: "/products",

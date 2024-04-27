@@ -3,6 +3,7 @@ const ar = {
     Home: "الرئيسية",
     Category: "الفئات",
     products: "المنتجات",
+    Customers: "العملاء",
     Profile: "الملف الشخصي",
     Bill: "الفواتير",
     Login: "سجل الدخول",

@@ -4,6 +4,7 @@ const en = {
     Category: "category",
     products: "products",
     Product: "Product",
+    Customers: "Customers",
     Bill: "Bills",
     Profile: "The Profile",
     Login: "Log in",
