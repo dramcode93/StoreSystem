@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { BiCategory } from "react-icons/bi";
 import { LiaMoneyBillSolid } from "react-icons/lia";
-import { MdProductionQuantityLimits } from "react-icons/md";
+import { MdProductionQuantityLimits, MdBorderColor } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { NavLink } from 'react-router-dom';
 import { useI18nContext } from "../context/i18n-context";
 import module from "./Dashboard.module.css";
 import { House } from "@phosphor-icons/react";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiChevronDown, FiChevronUp, FiShoppingCart } from "react-icons/fi";
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
+import { BsFillPersonVcardFill } from "react-icons/bs";
 
 const Dashboard = ({ children }) => {
     const token = Cookies.get('token');
@@ -21,6 +22,11 @@ const Dashboard = ({ children }) => {
             path: '/Home',
             name: t("Home.Home"),
             icon: <House />
+        },
+        {
+            path: "/shop",
+            name: t("Home.shop"),
+            icon: <FiShoppingCart />
         },
         {
             path: '/category',
@@ -41,8 +47,8 @@ const Dashboard = ({ children }) => {
             name: t("Home.Profile"),
             icon: <CgProfile />,
             dropdownItems: [
-                { text: 'Information', path: '/information' },
-                { text: 'Change Password', path: '/change-password' },
+                { text: t('Home.Information'), path: '/information' },
+                { text: t('Home.ChangePassword'), path: '/change-password' },
                 { text: 'Users', path: '/users' }
             ]
         },
@@ -86,19 +92,39 @@ const Dashboard = ({ children }) => {
             name: t("Home.Category"),
             icon: <BiCategory />
         },
-
         {
-            path: "/bills",
+            path: "/products",
+            name: t("Home.products"),
+            icon: <MdProductionQuantityLimits />
+        },
+        {
             name: t("Home.Bill"),
-            icon: <LiaMoneyBillSolid />
+            icon: <LiaMoneyBillSolid />,
+            dropdownItems: [
+                { text: 'Create bills', path: '/create-bills' },
+            ]
+        },
+        {
+            name: t("Home.Order"),
+            icon: <MdBorderColor />,
+            dropdownItems: [
+                { text: 'Agree', path: '/agree' },
+                { text: 'Accept', path: '/accept' },
+            ]
+        },
+        {
+            name: t("Home.Customer"),
+            icon: <BsFillPersonVcardFill />,
+            dropdownItems: [
+                { text: 'Create', path: '/create' },
+                { text: 'Show bills', path: '/show-bills' },
+            ]
         },
         {
             name: t("Home.Profile"),
             icon: <CgProfile />,
             dropdownItems: [
                 { text: 'Information', path: '/information' },
-                { text: 'Change Password', path: '/change-password' },
-                { text: 'Users', path: '/users' }
             ]
         },
     ];
@@ -113,10 +139,10 @@ const Dashboard = ({ children }) => {
         boxShadow: language === "ar" ? "-5px 0px 3px  rgba(0, 0, 0, 0.1)" : "5px 0px 3px  rgba(0, 0, 0, 0.1)"
     };
 
-     const [activeLink, setActiveLink] = useState(null);
+    const [activeLink, setActiveLink] = useState(null);
     const [isProfileActive, setIsProfileActive] = useState(false);
 
-     const handleLinkClick = (index) => {
+    const handleLinkClick = (index) => {
         setActiveLink(index);
         if (index === admin.length - 1) {
             setIsProfileActive(!isProfileActive);
@@ -125,7 +151,7 @@ const Dashboard = ({ children }) => {
         }
     };
 
-     return (
+    return (
         <div className="text-gray-900 dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
             {decodedToken.role === "admin" &&
                 <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
