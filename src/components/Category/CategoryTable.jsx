@@ -14,7 +14,7 @@ import { useI18nContext } from "../context/i18n-context";
 import Loading from "../Loading/Loading";
 
 const API_category = "https://store-system-api.gleeze.com/api/categories";
-
+ 
 const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   const token = Cookies.get("token");
   const [categories, setCategories] = useState([]);
@@ -153,7 +153,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan="2" className=" fs-4 text-center mb-5 pb-3">
+              <td colSpan="3" className=" fs-4 text-center mb-5 pb-3">
                 <Loading />
               </td>
             </tr>
@@ -161,7 +161,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
             <>
               {categories.length === 0 && (
                 <tr className="text-xl text-center">
-                  <td colSpan="2"> {t("Category.available")}</td>
+                  <td colSpan="3"> {t("Category.available")}</td>
                 </tr>
               )}
               {categories.map((category) => (
@@ -202,9 +202,9 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                                 lang === "en" ? "right-full" : "left-full"
                               } overflow-auto`
                             : "hidden"
-                        } z-10 w-44 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                        } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
-                        <ul className="text-sm bg-transparent">
+                        <ul className="text-sm bg-transparent pl-0 mb-0">
                           <li className="">
                             <button
                               type="button"
