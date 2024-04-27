@@ -118,7 +118,7 @@ const Products = ({openEdit}) => {
             absolute left-0 top-0
             h-screen overflow-auto`}
         overlayClassName="Overlay"
-
+   
       >
         <>
           <div className="flex pb-4  mb-5 rounded-t border-b dark:border-gray-600">
