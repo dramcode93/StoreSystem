@@ -1,6 +1,7 @@
 const ar = {
   Home: {
     Home: "الرئيسية",
+    shop: "تسوق",
     Category: "الفئات",
     products: "المنتجات",
     Profile: "الملف الشخصي",
@@ -11,11 +12,15 @@ const ar = {
     Password: "كلمه السر",
     salesManagement: "إدارة المبيعات",
     ForgetPass: "نسيت كلمه المرور",
+    Order: "اطلب",
+    Customer: "العميل",
+    ChangePassword: "تغيير كلمة السر",
+    Information: "بياناتي",
   },
 
   Category: {
-    createCategory:"إنشاء فئة",
-    addCategory:"إضافة فئة",
+    createCategory: "إنشاء فئة",
+    addCategory: "إضافة فئة",
     Search: "بحث",
     Add: "ضيف",
     Code: "الكود",

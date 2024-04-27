@@ -23,6 +23,7 @@ import UserBills from "./components/Bills/UserBills.jsx";
 import { useI18nContext } from "./components/context/i18n-context.jsx";
 import Information from "./components/profile/Information.jsx";
 import Category from "./components/Category/Category.jsx";
+import Shop from "./components/Shop/Shop.jsx";
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
@@ -87,14 +88,15 @@ const App = () => {
             {isLoggedIn && !isTokenExpired && (
               <>
                 <Route path="/home" element={<Home />} />
+                <Route path="/shop" element={<Shop />} />
                 <Route path="/category" element={<Category />} />
                 <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/bills" element={<Bills />} />
                 <Route path="/UpdateBills/:id" element={<UpdateBills />} />
                 <Route path="/CreateBillForm" element={<CreateBillForm />} />
-                 <Route path="/profile" element={<ProfilePage />} />
-                 <Route path="/Profile" element={<ChangPassword />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/Profile" element={<ChangPassword />} />
                 <Route path="/information" element={<Information />} />
                 <Route path="/change-password" element={<ChangPassword />} />
                 <Route path="/Profile/Users" element={<Users />} />
