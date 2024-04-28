@@ -4,6 +4,7 @@ const ar = {
     shop: "تسوق",
     Category: "الفئات",
     products: "المنتجات",
+    Customers: "العملاء",
     Profile: "الملف الشخصي",
     Bill: "الفواتير",
     Login: "سجل الدخول",
