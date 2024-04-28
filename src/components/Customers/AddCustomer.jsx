@@ -62,7 +62,6 @@ export default function AddCustomer({ closeModal, role, modal }) {
     setSelectedCity("");
     fetchCities(selectedGovernorateId);
   };
-
   const handleAddCustomer = async (e) => {
     e.preventDefault();
     try {
@@ -150,7 +149,7 @@ export default function AddCustomer({ closeModal, role, modal }) {
                 options={governorates.map((governorate) => ({
                   value: governorate._id,
                   label:
-                    language === "ar"
+                    language === "ar"  
                       ? governorate.governorate_name_ar
                       : governorate.governorate_name_en,
                 }))}
