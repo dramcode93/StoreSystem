@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import AddProduct from "./AddProduct";
 import ProductsTable from "./ProductsTable";
-import ConfirmationDelete from "./ConfirmationDelete";
 import UpdateProduct from "./updateProduct";
 
 const Products = ({ role }) => {
-  const [openCreate, setOpenCreate] = useState(false);
+  const [openCreate , setOpenCreate] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
 
   const toggleOpenCreateModal = () => {
@@ -15,14 +14,17 @@ const Products = ({ role }) => {
     setOpenEdit(!openEdit);
     // setSelectedProductData(selectedProduct);
   };
-
+               
   return (
     <>
       <div>
+
+
         <AddProduct
           closeModal={toggleOpenCreateModal}
           modal={openCreate}
           role={role}
+          
         />
         <UpdateProduct
         closeModal={toggleOpenEditModal}

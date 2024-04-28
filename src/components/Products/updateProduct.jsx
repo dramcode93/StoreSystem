@@ -27,6 +27,7 @@ function UpdateProduct({ closeModal, role, modal }) {
   const [isLoading, setIsLoading] = useState(true);
   const [token] = useState(Cookies.get("token"));
   const { t, language } = useI18nContext();
+  
   const API_category =
     "https://store-system-api.gleeze.com/api/categories/list";
 
