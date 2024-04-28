@@ -298,7 +298,7 @@ const Dashboard = ({ children }) => {
                 )}
               </NavLink>
               {activeLink === index &&
-                isProfileActive &&
+                      isProfileActive &&
                 item.dropdownItems && (
                   <div
                     className="transition ease-in-out duration-75"
