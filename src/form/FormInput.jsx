@@ -25,7 +25,7 @@ function FormInput({
     <div className="">
       <label
         htmlFor={name}
-        className="block mb-2 text-xl font-medium text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear"
+        className="block mb-3 text-xl font-medium text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear"
       >
         {label}
       </label>

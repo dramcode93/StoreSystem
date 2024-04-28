@@ -8,187 +8,23 @@ import Modal from "react-modal";
 import Loading from "../Loading/Loading";
 import FormText from "../../form/FormText";
 import FormNumber from "../../form/FormNumber";
+import AddProduct from "./AddProduct";
+import ProductsTable from "./ProductsTable";
 
 const API_URL = "https://store-system-api.gleeze.com/api/products";
 const API_category = "https://store-system-api.gleeze.com/api/categories/list";
 
-const Products = ({openEdit}) => {
-  const token = Cookies.get("token");
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [selectedProductsId, setSelectedProductsId] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [searchInput, setSearchInput] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [pagination, setPagination] = useState({});
-
-  const fetchData = useCallback(async () => {
-    try {
-      if (token) {
-        const productsResponse = await axios.get(
-          `${API_URL}?sort=category name&search=${searchTerm}&page=${pagination.currentPge}&limit=20`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setProducts(productsResponse.data.data);
-        setPagination(productsResponse.data.paginationResult);
-
-        const categoriesResponse = await axios.get(`${API_category}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setCategories(categoriesResponse.data.data);
-      } else {
-        console.error("No token found.");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [token, searchTerm, pagination.currentPge]);
-
-  useEffect(() => {
-    fetchData();
-  }, [searchTerm, pagination.currentPge, fetchData]);
-
-  const handleDeleteProduct = (productId) => {
-    setSelectedProductsId(productId);
-    setShowConfirmation(true);
-  };
-
-  const confirmDelete = useCallback(() => {
-    axios
-      .delete(`${API_URL}/${selectedProductsId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(() => fetchData())
-      .catch((error) => console.error("Error deleting product:", error))
-      .finally(() => {
-        setShowConfirmation(false);
-        setSelectedProductsId(null);
-      });
-  }, [selectedProductsId, token, fetchData]);
-
-  const cancelDelete = useCallback(() => {
-    setShowConfirmation(false);
-    setSelectedProductsId(null);
-  }, []);
-
-  const handlePageChange = (newPage) => {
-    setPagination({
-      ...pagination,
-      currentPge: newPage,
-    });
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setSearchTerm(searchInput);
-  };
-
+const Products = ({role }) => {
   const { t, language } = useI18nContext();
+  const [openCreate, setOpenCreate] = useState(false);
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalIsOpen(false);
-  };
-  const lang = localStorage.getItem("language");
-  const toggleEditDropdown = (productId) => {
-    setSelectedProductsId((prevProductId) =>
-    prevProductId === productId ? null : productId
-    );
-  };
-  const dropdownRefs = useRef({});
-  const handleEditProduct = (product) => {
-    openEdit(product);
+  const toggleOpenCreateModal = () => {
+    setOpenCreate(!openCreate);
   };
   return (
     <>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={handleCloseModal}
-        contentLabel="Add Product Modal"
-        className={`w-110 bg-gray-200 dark:bg-gray-800 p-5
-            rounded-r-2xl duration-500 ease-in-out
-            absolute left-0 top-0
-            h-screen overflow-auto`}
-        overlayClassName="Overlay"
-   
-      >
-        <>
-          <div className="flex pb-4  mb-5 rounded-t border-b dark:border-gray-600">
-            <h3 className="text-2xl font-bold flex-grow text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-              {t("ExpensesForm.createExpenses")}
-            </h3>
-            <button
-              type="button"
-              onClick={handleCloseModal}
-              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm  dark:hover:bg-gray-600 dark:hover:text-white w-fit"
-            >
-              <X size={18} weight="bold" />
-              <span className="sr-only">Close modal</span>
-            </button>
-          </div>
-          <form className="grid grid-cols-2 gap-5 p-0 m-0 text-start ">
-            <FormText
-              label="Code"
-              name="Code"
-              onChange={() => { }}
-              placeholder="Code"
-              className="placeholder:text-gray-400"
-            />
-            <FormText
-              label="Name"
-              name="Code"
-              onChange={() => { }}
-              placeholder="Name"
-            />
-            <FormText
-              label="Category"
-              name="Code"
-              onChange={() => { }}
-              placeholder="Category"
-            />
-            <FormNumber
-              label="Quantity"
-              name="Code"
-              onChange={() => { }}
-              placeholder="Quantity"
-            />
-            <FormNumber
-              label="Price"
-              name="Code"
-              onChange={() => { }}
-              placeholder="Price"
-            />
-            <FormText
-              label="Sold"
-              name="Code"
-              onChange={() => { }}
-              placeholder="Sold"
-            />
-            <FormText
-              label="Actions"
-              name="Code"
-              onChange={() => { }}
-              placeholder="Actions"
-            />
-            <div className="col-span-2 flex justify-center">
-              <button className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl">
-                {t("Products.AddProduct")}
-              </button>
-              <div>&nbsp;</div>
-            </div>
-          </form>
-        </>
-      </Modal>
       <div>
-        <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
+        {/* <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
           <div className="flex justify-between">
             {" "}
             <div className="relative w-96 m-3">
@@ -416,7 +252,13 @@ const Products = ({openEdit}) => {
               </li>
             </ul>
           </nav>
-        </section>
+        </section> */}
+        <AddProduct
+        closeModal={toggleOpenCreateModal}
+        modal={openCreate}
+        role={role}
+      />
+      <ProductsTable openCreate={toggleOpenCreateModal} />
       </div>
     </>
   );
