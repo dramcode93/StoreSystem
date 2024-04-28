@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
-import { Plus, X } from "@phosphor-icons/react";
-import FormBtnIcon from "../../form/FormBtnIcon";
-import FormInput from "../../form/FormInput";
-import { useI18nContext } from "../context/i18n-context";
-import FormSelect from "../../form/FormSelect";
-import FormNumber from "../../form/FormNumber";
+import {   X } from "@phosphor-icons/react";
+ import { useI18nContext } from "../context/i18n-context";
+  import FormNumber from "../../form/FormNumber";
 import axios from "axios";
 import Cookies from "js-cookie";
 import FormText from "../../form/FormText";
@@ -19,14 +16,12 @@ export default function AddProduct({ closeModal, role, modal }) {
 
   const { t, language } = useI18nContext();
   const token = Cookies.get("token");
-  const [code, setCode] = useState("");
-  const [name, setName] = useState("");
+   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [sellingPrice, setSellingPrice] = useState("");
-  const [loading, setLoading] = useState(true);
-
+ 
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {

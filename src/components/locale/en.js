@@ -1,4 +1,7 @@
 const en = {
+   Loading:{
+    LOADING:"LOADING ..."
+  },
   Home: {
     Home: "Home",
     shop: "Shop",

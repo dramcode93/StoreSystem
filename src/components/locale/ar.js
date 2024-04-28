@@ -1,4 +1,7 @@
 const ar = {
+  Loading:{
+    LOADING:"تحميل ..."
+  },
   Home: {
     Home: "الرئيسية",
     shop: "تسوق",

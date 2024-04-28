@@ -125,13 +125,6 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
         <div className="mr-3">
           <button
             className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
-            // className="flex gap-2  items-center justify-center duration-150 ease-linear
-            //         text-white fw-bold text-xl bg-orange-500 hover:bg-orange-700 
-            //         focus:ring-4 focus:ring-orange-300 
-            //         font-medium rounded-lg text-sm px-4 py-2 
-            //         dark:bg-orange-300 dark:hover:bg-orange-500 dark:text-orange-800
-            //         dark:hover:text-white 
-            //         focus:outline-none dark:focus:ring-orange-800"
             onClick={openCreate}>
             {t("Category.Add")}
           </button>
@@ -201,7 +194,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                           ? `absolute -top-3 ${lang === "en" ? "right-full" : "left-full"
                           } overflow-auto`
                           : "hidden"
-                          } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                          } z-10 pt-2 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
                         <ul className="text-sm bg-transparent pl-0 mb-0">
                           <li className="">
