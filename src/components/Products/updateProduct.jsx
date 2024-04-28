@@ -24,10 +24,9 @@ function UpdateProduct({ closeModal, role, modal }) {
   const [isLoading, setIsLoading] = useState(true);
   const [token] = useState(Cookies.get("token"));
   const { t, language } = useI18nContext();
-  
+
   const API_category =
     "https://store-system-api.gleeze.com/api/categories/list";
-
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
@@ -57,7 +56,8 @@ function UpdateProduct({ closeModal, role, modal }) {
           headers: { Authorization: `Bearer ${token}` },
         });
         setNewProductName(productData.data.name);
-        setNewProductPrice(productData.data.price);
+        setNewProductPrice(productData.data.productPrice);
+        setNewSellingPrice(productData.data.sellingPrice);
         setNewProductQuantity(productData.data.quantity);
         setSelectedCategoryId(productData.data.category._id); // Set category ID
         setCategories(categoriesData.data);
@@ -70,7 +70,7 @@ function UpdateProduct({ closeModal, role, modal }) {
 
     fetchData();
     fetchCategories();
-  }, [id, token]);
+  }, [id,token,fetchCategories]);
 
   const handleUpdateProduct = () => {
     axios
@@ -104,7 +104,6 @@ function UpdateProduct({ closeModal, role, modal }) {
       </div>
     );
   }
-
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
@@ -132,7 +131,7 @@ function UpdateProduct({ closeModal, role, modal }) {
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
             >
               <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                Add Product
+              Edit Product
               </h3>
               <button
                 type="button"
@@ -203,7 +202,7 @@ function UpdateProduct({ closeModal, role, modal }) {
                   }
                   className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
                 >
-                  {t("Products.AddProduct")}
+                  Edit Product
                 </button>
               </div>
             </form>

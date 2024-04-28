@@ -25,7 +25,7 @@ const Products = ({ role }) => {
           closeModal={toggleOpenCreateModal}
           modal={openCreate}
           role={role}
-          
+
         />
         <UpdateProduct
         
@@ -33,11 +33,15 @@ const Products = ({ role }) => {
         modal={openEdit}
         role={role}
         />
+<<<<<<< HEAD
         <ProductsTable
           openEdit={toggleOpenEditModal}
          openCreate={toggleOpenCreateModal}
          
          />
+=======
+        <ProductsTable openCreate={toggleOpenCreateModal} openEdit={toggleOpenEditModal} />
+>>>>>>> f20c326f5d5adbd6361f6c61b2f689bc0d731da8
       </div>
     </>
   );
