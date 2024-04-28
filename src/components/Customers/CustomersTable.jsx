@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import axios from "axios";
-import Cookies from "js-cookie";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { CiSearch } from "react-icons/ci";
+import Cookies from "js-cookie";
+
 import {
   CaretLeft,
   CaretRight,
@@ -12,28 +12,32 @@ import {
 } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
 import Loading from "../Loading/Loading";
+import axios from "axios";
 
-const API_category = "https://store-system-api.gleeze.com/api/categories";
- 
-const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
+const CustomersTable = ({
+  openEdit,
+  openCreate,
+  openPreview,
+}) => {
   const token = Cookies.get("token");
-  const [categories, setCategories] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  const [newCategoryName, setNewCategoryName] = useState("");
+  const [selectedCategoryId, setSelectedCustomerId] = useState(null);
+  const [newCategoryName, setNewCustomerName] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
+  const { t, language } = useI18nContext();
 
   const fetchData = useCallback(async () => {
     try {
       if (token) {
         const response = await axios.get(
-          `${API_category}?sort=name&search=${searchInput}&page=${pagination.currentPge}&limit=20`,
+          `https://store-system-api.gleeze.com/api/customers?sort=name&search=${searchInput}&page=${pagination.currentPge}&limit=20`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setCategories(response.data.data);
+        setCustomers(response.data.data);
         setPagination(response.data.paginationResult);
       }
     } catch (error) {
@@ -47,64 +51,20 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     fetchData();
   }, [searchInput, fetchData]);
 
-  const handleSearch = () => {
-    setSearchInput(searchTerm);
-  };
-
-  const handleDeleteCategory = (categoryId) => {
-    setSelectedCategoryId(categoryId);
-    setShowConfirmation(true);
-  };
-
-  const confirmDelete = useCallback(() => {
-    axios
-      .delete(`${API_category}/${selectedCategoryId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(() => fetchData())
-      .catch((error) => console.error("Error deleting category:", error))
-      .finally(() => {
-        setShowConfirmation(false);
-        setSelectedCategoryId(null);
-      });
-  }, [selectedCategoryId, token, fetchData]);
-
-  const cancelDelete = useCallback(() => {
-    setShowConfirmation(false);
-    setSelectedCategoryId(null);
-  }, []);
-
-  const confirmCategory = useCallback(() => {
-    axios
-      .post(
-        `${API_category}`,
-        { name: newCategoryName },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      .then(() => fetchData())
-      .catch((error) => console.error("Error adding category:", error))
-      .finally(() => setNewCategoryName(""));
-  }, [newCategoryName, token, fetchData]);
-
-  const handlePageChange = (newPage) => {
-    setPagination({
-      ...pagination,
-      currentPge: newPage,
-    });
-  };
-
-  const { t, language } = useI18nContext();
-  const toggleEditDropdown = (CategoryId) => {
-    setSelectedCategoryId((prevCategoryId) =>
-      prevCategoryId === CategoryId ? null : CategoryId
+  const toggleEditDropdown = (CustomerId) => {
+    setSelectedCustomerId((prevCustomerId) =>
+      prevCustomerId === CustomerId ? null : CustomerId
     );
   };
+  const handleDeleteCustomer = (customerId) => {
+    setSelectedCustomerId(customerId);
+    setShowConfirmation(true);
+  };
   const dropdownRefs = useRef({});
-  const handleEditCategory = (category) => {
-    openEdit(category);
+  const handleEditCustomer = (customer) => {
+    openEdit(customer);
   };
   const lang = localStorage.getItem("language");
-
   return (
     <section
       className=" bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-40 w-3/4 z-2"
@@ -115,69 +75,90 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           <input
             className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
             type="text"
-            placeholder={t("Category.Search")}
+            placeholder="Search"
           />
           <CiSearch
-            className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
-              } `}
+            className={`absolute top-2 text-white text-xl ${
+              language === "ar" ? "left-3" : "right-3"
+            } `}
           />
         </div>
         <div className="mr-3">
           <button
             className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
-            onClick={openCreate}>
-            {t("Category.Add")}
+            onClick={openCreate}
+          >
+            Add
           </button>
         </div>
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
         <thead className="text-xm text-gray-200 uppercase">
           <tr className="text-center fs-6 bg-gray-500 tracking-wide  bg-opacity-25 transition ease-out duration-200">
-            <th scope="col" className="px-5 py-4">
-              {t("Category.Code")}
+            <th scope="col" className="px-4 py-4">
+              Id
             </th>
-            <th scope="col" className="px-5 py-4">
-              {t("Category.Name")}
+            <th scope="col" className="px-4 py-4">
+              Name
             </th>
-            <th scope="col" className="px-4 py-3">
-              <span className="sr-only">Actions</span>
+            <th scope="col" className="px-4 py-4">
+              Address
+            </th>
+            <th scope="col" className="px-4 py-4">
+              Phone Number
+            </th>
+            <th scope="col" className="px-4 py-4">
+              Actions
             </th>
           </tr>
         </thead>
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan="3" className=" fs-4 text-center mb-5 pb-3">
+              <td colSpan="5" className=" fs-4 text-center mb-5 pb-3">
                 <Loading />
               </td>
             </tr>
           ) : (
             <>
-              {categories.length === 0 && (
-                <tr className="text-xl text-center">
-                  <td colSpan="3"> {t("Category.available")}</td>
+              {customers.length === 0 && (
+                <tr className="text-xl text-center ">
+                  <td colSpan="5">No Customers Available</td>
                 </tr>
               )}
-              {categories.map((category) => (
+              {customers.map((customer) => (
                 <tr
-                  key={category._id}
-                  className="border-b dark:border-gray-700 text-center transition ease-out duration-200"
+                  key={customer._id}
+                  className="border-b dark:border-gray-700 text-center  hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
                 >
                   <th
                     scope="row"
-                    className="px-4 py-4 font-medium text-gray-900
-                      whitespace-nowrap dark:text-white max-w-[5rem] truncate"
+                    className="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[5rem] truncate"
                   >
-                    {category._id.slice(-4)}
+                    {" "}
+                    {customer._id.slice(-4)}
                   </th>
-                  <td className="px-4 py-4">{category.name}</td>
-
+                  <td className="px-4 py-4">{customer.name}</td>
+                  <td className="px-4 py-4">
+                    {`${customer.address[0].street},  
+                    ${
+                      language === "ar"
+                        ? customer.address[0].city.city_name_ar
+                        : customer.address[0].city.city_name_en
+                    },  
+                    ${
+                      language === "ar"
+                        ? customer.address[0].governorate.governorate_name_ar
+                        : customer.address[0].governorate.governorate_name_en
+                    }`}
+                  </td>
+                  <td className="px-4 py-4">{customer.phone[0]}</td>
                   <td className="px-4 py-3 flex items-center justify-end">
                     <button
-                      className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
+                      className=" inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                       type="button"
-                      onClick={() => toggleEditDropdown(category._id)}
-                      ref={(el) => (dropdownRefs.current[category._id] = el)}
+                      onClick={() => toggleEditDropdown(customer._id)}
+                      ref={(el) => (dropdownRefs.current[customer._id] = el)}
                     >
                       <DotsThree
                         size={25}
@@ -190,40 +171,48 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                       dir={language === "ar" ? "rtl" : "ltr"}
                     >
                       <div
-                        className={`${selectedCategoryId === category._id
-                          ? `absolute -top-3 ${lang === "en" ? "right-full" : "left-full"
-                          } overflow-auto`
-                          : "hidden"
-                          } z-10 pt-2 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                        className={`${
+                          selectedCategoryId === customer._id
+                            ? `absolute -top-3 ${
+                                lang === "en" ? "right-full" : "left-full"
+                              } overflow-auto`
+                            : "hidden"
+                        } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
-                        <ul className="text-sm bg-transparent pl-0 mb-0">
+                        <ul className="text-xl bg-transparent pl-0 mb-0">
                           <li className="">
                             <button
                               type="button"
-                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${language === "ar" ? "px-4" : "px-1"} bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
-                              onClick={() => handleEditCategory(category._id)}
+                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-3 ${
+                                language === "ar" ? "px-4" : "px-1"
+                              } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
+                              onClick={() => handleEditCustomer(customer._id)}
                             >
                               <NotePencil size={18} weight="bold" />
-                              {t("Category.Edit")}
+                              Edit
                             </button>
                           </li>
                           <li>
                             <button
                               type="button"
-                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${language === "ar" ? "px-4" : "px-1"} bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
+                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-3 ${
+                                language === "ar" ? "px-4" : "px-1"
+                              } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
                             >
                               <Eye size={18} weight="bold" />
-                              {t("Category.Preview")}
+                              Preview
                             </button>
                           </li>
                           <li>
                             <button
                               type="button"
-                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${language === "ar" ? "px-4" : "px-1"} bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
-                              onClick={() => handleDeleteCategory(category._id)}
+                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-3 ${
+                                language === "ar" ? "px-4" : "px-1"
+                              } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
+                              onClick={() => handleDeleteCustomer(customer._id)}
                             >
                               <TrashSimple size={18} weight="bold" />
-                              {t("Category.Delete")}
+                              Delete
                             </button>
                           </li>
                         </ul>
@@ -322,4 +311,4 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   );
 };
 
-export default CategoryTable;
+export default CustomersTable;

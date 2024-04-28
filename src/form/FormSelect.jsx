@@ -1,14 +1,14 @@
 import React from "react";
 import { useI18nContext } from "../components/context/i18n-context";
 
-function FormSelect({ selectLabel, handleChange, options, value, name }) {
+function FormSelect({ selectLabel, handleChange, options, value, name,headOption }) {
   const { t } = useI18nContext();
 
   return (
     <div>
       <label
         htmlFor={selectLabel}
-        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear"
+        className="block mb-3 text-xl font-medium text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear"
       >
         {selectLabel}
       </label>
@@ -17,14 +17,10 @@ function FormSelect({ selectLabel, handleChange, options, value, name }) {
         onChange={handleChange}
         id={selectLabel}
         name={name}
-        className="w-full p-2.5 dark:bg-gray-700 rounded-md
-        dark:border-gray-600 dark:placeholder-gray-400
-        dark:text-white outline-none border text-gray-700
-        focus:border-orange-400 dark:focus:border-orange-400
-        duration-100 ease-linear"
+        className="bg-gray-50 border border-gray-300 text-xl rounded-md block w-full p-2.5 dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none focus:border-orange-400 dark:focus:border-orange-400 duration-100 ease-linear"
         value={value}
       >
-        <option value={""}>{t("centerForm.select")}</option>
+        <option  disabled value={""}>{headOption}</option>
         {Array.isArray(options) &&
           options.map((option, index) => (
             <option key={index} value={option.value}>

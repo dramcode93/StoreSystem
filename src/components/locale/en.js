@@ -1,10 +1,14 @@
 const en = {
+   Loading:{
+    LOADING:"LOADING ..."
+  },
   Home: {
     Home: "Home",
     shop: "Shop",
     Category: "Category",
     products: "Products",
     Product: "Product",
+    Customers: "Customers",
     Bill: "Bills",
     Profile: "The Profile",
     Login: "Log in",

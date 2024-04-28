@@ -1,9 +1,13 @@
 const ar = {
+  Loading:{
+    LOADING:"تحميل ..."
+  },
   Home: {
     Home: "الرئيسية",
     shop: "تسوق",
     Category: "الفئات",
     products: "المنتجات",
+    Customers: "العملاء",
     Profile: "الملف الشخصي",
     Bill: "الفواتير",
     Login: "سجل الدخول",

@@ -8,14 +8,14 @@ import Loading from '../Loading/Loading';
 
 const API_info = 'https://store-system-api.gleeze.com/api/users/getMe';
 const API_update = 'https://store-system-api.gleeze.com/api/users/updateMe';
-
 const Information = () => {
   const [loading, setLoading] = useState(true);
   const token = Cookies.get('token');
-  const [info, setInfo] = useState({ name: '', email: '' });
+  const [info, setInfo] = useState({ name: '', email: '', username: '', phone: 0 });
   const [inputValues, setInputValues] = useState({ name: '', email: '' });
   const [isNameEditing, setIsNameEditing] = useState(false);
   const [isEmailEditing, setIsEmailEditing] = useState(false);
+
   const decodedToken = jwtDecode(token);
 
   const fetchData = useCallback(async () => {
@@ -23,7 +23,7 @@ const Information = () => {
     while (retries > 0) {
       try {
         if (token) {
-          const response = await axios.get(`${API_info}`, { headers: { Authorization: `Bearer ${token}` } });
+          const response = await axios.get(`${API_info}?fields=username name email phone address`, { headers: { Authorization: `Bearer ${token}` } });
           const userData = response.data.data;
           setInfo(userData);
           setInputValues(userData);
@@ -86,6 +86,7 @@ const Information = () => {
 
         setIsNameEditing(false);
         setIsEmailEditing(false);
+
       } else {
         console.error('No token found.');
       }
@@ -100,6 +101,11 @@ const Information = () => {
       {loading ? <div className=" fs-4 text-center mb-5 pb-3"><Loading /> </div> : (
         <ul>
           <ProfileField
+            label="Username"
+            value={info.username}
+          />
+
+          <ProfileField
             label="Name"
             value={info.name}
             isEditing={isNameEditing}
@@ -107,6 +113,7 @@ const Information = () => {
             handleInputChange={handleInputChange}
             handleEditToggle={handleEditToggle}
           />
+
           <ProfileField
             label="Email"
             value={info.email}
@@ -115,6 +122,16 @@ const Information = () => {
             handleInputChange={handleInputChange}
             handleEditToggle={handleEditToggle}
           />
+
+          <ProfileField
+            label="phone"
+            value={info.phone} />
+
+          {/* <ProfileField
+            label="address"
+            value={info.address}
+          /> */}
+
           {decodedToken.role !== 'user' &&
             <div className='mx-10'>
               {(isNameEditing || isEmailEditing) && (
