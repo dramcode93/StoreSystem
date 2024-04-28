@@ -6,13 +6,14 @@ import UpdateProduct from "./updateProduct";
 const Products = ({ role }) => {
   const [openCreate , setOpenCreate] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [selectedProductData, setSelectedProductData] = useState({});
 
   const toggleOpenCreateModal = () => {
     setOpenCreate(!openCreate);
   };
   const toggleOpenEditModal = (selectedProduct) => {
     setOpenEdit(!openEdit);
-    // setSelectedProductData(selectedProduct);
+     setSelectedProductData(selectedProduct);
   };
                
   return (
@@ -27,11 +28,16 @@ const Products = ({ role }) => {
           
         />
         <UpdateProduct
+        
         closeModal={toggleOpenEditModal}
         modal={openEdit}
         role={role}
         />
-        <ProductsTable openCreate={toggleOpenCreateModal} />
+        <ProductsTable
+          openEdit={toggleOpenEditModal}
+         openCreate={toggleOpenCreateModal}
+         
+         />
       </div>
     </>
   );

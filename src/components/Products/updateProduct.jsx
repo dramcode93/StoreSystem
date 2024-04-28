@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import {   useParams } from "react-router-dom";
 import axios from "axios";
-import styles from "./Products.module.css";
-import { Translate } from "translate-easy";
-import MainComponent from "./../Aside/MainComponent";
-import LogOut from "../LogOut/LogOut";
-import Cookies from "js-cookie";
+ import { Translate } from "translate-easy";
+ import Cookies from "js-cookie";
 import { useI18nContext } from "../context/i18n-context";
 import FormNumber from "../../form/FormNumber";
 import FormText from "../../form/FormText";
@@ -115,54 +112,7 @@ function UpdateProduct({ closeModal, role, modal }) {
   };
   return (
     <div>
-      {/* <LogOut />
-      <MainComponent />
-      <div className={styles.updateCategoryContainer}>
-        <h2><Translate>Update product</Translate></h2>
-        <form>
-          <select
-            name="category"
-            onChange={(e) => setSelectedCategoryId(e.target.value)}
-            value={selectedCategoryId}
-          >
-            <option disabled value=''>
-              <Translate>Select Category</Translate>
-            </option>
-            {categories.map((category) => (
-              <option key={category._id} value={category._id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-          <label htmlFor='name'><Translate> New product Name :</Translate></label>
-          <input
-            type="text"
-            id='name'
-            value={newProductName}
-            onChange={(e) => setNewProductName(e.target.value)}
-          />
-          <label htmlFor='price'>
-            <Translate> New product price :</Translate>
-          </label>
-          <input
-            id='price'
-            type="number"
-            value={newProductPrice}
-            onChange={(e) => setNewProductPrice(e.target.value)}
-          />
-          <label htmlFor='quantity'>
-            <Translate> New product quantity :</Translate>
-          </label>
-          <input
-            id='quantity'
-            type="number"
-            value={newProductQuantity}
-            onChange={(e) => setNewProductQuantity(e.target.value)}
-          />
-          <button type="button" onClick={handleUpdateProduct} className='mb-2'><Translate>Update</Translate></button>
-          <Link to='/products' className='btn bg-danger w-100' ><Translate translations={{ ar: "الغي" }}>Canceling</Translate></Link>
-        </form>
-      </div> */}
+ 
       <div
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear

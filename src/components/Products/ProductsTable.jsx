@@ -9,12 +9,12 @@ import ConfirmationDelete from "./ConfirmationDelete";
 
 const API_URL = "https://store-system-api.gleeze.com/api/products";
 const API_category = "https://store-system-api.gleeze.com/api/categories/list";
-const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
+const ProductsTable = ({ openEdit, openCreate, openPreview, closeModal }) => {
   const token = Cookies.get("token");
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [selectedProductsId, setSelectedProductsId] = useState(null);
+  const [selectedProductId, setSelectedProductId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,7 +24,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
     try {
       if (token) {
         const productsResponse = await axios.get(
-          `${API_URL}?sort=category name&search=${searchTerm}&page=${pagination.currentPge}&limit=20`,
+          `${API_URL}?sort=category name&search=${searchTerm}&page=${pagination.currentPage}&limit=20`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setProducts(productsResponse.data.data);
@@ -42,39 +42,39 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
     } finally {
       setLoading(false);
     }
-  }, [token, searchTerm, pagination.currentPge]);
+  }, [token, searchTerm, pagination.currentPage]);
 
   useEffect(() => {
     fetchData();
-  }, [searchTerm, pagination.currentPge, fetchData]);
+  }, [searchTerm, pagination.currentPage, fetchData]);
 
   const handleDeleteProduct = (productId) => {
-    setSelectedProductsId(productId);
+    setSelectedProductId(productId);
     setShowConfirmation(true);
   };
 
   const confirmDelete = useCallback(() => {
     axios
-      .delete(`${API_URL}/${selectedProductsId}`, {
+      .delete(`${API_URL}/${selectedProductId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => fetchData())
       .catch((error) => console.error("Error deleting product:", error))
       .finally(() => {
         setShowConfirmation(false);
-        setSelectedProductsId(null);
+        setSelectedProductId(null);
       });
-  }, [selectedProductsId, token, fetchData]);
+  }, [selectedProductId, token, fetchData]);
 
   const cancelDelete = useCallback(() => {
     setShowConfirmation(false);
-    setSelectedProductsId(null);
+    setSelectedProductId(null);
   }, []);
 
   const handlePageChange = (newPage) => {
     setPagination({
       ...pagination,
-      currentPge: newPage,
+      currentPage: newPage,
     });
   };
 
@@ -85,64 +85,79 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
 
   const { t, language } = useI18nContext();
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalIsOpen(false);
-  };
-  const lang = localStorage.getItem("language");
   const toggleEditDropdown = (productId) => {
-    setSelectedProductsId((prevProductId) =>
+    setSelectedProductId((prevProductId) =>
       prevProductId === productId ? null : productId
     );
   };
+  const handleClickOutside = (event, productId) => {
+    const dropdown = dropdownRefs.current[productId];
+
+    if (
+      dropdown &&
+      !dropdown.contains(event.target) &&
+      !event.target.classList.contains("edit-button")
+    ) {
+      setSelectedProductId(null);
+    }
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      handleClickOutside(event, selectedProductId);
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [selectedProductId]);
+
   const dropdownRefs = useRef({});
-  const handleEditProduct = (product) => {
+  const handleBackgroundClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
+ const handleEditProduct = (product) => {
     openEdit(product);
   };
-  
   return (
     <div>
-      <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
-      <ConfirmationDelete
+      <section className="bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-40 w-3/4">
+        <ConfirmationDelete
           show={showConfirmation}
           onCancel={cancelDelete}
           onConfirm={() => {
-            confirmDelete(); 
-            setShowConfirmation(false); 
+            confirmDelete();
+            setShowConfirmation(false);
           }}
         />
 
         <div className="flex justify-between">
-          {" "}
           <div className="relative w-96 m-3">
-            {" "}
             <input
               className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
               type="text"
               onClick={handleSearch}
               placeholder={t("Products.Search")}
-            />{" "}
+            />
             <CiSearch
-              className={`absolute top-2 text-white text-xl ${
-                language === "ar" ? "left-3" : "right-3"
-              } `}
-            />{" "}
+              className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
+                } `}
+            />
           </div>
           <div>
             <button
               className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
               onClick={openCreate}
             >
-              {t("Products.Add")}{" "}
+              {t("Products.Add")}
             </button>
           </div>
         </div>
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xm text-gray-200 uppercase">
             <tr className="text-center bg-gray-500 bg-opacity-25 transition ease-out duration-200">
               <th scope="col" className="px-4 py-4">
@@ -174,7 +189,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="8" className=" fs-4 text-center mb-5 pb-3">
+                <td colSpan="8" className="fs-4 text-center mb-5 pb-3">
                   <Loading />
                 </td>
               </tr>
@@ -182,7 +197,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
               <>
                 {products.length === 0 && (
                   <tr className="text-xl text-center">
-                    <td colSpan="8">No Products available</td>
+                    <td colSpan="8">{t("Products.NoProductsAvailable")}</td>
                   </tr>
                 )}
                 {products.map((product) => (
@@ -192,9 +207,8 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
                   >
                     <th
                       scope="row"
-                      className="px-4 py-4 font-medium text-gray-900whitespace-nowrap dark:text-white max-w-[5rem] truncate"
+                      className="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[5rem] truncate"
                     >
-                      {" "}
                       {product._id.slice(-4)}
                     </th>
                     <td className="px-4 py-4">{product.name}</td>
@@ -205,7 +219,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
                     <td className="px-4 py-4">{product.sold}</td>
                     <td className="px-4 py-3 flex items-center justify-end">
                       <button
-                        className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
+                        className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                         type="button"
                         onClick={() => toggleEditDropdown(product._id)}
                         ref={(el) => (dropdownRefs.current[product._id] = el)}
@@ -213,37 +227,35 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
                         <DotsThree
                           size={25}
                           weight="bold"
-                          className=" hover:bg-gray-700 w-10 rounded-lg"
+                          className="hover:bg-gray-700 w-10 rounded-lg"
                         />
                       </button>
                       <div
-                        className="absolute z-50"
+                        className={`absolute z-20 ${selectedProductId === product._id ? "block" : "hidden"
+                          }`}
+                        onClick={handleBackgroundClick}
                         dir={language === "ar" ? "rtl" : "ltr"}
                       >
                         <div
-                          className={`${
-                            selectedProductsId === product._id
-                              ? `absolute -top-3 ${
-                                  lang === "en" ? "right-full" : "left-full"
-                                } overflow-auto`
-                              : "hidden"
-                          } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                          id={`product-dropdown-${product._id}`}
+                          className="bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
                         >
                           <ul className="text-sm bg-transparent pl-0 mb-0">
-                            <li className="">
+                            <li>
                               <button
                                 type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                onClick={() => handleEditProduct(product._id)}
+                                className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                onClick={() => handleEditProduct(product)}
                               >
                                 <NotePencil size={18} weight="bold" />
-                                {t("Category.Edit")}
+                                {t("Edit")}
                               </button>
                             </li>
                             <li>
                               <button
                                 type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                onClick={() => openPreview(product)}
                               >
                                 <Eye size={18} weight="bold" />
                                 {t("Category.Preview")}
@@ -252,11 +264,10 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
                             <li>
                               <button
                                 type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
                                 onClick={() => handleDeleteProduct(product._id)}
                               >
                                 <TrashSimple size={18} weight="bold" />
-
                                 {t("Category.Delete")}
                               </button>
                             </li>
