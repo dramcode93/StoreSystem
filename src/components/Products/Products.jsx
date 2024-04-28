@@ -24,14 +24,14 @@ const Products = ({ role }) => {
           closeModal={toggleOpenCreateModal}
           modal={openCreate}
           role={role}
-          
+
         />
         <UpdateProduct
         closeModal={toggleOpenEditModal}
         modal={openEdit}
         role={role}
         />
-        <ProductsTable openCreate={toggleOpenCreateModal} />
+        <ProductsTable openCreate={toggleOpenCreateModal} openEdit={toggleOpenEditModal} />
       </div>
     </>
   );
