@@ -1,0 +1,45 @@
+.confirmationModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+  }
+  
+  .confirmationModalCon {
+    background: #27385c;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .confirmationModalCon p {
+    color:#fff;
+    font-size: larger;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+  
+  .confirmationModalCon button {
+    margin-right: 10px;
+    /* padding: 10px 20px; */
+    width: 5rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .confirmationModalCon button:first-child {
+    background-color: #f44336;
+    color: #fff;
+  }
+  
+  .confirmationModalCon button:last-child {
+    background-color: #4caf50;
+    color: #fff;
+  }

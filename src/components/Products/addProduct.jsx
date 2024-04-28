@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import {   X } from "@phosphor-icons/react";
- import { useI18nContext } from "../context/i18n-context";
-  import FormNumber from "../../form/FormNumber";
+import { X } from "@phosphor-icons/react";
+import { useI18nContext } from "../context/i18n-context";
+import FormNumber from "../../form/FormNumber";
 import axios from "axios";
 import Cookies from "js-cookie";
 import FormText from "../../form/FormText";
-
+import FormSelect from "../../form/FormSelect";
 export default function AddProduct({ closeModal, role, modal }) {
   useEffect(() => {}, []);
   const handleBackgroundClick = (e) => {
@@ -16,12 +16,13 @@ export default function AddProduct({ closeModal, role, modal }) {
 
   const { t, language } = useI18nContext();
   const token = Cookies.get("token");
-   const [name, setName] = useState("");
+  const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [sellingPrice, setSellingPrice] = useState("");
- 
+  const [categories, setCategories] = useState([]);
+
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
@@ -43,6 +44,23 @@ export default function AddProduct({ closeModal, role, modal }) {
       console.error("Error adding Product:", error);
     }
   };
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(
+        "https://store-system-api.gleeze.com/api/categories",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setCategories(response.data.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+  useEffect(() => {
+    fetchCategories();
+  }, []);
   return (
     <>
       <div
@@ -88,13 +106,24 @@ export default function AddProduct({ closeModal, role, modal }) {
                 }}
                 placeholder="Name"
               />
-              <FormText
+              {/* <FormText
                 label="Category"
                 name="category"
                 onChange={(e) => {
                   setCategory(e.target.value);
                 }}
                 placeholder="Category"
+              /> */}
+              <FormSelect
+                selectLabel="Category"
+                headOption="Select Category"
+                handleChange={(e) =>setCategory(e.target.value) }
+                options={categories.map((category) => ({
+                  value: category._id,
+                  label:category.name,
+                }))}
+                value={category}
+                name='Category'
               />
               <FormNumber
                 label="Quantity"

@@ -13,23 +13,19 @@ import {
 import { useI18nContext } from "../context/i18n-context";
 import Loading from "../Loading/Loading";
 import axios from "axios";
+import ConfirmationDelete from "./ConfirmationDelete";
 
-const CustomersTable = ({
-  openEdit,
-  openCreate,
-  openPreview,
-}) => {
+const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
   const token = Cookies.get("token");
   const [customers, setCustomers] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [selectedCategoryId, setSelectedCustomerId] = useState(null);
-  const [newCategoryName, setNewCustomerName] = useState("");
+  const [newCustomerName, setNewCustomerName] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
   const { t, language } = useI18nContext();
-
+  const [selectedCustomerId, setSelectedCustomerId] = useState(null);
   const fetchData = useCallback(async () => {
     try {
       if (token) {
@@ -65,11 +61,45 @@ const CustomersTable = ({
     openEdit(customer);
   };
   const lang = localStorage.getItem("language");
+
+  const handleDeleteProduct = (productId) => {
+    setSelectedCustomerId(productId);
+    setShowConfirmation(true);
+  };
+
+  const confirmDelete = useCallback(() => {
+    axios
+      .delete(
+        `https://store-system-api.gleeze.com/api/customers/${selectedCustomerId}/deleteAddress`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then(() => fetchData())
+      .catch((error) => console.error("Error deleting customer:", error))
+      .finally(() => {
+        setShowConfirmation(false);
+        setSelectedCustomerId(null);
+      });
+  }, [selectedCustomerId, token, fetchData]);
+
+  const cancelDelete = useCallback(() => {
+    setShowConfirmation(false);
+    setSelectedCustomerId(null);
+  }, []);
   return (
     <section
       className=" bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-40 w-3/4 z-2"
       dir={language === "ar" ? "rtl" : "ltr"}
     >
+      <ConfirmationDelete
+        show={showConfirmation}
+        onCancel={cancelDelete}
+        onConfirm={() => {
+          confirmDelete();
+          setShowConfirmation(false);
+        }}
+      />
       <div className="flex justify-between">
         <div className="relative w-96 m-3">
           <input
@@ -172,7 +202,7 @@ const CustomersTable = ({
                     >
                       <div
                         className={`${
-                          selectedCategoryId === customer._id
+                          selectedCustomerId === customer._id
                             ? `absolute -top-3 ${
                                 lang === "en" ? "right-full" : "left-full"
                               } overflow-auto`
