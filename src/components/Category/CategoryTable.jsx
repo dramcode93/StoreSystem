@@ -12,9 +12,10 @@ import {
 } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
 import Loading from "../Loading/Loading";
+import ConfirmationModal from "./ConfirmationModel";
 
 const API_category = "https://store-system-api.gleeze.com/api/categories";
- 
+
 const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   const token = Cookies.get("token");
   const [categories, setCategories] = useState([]);
@@ -110,6 +111,14 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
       className=" bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-40 w-3/4 z-2"
       dir={language === "ar" ? "rtl" : "ltr"}
     >
+          <ConfirmationModal
+          show={showConfirmation}
+          onCancel={cancelDelete}
+          onConfirm={() => {
+            confirmDelete(); 
+            setShowConfirmation(false); 
+          }}
+        />
       <div className="flex justify-between">
         <div className="relative w-96 m-3">
           <input
@@ -118,14 +127,16 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
             placeholder={t("Category.Search")}
           />
           <CiSearch
-            className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
-              } `}
+            className={`absolute top-2 text-white text-xl ${
+              language === "ar" ? "left-3" : "right-3"
+            } `}
           />
         </div>
         <div className="mr-3">
           <button
             className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
-            onClick={openCreate}>
+            onClick={openCreate}
+          >
             {t("Category.Add")}
           </button>
         </div>
@@ -190,17 +201,21 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                       dir={language === "ar" ? "rtl" : "ltr"}
                     >
                       <div
-                        className={`${selectedCategoryId === category._id
-                          ? `absolute -top-3 ${lang === "en" ? "right-full" : "left-full"
-                          } overflow-auto`
-                          : "hidden"
-                          } z-10 pt-2 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                        className={`${
+                          selectedCategoryId === category._id
+                            ? `absolute -top-3 ${
+                                lang === "en" ? "right-full" : "left-full"
+                              } overflow-auto`
+                            : "hidden"
+                        } z-10 pt-2 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
                         <ul className="text-sm bg-transparent pl-0 mb-0">
                           <li className="">
                             <button
                               type="button"
-                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${language === "ar" ? "px-4" : "px-1"} bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
+                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${
+                                language === "ar" ? "px-4" : "px-1"
+                              } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
                               onClick={() => handleEditCategory(category._id)}
                             >
                               <NotePencil size={18} weight="bold" />
@@ -210,7 +225,9 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                           <li>
                             <button
                               type="button"
-                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${language === "ar" ? "px-4" : "px-1"} bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
+                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${
+                                language === "ar" ? "px-4" : "px-1"
+                              } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
                             >
                               <Eye size={18} weight="bold" />
                               {t("Category.Preview")}
@@ -219,7 +236,9 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                           <li>
                             <button
                               type="button"
-                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${language === "ar" ? "px-4" : "px-1"} bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
+                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${
+                                language === "ar" ? "px-4" : "px-1"
+                              } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
                               onClick={() => handleDeleteCategory(category._id)}
                             >
                               <TrashSimple size={18} weight="bold" />

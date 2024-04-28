@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { CiSearch } from "react-icons/ci";
 import Loading from "../Loading/Loading";
 import { CaretLeft, CaretRight, DotsThree, Eye, NotePencil, TrashSimple } from "@phosphor-icons/react";
+import ConfirmationDelete from "./ConfirmationDelete";
 
 const API_URL = "https://store-system-api.gleeze.com/api/products";
 const API_category = "https://store-system-api.gleeze.com/api/categories/list";
@@ -103,10 +104,19 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
   const handleEditProduct = (product) => {
     openEdit(product);
   };
-
+  
   return (
     <div>
       <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
+      <ConfirmationDelete
+          show={showConfirmation}
+          onCancel={cancelDelete}
+          onConfirm={() => {
+            confirmDelete(); 
+            setShowConfirmation(false); 
+          }}
+        />
+
         <div className="flex justify-between">
           {" "}
           <div className="relative w-96 m-3">
