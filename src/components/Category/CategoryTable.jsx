@@ -122,15 +122,16 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
               } `}
           />
         </div>
-        <div>
+        <div className="mr-3">
           <button
-            className="flex gap-2 items-center justify-center duration-150 ease-linear
-                    text-white bg-orange-500 hover:bg-orange-700 
-                    focus:ring-4 focus:ring-orange-300 
-                    font-medium rounded-lg text-sm px-4 py-2 
-                    dark:bg-orange-300 dark:hover:bg-orange-500 dark:text-orange-800
-                    dark:hover:text-white
-                    focus:outline-none dark:focus:ring-orange-800"
+            className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
+            // className="flex gap-2  items-center justify-center duration-150 ease-linear
+            //         text-white fw-bold text-xl bg-orange-500 hover:bg-orange-700 
+            //         focus:ring-4 focus:ring-orange-300 
+            //         font-medium rounded-lg text-sm px-4 py-2 
+            //         dark:bg-orange-300 dark:hover:bg-orange-500 dark:text-orange-800
+            //         dark:hover:text-white 
+            //         focus:outline-none dark:focus:ring-orange-800"
             onClick={openCreate}>
             {t("Category.Add")}
           </button>
@@ -196,19 +197,17 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                       dir={language === "ar" ? "rtl" : "ltr"}
                     >
                       <div
-                        className={`${
-                          selectedCategoryId === category._id
-                            ? `absolute -top-3 ${
-                                lang === "en" ? "right-full" : "left-full"
-                              } overflow-auto`
-                            : "hidden"
-                        } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                        className={`${selectedCategoryId === category._id
+                          ? `absolute -top-3 ${lang === "en" ? "right-full" : "left-full"
+                          } overflow-auto`
+                          : "hidden"
+                          } z-10 pt-2 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
                         <ul className="text-sm bg-transparent pl-0 mb-0">
                           <li className="">
                             <button
                               type="button"
-                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${language === "ar" ? "px-4" : "px-1"} bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
                               onClick={() => handleEditCategory(category._id)}
                             >
                               <NotePencil size={18} weight="bold" />
@@ -218,7 +217,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                           <li>
                             <button
                               type="button"
-                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${language === "ar" ? "px-4" : "px-1"} bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
                             >
                               <Eye size={18} weight="bold" />
                               {t("Category.Preview")}
@@ -227,7 +226,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                           <li>
                             <button
                               type="button"
-                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${language === "ar" ? "px-4" : "px-1"} bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
                               onClick={() => handleDeleteCategory(category._id)}
                             >
                               <TrashSimple size={18} weight="bold" />

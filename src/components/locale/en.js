@@ -1,8 +1,9 @@
 const en = {
   Home: {
     Home: "Home",
-    Category: "category",
-    products: "products",
+    shop: "Shop",
+    Category: "Category",
+    products: "Products",
     Product: "Product",
     Customers: "Customers",
     Bill: "Bills",
@@ -13,10 +14,14 @@ const en = {
     Password: "Password",
     salesManagement: "Sales Management",
     ForgetPass: "Forget Your Password",
+    Order: "Order",
+    Customer: "Customer",
+    ChangePassword: "Change Password",
+    Information: "Information",
   },
   Category: {
-    createCategory:"create Category",
-    addCategory:"  add Category",
+    createCategory: "create Category",
+    addCategory: "  add Category",
     teachingPlace: "teaching Place",
     month: " month ",
     gender: "gender",
