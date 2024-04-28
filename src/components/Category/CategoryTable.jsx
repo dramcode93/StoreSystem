@@ -201,7 +201,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                           ? `absolute -top-3 ${lang === "en" ? "right-full" : "left-full"
                           } overflow-auto`
                           : "hidden"
-                          } z-10 pt-2 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                          } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
                         <ul className="text-sm bg-transparent pl-0 mb-0">
                           <li className="">

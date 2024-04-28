@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import FormText from "../../form/FormText";
 import FormNumber from "../../form/FormNumber";
 import { useI18nContext } from "../context/i18n-context";
@@ -37,14 +37,12 @@ const Customers = () => {
         `https://store-system-api.gleeze.com/api/cities?governorate=${governorateId}`
       );
       setCities(response.data.data);
-      console.log()
       setLoading(false);
     } catch (error) {
       console.error("Error fetching cities:", error);
       setLoading(false);
     }
   };
-
   const handleGovernorateChange = (e) => {
     const selectedGovernorateId = e.target.value;
     setSelectedGovernorate(selectedGovernorateId);

@@ -33,7 +33,7 @@ const Bills = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setBills(response.data.data);
-        console.log("bills:",bills)
+        // console.log("bills:",bills)
         setPagination(response.data.paginationResult);
       }
     } catch (error) {
