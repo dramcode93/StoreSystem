@@ -22,6 +22,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [searchInput, setSearchInput] = useState("");
+  const [newCategoryName, setNewCategoryName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
@@ -132,7 +133,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     }
   };
 
-  const handleCategoryUpdate = (updatedCategory) => {
+  const handleEditCategory = (updatedCategory) => {
     setCategories((prevCategories) =>
       prevCategories.map((category) =>
         category._id === updatedCategory._id ? updatedCategory : category
@@ -301,7 +302,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                           className={`${
                             selectedCategoryId === category._id
                               ? `absolute -top-3 ${
-                                  lang === "en" ? "right-full" : "left-full"
+                                  language === "en" ? "right-full" : "left-full"
                                 } overflow-auto`
                               : "hidden"
                           } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}

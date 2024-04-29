@@ -124,6 +124,7 @@ const Dashboard = ({ children }) => {
             ]
         },
         {
+            path: "/customers",
             name: t("Home.Customer"),
             icon: <BsFillPersonVcardFill />,
             dropdownItems: [

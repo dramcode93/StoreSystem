@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import styles from "../Category.module.css";
-import { Translate } from "translate-easy";
-import MainComponent from "../../Aside/MainComponent";
-import LogOut from "../../LogOut/LogOut";
 import Cookies from "js-cookie";
 import { useI18nContext } from "../../context/i18n-context";
 import FormText from "../../../form/FormText";
@@ -49,7 +45,7 @@ function UpdateCategory({ closeModal, role, modal, categoryData }) {
   //     });
   // };
 
-  const [newCategoryName, setNewCategoryName] = useState(categoryData.name||"");
+  const [newCategoryName, setNewCategoryName] = useState(categoryData.name || "");
   const [isLoading, setIsLoading] = useState(true);
   const { t, language } = useI18nContext();
 
@@ -90,21 +86,6 @@ function UpdateCategory({ closeModal, role, modal, categoryData }) {
   };
   return (
     <div>
-      {/* <div className={styles.updateCategoryContainer}>
-        <h2><Translate>Update Category</Translate></h2>
-        <label>
-          <Translate> New Category Name:</Translate>
-          <input
-            type="text"
-            value={newCategoryName || ''}
-            onChange={(e) => setNewCategoryName(e.target.value)}
-            placeholder={categoryNamePlaceholder || ''}
-          />
-        </label>
-        <button onClick={handleUpdateCategory} className='my-3 w-100'><Translate>Update</Translate></button>
-        <Link to='/category' className='btn bg-danger w-100' ><Translate>Canceling</Translate></Link>
-      </div> */}
-
       <div
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
@@ -161,7 +142,7 @@ function UpdateCategory({ closeModal, role, modal, categoryData }) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
