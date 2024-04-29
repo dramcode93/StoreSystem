@@ -8,44 +8,11 @@ import { X } from "@phosphor-icons/react";
 
 function UpdateCategory({ closeModal, role, modal, categoryData }) {
   const { id } = useParams();
-  // const [newCategoryName, setNewCategoryName] = useState('');
   const [categoryNamePlaceholder, setCategoryNamePlaceholder] = useState("");
   const token = Cookies.get("token");
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(`https://store-system-api.gleeze.com/api/categories/${id}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       const categoryName = response.data.data?.name || '';
-  //       setNewCategoryName(categoryName);
-  //       setCategoryNamePlaceholder(categoryName);
-  //     } catch (error) {
-  //       console.error('Error fetching category:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [id, token]);
-
-  // const handleUpdateCategory = () => {
-  //   axios.put(`https://store-system-api.gleeze.com/api/categories/${id}`, { name: newCategoryName }, {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   })
-  //     .then((response) => {
-  //       window.location.href = '/category';
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error updating category:', error);
-  //     });
-  // };
-
-  const [newCategoryName, setNewCategoryName] = useState(categoryData.name || "");
+  const [newCategoryName, setNewCategoryName] = useState(
+    categoryData?.name || ""
+  );
   const [isLoading, setIsLoading] = useState(true);
   const { t, language } = useI18nContext();
 
@@ -57,7 +24,7 @@ function UpdateCategory({ closeModal, role, modal, categoryData }) {
       setNewCategoryName(categoryData.name);
     }
   }, [categoryData, modal]);
-  const handleUpdateProduct = (e) => {
+  const handleUpdateCategory = (e) => {
     e.preventDefault();
     axios
       .put(
@@ -72,13 +39,12 @@ function UpdateCategory({ closeModal, role, modal, categoryData }) {
         }
       )
       .then((response) => {
-        window.location.href = "/category";
+        window.location.href = "/products";
       })
       .catch((error) => {
-        console.error("Error updating category:", error);
+        console.error("Error updating products:", error);
       });
   };
-
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
@@ -117,7 +83,7 @@ function UpdateCategory({ closeModal, role, modal, categoryData }) {
               </button>
             </div>
             <form
-              onSubmit={handleUpdateProduct}
+              onSubmit={handleUpdateCategory}
               className="fs-6 tracking-wider mt-4 p-0 gap-4 grid-cols-2"
               dir={language === "ar" ? "rtl" : "ltr"}
             >

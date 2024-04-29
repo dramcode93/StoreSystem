@@ -7,14 +7,21 @@ import FormSelect from "../../form/FormSelect";
 import axios from "axios";
 import CustomersTable from "./CustomersTable";
 import AddCustomer from "./AddCustomer";
+import UpdateCustomer from "./UpdateCustomer";
 
 const Customers = ({ role }) => {
   const { t, language } = useI18nContext();
 
   const [openCreate, setOpenCreate] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [selectedCustomerData, setSelectedCustomerData] = useState({});
 
   const toggleOpenCreateModal = () => {
     setOpenCreate(!openCreate);
+  };
+  const toggleOpenEditModal = (selectedCustomer) => {
+    setOpenEdit(!openEdit);
+    setSelectedCustomerData(selectedCustomer);
   };
   return (
     <div>
@@ -23,7 +30,16 @@ const Customers = ({ role }) => {
         modal={openCreate}
         role={role}
       />
-      <CustomersTable openCreate={toggleOpenCreateModal} />
+      <UpdateCustomer
+        closeModal={toggleOpenEditModal}
+        modal={openEdit}
+        role={role}
+        customerData={selectedCustomerData}
+      />
+      <CustomersTable
+        openCreate={toggleOpenCreateModal}
+        openEdit={toggleOpenEditModal}
+      />
     </div>
   );
 };

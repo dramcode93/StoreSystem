@@ -18,7 +18,6 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
   const [newProductPrice, setNewProductPrice] = useState("");
   const [newSellingPrice, setNewSellingPrice] = useState("");
 
-  // const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [categories, setCategories] = useState([]);
   // const [category, setCategory] = useState("");
   const [isLoading, setIsLoading] = useState(true);

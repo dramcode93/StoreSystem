@@ -16,16 +16,90 @@ import axios from "axios";
 import ConfirmationDelete from "./ConfirmationDelete";
 
 const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
+  // const token = Cookies.get("token");
+  // const [customers, setCustomers] = useState([]);
+  // const [showConfirmation, setShowConfirmation] = useState(false);
+  // const [newCustomerName, setNewCustomerName] = useState("");
+  // const [searchInput, setSearchInput] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [pagination, setPagination] = useState({});
+  // const [loading, setLoading] = useState(true);
+  // const { t, language } = useI18nContext();
+  // const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+  // const fetchData = useCallback(async () => {
+  //   try {
+  //     if (token) {
+  //       const response = await axios.get(
+  //         `https://store-system-api.gleeze.com/api/customers?sort=name&search=${searchInput}&page=${pagination.currentPge}&limit=20`,
+  //         { headers: { Authorization: `Bearer ${token}` } }
+  //       );
+  //       setCustomers(response.data.data);
+  //       setPagination(response.data.paginationResult);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching categories:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, [token, searchInput, pagination.currentPge]);
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, [searchInput, fetchData]);
+
+  // const toggleEditDropdown = (CustomerId) => {
+  //   setSelectedCustomerId((prevCustomerId) =>
+  //     prevCustomerId === CustomerId ? null : CustomerId
+  //   );
+  // };
+  // const handleDeleteCustomer = (customerId) => {
+  //   setSelectedCustomerId(customerId);
+  //   console.log(selectedCustomerId);
+  //   console.log(customerId);
+  //   setShowConfirmation(true);
+  // };
+  // const dropdownRefs = useRef({});
+  // const handleEditCustomer = (customer) => {
+  //   openEdit(customer);
+  // };
+  // const lang = localStorage.getItem("language");
+
+  // const confirmDelete = useCallback(() => {
+  //   axios
+  //     .delete(
+  //       `https://store-system-api.gleeze.com/api/customers/${selectedCustomerId}/deleteAddress`,
+  //       {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       }
+  //     )
+  //     .then(() => fetchData())
+  //     .catch((error) => console.error("Error deleting customer:", error))
+  //     .finally(() => {
+  //       setShowConfirmation(false);
+  //       setSelectedCustomerId(null);
+  //     });
+  // }, [selectedCustomerId, token, fetchData]);
+
+  // const cancelDelete = useCallback(() => {
+  //   setShowConfirmation(false);
+  //   setSelectedCustomerId(null);
+  // }, []);
+
+  // const handleSearch = (e) => {
+  //   e.preventDefault();
+  //   setSearchTerm(searchInput);
+  // };
+
   const token = Cookies.get("token");
   const [customers, setCustomers] = useState([]);
+  // const [categories, setCategories] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [newCustomerName, setNewCustomerName] = useState("");
+  const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({});
-  const [loading, setLoading] = useState(true);
-  const { t, language } = useI18nContext();
-  const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+
   const fetchData = useCallback(async () => {
     try {
       if (token) {
@@ -35,48 +109,35 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
         );
         setCustomers(response.data.data);
         setPagination(response.data.paginationResult);
+      } else {
+        console.error("No token found.");
       }
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
     }
-  }, [token, searchInput, pagination.currentPge]);
+  }, [token, pagination.currentPge, searchInput]);
 
   useEffect(() => {
     fetchData();
-  }, [searchInput, fetchData]);
+  }, [searchTerm, pagination.currentPge, fetchData]);
 
-  const toggleEditDropdown = (CustomerId) => {
-    setSelectedCustomerId((prevCustomerId) =>
-      prevCustomerId === CustomerId ? null : CustomerId
-    );
-  };
   const handleDeleteCustomer = (customerId) => {
     setSelectedCustomerId(customerId);
-    setShowConfirmation(true);
-  };
-  const dropdownRefs = useRef({});
-  const handleEditCustomer = (customer) => {
-    openEdit(customer);
-  };
-  const lang = localStorage.getItem("language");
-
-  const handleDeleteProduct = (productId) => {
-    setSelectedCustomerId(productId);
     setShowConfirmation(true);
   };
 
   const confirmDelete = useCallback(() => {
     axios
       .delete(
-        `https://store-system-api.gleeze.com/api/customers/${selectedCustomerId}/deleteAddress`,
+        `https://store-system-api.gleeze.com/api/customers/${selectedCustomerId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       )
       .then(() => fetchData())
-      .catch((error) => console.error("Error deleting customer:", error))
+      .catch((error) => console.error("Error deleting product:", error))
       .finally(() => {
         setShowConfirmation(false);
         setSelectedCustomerId(null);
@@ -87,11 +148,42 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
     setShowConfirmation(false);
     setSelectedCustomerId(null);
   }, []);
+
+  const handlePageChange = (newPage) => {
+    setPagination({
+      ...pagination,
+      currentPge: newPage,
+    });
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchTerm(searchInput);
+  };
+
+  const { t, language } = useI18nContext();
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+  };
+  const lang = localStorage.getItem("language");
+  const toggleEditDropdown = (customerId) => {
+    setSelectedCustomerId((prevCustomerId) =>
+      prevCustomerId === customerId ? null : customerId
+    );
+  };
+  const dropdownRefs = useRef({});
+  const handleEditCustomer = (customer) => {
+    openEdit(customer);
+  };
   return (
-    <section
-      className=" bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-40 w-3/4 z-2"
-      dir={language === "ar" ? "rtl" : "ltr"}
-    >
+    <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
       <ConfirmationDelete
         show={showConfirmation}
         onCancel={cancelDelete}
@@ -101,24 +193,27 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
         }}
       />
       <div className="flex justify-between">
+        {" "}
         <div className="relative w-96 m-3">
+          {" "}
           <input
             className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
             type="text"
-            placeholder="Search"
-          />
+            onClick={handleSearch}
+            placeholder={t("Products.Search")}
+          />{" "}
           <CiSearch
             className={`absolute top-2 text-white text-xl ${
               language === "ar" ? "left-3" : "right-3"
             } `}
-          />
+          />{" "}
         </div>
-        <div className="mr-3">
+        <div>
           <button
             className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
             onClick={openCreate}
           >
-            Add
+            {t("Products.Add")}{" "}
           </button>
         </div>
       </div>
@@ -138,7 +233,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
               Phone Number
             </th>
             <th scope="col" className="px-4 py-4">
-              Actions
+              <span className="sr-only">Actions</span>
             </th>
           </tr>
         </thead>
@@ -152,40 +247,40 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
           ) : (
             <>
               {customers.length === 0 && (
-                <tr className="text-xl text-center ">
-                  <td colSpan="5">No Customers Available</td>
+                <tr className="text-xl text-center">
+                  <td colSpan="5">No Customers available</td>
                 </tr>
               )}
               {customers.map((customer) => (
                 <tr
                   key={customer._id}
-                  className="border-b dark:border-gray-700 text-center  hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
+                  className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
                 >
                   <th
                     scope="row"
-                    className="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[5rem] truncate"
+                    className="px-4 py-4 font-medium text-gray-900whitespace-nowrap dark:text-white max-w-[5rem] truncate"
                   >
                     {" "}
                     {customer._id.slice(-4)}
                   </th>
                   <td className="px-4 py-4">{customer.name}</td>
                   <td className="px-4 py-4">
-                    {`${customer.address[0].street},  
-                    ${
-                      language === "ar"
-                        ? customer.address[0].city.city_name_ar
-                        : customer.address[0].city.city_name_en
-                    },  
-                    ${
-                      language === "ar"
-                        ? customer.address[0].governorate.governorate_name_ar
-                        : customer.address[0].governorate.governorate_name_en
-                    }`}
+                    {`${customer.address[0].street},
+                  ${
+                    language === "ar"
+                      ? customer.address[0].city.city_name_ar
+                      : customer.address[0].city.city_name_en
+                  },
+                  ${
+                    language === "ar"
+                      ? customer.address[0].governorate.governorate_name_ar
+                      : customer.address[0].governorate.governorate_name_en
+                  }`}
                   </td>
                   <td className="px-4 py-4">{customer.phone[0]}</td>
                   <td className="px-4 py-3 flex items-center justify-end">
                     <button
-                      className=" inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
+                      className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                       type="button"
                       onClick={() => toggleEditDropdown(customer._id)}
                       ref={(el) => (dropdownRefs.current[customer._id] = el)}
@@ -209,40 +304,35 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
                             : "hidden"
                         } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
-                        <ul className="text-xl bg-transparent pl-0 mb-0">
+                        <ul className="text-sm bg-transparent pl-0 mb-0">
                           <li className="">
                             <button
                               type="button"
-                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-3 ${
-                                language === "ar" ? "px-4" : "px-1"
-                              } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
-                              onClick={() => handleEditCustomer(customer._id)}
+                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                              onClick={() => handleEditCustomer(customer)}
                             >
                               <NotePencil size={18} weight="bold" />
-                              Edit
+                              {t("Category.Edit")}
                             </button>
                           </li>
                           <li>
                             <button
                               type="button"
-                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-3 ${
-                                language === "ar" ? "px-4" : "px-1"
-                              } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
+                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
                             >
                               <Eye size={18} weight="bold" />
-                              Preview
+                              {t("Category.Preview")}
                             </button>
                           </li>
                           <li>
                             <button
                               type="button"
-                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-3 ${
-                                language === "ar" ? "px-4" : "px-1"
-                              } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
+                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
                               onClick={() => handleDeleteCustomer(customer._id)}
                             >
                               <TrashSimple size={18} weight="bold" />
-                              Delete
+
+                              {t("Category.Delete")}
                             </button>
                           </li>
                         </ul>
@@ -260,7 +350,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
         dir="rtl"
       >
         <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ">
-          {"      "} {t("Category.appear")}
+          {"      "} {t("Products.appear")}
           {"   "}
           <span
             className="font-semibold text-gray-900 dark:text-white m-2"
@@ -270,7 +360,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
           </span>{" "}
           {"  "}
           {"   "}
-          {t("Category.from")}
+          {t("Products.from")}
           <span className="font-semibold text-gray-900 dark:text-white m-2">
             {"   "}1000 {"   "}
           </span>
