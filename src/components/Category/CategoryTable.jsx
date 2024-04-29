@@ -54,9 +54,10 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
 
   const handleDeleteCategory = (categoryId) => {
     setSelectedCategoryId(categoryId);
+    console.log(categoryId)
     setShowConfirmation(true);
   };
-
+  
   const confirmDelete = useCallback(() => {
     axios
       .delete(`${API_category}/${selectedCategoryId}`, {
@@ -74,6 +75,8 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     setShowConfirmation(false);
     setSelectedCategoryId(null);
   }, []);
+
+
 
   const confirmCategory = useCallback(() => {
     axios
@@ -136,7 +139,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
       className=" bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-40 w-3/4 z-2"
       dir={language === "ar" ? "rtl" : "ltr"}
     >
-          <ConfirmationModal
+      <ConfirmationModal
           show={showConfirmation}
           onCancel={cancelDelete}
           onConfirm={() => {
@@ -207,8 +210,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                     {category._id.slice(-4)}
                   </th>
                   <td className="px-4 py-4">{category.name}</td>
-
-                  <td className="px-4 py-3 flex items-center justify-end">
+                  {/* <td className="px-4 py-3 flex items-center justify-end">
                     <button
                       className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                       type="button"
@@ -273,7 +275,68 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                         </ul>
                       </div>
                     </div>
-                  </td>
+                  </td> */}
+                  <td className="px-4 py-3 flex items-center justify-end">
+                      <button
+                        className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
+                        type="button"
+                        onClick={() => toggleEditDropdown(category._id)}
+                        ref={(el) => (dropdownRefs.current[category._id] = el)}
+                      >
+                        <DotsThree
+                          size={25}
+                          weight="bold"
+                          className=" hover:bg-gray-700 w-10 rounded-lg"
+                        />
+                      </button>
+                      <div
+                        className="absolute z-50"
+                        dir={language === "ar" ? "rtl" : "ltr"}
+                      >
+                        <div
+                          className={`${
+                            selectedCategoryId === category._id
+                              ? `absolute -top-3 ${
+                                  lang === "en" ? "right-full" : "left-full"
+                                } overflow-auto`
+                              : "hidden"
+                          } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                        >
+                          <ul className="text-sm bg-transparent pl-0 mb-0">
+                            <li className="">
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                onClick={()=>handleEditCategory(category)}
+                              >
+                                <NotePencil size={18} weight="bold" />
+                                {t("Category.Edit")}
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                              >
+                                <Eye size={18} weight="bold" />
+                                {t("Category.Preview")}
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                onClick={() => handleDeleteCategory(category._id)}
+                              >
+                                <TrashSimple size={18} weight="bold" />
+
+                                {t("Category.Delete")}
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </td>
                 </tr>
               ))}
             </>

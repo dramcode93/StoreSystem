@@ -36,7 +36,9 @@ export default function AddProduct({ closeModal, role, modal }) {
           category,
         },
         { headers: { Authorization: `Bearer ${token}` } }
-      );
+      ).then((response) => {
+        window.location.href = "/products";
+      });
       console.log("Product added successfully:", response.data);
 
       closeModal();
