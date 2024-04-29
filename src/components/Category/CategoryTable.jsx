@@ -21,7 +21,6 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   const [categories, setCategories] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  const [newCategoryName, setNewCategoryName] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({});
@@ -31,7 +30,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     try {
       if (token) {
         const response = await axios.get(
-          `${API_category}?sort=name&search=${searchInput}&page=${pagination.currentPge}&limit=20`,
+          `${API_category}?sort=name&search=${searchInput}&page=${pagination.currentPage}&limit=20`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setCategories(response.data.data);
@@ -42,7 +41,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     } finally {
       setLoading(false);
     }
-  }, [token, searchInput, pagination.currentPge]);
+  }, [token, searchInput, pagination.currentPage]);
 
   useEffect(() => {
     fetchData();
@@ -75,25 +74,6 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     setSelectedCategoryId(null);
   }, []);
 
-  const confirmCategory = useCallback(() => {
-    axios
-      .post(
-        `${API_category}`,
-        { name: newCategoryName },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      .then(() => fetchData())
-      .catch((error) => console.error("Error adding category:", error))
-      .finally(() => setNewCategoryName(""));
-  }, [newCategoryName, token, fetchData]);
-
-  const handlePageChange = (newPage) => {
-    setPagination({
-      ...pagination,
-      currentPge: newPage,
-    });
-  };
-
   const { t, language } = useI18nContext();
   const toggleEditDropdown = (CategoryId) => {
     setSelectedCategoryId((prevCategoryId) =>
@@ -122,39 +102,50 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [selectedCategoryId]);
+
   const handleEditClick = (category) => {
-    openEdit(category);
+    if (category && category._id) {
+      openEdit(category);
+    } else {
+      console.error("Invalid category data");
+    }
   };
+
+  const handleCategoryUpdate = (updatedCategory) => {
+    setCategories((prevCategories) =>
+      prevCategories.map((category) =>
+        category._id === updatedCategory._id ? updatedCategory : category
+      )
+    );
+  };
+
   const dropdownRefs = useRef({});
-  const handleEditCategory = (category) => {
-    openEdit(category);
-  };
-  const lang = localStorage.getItem("language");
 
   return (
     <section
       className=" bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-40 w-3/4 z-2"
       dir={language === "ar" ? "rtl" : "ltr"}
     >
-          <ConfirmationModal
-          show={showConfirmation}
-          onCancel={cancelDelete}
-          onConfirm={() => {
-            confirmDelete(); 
-            setShowConfirmation(false); 
-          }}
-        />
+      <ConfirmationModal
+        show={showConfirmation}
+        onCancel={cancelDelete}
+        onConfirm={() => {
+          confirmDelete();
+          setShowConfirmation(false);
+        }}
+      />
       <div className="flex justify-between">
         <div className="relative w-96 m-3">
           <input
             className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
             type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             placeholder={t("Category.Search")}
           />
           <CiSearch
-            className={`absolute top-2 text-white text-xl ${
-              language === "ar" ? "left-3" : "right-3"
-            } `}
+            className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
+              } `}
           />
         </div>
         <div className="mr-3">
@@ -226,21 +217,18 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                       dir={language === "ar" ? "rtl" : "ltr"}
                     >
                       <div
-                        className={`${
-                          selectedCategoryId === category._id
-                            ? `absolute -top-3 ${
-                                lang === "en" ? "right-full" : "left-full"
-                              } overflow-auto`
+                        className={`${selectedCategoryId === category._id
+                            ? `absolute -top-3 ${language === "ar" ? "right-full" : "left-full"
+                            } overflow-auto`
                             : "hidden"
-                        } z-10 pt-2 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                          } z-10 pt-2 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
                         <ul className="text-sm bg-transparent pl-0 mb-0">
                           <li className="">
                             <button
                               type="button"
-                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${
-                                language === "ar" ? "px-4" : "px-1"
-                              } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
+                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${language === "ar" ? "px-4" : "px-1"
+                                } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
                               onClick={() => handleEditClick(category)}
                             >
                               <NotePencil size={18} weight="bold" />
@@ -250,9 +238,8 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                           <li>
                             <button
                               type="button"
-                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${
-                                language === "ar" ? "px-4" : "px-1"
-                              } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
+                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${language === "ar" ? "px-4" : "px-1"
+                                } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
                             >
                               <Eye size={18} weight="bold" />
                               {t("Category.Preview")}
@@ -261,9 +248,8 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                           <li>
                             <button
                               type="button"
-                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${
-                                language === "ar" ? "px-4" : "px-1"
-                              } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
+                              className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${language === "ar" ? "px-4" : "px-1"
+                                } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
                               onClick={() => handleDeleteCategory(category._id)}
                             >
                               <TrashSimple size={18} weight="bold" />
@@ -302,63 +288,34 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
         </span>
         <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
           <li>
-            <a
-              href="/"
+            <button
               className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-gray-700 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={() => {/* Handle previous page */}}
             >
               <span className="sr-only">Previous</span>
               <CaretLeft size={18} weight="bold" />
-            </a>
+            </button>
           </li>
+          {/* Pagination links */}
+          {/* Update with appropriate URLs or onClick handlers */}
+          {/* Example: */}
           <li>
-            <a
-              href="/"
+            <button
               className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={() => {/* Handle page click */}}
             >
               1
-            </a>
+            </button>
           </li>
+          {/* End of pagination links */}
           <li>
-            <a
-              href="/"
-              className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              2
-            </a>
-          </li>
-          <li>
-            <a
-              href="/"
-              aria-current="page"
-              className="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-gray-700 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-            >
-              3
-            </a>
-          </li>
-          <li>
-            <a
-              href="/"
-              className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              ...
-            </a>
-          </li>
-          <li>
-            <a
-              href="/"
-              className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              100
-            </a>
-          </li>
-          <li>
-            <a
-              href="/"
+            <button
               className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={() => {/* Handle next page */}}
             >
               <span className="sr-only">Next</span>
               <CaretRight size={18} weight="bold" />
-            </a>
+            </button>
           </li>
         </ul>
       </nav>
