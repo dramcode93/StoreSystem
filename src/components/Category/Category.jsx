@@ -1,14 +1,18 @@
  import { useState } from "react";
 import CategoryTable from "./CategoryTable";
 import CreateCategory from "./forms/CategoryForm";
+import UpdateCategory from "./forms/Update";
 
 export default function Category({ role }) {
     const [openCreate, setOpenCreate] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
 
     const toggleOpenCreateModal = () => {
         setOpenCreate(!openCreate);
     };
-
+    const toggleOpenEditModal = (selectedCategory) => {
+        setOpenEdit(!openEdit);
+    };
     return (
         <div className="text-white">
             <CreateCategory
@@ -18,6 +22,11 @@ export default function Category({ role }) {
             />
             <CategoryTable
                 openCreate={toggleOpenCreateModal}
+            />
+            <UpdateCategory
+                closeModal={toggleOpenEditModal}
+                modal={openEdit}
+                role={role}
             />
         </div>
     );

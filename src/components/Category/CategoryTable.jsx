@@ -100,6 +100,31 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
       prevCategoryId === CategoryId ? null : CategoryId
     );
   };
+  const handleClickOutside = (event, managerId) => {
+    const dropdown = dropdownRefs.current[managerId];
+
+    if (
+      dropdown &&
+      !dropdown.contains(event.target) &&
+      !event.target.classList.contains("edit-button")
+    ) {
+      setSelectedCategoryId(null);
+    }
+  };
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      handleClickOutside(event, selectedCategoryId);
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [selectedCategoryId]);
+  const handleEditClick = (category) => {
+    openEdit(category);
+  };
   const dropdownRefs = useRef({});
   const handleEditCategory = (category) => {
     openEdit(category);
@@ -216,7 +241,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                               className={`flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 ${
                                 language === "ar" ? "px-4" : "px-1"
                               } bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200`}
-                              onClick={() => handleEditCategory(category._id)}
+                              onClick={() => handleEditClick(category)}
                             >
                               <NotePencil size={18} weight="bold" />
                               {t("Category.Edit")}
