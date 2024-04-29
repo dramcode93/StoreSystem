@@ -26,19 +26,21 @@ export default function AddProduct({ closeModal, role, modal }) {
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "https://store-system-api.gleeze.com/api/products",
-        {
-          name,
-          productPrice,
-          sellingPrice,
-          quantity,
-          category,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      ).then((response) => {
-        window.location.href = "/products";
-      });
+      const response = await axios
+        .post(
+          "https://store-system-api.gleeze.com/api/products",
+          {
+            name,
+            productPrice,
+            sellingPrice,
+            quantity,
+            category,
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((response) => {
+          window.location.href = "/products";
+        });
       console.log("Product added successfully:", response.data);
 
       closeModal();
@@ -119,13 +121,13 @@ export default function AddProduct({ closeModal, role, modal }) {
               <FormSelect
                 selectLabel="Category"
                 headOption="Select Category"
-                handleChange={(e) =>setCategory(e.target.value) }
+                handleChange={(e) => setCategory(e.target.value)}
                 options={categories.map((category) => ({
                   value: category._id,
-                  label:category.name,
+                  label: category.name,
                 }))}
                 value={category}
-                name='Category'
+                name="Category"
               />
               <FormNumber
                 label="Quantity"

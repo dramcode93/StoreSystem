@@ -31,15 +31,17 @@ export default function CreateCategory({ closeModal, role, modal }) {
   const handleAddCategory = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "https://store-system-api.gleeze.com/api/categories",
-        {
-          name,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      ).then((response) => {
-        window.location.href = "/category";
-      });
+      const response = await axios
+        .post(
+          "https://store-system-api.gleeze.com/api/categories",
+          {
+            name,
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((response) => {
+          window.location.href = "/category";
+        });
       console.log("Product added successfully:", response.data);
 
       closeModal();

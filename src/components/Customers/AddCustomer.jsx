@@ -65,19 +65,23 @@ export default function AddCustomer({ closeModal, role, modal }) {
   const handleAddCustomer = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "https://store-system-api.gleeze.com/api/customers",
-        {
-          name,
-          phone,
-          address: {
-            governorate: selectedGovernorate,
-            city: selectedCity,
-            street,
+      const response = await axios
+        .post(
+          "https://store-system-api.gleeze.com/api/customers",
+          {
+            name,
+            phone,
+            address: {
+              governorate: selectedGovernorate,
+              city: selectedCity,
+              street,
+            },
           },
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((response) => {
+          window.location.href = "/customers";
+        });
       console.log("Customer added successfully:", response.data);
       closeModal();
     } catch (error) {
@@ -117,7 +121,7 @@ export default function AddCustomer({ closeModal, role, modal }) {
               </button>
             </div>
             <form
-            onSubmit={handleAddCustomer}
+              onSubmit={handleAddCustomer}
               className="fs-6 tracking-wider mt-4 p-0 gap-4 grid-cols-2"
               dir={language === "ar" ? "rtl" : "ltr"}
             >
@@ -149,7 +153,7 @@ export default function AddCustomer({ closeModal, role, modal }) {
                 options={governorates.map((governorate) => ({
                   value: governorate._id,
                   label:
-                    language === "ar"  
+                    language === "ar"
                       ? governorate.governorate_name_ar
                       : governorate.governorate_name_en,
                 }))}

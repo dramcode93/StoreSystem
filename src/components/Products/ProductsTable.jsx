@@ -4,7 +4,14 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { CiSearch } from "react-icons/ci";
 import Loading from "../Loading/Loading";
-import { CaretLeft, CaretRight, DotsThree, Eye, NotePencil, TrashSimple } from "@phosphor-icons/react";
+import {
+  CaretLeft,
+  CaretRight,
+  DotsThree,
+  Eye,
+  NotePencil,
+  TrashSimple,
+} from "@phosphor-icons/react";
 import ConfirmationDelete from "./ConfirmationDelete";
 
 const API_URL = "https://store-system-api.gleeze.com/api/products";
@@ -107,12 +114,12 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
   return (
     <div>
       <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
-      <ConfirmationDelete
+        <ConfirmationDelete
           show={showConfirmation}
           onCancel={cancelDelete}
           onConfirm={() => {
-            confirmDelete(); 
-            setShowConfirmation(false); 
+            confirmDelete();
+            setShowConfirmation(false);
           }}
         />
         <div className="flex justify-between">
@@ -165,7 +172,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
                 {t("Products.Sold")}
               </th>
               <th scope="col" className="px-4 py-4">
-                {t("Products.Actions")}
+                <span className="sr-only">Actions</span>
               </th>
             </tr>
           </thead>
@@ -233,7 +240,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
                               <button
                                 type="button"
                                 className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                onClick={()=>handleEditProduct(product)}
+                                onClick={() => handleEditProduct(product)}
                               >
                                 <NotePencil size={18} weight="bold" />
                                 {t("Category.Edit")}

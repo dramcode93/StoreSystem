@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from './Customer.module.css';
+import React from "react";
+import styles from "./Customer.module.css";
 
 const ConfirmationDelete = ({ show, onConfirm, onCancel }) => {
   if (!show) {
