@@ -161,7 +161,7 @@ function UpdateCategory({ closeModal, role, modal, categoryData }) {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

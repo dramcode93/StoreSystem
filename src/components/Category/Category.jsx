@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import CategoryTable from "./CategoryTable";
 import CreateCategory from "./forms/CategoryForm";
 import UpdateCategory from "./forms/Update";

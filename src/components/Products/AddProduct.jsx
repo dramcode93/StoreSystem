@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 import FormText from "../../form/FormText";
 import FormSelect from "../../form/FormSelect";
 export default function AddProduct({ closeModal, role, modal }) {
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
@@ -119,10 +119,10 @@ export default function AddProduct({ closeModal, role, modal }) {
               <FormSelect
                 selectLabel="Category"
                 headOption="Select Category"
-                handleChange={(e) =>setCategory(e.target.value) }
+                handleChange={(e) => setCategory(e.target.value)}
                 options={categories.map((category) => ({
                   value: category._id,
-                  label:category.name,
+                  label: category.name,
                 }))}
                 value={category}
                 name='Category'

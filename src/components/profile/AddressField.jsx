@@ -1,7 +1,7 @@
 import React from 'react';
 import { FiEdit } from 'react-icons/fi';
 
-const ProfileField = ({ label, value, isEditing, inputValue, handleInputChange, handleEditToggle }) => (
+const AddressField = ({ label, value, isEditing, inputValue, handleInputChange, handleEditToggle }) => (
     <li className='bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3'>
         <p className='text-gray-200 font-bold text-xl'>
             {label} : {isEditing ? (
@@ -13,12 +13,12 @@ const ProfileField = ({ label, value, isEditing, inputValue, handleInputChange, 
                 />
             ) : (
                 <>
-                    {value}
-                    <FiEdit className={`${label === "Username" ? "hidden" : "block"}`} onClick={() => handleEditToggle(label.toLowerCase())} />
+                    {value.governorate_name_ar}, {value.city}, {value.street}
+                    <FiEdit onClick={() => handleEditToggle(label.toLowerCase())} />
                 </>
             )}
         </p>
     </li>
 );
 
-export default ProfileField;
+export default AddressField;
