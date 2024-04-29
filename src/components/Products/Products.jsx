@@ -15,7 +15,6 @@ const Products = ({ role }) => {
     setOpenEdit(!openEdit);
      setSelectedProductData(selectedProduct);
   };
-               
   return (
     <>
       <div>

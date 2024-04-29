@@ -18,6 +18,7 @@ const Dashboard = ({ children }) => {
     const { t, language } = useI18nContext();
 
     const admin = [
+        
         {
             path: '/Home',
             name: t("Home.Home"),
@@ -39,10 +40,19 @@ const Dashboard = ({ children }) => {
             icon: <MdProductionQuantityLimits />
         },
         {
+            name: t("Home.Customer"),
+            icon: <BsFillPersonVcardFill />,
+            dropdownItems: [
+                { text: 'Create', path: '/create' },
+                { text: 'Show bills', path: '/show-bills' },
+            ]
+        },
+        {
             path: "/bills",
             name: t("Home.Bill"),
             icon: <LiaMoneyBillSolid />
         },
+
         {
             name: t("Home.Profile"),
             icon: <CgProfile />,
