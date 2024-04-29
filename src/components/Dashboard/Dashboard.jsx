@@ -40,6 +40,7 @@ const Dashboard = ({ children }) => {
             icon: <MdProductionQuantityLimits />
         },
         {
+            path: "/customers",
             name: t("Home.Customer"),
             icon: <BsFillPersonVcardFill />,
             dropdownItems: [
