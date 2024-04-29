@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import styles from "../Category.module.css";
-import { Translate } from "translate-easy";
-import MainComponent from "../../Aside/MainComponent";
-import LogOut from "../../LogOut/LogOut";
 import Cookies from "js-cookie";
 import { useI18nContext } from "../../context/i18n-context";
 import FormText from "../../../form/FormText";

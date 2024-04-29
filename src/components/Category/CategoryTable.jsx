@@ -223,6 +223,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
       prevCategoryId === categoryId ? null : categoryId
     );
   };
+
   const dropdownRefs = useRef({});
   const handleEditProduct = (category) => {
     openEdit(category);
@@ -322,11 +323,9 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                       dir={language === "ar" ? "rtl" : "ltr"}
                     >
                       <div
-                        className={`${
-                          selectedCategoryId === category._id
-                            ? `absolute -top-3 ${
-                                lang === "en" ? "right-full" : "left-full"
-                              } overflow-auto`
+                        className={`${selectedCategoryId === category._id
+                            ? `absolute -top-3 ${language === "ar" ? "right-full" : "left-full"
+                            } overflow-auto`
                             : "hidden"
                         } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
@@ -393,63 +392,34 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
         </span>
         <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
           <li>
-            <a
-              href="/"
+            <button
               className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-gray-700 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={() => {/* Handle previous page */}}
             >
               <span className="sr-only">Previous</span>
               <CaretLeft size={18} weight="bold" />
-            </a>
+            </button>
           </li>
+          {/* Pagination links */}
+          {/* Update with appropriate URLs or onClick handlers */}
+          {/* Example: */}
           <li>
-            <a
-              href="/"
+            <button
               className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={() => {/* Handle page click */}}
             >
               1
-            </a>
+            </button>
           </li>
+          {/* End of pagination links */}
           <li>
-            <a
-              href="/"
-              className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              2
-            </a>
-          </li>
-          <li>
-            <a
-              href="/"
-              aria-current="page"
-              className="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-gray-700 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-            >
-              3
-            </a>
-          </li>
-          <li>
-            <a
-              href="/"
-              className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              ...
-            </a>
-          </li>
-          <li>
-            <a
-              href="/"
-              className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              100
-            </a>
-          </li>
-          <li>
-            <a
-              href="/"
+            <button
               className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={() => {/* Handle next page */}}
             >
               <span className="sr-only">Next</span>
               <CaretRight size={18} weight="bold" />
-            </a>
+            </button>
           </li>
         </ul>
       </nav>

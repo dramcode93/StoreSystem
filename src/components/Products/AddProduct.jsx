@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 import FormText from "../../form/FormText";
 import FormSelect from "../../form/FormSelect";
 export default function AddProduct({ closeModal, role, modal }) {
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
