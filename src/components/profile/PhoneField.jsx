@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 import { MdDelete } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
+import { FaRegSave } from "react-icons/fa";
 
-const PhoneField = ({ label, value, handleDelPhone, handleAddPhone }) => {
-    const [newPhone, setNewPhone] = useState(''); // State to store the new phone number
-
-    const handleChange = (e) => {
-        setNewPhone(e.target.value); // Update the new phone number state
-    };
-
-    const handleAddButtonClick = () => {
-        handleAddPhone(newPhone); // Call handleAddPhone function with the new phone number
-        setNewPhone(''); // Reset the new phone number state after adding
-    };
+const PhoneField = ({ label, value, handleDelPhone, handleAddPhone, handleInputChange, handleAddToggle, isEditing }) => {
 
     return (
         <li className='bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3'>
@@ -26,17 +17,19 @@ const PhoneField = ({ label, value, handleDelPhone, handleAddPhone }) => {
                             <MdDelete className='text-2xl mb-3' onClick={() => handleDelPhone(index)} />
                         </div>
                     ))}
-                    <div className="flex items-center mt-2">
-                        <input
-                            type="text"
-                            className="bg-gray-600 text-gray-200 rounded-md py-1 px-2 mr-2"
-                            value={newPhone}
-                            onChange={handleChange}
-                        />
-                        <button onClick={handleAddButtonClick} className="text-gray-200 hover:text-gray-300">
-                            <IoMdAdd className="text-2xl" />
-                        </button>
-                    </div>
+
+                    {isEditing ? (
+                        <div>
+                            <input
+                                name={label.toLowerCase()}
+                                className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
+                                onChange={handleInputChange}
+                            />
+                            <FaRegSave onClick={handleAddPhone} className="text-2xl mt-2" />
+                        </div>
+                    ) :
+                        <IoMdAdd onClick={handleAddToggle} className="text-2xl" />
+                    }
                 </>
             </p>
         </li>

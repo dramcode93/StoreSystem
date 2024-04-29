@@ -9,17 +9,18 @@ import AddressField from './AddressField';
 import PhoneField from './PhoneField';
 const API_info = 'https://store-system-api.gleeze.com/api/users/getMe';
 const API_update = 'https://store-system-api.gleeze.com/api/users/updateMe';
-const DEL_phone = 'https://store-system-api.gleeze.com/api/users/deletePhone';
+const DEL_phone = 'https://store-system-api.gleeze.com/api/Users/deletePhone';
 const ADD_phone = 'https://store-system-api.gleeze.com/api/Users/addPhone';
 
 const Information = () => {
   const [loading, setLoading] = useState(true);
   const token = Cookies.get('token');
-  const [info, setInfo] = useState({ name: '', email: '', username: '', phone: [], address: '' });
+  const [info, setInfo] = useState({ name: '', email: '', username: '', phone: [], address: [{ 'governorate': '', 'city': '', 'street': '' }] });
   const [inputValues, setInputValues] = useState({ name: '', email: '' });
   const [isNameEditing, setIsNameEditing] = useState(false);
   const [isEmailEditing, setIsEmailEditing] = useState(false);
   const [isAddressEditing, setIsAddressEditing] = useState(false);
+  const [isPhoneAdding, setIsPhoneAdding] = useState(false);
 
   const decodedToken = jwtDecode(token);
 
@@ -66,10 +67,10 @@ const Information = () => {
     try {
       if (token) {
         const response = await axios.delete(
-          `${DEL_phone}?index=${index}`,
-          { headers: { Authorization: `Bearer ${token}` } }
+          `${DEL_phone}`,
+          { data: { phone: info.phone[index] }, headers: { Authorization: `Bearer ${token}` } }
         );
-        if (response.status === 200) {
+        if (response.status === 201) {
           setInfo(prevInfo => {
             const newPhones = [...prevInfo.phone];
             newPhones.splice(index, 1);
@@ -79,28 +80,41 @@ const Information = () => {
       } else {
         console.error('No token found.');
       }
+      fetchData();
     } catch (error) {
       console.error('Error deleting phone:', error);
     }
   };
 
-  const handleAddPhone = async (newPhoneNumber) => {
+
+
+
+
+  const handleAddToggle = (field) => {
+    setIsPhoneAdding(!isPhoneAdding);
+  };
+
+  const handleAddPhone = async () => {
     try {
       if (token) {
-        const response = await axios.post(
+        const response = await axios.put(
           ADD_phone,
-          { phone: newPhoneNumber },
+          { phone: inputValues.phone },
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (response.status === 201) {
+          const newPhoneNumber = inputValues.phone;
           setInfo(prevInfo => ({
             ...prevInfo,
             phone: [...prevInfo.phone, newPhoneNumber]
           }));
         }
+        setIsPhoneAdding(false);
+
       } else {
         console.error('No token found.');
       }
+      fetchData();
     } catch (error) {
       console.error('Error adding phone:', error.response);
     }
@@ -117,6 +131,8 @@ const Information = () => {
       setIsAddressEditing(!isAddressEditing);
     }
   };
+
+
 
   const handleSaveChanges = async () => {
     try {
@@ -183,18 +199,21 @@ const Information = () => {
           <PhoneField
             label="Phone"
             value={info.phone}
+            handleInputChange={handleInputChange}
+            isEditing={isPhoneAdding}
             handleDelPhone={handleDelPhone}
-            handleAddPhone={handleAddPhone} // Pass handleAddPhone to PhoneField component
+            handleAddPhone={handleAddPhone}
+            handleAddToggle={handleAddToggle}
           />
 
-          <AddressField
+          {/* <AddressField
             label="Address"
             value={info.address}
             isEditing={isAddressEditing}
             inputValue={inputValues.address}
             handleInputChange={handleInputChange}
             handleEditToggle={handleEditToggle}
-          />
+      />*/}
 
           {decodedToken.role !== 'user' &&
             <div className='mx-10'>
