@@ -1,87 +1,81 @@
 import React, { useState, useEffect } from "react";
-import {   useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
- import { Translate } from "translate-easy";
- import Cookies from "js-cookie";
+import { Translate } from "translate-easy";
+import Cookies from "js-cookie";
 import { useI18nContext } from "../context/i18n-context";
 import FormNumber from "../../form/FormNumber";
 import FormText from "../../form/FormText";
 import { X } from "@phosphor-icons/react";
 import FormSelect from "../../form/FormSelect";
 
-function UpdateProduct({ closeModal, role, modal }) {
+function UpdateProduct({ closeModal, role, modal, productData }) {
   const { id } = useParams();
 
   const [newProductName, setNewProductName] = useState("");
   const [newCategory, setNewCategory] = useState("");
-  const [newProductQuantity, setNewProductQuantity] = useState(0);
-  const [newProductPrice, setNewProductPrice] = useState(0);
-  const [newSellingPrice, setNewSellingPrice] = useState(0);
+  const [newProductQuantity, setNewProductQuantity] = useState("");
+  const [newProductPrice, setNewProductPrice] = useState("");
+  const [newSellingPrice, setNewSellingPrice] = useState("");
 
-  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+  // const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [categories, setCategories] = useState([]);
-  const [category, setCategory] = useState("");
+  // const [category, setCategory] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [token] = useState(Cookies.get("token"));
   const { t, language } = useI18nContext();
 
   const API_category =
     "https://store-system-api.gleeze.com/api/categories/list";
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get(
-        "https://store-system-api.gleeze.com/api/categories",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setCategories(response.data.data);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
-  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: productData } = await axios.get(
-          `https://store-system-api.gleeze.com/api/products/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
+        // const { data: productData } = await axios.get(
+        //   `https://store-system-api.gleeze.com/api/products/${id}`,
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   }
+        // );
         const { data: categoriesData } = await axios.get(API_category, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setNewProductName(productData.data.name);
-        setNewProductPrice(productData.data.productPrice);
-        setNewSellingPrice(productData.data.sellingPrice);
-        setNewProductQuantity(productData.data.quantity);
-        setSelectedCategoryId(productData.data.category._id); // Set category ID
+        // setNewProductName(productData.data.name);
+        // setNewProductPrice(productData.data.productPrice);
+        // setNewSellingPrice(productData.data.sellingPrice);
+        // setNewProductQuantity(productData.data.quantity);
+        // setSelectedCategoryId(productData.data.category._id); // Set category ID
         setCategories(categoriesData.data);
+
+        if (modal) {
+          setNewProductName(productData.name);
+          setNewCategory(productData.category?._id);
+          setNewProductQuantity(productData.quantity);
+          setNewProductPrice(productData.productPrice);
+          setNewSellingPrice(productData.sellingPrice);
+        }
+        // console.log('categoriesData',categoriesData.data)
       } catch (error) {
         console.error("Error fetching product:", error);
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchData();
-    fetchCategories();
-  }, [id,token,fetchCategories]);
-
-  const handleUpdateProduct = () => {
+  }, [id, token, productData, modal]);
+  const handleUpdateProduct = (e) => {
+    e.preventDefault();
     axios
       .put(
-        `https://store-system-api.gleeze.com/api/products/${id}`,
+        `https://store-system-api.gleeze.com/api/products/${productData._id}`,
         {
           name: newProductName,
           productPrice: newProductPrice,
           sellingPrice: newSellingPrice,
           quantity: newProductQuantity,
-          category: selectedCategoryId,
+          category: newCategory,
         },
         {
           headers: {
@@ -93,7 +87,7 @@ function UpdateProduct({ closeModal, role, modal }) {
         window.location.href = "/products";
       })
       .catch((error) => {
-        console.error("Error updating product:", error);
+        console.error("Error updating products:", error);
       });
   };
 
@@ -111,7 +105,6 @@ function UpdateProduct({ closeModal, role, modal }) {
   };
   return (
     <div>
- 
       <div
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
@@ -131,7 +124,7 @@ function UpdateProduct({ closeModal, role, modal }) {
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
             >
               <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-              Edit Product
+                Edit Product
               </h3>
               <button
                 type="button"
@@ -150,6 +143,7 @@ function UpdateProduct({ closeModal, role, modal }) {
               <FormText
                 label="Name"
                 name="name"
+                value={newProductName}
                 onChange={(e) => {
                   setNewProductName(e.target.value);
                 }}
@@ -164,12 +158,13 @@ function UpdateProduct({ closeModal, role, modal }) {
                   value: category._id,
                   label: category.name,
                 }))}
-                value={category}
+                value={newCategory}
                 name="Category"
               />
               <FormNumber
                 label="Quantity"
                 name="quantity"
+                value={newProductQuantity}
                 onChange={(e) => {
                   setNewProductQuantity(e.target.value);
                 }}
@@ -178,6 +173,7 @@ function UpdateProduct({ closeModal, role, modal }) {
               <FormNumber
                 label="Product Price"
                 name="productPrice"
+                value={newProductPrice}
                 onChange={(e) => {
                   setNewProductPrice(e.target.value);
                 }}
@@ -186,6 +182,7 @@ function UpdateProduct({ closeModal, role, modal }) {
               <FormNumber
                 label="Selling Price"
                 name="sellingPrice"
+                value={newSellingPrice}
                 onChange={(e) => {
                   setNewSellingPrice(e.target.value);
                 }}

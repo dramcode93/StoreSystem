@@ -53,9 +53,10 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
 
   const handleDeleteCategory = (categoryId) => {
     setSelectedCategoryId(categoryId);
+    console.log(categoryId)
     setShowConfirmation(true);
   };
-
+  
   const confirmDelete = useCallback(() => {
     axios
       .delete(`${API_category}/${selectedCategoryId}`, {
@@ -74,6 +75,26 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     setSelectedCategoryId(null);
   }, []);
 
+
+
+  const confirmCategory = useCallback(() => {
+    axios
+      .post(
+        `${API_category}`,
+        { name: newCategoryName },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then(() => fetchData())
+      .catch((error) => console.error("Error adding category:", error))
+      .finally(() => setNewCategoryName(""));
+  }, [newCategoryName, token, fetchData]);
+
+  const handlePageChange = (newPage) => {
+    setPagination({
+      ...pagination,
+      currentPge: newPage,
+    });
+  };
   const { t, language } = useI18nContext();
   const toggleEditDropdown = (CategoryId) => {
     setSelectedCategoryId((prevCategoryId) =>
@@ -127,13 +148,13 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
       dir={language === "ar" ? "rtl" : "ltr"}
     >
       <ConfirmationModal
-        show={showConfirmation}
-        onCancel={cancelDelete}
-        onConfirm={() => {
-          confirmDelete();
-          setShowConfirmation(false);
-        }}
-      />
+          show={showConfirmation}
+          onCancel={cancelDelete}
+          onConfirm={() => {
+            confirmDelete(); 
+            setShowConfirmation(false); 
+          }}
+        />
       <div className="flex justify-between">
         <div className="relative w-96 m-3">
           <input
@@ -198,8 +219,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                     {category._id.slice(-4)}
                   </th>
                   <td className="px-4 py-4">{category.name}</td>
-
-                  <td className="px-4 py-3 flex items-center justify-end">
+                  {/* <td className="px-4 py-3 flex items-center justify-end">
                     <button
                       className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                       type="button"
@@ -259,7 +279,68 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                         </ul>
                       </div>
                     </div>
-                  </td>
+                  </td> */}
+                  <td className="px-4 py-3 flex items-center justify-end">
+                      <button
+                        className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
+                        type="button"
+                        onClick={() => toggleEditDropdown(category._id)}
+                        ref={(el) => (dropdownRefs.current[category._id] = el)}
+                      >
+                        <DotsThree
+                          size={25}
+                          weight="bold"
+                          className=" hover:bg-gray-700 w-10 rounded-lg"
+                        />
+                      </button>
+                      <div
+                        className="absolute z-50"
+                        dir={language === "ar" ? "rtl" : "ltr"}
+                      >
+                        <div
+                          className={`${
+                            selectedCategoryId === category._id
+                              ? `absolute -top-3 ${
+                                  lang === "en" ? "right-full" : "left-full"
+                                } overflow-auto`
+                              : "hidden"
+                          } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                        >
+                          <ul className="text-sm bg-transparent pl-0 mb-0">
+                            <li className="">
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                onClick={()=>handleEditCategory(category)}
+                              >
+                                <NotePencil size={18} weight="bold" />
+                                {t("Category.Edit")}
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                              >
+                                <Eye size={18} weight="bold" />
+                                {t("Category.Preview")}
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                onClick={() => handleDeleteCategory(category._id)}
+                              >
+                                <TrashSimple size={18} weight="bold" />
+
+                                {t("Category.Delete")}
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </td>
                 </tr>
               ))}
             </>
