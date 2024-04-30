@@ -127,8 +127,8 @@ const UserTry = () => {
                     <thead className="text-xm text-gray-200 uppercase">
                         <tr className="text-center bg-gray-500 bg-opacity-25 transition ease-out duration-200">
                             <th scope="col" className="px-4 py-4">ID</th>
-                            <th scope="col" className="px-4 py-4">Name</th>
-                            <th scope="col" className="px-4 py-4">EMAIL</th>
+                            <th scope="col" className="px-4 py-4">USERNAME</th>
+                            <th scope="col" className="px-4 py-4">NAME</th>
                             <th scope="col" className="px-4 py-4">PHONE</th>
                             <th scope="col" className="px-4 py-4">ROLE</th>
                             <th scope="col" className="px-4 py-4">Active</th>
@@ -156,6 +156,8 @@ const UserTry = () => {
                                     <th scope="row"
                                         className="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[5rem] truncate"
                                     >{user._id.slice(-4)}</th>
+                                    <td className="px-4 py-4">{user.username}</td>
+
                                     {decodedToken.role === 'admin' && (
                                         <td className="px-4 py-4">
                                             <Link to={`/users/${user._id}/userBills`}  >
@@ -163,20 +165,20 @@ const UserTry = () => {
                                             </Link>
                                         </td>
                                     )}
+
                                     {decodedToken.role === 'manager' && <td>{user.name}</td>}
-                                    <td className="px-4 py-4">{user.email}</td>
                                     <td className="px-4 py-4">{user.phone[0]}</td>
                                     <td className="px-4 py-4">{user.role}</td>
                                     <td className="px-4 py-4">{user.active === true ? <FaCircle className='text-green-600 w-full text-center' /> : <FaCircle className='text-red-600 w-full text-center' />}</td>
-                                    <td className="px-4 py-4">{`${user.address.street},  
-                                            ${language === "ar"
-                                            ? user.address.city.city_name_ar
-                                            : user.address.city.city_name_en
-                                        },  
-                                           ${language === "ar"
-                                            ? user.address.governorate.governorate_name_ar
-                                            : user.address.governorate.governorate_name_en
-                                        }`}</td>
+                                    <td className="px-4 py-4">
+                                        {user.address.map((address, index) => (
+                                            <div key={index}>
+                                                {`${address.street},  
+            ${language === "ar" ? address.city?.city_name_ar : address.city?.city_name_en},  
+            ${language === "ar" ? address.governorate?.governorate_name_ar : address.governorate?.governorate_name_en}`}
+                                            </div>
+                                        ))}
+                                    </td>
 
                                     <td className="px-4 py-3 flex items-center justify-end">
                                         <button
@@ -251,14 +253,14 @@ const UserTry = () => {
                         )}
                       </button>
                       </td>*/}
-                                    {decodedToken.role !== 'user' &&
+                                    {/*decodedToken.role !== 'user' &&
                                         user.role !== 'manager' && (
                                             <td className="px-4 py-4">
                                                 <Link to={`/changeUserPassword/${user._id}`} className={styles.deleteBtn}>
                                                     <Translate translations={{ ar: 'تغيير كلمة المرور', en: 'change password' }}>{selectedLanguage === 'ar' ? 'تغيير كلمة المرور' : 'change password'}</Translate>
                                                 </Link>
                                             </td>
-                                        )}
+                                        )*/}
                                 </tr>
                             ))}
                         </tbody></>)}
