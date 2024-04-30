@@ -2,7 +2,7 @@ import React from 'react';
 import { MdDelete } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 
-const AddressField = ({ label, values, isEditing, inputValue, handleInputChange, handleEditToggle }) => (
+const AddressField = ({ label, values, isEditing, inputValue, handleInputChange, openAdd, handleEditToggle, handleDelAddress }) => (
     <li className='bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3'>
         <p className='text-gray-200 font-bold text-xl'>{label} :</p>
 
@@ -12,12 +12,12 @@ const AddressField = ({ label, values, isEditing, inputValue, handleInputChange,
                     <p className="text-gray-200">
                         {address.governorate.governorate_name_en}, {address.city.city_name_en}, {address.street}
                     </p>
-                    <MdDelete className='text-3xl mb-5' onClick={() => { }} />
+                    <MdDelete className='text-3xl mb-5' onClick={() => handleDelAddress(index)} />
 
                 </div>
             ))
         }
-        <IoMdAdd className="text-2xl" />
+        <IoMdAdd className="text-2xl" onClick={openAdd} />
 
     </li>
 );

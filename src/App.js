@@ -23,7 +23,7 @@ import Shop from "./components/Shop/Shop.jsx";
 import Customers from "./components/Customers/Customers.jsx";
 import UserBills from "./components/Bills/forms/UserBills.jsx";
 import Bills from "./components/Bills/Bills.jsx";
-import UserTry from "./components/profile/UserTry.jsx";
+import { UserInfo } from "./components/Customers/UserInfo.jsx";
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
@@ -96,7 +96,7 @@ const App = () => {
                 <Route path="/bills" element={<Bills />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/Profile" element={<ChangPassword />} />
-                <Route path="/information" element={<Information />} />
+                <Route path="/information" element={<UserInfo />} />
                 <Route path="/change-password" element={<ChangPassword />} />
                 <Route path="/Profile/Users" element={<Users />} />
                 <Route path="/users" element={<Users />} />

@@ -11,9 +11,10 @@ import PhoneField from './PhoneField';
 const API_info = 'https://store-system-api.gleeze.com/api/users/getMe';
 const API_update = 'https://store-system-api.gleeze.com/api/users/updateMe';
 const DEL_phone = 'https://store-system-api.gleeze.com/api/Users/deletePhone';
+const DEL_address = 'https://store-system-api.gleeze.com/api/Users/deleteAddress';
 const ADD_phone = 'https://store-system-api.gleeze.com/api/Users/addPhone';
 
-const Information = () => {
+const Information = ({ openAdd }) => {
   const [loading, setLoading] = useState(true);
   const token = Cookies.get('token');
   const [info, setInfo] = useState({ name: '', email: '', username: '', phone: [], address: [{}] });
@@ -22,6 +23,9 @@ const Information = () => {
   const [isEmailEditing, setIsEmailEditing] = useState(false);
   const [isAddressEditing, setIsAddressEditing] = useState(false);
   const [isPhoneAdding, setIsPhoneAdding] = useState(false);
+  const [isDeletingPhone, setIsDeletingPhone] = useState(false); // Add state for phone deletion loading
+  const [isDeletingAddress, setIsDeletingAddress] = useState(false); // Add state for phone deletion loading
+  const [isAddingPhone, setIsAddingPhone] = useState(false); // Add state for phone addition loading
 
   const decodedToken = jwtDecode(token);
 
@@ -66,24 +70,39 @@ const Information = () => {
 
   const handleDelPhone = async (index) => {
     try {
+      setIsDeletingPhone(true); // Set isDeletingPhone to true before making the request
       if (token) {
         const response = await axios.delete(
           `${DEL_phone}`,
           { data: { phone: info.phone[index] }, headers: { Authorization: `Bearer ${token}` } }
         );
-        if (response.status === 201) {
-          setInfo(prevInfo => {
-            const newPhones = [...prevInfo.phone];
-            newPhones.splice(index, 1);
-            return { ...prevInfo, phone: newPhones };
-          });
-        }
+        setIsDeletingPhone(false);
+        fetchData();
       } else {
         console.error('No token found.');
       }
-      fetchData();
     } catch (error) {
       console.error('Error deleting phone:', error);
+      setIsDeletingPhone(false);
+    }
+  };
+
+  const handleDelAddress = async (index) => {
+    try {
+      setIsDeletingAddress(true);
+      if (token) {
+        const response = await axios.delete(
+          `${DEL_address}`,
+          { data: { address: info.address[index] }, headers: { Authorization: `Bearer ${token}` } }
+        );
+        setIsDeletingAddress(false);
+        fetchData();
+      } else {
+        console.error('No token found.');
+      }
+    } catch (error) {
+      console.error('Error deleting address:', error);
+      setIsDeletingPhone(false);
     }
   };
 
@@ -93,27 +112,23 @@ const Information = () => {
 
   const handleAddPhone = async () => {
     try {
+      setIsAddingPhone(true);
       if (token) {
         const response = await axios.put(
           ADD_phone,
           { phone: inputValues.phone },
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        if (response.status === 201) {
-          const newPhoneNumber = inputValues.phone;
-          setInfo(prevInfo => ({
-            ...prevInfo,
-            phone: [...prevInfo.phone, newPhoneNumber]
-          }));
-        }
-        setIsPhoneAdding(false);
 
+        setIsPhoneAdding(false);
       } else {
         console.error('No token found.');
       }
+      setIsAddingPhone(false);
       fetchData();
     } catch (error) {
       console.error('Error adding phone:', error.response);
+      setIsAddingPhone(false);
     }
   };
 
@@ -199,12 +214,14 @@ const Information = () => {
             handleDelPhone={handleDelPhone}
             handleAddPhone={handleAddPhone}
             handleAddToggle={handleAddToggle}
+            isLoading={isDeletingPhone || isAddingPhone}
           />
 
           <AddressField
             label="Address"
             values={info.address}
-            isEditing={isAddressEditing}
+            openAdd={openAdd}
+            handleDelAddress={handleDelAddress}
             inputValue={inputValues.address}
             handleInputChange={handleInputChange}
             handleEditToggle={handleEditToggle}
