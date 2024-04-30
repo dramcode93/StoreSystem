@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import styles from './styles.module.css';
+import styles from '../styles.module.css';
 import { Translate } from 'translate-easy';
-import MainComponent from './../Aside/MainComponent';
-import LogOut from './../LogOut/LogOut';
+import MainComponent from '../../Aside/MainComponent';
+import LogOut from '../../LogOut/LogOut';
 import { useParams } from 'react-router-dom';
-import Loading from '../Loading/Loading';
+import Loading from '../../Loading/Loading';
 import Cookies from 'js-cookie';
 
 const API_URL = 'https://store-system-api.gleeze.com/api/products/list';
