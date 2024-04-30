@@ -27,7 +27,6 @@ const UserTry = () => {
   const fetchData = useCallback(async () => {
     try {
       if (token) {
-        console.log(token);
         const response = await axios.get(`${API_users}?sort=-role name&fields=username name email phone address active role`, { headers: { Authorization: `Bearer ${token}` } });
         setUsers(response.data.data);
         setPagination(response.data.paginationResult);
@@ -138,11 +137,13 @@ const UserTry = () => {
             </tr>
           </thead>
           {loading ? (
-            <tr>
-              <td colSpan="8" className="fs-4 text-center mb-5 pb-3">
-                <Loading />
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <td colSpan="8" className="fs-4 text-center mb-5 pb-3">
+                  <Loading />
+                </td>
+              </tr>
+            </tbody>
           ) :
             (<><tbody>
               {users.length === 0 && (
