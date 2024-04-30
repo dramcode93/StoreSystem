@@ -7,6 +7,7 @@ import ProfileField from './ProfileField';
 import Loading from '../Loading/Loading';
 import AddressField from './AddressField';
 import PhoneField from './PhoneField';
+
 const API_info = 'https://store-system-api.gleeze.com/api/users/getMe';
 const API_update = 'https://store-system-api.gleeze.com/api/users/updateMe';
 const DEL_phone = 'https://store-system-api.gleeze.com/api/Users/deletePhone';
@@ -15,8 +16,8 @@ const ADD_phone = 'https://store-system-api.gleeze.com/api/Users/addPhone';
 const Information = () => {
   const [loading, setLoading] = useState(true);
   const token = Cookies.get('token');
-  const [info, setInfo] = useState({ name: '', email: '', username: '', phone: [], address: [{ 'governorate': '', 'city': '', 'street': '' }] });
-  const [inputValues, setInputValues] = useState({ name: '', email: '' });
+  const [info, setInfo] = useState({ name: '', email: '', username: '', phone: [], address: [{}] });
+  const [inputValues, setInputValues] = useState({ name: '', email: '', address: [{}] });
   const [isNameEditing, setIsNameEditing] = useState(false);
   const [isEmailEditing, setIsEmailEditing] = useState(false);
   const [isAddressEditing, setIsAddressEditing] = useState(false);
@@ -55,9 +56,9 @@ const Information = () => {
     fetchData();
   }, [fetchData]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e, index) => {
     const { name, value } = e.target;
-    setInputValues((prevInputValues) => ({
+    setInputValues(prevInputValues => ({
       ...prevInputValues,
       [name]: value,
     }));
@@ -85,10 +86,6 @@ const Information = () => {
       console.error('Error deleting phone:', error);
     }
   };
-
-
-
-
 
   const handleAddToggle = (field) => {
     setIsPhoneAdding(!isPhoneAdding);
@@ -131,8 +128,6 @@ const Information = () => {
       setIsAddressEditing(!isAddressEditing);
     }
   };
-
-
 
   const handleSaveChanges = async () => {
     try {
@@ -206,14 +201,14 @@ const Information = () => {
             handleAddToggle={handleAddToggle}
           />
 
-          {/* <AddressField
+          <AddressField
             label="Address"
-            value={info.address}
+            values={info.address}
             isEditing={isAddressEditing}
             inputValue={inputValues.address}
             handleInputChange={handleInputChange}
             handleEditToggle={handleEditToggle}
-      />*/}
+          />
 
           {decodedToken.role !== 'user' &&
             <div className='mx-10'>

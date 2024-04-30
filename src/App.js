@@ -25,6 +25,7 @@ import Information from "./components/profile/Information.jsx";
 import Category from "./components/Category/Category.jsx";
 import Shop from "./components/Shop/Shop.jsx";
 import Customers from "./components/Customers/Customers.jsx";
+import UserTry from "./components/profile/UserTry.jsx";
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
@@ -102,6 +103,7 @@ const App = () => {
                 <Route path="/information" element={<Information />} />
                 <Route path="/change-password" element={<ChangPassword />} />
                 <Route path="/Profile/Users" element={<Users />} />
+                <Route path="/users" element={<UserTry />} />
                 <Route path="/users/addUser" element={<FormAdd />} />
                 <Route path="/users/:id/userBills" element={<UserBills />} />
               </>

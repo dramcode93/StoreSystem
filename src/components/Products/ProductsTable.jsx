@@ -53,6 +53,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview, closeModal }) => {
     setShowConfirmation(true);
   };
 
+
   const confirmDelete = useCallback(() => {
     axios
       .delete(`${API_URL}/${selectedProductId}`, {
@@ -120,7 +121,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview, closeModal }) => {
       closeModal();
     }
   };
- const handleEditProduct = (product) => {
+  const handleEditProduct = (product) => {
     openEdit(product);
   };
   return (
