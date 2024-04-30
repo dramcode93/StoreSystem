@@ -3,8 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MyComponent from "./components/MyComponent.jsx";
 import Home from "./components/Home/Home.jsx";
 import Products from "./components/Products/Products.jsx";
-import Bills from "./components/Bills/Bills.jsx";
-import Login from "./components/Login/Login.jsx";
+ import Login from "./components/Login/Login.jsx";
 import { jwtDecode } from "jwt-decode";
 import Dashboard from "./components/Dashboard/Dashboard.jsx"
 import ForgotPassword1 from "./components/ForgetPass/ForgetPass1.jsx";
@@ -12,19 +11,18 @@ import ForgotPassword2 from "./components/ForgetPass/ForgetPass2.jsx";
 import ForgotPassword3 from "./components/ForgetPass/ForgetPass3.jsx";
 import ProfilePage from "./components/profile/Profile.jsx";
 import ChangPassword from "./components/profile/ChangPassword.jsx";
-import CreateBillForm from "./components/Bills/createBills.jsx";
-import UpdateBills from "./components/Bills/UpdateBills.jsx";
-import Users from "./components/profile/Users.jsx";
+ import Users from "./components/profile/Users.jsx";
 import ChangeUserPassword from "./components/profile/changeUserPassword.jsx";
 import Cookies from "js-cookie";
 import axios from "axios";
 import FormAdd from "./components/profile/formAdd.jsx";
-import UserBills from "./components/Bills/UserBills.jsx";
-import { useI18nContext } from "./components/context/i18n-context.jsx";
+ import { useI18nContext } from "./components/context/i18n-context.jsx";
 import Information from "./components/profile/Information.jsx";
 import Category from "./components/Category/Category.jsx";
 import Shop from "./components/Shop/Shop.jsx";
 import Customers from "./components/Customers/Customers.jsx";
+import UserBills from "./components/Bills/forms/UserBills.jsx";
+import Bills from "./components/Bills/Bills.jsx";
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
@@ -49,7 +47,7 @@ const App = () => {
             }
           }
 
-          const expirationThreshold = 24 * 60 * 60; // 24 hours in seconds
+          const expirationThreshold = 24 * 60 * 60; 
           if (decodedToken.exp - Date.now() / 1000 < expirationThreshold) {
             try {
               const response = await axios.get('https://store-system-api.gleeze.com/api/auth/refreshToken', { headers: { Authorization: `Bearer ${token}` } });
@@ -95,8 +93,6 @@ const App = () => {
                 <Route path="/products" element={<Products />} />
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/bills" element={<Bills />} />
-                <Route path="/UpdateBills/:id" element={<UpdateBills />} />
-                <Route path="/CreateBillForm" element={<CreateBillForm />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/Profile" element={<ChangPassword />} />
                 <Route path="/information" element={<Information />} />
