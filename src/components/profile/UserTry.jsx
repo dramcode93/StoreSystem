@@ -133,7 +133,7 @@ const UserTry = () => {
                             <th scope="col" className="px-4 py-4">ROLE</th>
                             <th scope="col" className="px-4 py-4">Active</th>
                             <th scope="col" className="px-4 py-4">ADDRESS</th>
-                            <th scope="col" className="px-4 py-4">Actions</th>
+                            <th scope="col" className="px-4 py-4"></th>
 
                         </tr>
                     </thead>
@@ -167,7 +167,7 @@ const UserTry = () => {
                                     )}
 
                                     {decodedToken.role === 'manager' && <td>{user.name}</td>}
-                                    <td className="px-4 py-4">{user.phone[0]}</td>
+                                    <td className="px-4 py-4">{user.phone.map((phone, index) => (<div key={index}>{phone}</div>))}</td>
                                     <td className="px-4 py-4">{user.role}</td>
                                     <td className="px-4 py-4">{user.active === true ? <FaCircle className='text-green-600 w-full text-center' /> : <FaCircle className='text-red-600 w-full text-center' />}</td>
                                     <td className="px-4 py-4">
@@ -182,7 +182,7 @@ const UserTry = () => {
 
                                     <td className="px-4 py-3 flex items-center justify-end">
                                         <button
-                                            className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
+                                            className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                                             type="button"
                                             onClick={() => toggleEditDropdown(user._id)}
                                             ref={(el) => (dropdownRefs.current[user._id] = el)}
@@ -190,51 +190,52 @@ const UserTry = () => {
                                             <DotsThree
                                                 size={25}
                                                 weight="bold"
-                                                className="hover:bg-gray-700 w-10 rounded-lg"
+                                                className=" hover:bg-gray-700 w-10 rounded-lg"
                                             />
                                         </button>
-                                        <div
-                                            className={`absolute z-20 ${selectedUserId === user._id ? "block" : "hidden"
-                                                }`}
-                                            //   onClick={handleBackgroundClick}
-                                            dir={language === "ar" ? "rtl" : "ltr"}
-                                        >
+                                        <div className="absolute z-50"
+                                            dir={language === "ar" ? "rtl" : "ltr"}>
                                             <div
-                                                //  id={`product-dropdown-${product._id}`}
-                                                className="bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
+                                                className={`${selectedUserId === user._id
+                                                    ? `absolute -top-3 ${language === "en" ? "right-full" : "left-full"
+                                                    } overflow-auto`
+                                                    : "hidden"
+                                                    } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                                             >
-                                                <ul className="text-sm bg-transparent pl-0 mb-0">
-                                                    <li>
-                                                        <button
-                                                            type="button"
-                                                            className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                                        //      onClick={() => handleEditProduct(product)}
-                                                        >
-                                                            <NotePencil size={18} weight="bold" />
-                                                            {t("Edit")}
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button
-                                                            type="button"
-                                                            className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                                        //  onClick={() => openPreview(product)}
-                                                        >
-                                                            <Eye size={18} weight="bold" />
-                                                            {t("Category.Preview")}
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button
-                                                            type="button"
-                                                            className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                                        // onClick={() => handleDeleteProduct(product._id)}
-                                                        >
-                                                            <TrashSimple size={18} weight="bold" />
-                                                            {t("Category.Delete")}
-                                                        </button>
-                                                    </li>
-                                                </ul>
+                                                <div>
+                                                    <ul className="text-sm bg-transparent pl-0 mb-0">
+                                                        <li>
+                                                            <button
+                                                                type="button"
+                                                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                                            //      onClick={() => handleEditProduct(product)}
+                                                            >
+                                                                <NotePencil size={18} weight="bold" />
+                                                                {t("Category.Edit")}
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button
+                                                                type="button"
+                                                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                                            //  onClick={() => openPreview(product)}
+                                                            >
+                                                                <Eye size={18} weight="bold" />
+                                                                {t("Category.Preview")}
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button
+                                                                type="button"
+                                                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                                            // onClick={() => handleDeleteProduct(product._id)}
+                                                            >
+                                                                <TrashSimple size={18} weight="bold" />
+                                                                {t("Category.Delete")}
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </td>
