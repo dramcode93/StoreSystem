@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import styles from './styles.module.css';
-import ConfirmationModal from '../Category/ConfirmationModel';
-import MainComponent from './../Aside/MainComponent';
-import PrintButton from './PrintButton';
-import Loading from '../Loading/Loading';
+import styles from '../styles.module.css';
+import ConfirmationModal from '../../Category/ConfirmationModel';
+import MainComponent from '../../Aside/MainComponent';
+import PrintButton from '../PrintButton';
+import Loading from '../../Loading/Loading';
 import axios from 'axios';
-import LogOut from './../LogOut/LogOut';
+import LogOut from '../../LogOut/LogOut';
 import { Translate } from 'translate-easy';
 import { jwtDecode } from "jwt-decode";
 import Cookies from 'js-cookie';
-import { handlePrint } from './handlePrint';
+import { handlePrint } from '../handlePrint';
 
 const UserBills = () => {
     const token = Cookies.get('token');
