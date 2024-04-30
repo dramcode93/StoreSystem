@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../Products/Products.module.css';
 import { Translate } from 'translate-easy';
-import MainComponent from './../Aside/MainComponent';
-import LogOut from '../LogOut/LogOut';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 
@@ -35,8 +33,6 @@ function FormAdd() {
 
     return (
         <div>
-            <LogOut />
-            <MainComponent />
             <div className={styles.updateCategoryContainer}>
                 <h2><Translate>Add User</Translate></h2>
                 <form>
