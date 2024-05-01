@@ -10,10 +10,12 @@ import Cookies from 'js-cookie';
 import { CiSearch } from "react-icons/ci";
 import { CaretLeft, CaretRight, DotsThree, Eye, NotePencil, TrashSimple } from "@phosphor-icons/react";
 import { FaCircle } from "react-icons/fa6";
+import { MdPersonAddDisabled } from "react-icons/md";
+import { VscActivateBreakpoints } from "react-icons/vsc";
 
 const API_users = 'https://store-system-api.gleeze.com/api/users';
 
-const UserTable = ({ openCreate }) => {
+const UserTable = ({ openCreate, openEdit }) => {
   const token = Cookies.get('token');
   const [users, setUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState(null);
@@ -21,7 +23,9 @@ const UserTable = ({ openCreate }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
+  const [userStatue, setUserStatue] = useState(true);
   const { selectedLanguage } = useLanguage();
+
   const decodedToken = jwtDecode(token);
 
   const fetchData = useCallback(async () => {
@@ -60,7 +64,7 @@ const UserTable = ({ openCreate }) => {
 
   const handleUpdateActive = (id, newActiveStatus) => {
     axios
-      .put(`https://store-system-api.gleeze.com/api/users/${id}`, { active: newActiveStatus }, {
+      .put(`https://store-system-api.gleeze.com/api/users/${id}/activeUser`, { active: newActiveStatus }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -72,6 +76,8 @@ const UserTable = ({ openCreate }) => {
         console.error('Error updating user:', error);
       });
   };
+
+
 
   const toggleEditDropdown = (productId) => {
     setSelectedUserId((prevProductId) =>
@@ -91,6 +97,9 @@ const UserTable = ({ openCreate }) => {
   };
   const dropdownRefs = useRef({});
 
+  const handleEditUser = (user) => {
+    openEdit(user);
+  };
   return (
     <div>
       <section className="bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-40 w-3/4">
@@ -210,7 +219,7 @@ const UserTable = ({ openCreate }) => {
                               <button
                                 type="button"
                                 className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                              //      onClick={() => handleEditProduct(product)}
+                                onClick={() => handleEditUser(user)}
                               >
                                 <NotePencil size={18} weight="bold" />
                                 {t("Category.Edit")}
@@ -230,11 +239,21 @@ const UserTable = ({ openCreate }) => {
                               <button
                                 type="button"
                                 className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                              // onClick={() => handleDeleteProduct(product._id)}
+                                onClick={() => handleUpdateActive(user._id, !user.active)}
                               >
-                                <TrashSimple size={18} weight="bold" />
-                                {t("Category.Delete")}
+                                {user.active === true ? (
+                                  <>
+                                    <MdPersonAddDisabled size={18} weight="bold" />
+                                    Disable
+                                  </>
+                                ) : (
+                                  <>
+                                    <VscActivateBreakpoints size={18} weight="bold" className='text-green-600' />
+                                    Active
+                                  </>
+                                )}
                               </button>
+
                             </li>
                           </ul>
                         </div>
