@@ -1,45 +1,108 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { X } from '@phosphor-icons/react';
-import { FormSelect } from 'react-bootstrap';
-import { useI18nContext } from '../../context/i18n-context';
-import FormNumber from '../../../form/FormNumber';
-import FormInput from '../../../form/FormInput';
+import React, { useState, useEffect, useCallback } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { X } from "@phosphor-icons/react";
+import { useI18nContext } from "../../context/i18n-context";
+import FormNumber from "../../../form/FormNumber";
+import FormInput from "../../../form/FormInput";
+import FormSelect from "../../../form/FormSelect";
+import PrintButton from "../PrintButton";
+import { MdDelete } from "react-icons/md";
 
-const API_PRODUCTS_URL = 'https://store-system-api.gleeze.com/api/products/list';
-const API_CUSTOMERS_URL = 'https://store-system-api.gleeze.com/api/customers';
-const API_BILLS_URL = 'https://store-system-api.gleeze.com/api/bills';
+const API_PRODUCTS_URL =
+  "https://store-system-api.gleeze.com/api/products/list";
+const API_CUSTOMERS_URL = "https://store-system-api.gleeze.com/api/customers";
+const API_BILLS_URL = "https://store-system-api.gleeze.com/api/bills";
 
 const CreateBills = ({ closeModal, modal }) => {
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
   const { t, language } = useI18nContext();
-
-  const [customerId, setCustomerId] = useState('customerId');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [paidAmount, setPaidAmount] = useState('2000');
-  const [customerAddress, setCustomerAddress] = useState('');
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [customers, setCustomers] = useState([]);
-  const [selectedProducts, setSelectedProducts] = useState([
-    { productId: '6612c7028e3ed58da136034f', quantity: '8' },
-    { productId: '6612c6f28e3ed58da136034b', quantity: '2' }
+  const [customerId, setCustomerId] = useState("customerId");
+  const [quantity, setQuantity] = useState("1");
+  const [discount, setDiscount] = useState();
+  const [paidAmount, setPaidAmount] = useState("2000");
+  const [customerAddress, setCustomerAddress] = useState("");
+  const [products, setProducts] = useState([
+    { _id: "product1", name: "Product 1", sellingPrice: 10, quantity: 100 },
+    { _id: "product2", name: "Product 2", sellingPrice: 20, quantity: 200 },
+    { _id: "product3", name: "Product 3", sellingPrice: 30, quantity: 300 },
   ]);
+  const [loading, setLoading] = useState(false);
+  const [customers, setCustomers] = useState([
+    { _id: "customer1", name: "Customer 1" },
+    { _id: "customer2", name: "Customer 2" },
+    { _id: "customer3", name: "Customer 3" },
+  ]);
+  const [selectedProducts, setSelectedProducts] = useState([
+    { productId: "6612c7028e3ed58da136034f", quantity: "8" },
+    { productId: "6612c6f28e3ed58da136034b", quantity: "2" },
+  ]);
+  const [selectedProduct, setSelectedProduct] = useState();
+  const [selectedCustomer, setSelectedCustomer] = useState();
+  const [billItems, setBillItems] = useState([]);
+  console.log(billItems);
+  const handleProductChange = (e) => {
+    const selectedProductId = e.target.value;
+    const selectedProduct = products.find(
+      (product) => product._id === selectedProductId
+    );
+    setSelectedProduct(selectedProduct);
+    setSelectedProducts([
+      ...selectedProducts,
+      { productId: e.target.value, quantity: "" },
+    ]);
+  };
+  const handleCustomerChange = (e) => {
+    const selectedCustomerId = e.target.value;
+    const selectedCustomer = customers.find(
+      (customer) => customer._id === selectedCustomerId
+    );
+    setSelectedCustomer(selectedCustomer);
+    setCustomerId(selectedCustomerId);
+  };
+
+  const addProductToBill = () => {
+    if (selectedProduct && quantity && selectedCustomer) {
+      const newItem = {
+        customer: selectedCustomer,
+        product: selectedProduct,
+        quantity: quantity,
+        discount: discount,
+        paidAmount: paidAmount,
+      };
+      setBillItems([...billItems, newItem]);
+      setQuantity("");
+      setDiscount("");
+      setPaidAmount("");
+      setSelectedProduct(null);
+      setSelectedCustomer(null);
+    }
+  };
+
+  const handleDeleteItem = (index) => {
+    const updatedBillItems = [...billItems];
+    updatedBillItems.splice(index, 1);
+    setBillItems(updatedBillItems);
+  };
 
   const fetchData = useCallback(async () => {
     try {
       if (token) {
         setLoading(true);
         const [productsResponse, customersResponse] = await Promise.all([
-          axios.get(API_PRODUCTS_URL, { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get(API_CUSTOMERS_URL, { headers: { Authorization: `Bearer ${token}` } })
+          axios.get(API_PRODUCTS_URL, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axios.get(API_CUSTOMERS_URL, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
         ]);
         setProducts(productsResponse.data.data);
+        console.log(productsResponse.data.data);
         setCustomers(customersResponse.data.data);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
     }
@@ -53,34 +116,37 @@ const CreateBills = ({ closeModal, modal }) => {
     e.preventDefault();
     try {
       setLoading(true);
-
-      if (!customerId || !phoneNumber || !customerAddress) {
-        console.error('Customer information is incomplete');
+      // if (!customerId || !phoneNumber || !customerAddress) {
+      if (!customerId) {
+        console.error("Customer information is incomplete");
         return;
       }
 
+      const formattedProducts = billItems.map((item) => ({
+        product: item.product._id,
+        productQuantity: item.quantity,
+      }));
+
       const requestBody = {
-        customerId,
-        phone: phoneNumber,
-        products: selectedProducts,
+        customer: billItems[0]?.customer?._id,
+        products: formattedProducts,
         paidAmount: Number(paidAmount),
-        customerAddress
+        discount: discount ? Number(discount) : 0,
       };
 
       const response = await axios.post(API_BILLS_URL, requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log('response', response);
+      console.log("response", response);
 
-
-      setCustomerId('');
-      setPhoneNumber('');
-      setPaidAmount('');
-      setCustomerAddress('');
+      setCustomerId("");
+      // setPhoneNumber("");
+      setPaidAmount("");
+      setCustomerAddress("");
       setSelectedProducts([]);
-      window.location.href = '/bills'; // Redirect to bills page after successful submission
+      window.location.href = "/bills"; // Redirect to bills page after successful submission
     } catch (error) {
-      console.error('Error creating bill:', error);
+      console.error("Error creating bill:", error);
       // Handle the error, display error message or take appropriate action
     } finally {
       setLoading(false);
@@ -114,7 +180,7 @@ const CreateBills = ({ closeModal, modal }) => {
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
             >
               <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                Add Category
+                Create Bill
               </h3>
               <button
                 type="button"
@@ -130,30 +196,6 @@ const CreateBills = ({ closeModal, modal }) => {
               className="fs-6 tracking-wider mt-4 p-0 gap-4 grid-cols-2"
               dir={language === "ar" ? "rtl" : "ltr"}
             >
-              <FormInput
-                label="customerId"
-                name="customerId"
-                value={customerId}
-                onChange={(e) => setCustomerId(e.target.value)}
-                placeholder="customerId"
-              />
-
-              <FormInput
-                label="Address"
-                name="address"
-                value={customerAddress}
-                onChange={(e) => setCustomerAddress(e.target.value)}
-                placeholder="Address"
-              />
-
-              <FormNumber
-                label="Phone"
-                name="phone"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                placeholder="Phone"
-              />
-
               <FormNumber
                 label="Paid Amount"
                 name="paidAmount"
@@ -163,40 +205,140 @@ const CreateBills = ({ closeModal, modal }) => {
               />
 
               <FormSelect
-                label="Select Product"
+                selectLabel="Select Product"
+                headOption="Select a product"
+                handleChange={handleProductChange}
+                options={products.map((product) => ({
+                  value: product._id,
+                  label: product.name,
+                }))}
                 name="product"
-                onChange={(e) => setSelectedProducts([...selectedProducts, { productId: e.target.value, quantity: '' }])}
-              >
-                <option value="">Select a product</option>
-                {products.map((product) => (
-                  <option key={product._id} value={product._id}>
-                    {product.name}
-                  </option>
-                ))}
-              </FormSelect>
-
+              />
+              <FormNumber
+                label="Quantity"
+                name="Quantity"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                placeholder="Quantity"
+              />
+              <FormNumber
+                label="Discount"
+                name="Discount"
+                value={discount}
+                onChange={(e) => setDiscount(e.target.value)}
+                placeholder="Discount"
+                max="100"
+                min="0"
+              />
               <FormSelect
-                label="Select Customer"
+                selectLabel="Select Customer"
+                headOption="Select a Customer"
+                handleChange={handleCustomerChange}
+                options={customers.map((customer) => ({
+                  value: customer._id,
+                  label: customer.name,
+                }))}
                 name="customer"
-                onChange={(e) => setCustomerId(e.target.value)}
-              >
-                <option value="">Select a customer</option>
-                {customers.map((customer) => (
-                  <option key={customer._id} value={customer.name}>
-                    {customer.name}
-                  </option>
-                ))}
-              </FormSelect>
-
-              <div className="col-span-2 flex justify-center">
+              />
+              {selectedProduct && (
+                <div className="m-2 w-full flex flex-col">
+                  <label className="text-xl fw-bold">
+                    Product Price:{" "}
+                    <span className="text-gray-400">
+                      {selectedProduct.sellingPrice}
+                    </span>
+                  </label>
+                  <label className="text-xl fw-bold">
+                    Available Quantity :{" "}
+                    <span className="text-gray-400">
+                      {selectedProduct.quantity}
+                    </span>
+                  </label>
+                </div>
+              )}
+              <div className="col-span-2 flex justify-between">
                 <button
                   type="submit"
-                  className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
+                  onClick={addProductToBill}
+                  className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl m-2"
                 >
-                  {t("Products.AddProduct")}
+                  Add Product +
+                </button>
+                <button
+                  type="submit"
+                  className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl m-2"
+                >
+                  Create Bill +
                 </button>
               </div>
             </form>
+            {billItems.length > 0 && (
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-2 ">
+                <thead className="text-xm text-gray-200 uppercase">
+                  <tr className="text-center bg-gray-500 bg-opacity-25 transition ease-out duration-200">
+                    <th scope="col" className="px-4 py-4">
+                      Product
+                    </th>
+                    <th scope="col" className="px-4 py-4">
+                      Quantity
+                    </th>
+                    <th scope="col" className="px-4 py-4">
+                      Price
+                    </th>
+                    <th scope="col" className="px-4 py-4">
+                      Total Price
+                    </th>
+                    <th scope="col" className="px-4 py-4">
+                      <span className="sr-only">Actions</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {billItems.map((item, index) => (
+                    <tr
+                      key={index}
+                      className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
+                    >
+                      <td className="px-4 py-4">{item.product.name}</td>
+                      <td className="px-4 py-4">{item.quantity}</td>
+                      <td className="px-4 py-4">{item.product.sellingPrice}</td>
+                      <td className="px-4 py-4">
+                        {item.quantity * item.product.sellingPrice}
+                      </td>
+                      <td className="px-4 py-3 flex items-center justify-end">
+                        <button
+                          className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
+                          type="button"
+                          onClick={() => handleDeleteItem(index)}
+                        >
+                          <MdDelete
+                            size={25}
+                            weight="bold"
+                            className=" hover:bg-gray-700 w-10 rounded-lg"
+                          />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200">
+                    <th
+                      className="px-4 py-4 text-white text-xl text-left"
+                      colSpan="3"
+                    >
+                      Total price
+                    </th>
+                    <td className="px-4 py-4">
+                      {billItems.reduce(
+                        (total, item) =>
+                          total + item.quantity * item.product.sellingPrice,
+                        0
+                      )}
+                    </td>
+                    <td className="px-4 py-3" />
+                  </tr>
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
       </div>

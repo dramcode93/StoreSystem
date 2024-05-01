@@ -7,8 +7,9 @@ function FormNumber({
   placeholder,
   required,
   onChange,
+  min = "0",
+  max,
 }) {
-  
   return (
     <div>
       <label
@@ -26,7 +27,8 @@ function FormNumber({
         placeholder={placeholder}
         required={required}
         onChange={onChange}
-      
+        min={min}
+        max={max}
       />
     </div>
   );
