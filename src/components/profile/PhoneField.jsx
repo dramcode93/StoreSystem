@@ -14,7 +14,7 @@ const PhoneField = ({ label, value, handleDelPhone, handleAddPhone, handleInputC
                 ) : (
                     <>
                         {value.map((phone, index) => (
-                            <div key={index} className='text-white flex w-1/5'>
+                            <div key={index} className='text-white flex w-1/2'>
                                 <p className='text-white'>
                                     {phone}
                                 </p>
