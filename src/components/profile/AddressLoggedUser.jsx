@@ -62,7 +62,7 @@ export default function AddressLoggedUser({ closeModal, role, modal }) {
         setSelectedCity("");
         fetchCities(selectedGovernorateId);
     };
-    const handleAddCustomer = async (e) => {
+    const handleAddAddress = async (e) => {
         e.preventDefault();
         try {
             const response = await axios
@@ -119,7 +119,7 @@ export default function AddressLoggedUser({ closeModal, role, modal }) {
                             </button>
                         </div>
                         <form
-                            onSubmit={handleAddCustomer}
+                            onSubmit={handleAddAddress}
                             className="fs-6 tracking-wider mt-4 p-0 gap-4 grid-cols-2"
                             dir={language === "ar" ? "rtl" : "ltr"}
                         >
