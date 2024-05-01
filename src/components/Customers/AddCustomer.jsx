@@ -21,7 +21,6 @@ export default function AddCustomer({ closeModal, role, modal }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [street, setStreet] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedGovernorate, setSelectedGovernorate] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [governorates, setGovernorates] = useState([]);
