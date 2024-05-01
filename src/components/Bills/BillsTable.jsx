@@ -18,6 +18,7 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
   const [searchInput, setSearchInput] = useState("");
 
   const fetchData = useCallback(async () => {
+    
     try {
       if (token) {
         setLoading(true);
@@ -26,6 +27,7 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setBills(response.data.data);
+        console.log(response.data.data)
         setPagination(response.data.paginationResult);
       }
     } catch (error) {
@@ -81,7 +83,7 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
 
   return (
     <div>
-      <section className="bg-gray-700 bg-opacity-25 mx-10 rounded-md absolute top-40 w-3/4 z-2">
+      <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
         <div className="flex justify-between">
           <div className="relative w-96 m-3">
             <input
@@ -160,7 +162,7 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                       {bill._id.slice(-4)}
                     </th>
                     <td className="px-4 py-4">{bill.name}</td>
-                    <td className="px-4 py-4">{bill.category.name}</td>
+                    <td className="px-4 py-4">{bill.category?.name}</td>
                     <td className="px-4 py-4">{bill.quantity}</td>
                     <td className="px-4 py-4">{bill.productPrice}</td>
                     <td className="px-4 py-4">{bill.sellingPrice}</td>

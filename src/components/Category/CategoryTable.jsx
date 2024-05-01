@@ -280,7 +280,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan="8" className=" fs-4 text-center mb-5 pb-3">
+              <td colSpan="3" className=" fs-4 text-center mb-5 pb-3">
                 <Loading />
               </td>
             </tr>
@@ -288,7 +288,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
             <>
               {categories.length === 0 && (
                 <tr className="text-xl text-center">
-                  <td colSpan="8">No Categories available</td>
+                  <td colSpan="3">No Categories available</td>
                 </tr>
               )}
               {categories.map((category) => (
@@ -302,7 +302,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                   >
                     {" "}
                     {category._id.slice(-4)}
-                    {/* {console.log(product._id)} */}
+                    {/* {console.log(category)} */}
                   </th>
                   <td className="px-4 py-4">{category.name}</td>
                   <td className="px-4 py-3 flex items-center justify-end">

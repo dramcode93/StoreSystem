@@ -18,10 +18,9 @@ const Information = ({ openAdd }) => {
   const [loading, setLoading] = useState(true);
   const token = Cookies.get('token');
   const [info, setInfo] = useState({ name: '', email: '', username: '', phone: [], address: [{}] });
-  const [inputValues, setInputValues] = useState({ name: '', email: '', address: [{}] });
+  const [inputValues, setInputValues] = useState({ name: '', email: '' });
   const [isNameEditing, setIsNameEditing] = useState(false);
   const [isEmailEditing, setIsEmailEditing] = useState(false);
-  const [isAddressEditing, setIsAddressEditing] = useState(false);
   const [isPhoneAdding, setIsPhoneAdding] = useState(false);
   const [isDeletingPhone, setIsDeletingPhone] = useState(false); // Add state for phone deletion loading
   const [isDeletingAddress, setIsDeletingAddress] = useState(false); // Add state for phone deletion loading
@@ -89,22 +88,23 @@ const Information = ({ openAdd }) => {
 
   const handleDelAddress = async (index) => {
     try {
-      setIsDeletingAddress(true);
+      setIsDeletingAddress(true); // Set isDeletingAddress to true before making the request
       if (token) {
         const response = await axios.delete(
           `${DEL_address}`,
           { data: { address: info.address[index] }, headers: { Authorization: `Bearer ${token}` } }
         );
-        setIsDeletingAddress(false);
+        setIsDeletingAddress(false); // Set isDeletingAddress to false after the request completes
         fetchData();
       } else {
         console.error('No token found.');
       }
     } catch (error) {
       console.error('Error deleting address:', error);
-      setIsDeletingPhone(false);
+      setIsDeletingAddress(false);
     }
   };
+
 
   const handleAddToggle = (field) => {
     setIsPhoneAdding(!isPhoneAdding);
@@ -139,9 +139,7 @@ const Information = ({ openAdd }) => {
     if (field === 'email') {
       setIsEmailEditing(!isEmailEditing);
     }
-    if (field === 'address') {
-      setIsAddressEditing(!isAddressEditing);
-    }
+
   };
 
   const handleSaveChanges = async () => {
@@ -152,7 +150,6 @@ const Information = ({ openAdd }) => {
           {
             name: isNameEditing ? inputValues.name : info.name,
             email: isEmailEditing ? inputValues.email : info.email,
-            address: isAddressEditing ? inputValues.address : info.address,
           },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -164,12 +161,10 @@ const Information = ({ openAdd }) => {
           ...prevInfo,
           name: isNameEditing ? inputValues.name : prevInfo.name,
           email: isEmailEditing ? inputValues.email : prevInfo.email,
-          address: isAddressEditing ? inputValues.address : prevInfo.address,
         }));
 
         setIsNameEditing(false);
         setIsEmailEditing(false);
-        setIsAddressEditing(false);
       } else {
         console.error('No token found.');
       }
@@ -222,14 +217,13 @@ const Information = ({ openAdd }) => {
             values={info.address}
             openAdd={openAdd}
             handleDelAddress={handleDelAddress}
-            inputValue={inputValues.address}
-            handleInputChange={handleInputChange}
-            handleEditToggle={handleEditToggle}
+            isLoading={isDeletingAddress}
           />
+
 
           {decodedToken.role !== 'user' &&
             <div className='mx-10'>
-              {(isNameEditing || isEmailEditing || isAddressEditing) && (
+              {(isNameEditing || isEmailEditing) && (
                 <button onClick={handleSaveChanges} className="bg-yellow-900  rounded-full hover:bg-yellow-800 fw-bold">Save Changes</button>
               )}
             </div>
