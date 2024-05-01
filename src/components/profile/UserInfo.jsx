@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useI18nContext } from "../context/i18n-context";
-import AddressLoggedUser from '../profile/AddressLoggedUser';
-import Information from '../profile/Information';
+import AddressLoggedUser from './AddressLoggedUser';
+import Information from './Information';
 
 export const UserInfo = () => {
     const { t, language } = useI18nContext();
