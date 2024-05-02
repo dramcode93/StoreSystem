@@ -1,16 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
-import FormText from "../../form/FormText";
-import FormNumber from "../../form/FormNumber";
-import { useI18nContext } from "../context/i18n-context";
-import FormInput from "../../form/FormInput";
-import FormSelect from "../../form/FormSelect";
-import axios from "axios";
+import React, { useState} from "react";
 import CustomersTable from "./CustomersTable";
 import AddCustomer from "./AddCustomer";
 import UpdateCustomer from "./UpdateCustomer";
 
 const Customers = ({ role }) => {
-  const { t, language } = useI18nContext();
 
   const [openCreate, setOpenCreate] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);

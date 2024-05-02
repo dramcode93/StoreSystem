@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+ import axios from "axios";
 import Cookies from "js-cookie";
 import { useI18nContext } from "../../context/i18n-context";
 import FormText from "../../../form/FormText";
 import { X } from "@phosphor-icons/react";
 
 function UpdateCategory({ closeModal, role, modal, categoryData }) {
-  const { id } = useParams();
-  const [categoryNamePlaceholder, setCategoryNamePlaceholder] = useState("");
-  const token = Cookies.get("token");
+   const token = Cookies.get("token");
   const [newCategoryName, setNewCategoryName] = useState(
     categoryData?.name || ""
   );
-  const [isLoading, setIsLoading] = useState(true);
-  const { t, language } = useI18nContext();
+   const {   language } = useI18nContext();
 
-  const API_category =
-    "https://store-system-api.gleeze.com/api/categories/list";
-
+ 
   useEffect(() => {
     if (modal) {
       setNewCategoryName(categoryData.name);

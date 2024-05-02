@@ -72,14 +72,13 @@ export default function AddProduct({ closeModal, role, modal }) {
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
         absolute top-1/2 -translate-x-1/2 -translate-y-1/2
         z-50 justify-center items-center ${modal ? "left-1/2" : "-left-[100%]"}
-         bg-opacity-40 w-full h-full `}
-      >
+        bg-black bg-opacity-40 w-full h-full `}>
         <div
-          className={`CreateCenter w-full max-w-min 
-           dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
+          className={`CreateCenter p-4 w-full max-w-2xl pb-10 bg-white
+           dark:bg-gray-800 rounded-r-lg duration-200 ease-linear
            ${modal ? "absolute left-0" : "absolute -left-[100%]"}
            h-screen overflow-auto`}
-        >
+          dir="rtl">
           <div className="relative p-4 dark:bg-gray-800 sm:p-5">
             <div
               dir="rtl"
