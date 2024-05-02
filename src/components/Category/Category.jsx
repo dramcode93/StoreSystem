@@ -4,9 +4,9 @@ import CreateCategory from "./forms/CategoryForm";
 import UpdateCategory from "./forms/Update";
 
 export default function Category({ role }) {
-  const [openCreate, setOpenCreate] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedCategoryData, setSelectedCategoryData] = useState({});
+  const [openCreate, setOpenCreate] = useState(false);
   const toggleOpenCreateModal = () => {
     setOpenCreate(!openCreate);
   };

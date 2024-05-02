@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, X } from "@phosphor-icons/react";
-import FormBtnIcon from "../../form/FormBtnIcon";
+import {  X } from "@phosphor-icons/react";
 import FormInput from "../../form/FormInput";
 import { useI18nContext } from "../context/i18n-context";
 import FormSelect from "../../form/FormSelect";
@@ -16,7 +15,7 @@ export default function AddCustomer({ closeModal, role, modal }) {
     }
   };
 
-  const { t, language } = useI18nContext();
+  const {  language } = useI18nContext();
   const token = Cookies.get("token");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
