@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import styles from './Profile.module.css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';

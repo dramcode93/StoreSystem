@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import {   X } from "@phosphor-icons/react";
- import FormInput from "../../form/FormInput";
+import { X } from "@phosphor-icons/react";
+import FormInput from "../../form/FormInput";
 import { useI18nContext } from "../context/i18n-context";
 import FormSelect from "../../form/FormSelect";
 import FormNumber from "../../form/FormNumber";

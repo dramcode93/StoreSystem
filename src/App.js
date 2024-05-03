@@ -9,13 +9,11 @@ import Dashboard from "./components/Dashboard/Dashboard.jsx"
 import ForgotPassword1 from "./components/ForgetPass/ForgetPass1.jsx";
 import ForgotPassword2 from "./components/ForgetPass/ForgetPass2.jsx";
 import ForgotPassword3 from "./components/ForgetPass/ForgetPass3.jsx";
-import ProfilePage from "./components/profile/Profile.jsx";
 import ChangPassword from "./components/profile/ChangPassword.jsx";
 import UserTable from "./components/profile/UserTable.jsx";
 import ChangeUserPassword from "./components/profile/changeUserPassword.jsx";
 import Cookies from "js-cookie";
 import axios from "axios";
-import FormAdd from "./components/profile/formAdd.jsx";
 import { useI18nContext } from "./components/context/i18n-context.jsx";
 import Category from "./components/Category/Category.jsx";
 import Shop from "./components/Shop/Shop.jsx";
@@ -94,13 +92,10 @@ const App = () => {
                 <Route path="/products" element={<Products />} />
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/bills" element={<Bills />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/Profile" element={<ChangPassword />} />
                 <Route path="/information" element={<UserInfo />} />
                 <Route path="/change-password" element={<ChangPassword />} />
                 <Route path="/Profile/Users" element={<UserTable />} />
                 <Route path="/users" element={<User />} />
-                <Route path="/users/addUser" element={<FormAdd />} />
                 <Route path="/users/:id/userBills" element={<UserBills />} />
               </>
             )}
@@ -109,40 +104,6 @@ const App = () => {
       </div>
     </BrowserRouter>
   );
-
-  // return (
-  //   <BrowserRouter dir={language === "ar" ? "rtl" : "ltr"}>
-  //     <MyComponent />
-  //     <Routes>
-  //       <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
-  //       <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
-  //       <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
-  //       {isLoggedIn && !isTokenExpired ? (
-
-  //         <Route element={<Dashboard />}>
-  //           <Route path="/" element={<Home />} />
-  //           <Route path="/category" element={<Dina />} />
-  //           <Route path="/update/:id" element={<Update />} />
-  //           <Route path="/updateProduct/:id" element={<UpdateProduct />} />
-  //           <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
-  //           <Route path="/products" element={<Products />} />
-  //           <Route path="/bills" element={<Bills />} />
-  //           <Route path="/UpdateBills/:id" element={<UpdateBills />} />
-  //           <Route path="/CreateBillForm" element={<CreateBillForm />} />
-  //           <Route path="/profile" element={<ProfilePage />} />
-  //           <Route path="/Profile" element={<ChangPassword />} />
-  //           <Route path="/Profile/Users" element={<Users />} />
-  //           <Route path="/users/addUser" element={<FormAdd />} />
-  //           <Route path="/users/:id/userBills" element={<UserBills />} />
-  //           <Route path="/category/:id/products" element={<CategoryProducts />} />
-  //         </Route>
-
-  //       ) : (
-  //         <Route path="/*" element={<Login />} />
-  //       )}
-  //     </Routes>
-  //   </BrowserRouter>
-  // );
 };
 
 export default App;
