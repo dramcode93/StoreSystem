@@ -17,7 +17,7 @@ const CreateBills = ({ closeModal, modal }) => {
   const { t, language } = useI18nContext();
   const [customerId, setCustomerId] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [discount, setDiscount] = useState(0);
+  const [discount, setDiscount] = useState("");
   const [paidAmount, setPaidAmount] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [products, setProducts] = useState([
@@ -62,23 +62,65 @@ const CreateBills = ({ closeModal, modal }) => {
     setCustomerId(selectedCustomerId);
   };
   
+  // const addProductToBill = () => {
+  //   if (selectedProduct && quantity && selectedCustomer) {
+  //     const newItem = {
+  //       product: selectedProduct,
+  //       quantity: quantity,
+  //       discount: discount,
+  //       paidAmount: paidAmount, 
+  //     };
+  //     setBillItems([...billItems, newItem]);
+  //     setQuantity("");
+  //     setDiscount("");
+  //     setPaidAmount("");
+  //     setSelectedProduct(null);
+  //     setSelectedCustomer(null);
+  //   }
+  // };
   const addProductToBill = () => {
     if (selectedProduct && quantity && selectedCustomer) {
-      const newItem = {
-        product: selectedProduct,
-        quantity: quantity,
-        discount: discount,
-        paidAmount: paidAmount, 
-      };
-      setBillItems([...billItems, newItem]);
+      // Check if the selected product already exists in the bill items
+      const existingItemIndex = billItems.findIndex(
+        (item) => item.product._id === selectedProduct._id
+      );
+  
+      if (existingItemIndex !== -1) {
+        // If the product already exists, update its data
+        const updatedItems = [...billItems];
+        updatedItems[existingItemIndex] = {
+          ...updatedItems[existingItemIndex],
+          quantity: Number(updatedItems[existingItemIndex].quantity) + Number(quantity),
+          discount: discount,
+          paidAmount: paidAmount,
+        };
+        setBillItems([updatedItems]);
+      } else {
+        // If the product doesn't exist, add it as a new item
+        const newItem = {
+          product: selectedProduct,
+          quantity: quantity,
+          discount: discount,
+          paidAmount: paidAmount,
+        };
+        setBillItems([...billItems, newItem]);
+      }
+  
+      // Reset form fields
       setQuantity("");
       setDiscount("");
       setPaidAmount("");
       setSelectedProduct(null);
       setSelectedCustomer(null);
+      
+      console.log("Quantity:", quantity);
+      console.log("Discount:", discount);
+      console.log("Paid Amount:", paidAmount);
+      console.log("Selected Product:", selectedProduct);
+      console.log("Selected Customer:", selectedCustomer);
+      
     }
   };
-
   const handleDeleteItem = (index) => {
     const updatedBillItems = [...billItems];
     updatedBillItems.splice(index, 1);
