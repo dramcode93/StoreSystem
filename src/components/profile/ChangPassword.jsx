@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import styles from './Profile.module.css';
-import axios from 'axios';
+ import axios from 'axios';
 import { Translate } from 'translate-easy';
 import Cookies from 'js-cookie';
 

@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import AsideBar from './AsideBar';
 import AllComponent from './mainComponent';
 import styles from './Profile.module.css'
-//import MainComponent from './../Aside/MainComponent';
-const Profile = () => {
+ const Profile = () => {
   const [selectedPage, setSelectedPage] = useState('information');
 
   const handlePageSelect = (page) => {

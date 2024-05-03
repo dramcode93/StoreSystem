@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import styles from '../styles.module.css';
 import { Translate } from 'translate-easy';
-import MainComponent from '../../Aside/MainComponent';
-import LogOut from '../../LogOut/LogOut';
+ import LogOut from '../../LogOut/LogOut';
 import { useParams } from 'react-router-dom';
 import Loading from '../../Loading/Loading';
 import Cookies from 'js-cookie';
@@ -134,9 +133,7 @@ const UpdateBills = () => {
 
   return (
     <div className={styles.createBill}>
-      <LogOut />
-      <MainComponent />
-      <form>
+        <form>
         {loading && <div className='m-5 fs-3 text-center'><Loading /></div>}
         <div>
           <label htmlFor="customerName">

@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useI18nContext } from "../context/i18n-context";
-import FormNumber from "../../form/FormNumber";
-import { X } from "@phosphor-icons/react";
+ import { X } from "@phosphor-icons/react";
 import FormSelect from "../../form/FormSelect";
 import FormInput from "../../form/FormInput";
 import { MdDelete } from "react-icons/md";
@@ -15,7 +14,6 @@ function UpdateUser({ closeModal, role, modal, userData }) {
     const handleBackgroundClick = (e) => {
         if (e.target === e.currentTarget) {
             closeModal();
-            // handleAddToggle();
         }
     };
     const { t, language } = useI18nContext();

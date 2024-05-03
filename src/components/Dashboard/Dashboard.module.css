@@ -3,16 +3,9 @@
      transition: all 0.5s;
  }
 
- .top_section {
-     display: flex;
-     align-items: center;
-     padding: 20px 15px;
- }
-
  .logo {
      font-size: 30px;
  }
-
 
  .link {
      display: flex;
