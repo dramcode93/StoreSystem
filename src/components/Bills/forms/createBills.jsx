@@ -6,6 +6,8 @@ import { useI18nContext } from "../../context/i18n-context";
 import FormNumber from "../../../form/FormNumber";
 import FormSelect from "../../../form/FormSelect";
 import { MdDelete } from "react-icons/md";
+import FormSelect from "../../../form/FormSelect";
+import { MdDelete } from "react-icons/md";
 
 const API_PRODUCTS_URL =
   "https://store-system-api.gleeze.com/api/products/list";
@@ -19,11 +21,8 @@ const CreateBills = ({ closeModal, modal }) => {
   const [discount, setDiscount] = useState("");
   const [paidAmount, setPaidAmount] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
-  const [products, setProducts] = useState([
-    // { _id: "product1", name: "Product 1", sellingPrice: 10, quantity: 100 },
-    // { _id: "product2", name: "Product 2", sellingPrice: 20, quantity: 200 },
-    // { _id: "product3", name: "Product 3", sellingPrice: 30, quantity: 300 },
-  ]);
+  const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState("");
   const [loading, setLoading] = useState(false);
   const [customers, setCustomers] = useState([
     // { _id: "customer1", name: "Customer 1" },
@@ -264,6 +263,7 @@ const CreateBills = ({ closeModal, modal }) => {
                   value: product._id,
                   label: product.name,
                 }))}
+                value={product}
                 name="product"
                 value={productId}
               />
@@ -287,6 +287,7 @@ const CreateBills = ({ closeModal, modal }) => {
                   value: customer._id,
                   label: customer.name,
                 }))}
+                value={customer}
                 name="customer"
                 value={customerId}
               />
