@@ -14,26 +14,43 @@ const API_BILLS_URL = "https://store-system-api.gleeze.com/api/bills";
 
 const CreateBills = ({ closeModal, modal }) => {
   const token = Cookies.get("token");
-  const { language } = useI18nContext();
-  const [customerId, setCustomerId] = useState("");
-  const [quantity, setQuantity] = useState("1");
+  const { t, language } = useI18nContext();
+  const [quantity, setQuantity] = useState("");
   const [discount, setDiscount] = useState("");
-  const [paidAmount, setPaidAmount] = useState("2000");
+  const [paidAmount, setPaidAmount] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState("");
-  const [customer, setCustomer] = useState("");
   const [loading, setLoading] = useState(false);
-  const [customers, setCustomers] = useState([]);
-  const [selectedProducts, setSelectedProducts] = useState([
-    { productId: "6612c7028e3ed58da136034f", quantity: "8" },
-    { productId: "6612c6f28e3ed58da136034b", quantity: "2" },
+  const [customers, setCustomers] = useState([
+    // { _id: "customer1", name: "Customer 1" },
+    // { _id: "customer2", name: "Customer 2" },
+    // { _id: "customer3", name: "Customer 3" },
   ]);
-  const [selectedProduct, setSelectedProduct] = useState();
-  const [selectedCustomer, setSelectedCustomer] = useState();
-  const [billItems, setBillItems] = useState([]);
-  console.log(billItems);
+  // const [selectedProducts, setSelectedProducts] = useState([
+  //   { productId: "", quantity: "" },
+  //   { productId: "", quantity: "" },
+  // ]);
+  const [customerId, setCustomerId] = useState("");
+  const [productId, setProductId] = useState("");
 
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [selectedCustomer, setSelectedCustomer] = useState("");
+  const [billItems, setBillItems] = useState([]);
+
+  console.log(billItems);
+  const handleProductChange = (e) => {
+    const selectedProductId = e.target.value;
+    const selectedProduct = products.find(
+      (product) => product._id === selectedProductId
+    );
+    setSelectedProduct(selectedProduct);
+    setProductId(selectedProductId)
+    // setSelectedProducts([
+    //   ...selectedProducts,
+    //   { productId: e.target.value, quantity: "" },
+    // ]);
+  };
   const handleCustomerChange = (e) => {
     const selectedCustomerId = e.target.value;
     const selectedCustomer = customers.find(
@@ -41,26 +58,68 @@ const CreateBills = ({ closeModal, modal }) => {
     );
     setSelectedCustomer(selectedCustomer);
     setCustomerId(selectedCustomerId);
+    // console.log(selectedCustomer)
   };
 
+  // const addProductToBill = () => {
+  //   if (selectedProduct && quantity && selectedCustomer) {
+  //     const newItem = {
+  //       product: selectedProduct,
+  //       quantity: quantity,
+  //       discount: discount,
+  //       paidAmount: paidAmount,
+  //     };
+  //     setBillItems([...billItems, newItem]);
+  //     setQuantity("");
+  //     setDiscount("");
+  //     setPaidAmount("");
+  //     setSelectedProduct(null);
+  //     setSelectedCustomer(null);
+  //   }
+  // };
   const addProductToBill = () => {
     if (selectedProduct && quantity && selectedCustomer) {
-      const newItem = {
-        customer: selectedCustomer,
-        product: selectedProduct,
-        quantity: quantity,
-        discount: discount,
-        paidAmount: paidAmount,
-      };
-      setBillItems([...billItems, newItem]);
+      // Check if the selected product already exists in the bill items
+      const existingItemIndex = billItems.findIndex(
+        (item) => item.product._id === selectedProduct._id
+      );
+
+      if (existingItemIndex !== -1) {
+        // If the product already exists, update its data
+        const updatedItems = [...billItems];
+        updatedItems[existingItemIndex] = {
+          ...updatedItems[existingItemIndex],
+          quantity:
+            Number(updatedItems[existingItemIndex].quantity) + Number(quantity),
+          discount: discount,
+          paidAmount: paidAmount,
+        };
+        setBillItems([updatedItems]);
+      } else {
+        // If the product doesn't exist, add it as a new item
+        const newItem = {
+          product: selectedProduct,
+          quantity: quantity,
+          discount: discount,
+          paidAmount: paidAmount,
+        };
+        setBillItems([...billItems, newItem]);
+      }
+
+      // Reset form fields
       setQuantity("");
       setDiscount("");
       setPaidAmount("");
-      setSelectedProduct(null);
-      setSelectedCustomer(null);
+      setSelectedProduct("");
+      setSelectedCustomer("");
+
+      console.log("Quantity:", quantity);
+      console.log("Discount:", discount);
+      console.log("Paid Amount:", paidAmount);
+      console.log("Selected Product:", selectedProduct);
+      console.log("Selected Customer:", selectedCustomer);
     }
   };
-
   const handleDeleteItem = (index) => {
     const updatedBillItems = [...billItems];
     updatedBillItems.splice(index, 1);
@@ -98,10 +157,19 @@ const CreateBills = ({ closeModal, modal }) => {
     e.preventDefault();
     try {
       setLoading(true);
+      // if (!customerId || !phoneNumber || !customerAddress) {
       if (!customerId) {
         console.error("Customer information is incomplete");
         return;
       }
+      const totalPaidAmount = billItems.reduce(
+        (total, item) => total + Number(item.paidAmount),
+        0
+      );
+      const totalDiscount = billItems.reduce(
+        (total, item) => total + Number(item.discount),
+        0
+      );
 
       const formattedProducts = billItems.map((item) => ({
         product: item.product._id,
@@ -109,21 +177,23 @@ const CreateBills = ({ closeModal, modal }) => {
       }));
 
       const requestBody = {
-        customer: billItems[0]?.customer?._id,
+        customer: customerId,
         products: formattedProducts,
-        paidAmount: Number(paidAmount),
-        discount: discount ? Number(discount) : 0,
+        paidAmount: totalPaidAmount,
+        discount: totalDiscount,
       };
 
+      console.log("requestBody", requestBody);
       const response = await axios.post(API_BILLS_URL, requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log("response", response);
 
       setCustomerId("");
+      // setPhoneNumber("");
       setPaidAmount("");
       setCustomerAddress("");
-      setSelectedProducts([]);
+      // setSelectedProducts([]);
       window.location.href = "/bills"; // Redirect to bills page after successful submission
     } catch (error) {
       console.error("Error creating bill:", error);
@@ -137,18 +207,6 @@ const CreateBills = ({ closeModal, modal }) => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
-  };
-  const handleProductChange = (e) => {
-    const selectedProductId = e.target.value;
-    const selectedProduct = products.find(
-      (product) => product._id === selectedProductId
-    );
-    setProduct(selectedProduct); // Update the product state with the selected product object
-    setSelectedProduct(selectedProduct);
-    setSelectedProducts([
-      ...selectedProducts,
-      { productId: e.target.value, quantity: "" },
-    ]);
   };
 
   return (
@@ -191,50 +249,55 @@ const CreateBills = ({ closeModal, modal }) => {
               <FormNumber
                 label="Paid Amount"
                 name="paidAmount"
-                value={paidAmount}
                 onChange={(e) => setPaidAmount(e.target.value)}
                 placeholder="Paid Amount"
               />
 
               <FormSelect
                 selectLabel="Select Product"
-                headOption="Select product"
-                onChange={handleProductChange}
+                headOption="Select a product"
+                handleChange={(e) => handleProductChange(e)}
                 options={products.map((product) => ({
                   value: product._id,
                   label: product.name,
                 }))}
-                value={product?._id} 
-                name="product"
+                 name="product"
+                value={productId}
               />
-
               <FormNumber
                 label="Quantity"
                 name="Quantity"
-                value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
                 placeholder="Quantity"
               />
               <FormNumber
                 label="Discount"
                 name="Discount"
-                value={discount}
                 onChange={(e) => setDiscount(e.target.value)}
                 placeholder="Discount"
-                max="100"
-                min="0"
               />
               <FormSelect
                 selectLabel="Select Customer"
-                headOption="Select Customer"
-                onChange={handleCustomerChange}
+                headOption="Select a Customer"
+                handleChange={(e) => handleCustomerChange(e)}
                 options={customers.map((customer) => ({
                   value: customer._id,
                   label: customer.name,
                 }))}
-                value={customer?._id}
                 name="customer"
+                value={customerId}
               />
+              {/* <FormSelect
+                selectLabel="Category"
+                headOption="Select Category"
+                handleChange={(e) => setCategory(e.target.value)}
+                options={categories.map((category) => ({
+                  value: category._id,
+                  label: category.name,
+                }))}
+                value={category}
+                name="Category"
+              /> */}
               {selectedProduct && (
                 <div className="m-2 w-full flex flex-col">
                   <label className="text-xl fw-bold">
@@ -253,7 +316,7 @@ const CreateBills = ({ closeModal, modal }) => {
               )}
               <div className="col-span-2 flex justify-between">
                 <button
-                  type="submit"
+                  type="button"
                   onClick={addProductToBill}
                   className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl m-2"
                 >
@@ -291,14 +354,15 @@ const CreateBills = ({ closeModal, modal }) => {
                 <tbody>
                   {billItems.map((item, index) => (
                     <tr
+
                       key={index}
                       className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
                     >
-                      <td className="px-4 py-4">{item.product.name}</td>
+                      <td className="px-4 py-4">{item.product?.name}</td>
                       <td className="px-4 py-4">{item.quantity}</td>
-                      <td className="px-4 py-4">{item.product.sellingPrice}</td>
+                      <td className="px-4 py-4">{item.product?.sellingPrice}</td>
                       <td className="px-4 py-4">
-                        {item.quantity * item.product.sellingPrice}
+                        {item.quantity * item.product?.sellingPrice}
                       </td>
                       <td className="px-4 py-3 flex items-center justify-end">
                         <button
@@ -325,7 +389,7 @@ const CreateBills = ({ closeModal, modal }) => {
                     <td className="px-4 py-4">
                       {billItems.reduce(
                         (total, item) =>
-                          total + item.quantity * item.product.sellingPrice,
+                          total + item.quantity * item.product?.sellingPrice,
                         0
                       )}
                     </td>
