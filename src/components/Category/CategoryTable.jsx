@@ -17,121 +17,6 @@ import ConfirmationModal from "./ConfirmationModel";
 const API_category = "https://store-system-api.gleeze.com/api/categories";
 
 const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
-  // const token = Cookies.get("token");
-  // const [categories, setCategories] = useState([]);
-  // const [showConfirmation, setShowConfirmation] = useState(false);
-  // const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  // const [newCategoryName, setNewCategoryName] = useState("");
-  // const [searchInput, setSearchInput] = useState("");
-  // const [searchTerm, setSearchTerm] = useState("");
-  // const [pagination, setPagination] = useState({});
-  // const [loading, setLoading] = useState(true);
-
-  // const fetchData = useCallback(async () => {
-  //   try {
-  //     if (token) {
-  //       const response = await axios.get(
-  //         `${API_category}?sort=name&search=${searchInput}&page=${pagination.currentPge}&limit=20`,
-  //         { headers: { Authorization: `Bearer ${token}` } }
-  //       );
-  //       setCategories(response.data.data);
-  //       setPagination(response.data.paginationResult);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching categories:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, [token, searchInput, pagination.currentPge]);
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, [searchInput, fetchData]);
-
-  // const handleSearch = () => {
-  //   setSearchInput(searchTerm);
-  // };
-
-  // const handleDeleteCategory = (categoryId) => {
-  //   setSelectedCategoryId(categoryId);
-  //   console.log(categoryId);
-  //   setShowConfirmation(true);
-  // };
-
-  // const confirmDelete = useCallback(() => {
-  //   axios
-  //     .delete(`${API_category}/${selectedCategoryId}`, {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     })
-  //     .then(() => fetchData())
-  //     .catch((error) => console.error("Error deleting category:", error))
-  //     .finally(() => {
-  //       setShowConfirmation(false);
-  //       setSelectedCategoryId(null);
-  //     });
-  // }, [selectedCategoryId, token, fetchData]);
-
-  // const cancelDelete = useCallback(() => {
-  //   setShowConfirmation(false);
-  //   setSelectedCategoryId(null);
-  // }, []);
-
-  // const confirmCategory = useCallback(() => {
-  //   axios
-  //     .post(
-  //       `${API_category}`,
-  //       { name: newCategoryName },
-  //       { headers: { Authorization: `Bearer ${token}` } }
-  //     )
-  //     .then(() => fetchData())
-  //     .catch((error) => console.error("Error adding category:", error))
-  //     .finally(() => setNewCategoryName(""));
-  // }, [newCategoryName, token, fetchData]);
-
-  // const handlePageChange = (newPage) => {
-  //   setPagination({
-  //     ...pagination,
-  //     currentPge: newPage,
-  //   });
-  // };
-
-  // const { t, language } = useI18nContext();
-  // const toggleEditDropdown = (CategoryId) => {
-  //   setSelectedCategoryId((prevCategoryId) =>
-  //     prevCategoryId === CategoryId ? null : CategoryId
-  //   );
-  // };
-  // const handleClickOutside = (event, managerId) => {
-  //   const dropdown = dropdownRefs.current[managerId];
-
-  //   if (
-  //     dropdown &&
-  //     !dropdown.contains(event.target) &&
-  //     !event.target.classList.contains("edit-button")
-  //   ) {
-  //     setSelectedCategoryId(null);
-  //   }
-  // };
-  // useEffect(() => {
-  //   const handleOutsideClick = (event) => {
-  //     handleClickOutside(event, selectedCategoryId);
-  //   };
-
-  //   document.addEventListener("click", handleOutsideClick);
-
-  //   return () => {
-  //     document.removeEventListener("click", handleOutsideClick);
-  //   };
-  // }, [selectedCategoryId]);
-  // const handleEditClick = (category) => {
-  //   openEdit(category);
-  // };
-  // const dropdownRefs = useRef({});
-  // const handleEditCategory = (category) => {
-  //   openEdit(category);
-  // };
-  // const lang = localStorage.getItem("language");
-
   const token = Cookies.get("token");
   // const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -323,9 +208,11 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                       dir={language === "ar" ? "rtl" : "ltr"}
                     >
                       <div
-                        className={`${selectedCategoryId === category._id
-                            ? `absolute -top-3 ${language === "ar" ? "right-full" : "left-full"
-                            } overflow-auto`
+                        className={`${
+                          selectedCategoryId === category._id
+                            ? `absolute -top-3 ${
+                                language === "ar" ? "right-full" : "left-full"
+                              } overflow-auto`
                             : "hidden"
                         } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
@@ -394,7 +281,9 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           <li>
             <button
               className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-gray-700 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              onClick={() => {/* Handle previous page */}}
+              onClick={() => {
+                /* Handle previous page */
+              }}
             >
               <span className="sr-only">Previous</span>
               <CaretLeft size={18} weight="bold" />
@@ -406,7 +295,9 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           <li>
             <button
               className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              onClick={() => {/* Handle page click */}}
+              onClick={() => {
+                /* Handle page click */
+              }}
             >
               1
             </button>
@@ -415,7 +306,9 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           <li>
             <button
               className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              onClick={() => {/* Handle next page */}}
+              onClick={() => {
+                /* Handle next page */
+              }}
             >
               <span className="sr-only">Next</span>
               <CaretRight size={18} weight="bold" />

@@ -17,29 +17,31 @@ const API_BILLS_URL = "https://store-system-api.gleeze.com/api/bills";
 const CreateBills = ({ closeModal, modal }) => {
   const token = Cookies.get("token");
   const { t, language } = useI18nContext();
-  const [customerId, setCustomerId] = useState("customerId");
-  const [quantity, setQuantity] = useState("1");
-  const [discount, setDiscount] = useState();
-  const [paidAmount, setPaidAmount] = useState("2000");
+  const [customerId, setCustomerId] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [paidAmount, setPaidAmount] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [products, setProducts] = useState([
-    { _id: "product1", name: "Product 1", sellingPrice: 10, quantity: 100 },
-    { _id: "product2", name: "Product 2", sellingPrice: 20, quantity: 200 },
-    { _id: "product3", name: "Product 3", sellingPrice: 30, quantity: 300 },
+    // { _id: "product1", name: "Product 1", sellingPrice: 10, quantity: 100 },
+    // { _id: "product2", name: "Product 2", sellingPrice: 20, quantity: 200 },
+    // { _id: "product3", name: "Product 3", sellingPrice: 30, quantity: 300 },
   ]);
   const [loading, setLoading] = useState(false);
   const [customers, setCustomers] = useState([
-    { _id: "customer1", name: "Customer 1" },
-    { _id: "customer2", name: "Customer 2" },
-    { _id: "customer3", name: "Customer 3" },
+    // { _id: "customer1", name: "Customer 1" },
+    // { _id: "customer2", name: "Customer 2" },
+    // { _id: "customer3", name: "Customer 3" },
   ]);
-  const [selectedProducts, setSelectedProducts] = useState([
-    { productId: "6612c7028e3ed58da136034f", quantity: "8" },
-    { productId: "6612c6f28e3ed58da136034b", quantity: "2" },
-  ]);
-  const [selectedProduct, setSelectedProduct] = useState();
-  const [selectedCustomer, setSelectedCustomer] = useState();
+  // const [selectedProducts, setSelectedProducts] = useState([
+  //   { productId: "", quantity: "" },
+  //   { productId: "", quantity: "" },
+  // ]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [billItems, setBillItems] = useState([]);
+
+
   console.log(billItems);
   const handleProductChange = (e) => {
     const selectedProductId = e.target.value;
@@ -47,28 +49,28 @@ const CreateBills = ({ closeModal, modal }) => {
       (product) => product._id === selectedProductId
     );
     setSelectedProduct(selectedProduct);
-    setSelectedProducts([
-      ...selectedProducts,
-      { productId: e.target.value, quantity: "" },
-    ]);
+    // setSelectedProducts([
+    //   ...selectedProducts,
+    //   { productId: e.target.value, quantity: "" },
+    // ]);
+    
   };
   const handleCustomerChange = (e) => {
     const selectedCustomerId = e.target.value;
     const selectedCustomer = customers.find(
       (customer) => customer._id === selectedCustomerId
     );
-    setSelectedCustomer(selectedCustomer);
+    setSelectedCustomer(selectedCustomer); 
     setCustomerId(selectedCustomerId);
   };
-
+  
   const addProductToBill = () => {
     if (selectedProduct && quantity && selectedCustomer) {
       const newItem = {
-        customer: selectedCustomer,
         product: selectedProduct,
         quantity: quantity,
         discount: discount,
-        paidAmount: paidAmount,
+        paidAmount: paidAmount, 
       };
       setBillItems([...billItems, newItem]);
       setQuantity("");
@@ -121,19 +123,22 @@ const CreateBills = ({ closeModal, modal }) => {
         console.error("Customer information is incomplete");
         return;
       }
-
+      const totalPaidAmount = billItems.reduce((total, item) => total + Number(item.paidAmount), 0);
+      const totalDiscount = billItems.reduce((total, item) => total + Number(item.discount), 0);
+  
       const formattedProducts = billItems.map((item) => ({
         product: item.product._id,
         productQuantity: item.quantity,
       }));
 
       const requestBody = {
-        customer: billItems[0]?.customer?._id,
-        products: formattedProducts,
-        paidAmount: Number(paidAmount),
-        discount: discount ? Number(discount) : 0,
+        customer:customerId,
+        products:formattedProducts,
+        paidAmount: totalPaidAmount,
+        discount: totalDiscount,
       };
 
+      console.log("requestBody",requestBody);
       const response = await axios.post(API_BILLS_URL, requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -143,7 +148,7 @@ const CreateBills = ({ closeModal, modal }) => {
       // setPhoneNumber("");
       setPaidAmount("");
       setCustomerAddress("");
-      setSelectedProducts([]);
+      // setSelectedProducts([]);
       window.location.href = "/bills"; // Redirect to bills page after successful submission
     } catch (error) {
       console.error("Error creating bill:", error);
@@ -199,7 +204,6 @@ const CreateBills = ({ closeModal, modal }) => {
               <FormNumber
                 label="Paid Amount"
                 name="paidAmount"
-                value={paidAmount}
                 onChange={(e) => setPaidAmount(e.target.value)}
                 placeholder="Paid Amount"
               />
@@ -217,18 +221,14 @@ const CreateBills = ({ closeModal, modal }) => {
               <FormNumber
                 label="Quantity"
                 name="Quantity"
-                value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
                 placeholder="Quantity"
               />
               <FormNumber
                 label="Discount"
                 name="Discount"
-                value={discount}
                 onChange={(e) => setDiscount(e.target.value)}
                 placeholder="Discount"
-                max="100"
-                min="0"
               />
               <FormSelect
                 selectLabel="Select Customer"
@@ -258,7 +258,7 @@ const CreateBills = ({ closeModal, modal }) => {
               )}
               <div className="col-span-2 flex justify-between">
                 <button
-                  type="submit"
+                  type="button"
                   onClick={addProductToBill}
                   className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl m-2"
                 >
