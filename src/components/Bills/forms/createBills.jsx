@@ -22,23 +22,15 @@ const CreateBills = ({ closeModal, modal }) => {
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState("");
   const [loading, setLoading] = useState(false);
-  const [customers, setCustomers] = useState([
-    // { _id: "customer1", name: "Customer 1" },
-    // { _id: "customer2", name: "Customer 2" },
-    // { _id: "customer3", name: "Customer 3" },
-  ]);
-  // const [selectedProducts, setSelectedProducts] = useState([
-  //   { productId: "", quantity: "" },
-  //   { productId: "", quantity: "" },
-  // ]);
+  const [customers, setCustomers] = useState([]);
   const [customerId, setCustomerId] = useState("");
   const [productId, setProductId] = useState("");
-
   const [selectedProduct, setSelectedProduct] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState("");
   const [billItems, setBillItems] = useState([]);
 
   console.log(billItems);
+
   const handleProductChange = (e) => {
     const selectedProductId = e.target.value;
     const selectedProduct = products.find(
@@ -46,11 +38,8 @@ const CreateBills = ({ closeModal, modal }) => {
     );
     setSelectedProduct(selectedProduct);
     setProductId(selectedProductId)
-    // setSelectedProducts([
-    //   ...selectedProducts,
-    //   { productId: e.target.value, quantity: "" },
-    // ]);
   };
+
   const handleCustomerChange = (e) => {
     const selectedCustomerId = e.target.value;
     const selectedCustomer = customers.find(
@@ -58,25 +47,7 @@ const CreateBills = ({ closeModal, modal }) => {
     );
     setSelectedCustomer(selectedCustomer);
     setCustomerId(selectedCustomerId);
-    // console.log(selectedCustomer)
   };
-
-  // const addProductToBill = () => {
-  //   if (selectedProduct && quantity && selectedCustomer) {
-  //     const newItem = {
-  //       product: selectedProduct,
-  //       quantity: quantity,
-  //       discount: discount,
-  //       paidAmount: paidAmount,
-  //     };
-  //     setBillItems([...billItems, newItem]);
-  //     setQuantity("");
-  //     setDiscount("");
-  //     setPaidAmount("");
-  //     setSelectedProduct(null);
-  //     setSelectedCustomer(null);
-  //   }
-  // };
   const addProductToBill = () => {
     if (selectedProduct && quantity && selectedCustomer) {
       // Check if the selected product already exists in the bill items
@@ -119,7 +90,6 @@ const CreateBills = ({ closeModal, modal }) => {
       console.log("Selected Customer:", selectedCustomer);
     }
   };
-  
   
   const handleDeleteItem = (index) => {
     const updatedBillItems = [...billItems];
@@ -317,7 +287,7 @@ const CreateBills = ({ closeModal, modal }) => {
               )}
               <div className="col-span-2 flex justify-between">
                 <button
-                  type="button"
+                  type="reset"
                   onClick={addProductToBill}
                   className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl m-2"
                 >
