@@ -15,16 +15,16 @@ const API_BILLS_URL = "https://store-system-api.gleeze.com/api/bills";
 const CreateBills = ({ closeModal, modal }) => {
   const token = Cookies.get("token");
   const { language } = useI18nContext();
-  const [customerId, setCustomerId] = useState("customerId");
+  const [customerId, setCustomerId] = useState("");
   const [quantity, setQuantity] = useState("1");
-  const [discount, setDiscount] = useState();
+  const [discount, setDiscount] = useState("");
   const [paidAmount, setPaidAmount] = useState("2000");
   const [customerAddress, setCustomerAddress] = useState("");
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState("");
+  const [customer, setCustomer] = useState("");
   const [loading, setLoading] = useState(false);
   const [customers, setCustomers] = useState([]);
-  const [customer, setCustomer] = useState("");
   const [selectedProducts, setSelectedProducts] = useState([
     { productId: "6612c7028e3ed58da136034f", quantity: "8" },
     { productId: "6612c6f28e3ed58da136034b", quantity: "2" },
@@ -33,17 +33,7 @@ const CreateBills = ({ closeModal, modal }) => {
   const [selectedCustomer, setSelectedCustomer] = useState();
   const [billItems, setBillItems] = useState([]);
   console.log(billItems);
-  const handleProductChange = (e) => {
-    const selectedProductId = e.target.value;
-    const selectedProduct = products.find(
-      (product) => product._id === selectedProductId
-    );
-    setSelectedProduct(selectedProduct);
-    setSelectedProducts([
-      ...selectedProducts,
-      { productId: e.target.value, quantity: "" },
-    ]);
-  };
+
   const handleCustomerChange = (e) => {
     const selectedCustomerId = e.target.value;
     const selectedCustomer = customers.find(
@@ -108,7 +98,6 @@ const CreateBills = ({ closeModal, modal }) => {
     e.preventDefault();
     try {
       setLoading(true);
-      // if (!customerId || !phoneNumber || !customerAddress) {
       if (!customerId) {
         console.error("Customer information is incomplete");
         return;
@@ -132,7 +121,6 @@ const CreateBills = ({ closeModal, modal }) => {
       console.log("response", response);
 
       setCustomerId("");
-      // setPhoneNumber("");
       setPaidAmount("");
       setCustomerAddress("");
       setSelectedProducts([]);
@@ -149,6 +137,18 @@ const CreateBills = ({ closeModal, modal }) => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
+  };
+  const handleProductChange = (e) => {
+    const selectedProductId = e.target.value;
+    const selectedProduct = products.find(
+      (product) => product._id === selectedProductId
+    );
+    setProduct(selectedProduct); // Update the product state with the selected product object
+    setSelectedProduct(selectedProduct);
+    setSelectedProducts([
+      ...selectedProducts,
+      { productId: e.target.value, quantity: "" },
+    ]);
   };
 
   return (
@@ -199,14 +199,15 @@ const CreateBills = ({ closeModal, modal }) => {
               <FormSelect
                 selectLabel="Select Product"
                 headOption="Select product"
-                onChange={(e) => setProduct(e.target.value)}
+                onChange={handleProductChange}
                 options={products.map((product) => ({
                   value: product._id,
                   label: product.name,
                 }))}
-                value={product}
+                value={product?._id} 
                 name="product"
               />
+
               <FormNumber
                 label="Quantity"
                 name="Quantity"
@@ -226,12 +227,12 @@ const CreateBills = ({ closeModal, modal }) => {
               <FormSelect
                 selectLabel="Select Customer"
                 headOption="Select Customer"
-                handleChange={(e) => setCustomer(e.target.value)}
+                onChange={handleCustomerChange}
                 options={customers.map((customer) => ({
                   value: customer._id,
                   label: customer.name,
                 }))}
-                value={customer}
+                value={customer?._id}
                 name="customer"
               />
               {selectedProduct && (
