@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Category.module.css";
+import styles from "../Products/Products.module.css";
 import { Translate } from "translate-easy";
 
 const ConfirmationModal = ({ show, onConfirm, onCancel }) => {

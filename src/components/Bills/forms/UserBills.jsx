@@ -2,8 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styles from '../styles.module.css';
 import ConfirmationModal from '../../Category/ConfirmationModel';
-import MainComponent from '../../Aside/MainComponent';
-import PrintButton from '../PrintButton';
+ import PrintButton from '../PrintButton';
 import Loading from '../../Loading/Loading';
 import axios from 'axios';
 import LogOut from '../../LogOut/LogOut';
@@ -82,9 +81,7 @@ const UserBills = () => {
 
     return (
         <div>
-            <LogOut />
-            <MainComponent />
-
+  
             <div className={styles.billsContainer}>
                 <div className='flex gap-5'>
                     <div>
