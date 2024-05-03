@@ -4,8 +4,8 @@ import Cookies from "js-cookie";
 import { X } from "@phosphor-icons/react";
 import { useI18nContext } from "../../context/i18n-context";
 import FormNumber from "../../../form/FormNumber";
- import FormSelect from "../../../form/FormSelect";
- import { MdDelete } from "react-icons/md";
+import FormSelect from "../../../form/FormSelect";
+import { MdDelete } from "react-icons/md";
 
 const API_PRODUCTS_URL =
   "https://store-system-api.gleeze.com/api/products/list";
@@ -15,70 +15,82 @@ const API_BILLS_URL = "https://store-system-api.gleeze.com/api/bills";
 const CreateBills = ({ closeModal, modal }) => {
   const token = Cookies.get("token");
   const { t, language } = useI18nContext();
-  const [customerId, setCustomerId] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [discount, setDiscount] = useState(0);
+  const [discount, setDiscount] = useState("");
   const [paidAmount, setPaidAmount] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
-  const [products, setProducts] = useState([
-    // { _id: "product1", name: "Product 1", sellingPrice: 10, quantity: 100 },
-    // { _id: "product2", name: "Product 2", sellingPrice: 20, quantity: 200 },
-    // { _id: "product3", name: "Product 3", sellingPrice: 30, quantity: 300 },
-  ]);
+  const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState("");
   const [loading, setLoading] = useState(false);
-  const [customers, setCustomers] = useState([
-    // { _id: "customer1", name: "Customer 1" },
-    // { _id: "customer2", name: "Customer 2" },
-    // { _id: "customer3", name: "Customer 3" },
-  ]);
-  // const [selectedProducts, setSelectedProducts] = useState([
-  //   { productId: "", quantity: "" },
-  //   { productId: "", quantity: "" },
-  // ]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [customers, setCustomers] = useState([]);
+  const [customerId, setCustomerId] = useState("");
+  const [productId, setProductId] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [selectedCustomer, setSelectedCustomer] = useState("");
   const [billItems, setBillItems] = useState([]);
 
-
   console.log(billItems);
+
   const handleProductChange = (e) => {
     const selectedProductId = e.target.value;
     const selectedProduct = products.find(
       (product) => product._id === selectedProductId
     );
     setSelectedProduct(selectedProduct);
-    // setSelectedProducts([
-    //   ...selectedProducts,
-    //   { productId: e.target.value, quantity: "" },
-    // ]);
-    
+    setProductId(selectedProductId)
   };
+
   const handleCustomerChange = (e) => {
     const selectedCustomerId = e.target.value;
     const selectedCustomer = customers.find(
       (customer) => customer._id === selectedCustomerId
     );
-    setSelectedCustomer(selectedCustomer); 
+    setSelectedCustomer(selectedCustomer);
     setCustomerId(selectedCustomerId);
   };
-  
   const addProductToBill = () => {
     if (selectedProduct && quantity && selectedCustomer) {
-      const newItem = {
-        product: selectedProduct,
-        quantity: quantity,
-        discount: discount,
-        paidAmount: paidAmount, 
-      };
-      setBillItems([...billItems, newItem]);
+      // Check if the selected product already exists in the bill items
+      const existingItemIndex = billItems.findIndex(
+        (item) => item.product._id === selectedProduct._id
+      );
+  
+      if (existingItemIndex !== -1) {
+        // If the product already exists, update its data
+        const updatedItems = [...billItems];
+        updatedItems[existingItemIndex] = {
+          ...updatedItems[existingItemIndex],
+          quantity: Number(updatedItems[existingItemIndex].quantity) + Number(quantity),
+          discount: Number(updatedItems[existingItemIndex].discount) + Number(discount),
+          paidAmount: Number(updatedItems[existingItemIndex].paidAmount) + Number(paidAmount),
+        };
+        setBillItems(updatedItems);
+      } else {
+        // If the product doesn't exist, add it as a new item
+        const newItem = {
+          product: selectedProduct,
+          quantity: quantity,
+          discount: discount,
+          paidAmount: paidAmount,
+        };
+        setBillItems([...billItems, newItem]);
+      }
+  
+      // Reset form fields
       setQuantity("");
       setDiscount("");
       setPaidAmount("");
-      setSelectedProduct(null);
-      setSelectedCustomer(null);
+      setSelectedProduct("");
+      setSelectedCustomer("");
+  
+      console.log("Quantity:", quantity);
+      console.log("Discount:", discount);
+      console.log("Paid Amount:", paidAmount);
+      console.log("Selected Product:", selectedProduct);
+      console.log("Selected Customer:", selectedCustomer);
     }
   };
-
+  
   const handleDeleteItem = (index) => {
     const updatedBillItems = [...billItems];
     updatedBillItems.splice(index, 1);
@@ -121,22 +133,28 @@ const CreateBills = ({ closeModal, modal }) => {
         console.error("Customer information is incomplete");
         return;
       }
-      const totalPaidAmount = billItems.reduce((total, item) => total + Number(item.paidAmount), 0);
-      const totalDiscount = billItems.reduce((total, item) => total + Number(item.discount), 0);
-  
+      const totalPaidAmount = billItems.reduce(
+        (total, item) => total + Number(item.paidAmount),
+        0
+      );
+      const totalDiscount = billItems.reduce(
+        (total, item) => total + Number(item.discount),
+        0
+      );
+
       const formattedProducts = billItems.map((item) => ({
         product: item.product._id,
         productQuantity: item.quantity,
       }));
 
       const requestBody = {
-        customer:customerId,
-        products:formattedProducts,
+        customer: customerId,
+        products: formattedProducts,
         paidAmount: totalPaidAmount,
         discount: totalDiscount,
       };
 
-      console.log("requestBody",requestBody);
+      console.log("requestBody", requestBody);
       const response = await axios.post(API_BILLS_URL, requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -209,12 +227,13 @@ const CreateBills = ({ closeModal, modal }) => {
               <FormSelect
                 selectLabel="Select Product"
                 headOption="Select a product"
-                handleChange={handleProductChange}
+                handleChange={(e)=>handleProductChange(e)}
                 options={products.map((product) => ({
                   value: product._id,
                   label: product.name,
                 }))}
                 name="product"
+                value={productId}
               />
               <FormNumber
                 label="Quantity"
@@ -231,13 +250,25 @@ const CreateBills = ({ closeModal, modal }) => {
               <FormSelect
                 selectLabel="Select Customer"
                 headOption="Select a Customer"
-                handleChange={handleCustomerChange}
+                handleChange={(e)=>handleCustomerChange(e)}
                 options={customers.map((customer) => ({
                   value: customer._id,
                   label: customer.name,
                 }))}
                 name="customer"
+                value={customerId}
               />
+              {/* <FormSelect
+                selectLabel="Category"
+                headOption="Select Category"
+                handleChange={(e) => setCategory(e.target.value)}
+                options={categories.map((category) => ({
+                  value: category._id,
+                  label: category.name,
+                }))}
+                value={category}
+                name="Category"
+              /> */}
               {selectedProduct && (
                 <div className="m-2 w-full flex flex-col">
                   <label className="text-xl fw-bold">
@@ -256,7 +287,7 @@ const CreateBills = ({ closeModal, modal }) => {
               )}
               <div className="col-span-2 flex justify-between">
                 <button
-                  type="button"
+                  type="reset"
                   onClick={addProductToBill}
                   className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl m-2"
                 >
@@ -294,14 +325,15 @@ const CreateBills = ({ closeModal, modal }) => {
                 <tbody>
                   {billItems.map((item, index) => (
                     <tr
+
                       key={index}
                       className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
                     >
-                      <td className="px-4 py-4">{item.product.name}</td>
+                      <td className="px-4 py-4">{item.product?.name}</td>
                       <td className="px-4 py-4">{item.quantity}</td>
-                      <td className="px-4 py-4">{item.product.sellingPrice}</td>
+                      <td className="px-4 py-4">{item.product?.sellingPrice}</td>
                       <td className="px-4 py-4">
-                        {item.quantity * item.product.sellingPrice}
+                        {item.quantity * item.product?.sellingPrice}
                       </td>
                       <td className="px-4 py-3 flex items-center justify-end">
                         <button
@@ -309,7 +341,7 @@ const CreateBills = ({ closeModal, modal }) => {
                           type="button"
                           onClick={() => handleDeleteItem(index)}
                         >
-                          <MdDelete
+                          <MdDelete     
                             size={25}
                             weight="bold"
                             className=" hover:bg-gray-700 w-10 rounded-lg"
@@ -328,7 +360,7 @@ const CreateBills = ({ closeModal, modal }) => {
                     <td className="px-4 py-4">
                       {billItems.reduce(
                         (total, item) =>
-                          total + item.quantity * item.product.sellingPrice,
+                          total + item.quantity * item.product?.sellingPrice,
                         0
                       )}
                     </td>

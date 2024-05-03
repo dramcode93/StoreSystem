@@ -6,8 +6,10 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import FormText from "../../form/FormText";
 import FormSelect from "../../form/FormSelect";
+
 export default function AddProduct({ closeModal, role, modal }) {
   useEffect(() => { }, []);
+
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
@@ -21,6 +23,7 @@ export default function AddProduct({ closeModal, role, modal }) {
   const [quantity, setQuantity] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [sellingPrice, setSellingPrice] = useState("");
+  const [description, setDescription] = useState("");  
   const [categories, setCategories] = useState([]);
 
   const handleAddProduct = async (e) => {
@@ -31,6 +34,7 @@ export default function AddProduct({ closeModal, role, modal }) {
           "https://store-system-api.gleeze.com/api/products",
           {
             name,
+            description, 
             productPrice,
             sellingPrice,
             quantity,
@@ -62,9 +66,11 @@ export default function AddProduct({ closeModal, role, modal }) {
       console.error("Error fetching categories:", error);
     }
   };
+
   useEffect(() => {
     fetchCategories();
   }, []);
+
   return (
     <>
       <div
@@ -72,13 +78,14 @@ export default function AddProduct({ closeModal, role, modal }) {
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
         absolute top-1/2 -translate-x-1/2 -translate-y-1/2
         z-50 justify-center items-center ${modal ? "left-1/2" : "-left-[100%]"}
-        bg-black bg-opacity-40 w-full h-full `}>
+         bg-opacity-40 w-full h-full `}
+      >
         <div
-          className={`CreateCenter p-4 w-full max-w-2xl pb-10 bg-white
-           dark:bg-gray-800 rounded-r-lg duration-200 ease-linear
+          className={`CreateCenter w-full max-w-min 
+           dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
            ${modal ? "absolute left-0" : "absolute -left-[100%]"}
            h-screen overflow-auto`}
-          dir="rtl">
+        >
           <div className="relative p-4 dark:bg-gray-800 sm:p-5">
             <div
               dir="rtl"
@@ -109,14 +116,14 @@ export default function AddProduct({ closeModal, role, modal }) {
                 }}
                 placeholder="Name"
               />
-              {/* <FormText
-                label="Category"
-                name="category"
+              <FormText
+                label="Description"  
+                name="description"
                 onChange={(e) => {
-                  setCategory(e.target.value);
+                  setDescription(e.target.value);
                 }}
-                placeholder="Category"
-              /> */}
+                placeholder="Description"
+              />
               <FormSelect
                 selectLabel="Category"
                 headOption="Select Category"
@@ -156,6 +163,7 @@ export default function AddProduct({ closeModal, role, modal }) {
                 <button
                   disabled={
                     !name ||
+                    !description ||  
                     !category ||
                     !quantity ||
                     !productPrice ||

@@ -29,10 +29,10 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
   const [customerAddress, setCustomerAddress] = useState("");
 
   const { t, language } = useI18nContext();
-  const [customerId, setCustomerId] = useState("customerId");
-  const [newPaidAmount, setNewPaidAmount] = useState();
+  const [customerId, setCustomerId] = useState("");
+  const [newPaidAmount, setNewPaidAmount] = useState("");
   const [newQuantity, setNewQuantity] = useState("");
-  const [newDiscount, setNewDiscount] = useState();
+  const [newDiscount, setNewDiscount] = useState("");
   const [customers, setCustomers] = useState([]);
 
   const [selectedProduct, setSelectedProduct] = useState();
@@ -67,20 +67,21 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
 
         if (billData) {
           // Extract bill items from billData and format them
-          const formattedBillItems = billData.products.map((productData) => ({
+          const customerId = billData.customer?._id;
+          setCustomerId(customerId);
+          const formattedBillItems = billData.products?.map((productData) => ({
             product: {
               name: productData.product.name,
-              id:productData.product._id,
+              id: productData.product._id,
               sellingPrice: productData.product.sellingPrice,
-              totalPrice:productData.totalPrice,
-              productQuantity:productData.productQuantity
+              totalPrice: productData.totalPrice,
+              productQuantity: productData.productQuantity,
               // Add any other properties you need from the product
             },
             discount: billData.discount,
             paidAmount: billData.paidAmount,
-            
           }));
-          
+
           setBillItems(formattedBillItems);
           setNewDiscount(billData.discount);
           setNewPaidAmount(billData.paidAmount);
@@ -204,7 +205,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
     if (selectedProduct && newQuantity && selectedCustomer) {
       const newItem = {
         product: {
-          id:selectedProduct._id,
+          id: selectedProduct._id,
           name: selectedProduct.name,
           sellingPrice: selectedProduct.sellingPrice,
           totalPrice: selectedProduct.totalPrice, // Handle undefined totalPrice
@@ -216,10 +217,10 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
       };
       setBillItems([...billItems, newItem]);
       setNewQuantity("");
-      setNewDiscount("");
-      setNewPaidAmount("");
+      // setNewDiscount("");
+      // setNewPaidAmount("");
       setSelectedProduct(null);
-      setSelectedCustomer(null);
+      // setSelectedCustomer(null);
     }
   };
   const handleCustomerChange = (e) => {
@@ -247,25 +248,32 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
         console.error("Customer information is incomplete");
         return;
       }
-      const totalPaidAmount = billItems.reduce((total, item) => total + Number(item.paidAmount), 0);
+      const totalPaidAmount = billItems.reduce(
+        (total, item) => total + Number(item.paidAmount),
+        0
+      );
       // const totalDiscount = billItems.reduce((total, item) => total + Number(item.discount), 0);
-  
+
       const formattedProducts = billItems.map((item) => ({
         product: item.product.id,
         productQuantity: item.product.productQuantity,
       }));
 
       const requestBody = {
-        customer:customerId,
-        products:formattedProducts,
+        customer: customerId,
+        products: formattedProducts,
         paidAmount: totalPaidAmount,
         // discount: totalDiscount,
       };
 
-      console.log("requestBody",requestBody);
-      const response = await axios.put(`https://store-system-api.gleeze.com/api/bills/${billData?._id}`, requestBody, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      console.log("requestBody", requestBody);
+      const response = await axios.put(
+        `https://store-system-api.gleeze.com/api/bills/${billData?._id}`,
+        requestBody,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       console.log("response", response);
 
       setCustomerId("");
@@ -478,7 +486,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
                 label: customer.name,
               }))}
               name="customer"
-              value={selectedCustomer}
+              // value={selectedCustomer}
             />
             {selectedProduct && (
               <div className="m-2 w-full flex flex-col">
@@ -512,7 +520,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
               </button>
             </div>
           </form>
-          {billItems.length > 0 && (
+          {billItems?.length > 0 && (
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-2 ">
               <thead className="text-xm text-gray-200 uppercase">
                 <tr className="text-center bg-gray-500 bg-opacity-25 transition ease-out duration-200">
@@ -534,13 +542,15 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
                 </tr>
               </thead>
               <tbody>
-                {billItems.map((item, index) => (
+                {billItems?.map((item, index) => (
                   <tr
                     key={index}
                     className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
                   >
                     <td className="px-4 py-4">{item.product.name}</td>
-                    <td className="px-4 py-4">{item.product.productQuantity}</td>
+                    <td className="px-4 py-4">
+                      {item.product.productQuantity}
+                    </td>
                     <td className="px-4 py-4">{item.product.sellingPrice}</td>
                     <td className="px-4 py-4">
                       {item.product.productQuantity * item.product.sellingPrice}
@@ -570,7 +580,9 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
                   <td className="px-4 py-4">
                     {billItems.reduce(
                       (total, item) =>
-                        total + item.product.productQuantity * item.product.sellingPrice,
+                        total +
+                        item.product.productQuantity *
+                          item.product.sellingPrice,
                       0
                     )}
                   </td>
