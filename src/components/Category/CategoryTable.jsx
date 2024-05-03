@@ -16,7 +16,7 @@ import ConfirmationModal from "./ConfirmationModel";
 
 const API_category = "https://store-system-api.gleeze.com/api/categories";
 
-const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
+const CategoryTable = ({ openEdit, openCreate, openPreview, closeModal }) => {
   const token = Cookies.get("token");
   const [categories, setCategories] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -104,6 +104,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     setSelectedCategoryId((prevCategoryId) =>
       prevCategoryId === categoryId ? null : categoryId
     );
+    closeModal();
   };
 
   const dropdownRefs = useRef({});
@@ -111,7 +112,11 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     openEdit(category);
   };
 
-  
+  const handleBackgroundClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
   return (
     <section className=" bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
       <ConfirmationModal
@@ -188,7 +193,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                     {/* {console.log(category)} */}
                   </th>
                   <td className="px-4 py-4">{category.name}</td>
-                  <td className="px-4 py-3 flex items-center justify-end">
+                  <td className="px-4 py-3 flex items-center justify-end" onClick={handleBackgroundClick}>
                     <button
                       className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                       type="button"
@@ -202,7 +207,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                       />
                     </button>
                     <div
-                      className="absolute z-50"
+                      className="absolute z-10"
                       dir={language === "ar" ? "rtl" : "ltr"}
                     >
                       <div
@@ -216,7 +221,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                           <li className="">
                             <button
                               type="button"
-                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                              className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
                               onClick={() => handleEditProduct(category)}
                             >
                               <NotePencil size={18} weight="bold" />
