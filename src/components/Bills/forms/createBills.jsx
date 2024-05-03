@@ -6,8 +6,6 @@ import { useI18nContext } from "../../context/i18n-context";
 import FormNumber from "../../../form/FormNumber";
 import FormSelect from "../../../form/FormSelect";
 import { MdDelete } from "react-icons/md";
-import FormSelect from "../../../form/FormSelect";
-import { MdDelete } from "react-icons/md";
 
 const API_PRODUCTS_URL =
   "https://store-system-api.gleeze.com/api/products/list";
@@ -287,7 +285,6 @@ const CreateBills = ({ closeModal, modal }) => {
                   value: customer._id,
                   label: customer.name,
                 }))}
-                value={customer}
                 name="customer"
                 value={customerId}
               />
@@ -358,7 +355,7 @@ const CreateBills = ({ closeModal, modal }) => {
                 <tbody>
                   {billItems.map((item, index) => (
                     <tr
-                    
+
                       key={index}
                       className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
                     >
