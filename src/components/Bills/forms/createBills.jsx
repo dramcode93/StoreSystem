@@ -32,6 +32,8 @@ const CreateBills = ({ closeModal, modal }) => {
   const [selectedProduct, setSelectedProduct] = useState();
   const [selectedCustomer, setSelectedCustomer] = useState();
   const [billItems, setBillItems] = useState([]);
+
+
   console.log(billItems);
   const handleProductChange = (e) => {
     const selectedProductId = e.target.value;
@@ -39,38 +41,80 @@ const CreateBills = ({ closeModal, modal }) => {
       (product) => product._id === selectedProductId
     );
     setSelectedProduct(selectedProduct);
-    setSelectedProducts([
-      ...selectedProducts,
-      { productId: e.target.value, quantity: "" },
-    ]);
+    // setSelectedProducts([
+    //   ...selectedProducts,
+    //   { productId: e.target.value, quantity: "" },
+    // ]);
+    
   };
   const handleCustomerChange = (e) => {
     const selectedCustomerId = e.target.value;
     const selectedCustomer = customers.find(
       (customer) => customer._id === selectedCustomerId
     );
-    setSelectedCustomer(selectedCustomer);
+    setSelectedCustomer(selectedCustomer); 
     setCustomerId(selectedCustomerId);
   };
-
+  
+  // const addProductToBill = () => {
+  //   if (selectedProduct && quantity && selectedCustomer) {
+  //     const newItem = {
+  //       product: selectedProduct,
+  //       quantity: quantity,
+  //       discount: discount,
+  //       paidAmount: paidAmount, 
+  //     };
+  //     setBillItems([...billItems, newItem]);
+  //     setQuantity("");
+  //     setDiscount("");
+  //     setPaidAmount("");
+  //     setSelectedProduct(null);
+  //     setSelectedCustomer(null);
+  //   }
+  // };
   const addProductToBill = () => {
     if (selectedProduct && quantity && selectedCustomer) {
-      const newItem = {
-        customer: selectedCustomer,
-        product: selectedProduct,
-        quantity: quantity,
-        discount: discount,
-        paidAmount: paidAmount,
-      };
-      setBillItems([...billItems, newItem]);
+      // Check if the selected product already exists in the bill items
+      const existingItemIndex = billItems.findIndex(
+        (item) => item.product._id === selectedProduct._id
+      );
+  
+      if (existingItemIndex !== -1) {
+        // If the product already exists, update its data
+        const updatedItems = [...billItems];
+        updatedItems[existingItemIndex] = {
+          ...updatedItems[existingItemIndex],
+          quantity: Number(updatedItems[existingItemIndex].quantity) + Number(quantity),
+          discount: discount,
+          paidAmount: paidAmount,
+        };
+        setBillItems([updatedItems]);
+      } else {
+        // If the product doesn't exist, add it as a new item
+        const newItem = {
+          product: selectedProduct,
+          quantity: quantity,
+          discount: discount,
+          paidAmount: paidAmount,
+        };
+        setBillItems([...billItems, newItem]);
+      }
+  
+      // Reset form fields
       setQuantity("");
       setDiscount("");
       setPaidAmount("");
       setSelectedProduct(null);
       setSelectedCustomer(null);
+      
+      console.log("Quantity:", quantity);
+      console.log("Discount:", discount);
+      console.log("Paid Amount:", paidAmount);
+      console.log("Selected Product:", selectedProduct);
+      console.log("Selected Customer:", selectedCustomer);
+      
     }
   };
-
   const handleDeleteItem = (index) => {
     const updatedBillItems = [...billItems];
     updatedBillItems.splice(index, 1);
@@ -113,19 +157,22 @@ const CreateBills = ({ closeModal, modal }) => {
         console.error("Customer information is incomplete");
         return;
       }
-
+      const totalPaidAmount = billItems.reduce((total, item) => total + Number(item.paidAmount), 0);
+      const totalDiscount = billItems.reduce((total, item) => total + Number(item.discount), 0);
+  
       const formattedProducts = billItems.map((item) => ({
         product: item.product._id,
         productQuantity: item.quantity,
       }));
 
       const requestBody = {
-        customer: billItems[0]?.customer?._id,
-        products: formattedProducts,
-        paidAmount: Number(paidAmount),
-        discount: discount ? Number(discount) : 0,
+        customer:customerId,
+        products:formattedProducts,
+        paidAmount: totalPaidAmount,
+        discount: totalDiscount,
       };
 
+      console.log("requestBody",requestBody);
       const response = await axios.post(API_BILLS_URL, requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -135,7 +182,7 @@ const CreateBills = ({ closeModal, modal }) => {
       // setPhoneNumber("");
       setPaidAmount("");
       setCustomerAddress("");
-      setSelectedProducts([]);
+      // setSelectedProducts([]);
       window.location.href = "/bills"; // Redirect to bills page after successful submission
     } catch (error) {
       console.error("Error creating bill:", error);
@@ -191,7 +238,6 @@ const CreateBills = ({ closeModal, modal }) => {
               <FormNumber
                 label="Paid Amount"
                 name="paidAmount"
-                value={paidAmount}
                 onChange={(e) => setPaidAmount(e.target.value)}
                 placeholder="Paid Amount"
               />
@@ -210,18 +256,14 @@ const CreateBills = ({ closeModal, modal }) => {
               <FormNumber
                 label="Quantity"
                 name="Quantity"
-                value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
                 placeholder="Quantity"
               />
               <FormNumber
                 label="Discount"
                 name="Discount"
-                value={discount}
                 onChange={(e) => setDiscount(e.target.value)}
                 placeholder="Discount"
-                max="100"
-                min="0"
               />
               <FormSelect
                 selectLabel="Select Customer"
@@ -252,7 +294,7 @@ const CreateBills = ({ closeModal, modal }) => {
               )}
               <div className="col-span-2 flex justify-between">
                 <button
-                  type="submit"
+                  type="button"
                   onClick={addProductToBill}
                   className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl m-2"
                 >
