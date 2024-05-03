@@ -4,8 +4,8 @@ import Cookies from "js-cookie";
 import { X } from "@phosphor-icons/react";
 import { useI18nContext } from "../../context/i18n-context";
 import FormNumber from "../../../form/FormNumber";
- import FormSelect from "../../../form/FormSelect";
- import { MdDelete } from "react-icons/md";
+import FormSelect from "../../../form/FormSelect";
+import { MdDelete } from "react-icons/md";
 
 const API_PRODUCTS_URL =
   "https://store-system-api.gleeze.com/api/products/list";
@@ -14,29 +14,23 @@ const API_BILLS_URL = "https://store-system-api.gleeze.com/api/bills";
 
 const CreateBills = ({ closeModal, modal }) => {
   const token = Cookies.get("token");
-  const { t, language } = useI18nContext();
-  const [customerId, setCustomerId] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [discount, setDiscount] = useState("");
-  const [paidAmount, setPaidAmount] = useState("");
+  const { language } = useI18nContext();
+  const [customerId, setCustomerId] = useState("customerId");
+  const [quantity, setQuantity] = useState("1");
+  const [discount, setDiscount] = useState();
+  const [paidAmount, setPaidAmount] = useState("2000");
   const [customerAddress, setCustomerAddress] = useState("");
-  const [products, setProducts] = useState([
-    // { _id: "product1", name: "Product 1", sellingPrice: 10, quantity: 100 },
-    // { _id: "product2", name: "Product 2", sellingPrice: 20, quantity: 200 },
-    // { _id: "product3", name: "Product 3", sellingPrice: 30, quantity: 300 },
-  ]);
+  const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState("");
   const [loading, setLoading] = useState(false);
-  const [customers, setCustomers] = useState([
-    // { _id: "customer1", name: "Customer 1" },
-    // { _id: "customer2", name: "Customer 2" },
-    // { _id: "customer3", name: "Customer 3" },
+  const [customers, setCustomers] = useState([]);
+  const [customer, setCustomer] = useState("");
+  const [selectedProducts, setSelectedProducts] = useState([
+    { productId: "6612c7028e3ed58da136034f", quantity: "8" },
+    { productId: "6612c6f28e3ed58da136034b", quantity: "2" },
   ]);
-  // const [selectedProducts, setSelectedProducts] = useState([
-  //   { productId: "", quantity: "" },
-  //   { productId: "", quantity: "" },
-  // ]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState();
+  const [selectedCustomer, setSelectedCustomer] = useState();
   const [billItems, setBillItems] = useState([]);
 
 
@@ -250,12 +244,13 @@ const CreateBills = ({ closeModal, modal }) => {
 
               <FormSelect
                 selectLabel="Select Product"
-                headOption="Select a product"
-                handleChange={handleProductChange}
+                headOption="Select product"
+                onChange={(e) => setProduct(e.target.value)}
                 options={products.map((product) => ({
                   value: product._id,
                   label: product.name,
                 }))}
+                value={product}
                 name="product"
               />
               <FormNumber
@@ -272,12 +267,13 @@ const CreateBills = ({ closeModal, modal }) => {
               />
               <FormSelect
                 selectLabel="Select Customer"
-                headOption="Select a Customer"
-                handleChange={handleCustomerChange}
+                headOption="Select Customer"
+                handleChange={(e) => setCustomer(e.target.value)}
                 options={customers.map((customer) => ({
                   value: customer._id,
                   label: customer.name,
                 }))}
+                value={customer}
                 name="customer"
               />
               {selectedProduct && (
