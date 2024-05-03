@@ -358,6 +358,7 @@ const CreateBills = ({ closeModal, modal }) => {
                 <tbody>
                   {billItems.map((item, index) => (
                     <tr
+                    
                       key={index}
                       className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
                     >
@@ -373,7 +374,7 @@ const CreateBills = ({ closeModal, modal }) => {
                           type="button"
                           onClick={() => handleDeleteItem(index)}
                         >
-                          <MdDelete
+                          <MdDelete     
                             size={25}
                             weight="bold"
                             className=" hover:bg-gray-700 w-10 rounded-lg"
