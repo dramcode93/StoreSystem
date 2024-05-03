@@ -486,7 +486,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
                 label: customer.name,
               }))}
               name="customer"
-              value={selectedCustomer}
+              // value={selectedCustomer}
             />
             {selectedProduct && (
               <div className="m-2 w-full flex flex-col">
