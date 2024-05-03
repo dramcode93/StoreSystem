@@ -8,8 +8,9 @@ import Cookies from 'js-cookie';
 import { CiSearch } from "react-icons/ci";
 import { CaretLeft, CaretRight, DotsThree, Eye, NotePencil } from "@phosphor-icons/react";
 import { FaCircle } from "react-icons/fa6";
-import { MdPersonAddDisabled } from "react-icons/md";
+import { MdPersonAddDisabled, MdPassword } from "react-icons/md";
 import { VscActivateBreakpoints } from "react-icons/vsc";
+import { useNavigate } from 'react-router-dom'
 
 const API_users = 'https://store-system-api.gleeze.com/api/users';
 
@@ -23,6 +24,7 @@ const UserTable = ({ openCreate, openEdit }) => {
   const [loading, setLoading] = useState(true);
 
   const decodedToken = jwtDecode(token);
+  const navigate = useNavigate()
 
   const fetchData = useCallback(async () => {
     try {
@@ -214,7 +216,7 @@ const UserTable = ({ openCreate, openEdit }) => {
                             <li>
                               <button
                                 type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                className="flex w-56 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
                                 onClick={() => handleEditUser(user)}
                               >
                                 <NotePencil size={18} weight="bold" />
@@ -224,7 +226,7 @@ const UserTable = ({ openCreate, openEdit }) => {
                             <li>
                               <button
                                 type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                className="flex w-56 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
                               //  onClick={() => openPreview(product)}
                               >
                                 <Eye size={18} weight="bold" />
@@ -234,7 +236,19 @@ const UserTable = ({ openCreate, openEdit }) => {
                             <li>
                               <button
                                 type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                className="flex w-56 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                onClick={() => {
+                                  navigate(`/changeUserPassword/${user._id}`)
+                                }}
+                              >
+                                <MdPassword size={18} weight="bold" />
+                                Change password
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                className="flex w-56 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
                                 onClick={() => handleUpdateActive(user._id, !user.active)}
                               >
                                 {user.active === true ? (
