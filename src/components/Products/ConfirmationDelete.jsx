@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./Products.module.css";
-import { Translate } from "translate-easy";
-
+ 
 const ConfirmationDelete = ({ show, onConfirm, onCancel }) => {
   if (!show) {
     return null;

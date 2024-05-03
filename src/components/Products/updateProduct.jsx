@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Translate } from "translate-easy";
-import Cookies from "js-cookie";
+ import Cookies from "js-cookie";
 import { useI18nContext } from "../context/i18n-context";
 import FormNumber from "../../form/FormNumber";
 import FormText from "../../form/FormText";
@@ -93,7 +92,7 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
   if (isLoading) {
     return (
       <div>
-        <Translate>Loading...</Translate>{" "}
+       Loading... {" "}
       </div>
     );
   }

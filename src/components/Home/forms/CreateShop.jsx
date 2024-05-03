@@ -3,7 +3,6 @@ import {  X } from "@phosphor-icons/react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import FormInput from "../../../form/FormInput";
-import FormNumber from "../../../form/FormNumber";
 import { FormSelect } from "react-bootstrap";
 import { useI18nContext } from "../../context/i18n-context";
 
@@ -109,7 +108,7 @@ export default function AddShop({ closeModal, role, modal }) {
                             className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
                         >
                             <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                                Add Customer
+                                Add Shop
                             </h3>
                             <button
                                 type="button"
@@ -189,7 +188,7 @@ export default function AddShop({ closeModal, role, modal }) {
                                     }
                                     className="bg-yellow-900 w-96 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
                                 >
-                                    Add Customer +
+                                    Add Shop +
                                 </button>
                                 <div>&nbsp;</div>
                             </div>

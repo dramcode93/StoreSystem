@@ -2,13 +2,11 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useI18nContext } from "../context/i18n-context";
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Translate, useLanguage } from 'translate-easy';
-import styles from '../Category/Category.module.css';
 import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import Cookies from 'js-cookie';
 import { CiSearch } from "react-icons/ci";
-import { CaretLeft, CaretRight, DotsThree, Eye, NotePencil, TrashSimple } from "@phosphor-icons/react";
+import { CaretLeft, CaretRight, DotsThree, Eye, NotePencil } from "@phosphor-icons/react";
 import { FaCircle } from "react-icons/fa6";
 import { MdPersonAddDisabled } from "react-icons/md";
 import { VscActivateBreakpoints } from "react-icons/vsc";
@@ -23,8 +21,6 @@ const UserTable = ({ openCreate, openEdit }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
-  const [userStatue, setUserStatue] = useState(true);
-  const { selectedLanguage } = useLanguage();
 
   const decodedToken = jwtDecode(token);
 

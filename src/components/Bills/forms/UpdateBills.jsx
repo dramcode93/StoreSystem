@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import styles from "../styles.module.css";
 import { Translate } from "translate-easy";
-import MainComponent from "../../Aside/MainComponent";
 import LogOut from "../../LogOut/LogOut";
 import { useParams } from "react-router-dom";
 import Loading from "../../Loading/Loading";

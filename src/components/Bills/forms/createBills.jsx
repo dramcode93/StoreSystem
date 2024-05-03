@@ -4,10 +4,8 @@ import Cookies from "js-cookie";
 import { X } from "@phosphor-icons/react";
 import { useI18nContext } from "../../context/i18n-context";
 import FormNumber from "../../../form/FormNumber";
-import FormInput from "../../../form/FormInput";
-import FormSelect from "../../../form/FormSelect";
-import PrintButton from "../PrintButton";
-import { MdDelete } from "react-icons/md";
+ import FormSelect from "../../../form/FormSelect";
+ import { MdDelete } from "react-icons/md";
 
 const API_PRODUCTS_URL =
   "https://store-system-api.gleeze.com/api/products/list";
