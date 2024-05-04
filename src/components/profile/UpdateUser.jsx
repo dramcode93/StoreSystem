@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useI18nContext } from "../context/i18n-context";
- import { X } from "@phosphor-icons/react";
+import { X } from "@phosphor-icons/react";
 import FormSelect from "../../form/FormSelect";
 import FormInput from "../../form/FormInput";
 import { MdDelete } from "react-icons/md";
@@ -200,7 +200,7 @@ function UpdateUser({ closeModal, role, modal, userData }) {
                         className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
                     >
                         <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                            Edit Customer
+                            Edit User
                         </h3>
                         <button
                             type="button"

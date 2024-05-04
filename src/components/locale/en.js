@@ -1,6 +1,6 @@
 const en = {
-   Loading:{
-    LOADING:"LOADING ..."
+  Loading: {
+    LOADING: "LOADING ..."
   },
   Home: {
     Home: "Home",
@@ -151,6 +151,32 @@ const en = {
     exceptional: "Exceptional",
     uploadPic: "Upload Photo",
   },
+  Users: {
+    User: "Users",
+    USERNAME: "USERNAME",
+    Username: "Username",
+    NAME: "NAME",
+    Name: "Name",
+    PHONE: "PHONE",
+    Phone: "Phone Number",
+    ROLE: "ROLE",
+    ACTIVE: "ACTIVE",
+    ADDRESS: "ADDRESS",
+    ADD: "ADD",
+    Password: "Password",
+    ConfirmPassword: "Confirm Password",
+    Email: "Email",
+    Street: "Street",
+    Governorate: "Governorate",
+    City: "City",
+    Edit: "Edit",
+    Preview: "Preview",
+    changePassword: "ChangePassword",
+    Disable: "Disable",
+    Enable: "Enable",
+    AddUser: "Add User",
+
+  }
 };
 
 export default en;
