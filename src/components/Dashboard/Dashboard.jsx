@@ -18,7 +18,7 @@ const Dashboard = ({ children }) => {
     const { t, language } = useI18nContext();
 
     const admin = [
-        
+
         {
             path: '/Home',
             name: t("Home.Home"),
@@ -60,7 +60,7 @@ const Dashboard = ({ children }) => {
             dropdownItems: [
                 { text: t('Home.Information'), path: '/information' },
                 { text: t('Home.ChangePassword'), path: '/change-password' },
-                { text: 'Users', path: '/users' }
+                { text: t('Users.User'), path: '/users' }
             ]
         },
     ];

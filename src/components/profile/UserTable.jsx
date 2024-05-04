@@ -119,7 +119,7 @@ const UserTable = ({ openCreate, openEdit }) => {
               className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
               onClick={openCreate}
             >
-              {t("Products.Add")}
+              {t("Users.ADD")}
             </button>
 
           </div>
@@ -134,12 +134,12 @@ const UserTable = ({ openCreate, openEdit }) => {
           <thead className="text-xm text-gray-200 uppercase">
             <tr className="text-center bg-gray-500 bg-opacity-25 transition ease-out duration-200">
               <th scope="col" className="px-4 py-4">ID</th>
-              <th scope="col" className="px-4 py-4">USERNAME</th>
-              <th scope="col" className="px-4 py-4">NAME</th>
-              <th scope="col" className="px-4 py-4">PHONE</th>
-              <th scope="col" className="px-4 py-4">ROLE</th>
-              <th scope="col" className="px-4 py-4">Active</th>
-              <th scope="col" className="px-4 py-4">ADDRESS</th>
+              <th scope="col" className="px-4 py-4">{t("Users.USERNAME")}</th>
+              <th scope="col" className="px-4 py-4">{t("Users.NAME")}</th>
+              <th scope="col" className="px-4 py-4">{t("Users.PHONE")}</th>
+              <th scope="col" className="px-4 py-4">{t("Users.ROLE")}</th>
+              <th scope="col" className="px-4 py-4">{t("Users.Active")}</th>
+              <th scope="col" className="px-4 py-4">{t("Users.ADDRESS")}</th>
               <th scope="col" className="px-4 py-4"></th>
 
             </tr>
@@ -220,7 +220,7 @@ const UserTable = ({ openCreate, openEdit }) => {
                                 onClick={() => handleEditUser(user)}
                               >
                                 <NotePencil size={18} weight="bold" />
-                                {t("Category.Edit")}
+                                {t("Users.Edit")}
                               </button>
                             </li>
                             <li>
@@ -230,7 +230,7 @@ const UserTable = ({ openCreate, openEdit }) => {
                               //  onClick={() => openPreview(product)}
                               >
                                 <Eye size={18} weight="bold" />
-                                {t("Category.Preview")}
+                                {t("Users.Preview")}
                               </button>
                             </li>
                             <li>
@@ -242,7 +242,7 @@ const UserTable = ({ openCreate, openEdit }) => {
                                 }}
                               >
                                 <MdPassword size={18} weight="bold" />
-                                Change password
+                                {t("Users.changePassword")}
                               </button>
                             </li>
                             <li>
@@ -254,12 +254,12 @@ const UserTable = ({ openCreate, openEdit }) => {
                                 {user.active === true ? (
                                   <>
                                     <MdPersonAddDisabled size={18} weight="bold" />
-                                    Disable
+                                    {t("Users.Disable")}
                                   </>
                                 ) : (
                                   <>
                                     <VscActivateBreakpoints size={18} weight="bold" className='text-green-600' />
-                                    Active
+                                    {t("Users.Enable")}
                                   </>
                                 )}
                               </button>
