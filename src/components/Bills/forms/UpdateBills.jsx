@@ -201,7 +201,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
   };
 
   const addProductToBill = () => {
-    if (selectedProduct && newQuantity && selectedCustomer) {
+    if (selectedProduct && newQuantity) {
       // Check if the selected product already exists in the bill items
       const existingItemIndex = billItems.findIndex(
         (item) => item.product.id === selectedProduct._id
@@ -269,8 +269,8 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
     try {
       setLoading(true);
       // if (!customerId || !phoneNumber || !customerAddress) {
-      if (!customerId) {
-        console.error("Customer information is incomplete");
+      if (!customerId && !newPaidAmount && !newDiscount) {
+        console.error("information is incomplete");
         return;
       }
       const totalPaidAmount = billItems.reduce(
