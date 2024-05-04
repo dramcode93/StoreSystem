@@ -62,7 +62,7 @@ const UserTable = ({ openCreate, openEdit }) => {
 
   const handleUpdateActive = (id, newActiveStatus) => {
     axios
-      .put(`https://store-system-api.gleeze.com/api/users/${id}/activeUser`, { active: newActiveStatus }, {
+      .put(`https://store-system-api.gleeze.com/api/users/${id}/activeUser?search=${searchInput}&page=${pagination.currentPage}&limit=20`, { active: newActiveStatus }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -138,7 +138,7 @@ const UserTable = ({ openCreate, openEdit }) => {
               <th scope="col" className="px-4 py-4">{t("Users.NAME")}</th>
               <th scope="col" className="px-4 py-4">{t("Users.PHONE")}</th>
               <th scope="col" className="px-4 py-4">{t("Users.ROLE")}</th>
-              <th scope="col" className="px-4 py-4">{t("Users.Active")}</th>
+              <th scope="col" className="px-4 py-4">{t("Users.ACTIVE")}</th>
               <th scope="col" className="px-4 py-4">{t("Users.ADDRESS")}</th>
               <th scope="col" className="px-4 py-4"></th>
 
@@ -178,7 +178,7 @@ const UserTable = ({ openCreate, openEdit }) => {
                   {decodedToken.role === 'manager' && <td>{user.name}</td>}
                   <td className="px-4 py-4">{user.phone.map((phone, index) => (<div key={index}>{phone}</div>))}</td>
                   <td className="px-4 py-4">{user.role}</td>
-                  <td className="px-4 py-4">{user.active === true ? <FaCircle className='text-green-600 w-full text-center' /> : <FaCircle className='text-red-600 w-full text-center' />}</td>
+                  <td className="px-4 py-4">{user.active === true ? <FaCircle className='!text-green-600 w-full text-center' /> : <FaCircle className='!text-red-600 w-full text-center' />}</td>
                   <td className="px-4 py-4">
                     {user.address.map((address, index) => (
                       <div key={index}>
@@ -258,7 +258,7 @@ const UserTable = ({ openCreate, openEdit }) => {
                                   </>
                                 ) : (
                                   <>
-                                    <VscActivateBreakpoints size={18} weight="bold" className='text-green-600' />
+                                    <VscActivateBreakpoints size={18} weight="bold" className='text-black' />
                                     {t("Users.Enable")}
                                   </>
                                 )}
@@ -320,63 +320,40 @@ const UserTable = ({ openCreate, openEdit }) => {
           </span>
           <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
             <li>
-              <a
-                href="/"
+              <button
                 className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-gray-700 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={() => {
+                  /* Handle previous page */
+                }}
               >
                 <span className="sr-only">Previous</span>
                 <CaretLeft size={18} weight="bold" />
-              </a>
+              </button>
             </li>
+            {/* Pagination links */}
+            {/* Update with appropriate URLs or onClick handlers */}
+            {/* Example: */}
             <li>
-              <a
-                href="/"
+              <button
                 className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={() => {
+                  /* Handle page click */
+                }}
               >
                 1
-              </a>
+              </button>
             </li>
+            {/* End of pagination links */}
             <li>
-              <a
-                href="/"
-                className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                2
-              </a>
-            </li>
-            <li>
-              <a
-                href="/"
-                aria-current="page"
-                className="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-gray-700 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-              >
-                3
-              </a>
-            </li>
-            <li>
-              <a
-                href="/"
-                className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                ...
-              </a>
-            </li>
-            <li>
-              <a
-                href="/"
-                className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                100
-              </a>
-            </li>
-            <li>
-              <a
-                href="/"
+              <button
                 className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={() => {
+                  /* Handle next page */
+                }}
               >
                 <span className="sr-only">Next</span>
                 <CaretRight size={18} weight="bold" />
-              </a>
+              </button>
             </li>
           </ul>
         </nav>
