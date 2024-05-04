@@ -3,8 +3,8 @@ import {  X } from "@phosphor-icons/react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import FormInput from "../../../form/FormInput";
-import { FormSelect } from "react-bootstrap";
 import { useI18nContext } from "../../context/i18n-context";
+import FormSelect from "../../../form/FormSelect";
 
 export default function AddShop({ closeModal, role, modal }) {
     useEffect(() => { }, []);
