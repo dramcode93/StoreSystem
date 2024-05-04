@@ -24,22 +24,20 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [pagination, setPagination] = useState({});
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+  });
 
   const fetchData = useCallback(async () => {
     try {
       if (token) {
         const categoriesResponse = await axios.get(
-          `${API_category}?sort=category name&search=${searchTerm}&page=${pagination.currentPge}&limit=20`,
+          `${API_category}?sort=category name&search=${searchTerm}&page=${pagination.currentPage}&limit=5`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setCategories(categoriesResponse.data.data);
-        // setPagination(productsResponse.data.paginationResult);
-
-        // const categoriesResponse = await axios.get(`${API_category}`, {
-        //   headers: { Authorization: `Bearer ${token}` },
-        // });
-        // setCategories(categoriesResponse.data.data);
+        setPagination(categoriesResponse.data.paginationResult);
       } else {
         console.error("No token found.");
       }
@@ -48,14 +46,14 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, [token, searchTerm, pagination.currentPage]);
 
   useEffect(() => {
     fetchData();
-  }, [searchTerm, pagination.currentPge, fetchData]);
+  }, [searchTerm, pagination.currentPage, fetchData]);
 
-  const handleDeleteCategory = (productId) => {
-    setSelectedCategoryId(productId);
+  const handleDeleteCategory = (categoryId) => {
+    setSelectedCategoryId(categoryId);
     setShowConfirmation(true);
   };
 
@@ -65,7 +63,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => fetchData())
-      .catch((error) => console.error("Error deleting product:", error))
+      .catch((error) => console.error("Error deleting category:", error))
       .finally(() => {
         setShowConfirmation(false);
         setSelectedCategoryId(null);
@@ -78,10 +76,10 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   }, []);
 
   const handlePageChange = (newPage) => {
-    setPagination({
-      ...pagination,
-      currentPge: newPage,
-    });
+    setPagination((prevPagination) => ({
+      ...prevPagination,
+      currentPage: newPage,
+    }));
   };
 
   const handleSearch = (e) => {
@@ -91,15 +89,22 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
 
   const { t, language } = useI18nContext();
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    setModalIsOpen(true);
+  const handleEditProduct = (category) => {
+    openEdit(category);
   };
 
-  const handleCloseModal = () => {
-    setModalIsOpen(false);
+  const handlePreviousPage = () => {
+    if (pagination.currentPage > 1) {
+      handlePageChange(pagination.currentPage - 1);
+    }
   };
+
+  const handleNextPage = () => {
+    if (pagination.currentPage < pagination.totalPages) {
+      handlePageChange(pagination.currentPage + 1);
+    }
+  };
+
   const toggleEditDropdown = (categoryId) => {
     setSelectedCategoryId((prevCategoryId) =>
       prevCategoryId === categoryId ? null : categoryId
@@ -107,9 +112,14 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   };
 
   const dropdownRefs = useRef({});
-  const handleEditProduct = (category) => {
-    openEdit(category);
-  };
+
+  const MAX_DISPLAY_PAGES = 5; // Define the maximum number of displayed pages
+
+  const startPage = Math.max(1, pagination.currentPage - Math.floor(MAX_DISPLAY_PAGES / 2));
+  const endPage = Math.min(startPage + MAX_DISPLAY_PAGES - 1, pagination.totalPages);
+
+  const pageButtons = Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
+
 
 
   return (
@@ -253,52 +263,47 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           )}
         </tbody>
       </table>
-      <nav
-        className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 "
-        dir="rtl"
-      >
-        <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ">
-          {"      "} {t("Products.appear")}
-          {"   "}
-          <span
-            className="font-semibold text-gray-900 dark:text-white m-2"
-            dir="ltr"
-          >
-            {"     "} 1-10 {"      "}
-          </span>{" "}
-          {"  "}
-          {"   "}
+      <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8" dir="rtl">
+        <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+          {t("Products.appear")}{" "}
+          <span className="font-semibold text-gray-900 dark:text-white m-2" dir="ltr">
+            {pagination.currentPage}-{Math.min(
+              pagination.currentPage * 10,
+              pagination.totalRecords
+            )}{" "}
+          </span>
           {t("Products.from")}
           <span className="font-semibold text-gray-900 dark:text-white m-2">
-            {"   "}1000 {"   "}
+            {pagination.totalRecords}
           </span>
         </span>
         <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
           <li>
             <button
               className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-gray-700 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              onClick={() => {/* Handle previous page */ }}
+              onClick={handlePreviousPage}
             >
               <span className="sr-only">Previous</span>
               <CaretLeft size={18} weight="bold" />
             </button>
           </li>
-          {/* Pagination links */}
-          {/* Update with appropriate URLs or onClick handlers */}
-          {/* Example: */}
-          <li>
-            <button
-              className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              onClick={() => {/* Handle page click */ }}
-            >
-              1
-            </button>
-          </li>
-          {/* End of pagination links */}
+          {pageButtons.map((page) => (
+            <li key={page}>
+              <button
+                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPage === page
+                    ? "bg-gray-200 text-gray-800"
+                    : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  }`}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            </li>
+          ))}
           <li>
             <button
               className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              onClick={() => {/* Handle next page */ }}
+              onClick={handleNextPage}
             >
               <span className="sr-only">Next</span>
               <CaretRight size={18} weight="bold" />
