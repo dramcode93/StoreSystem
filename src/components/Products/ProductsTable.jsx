@@ -223,7 +223,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
                         />
                       </button>
                       <div
-                        className="absolute z-50"
+                        className="absolute z-10"
                         dir={language === "ar" ? "rtl" : "ltr"}
                       >
                         <div
