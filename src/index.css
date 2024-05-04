@@ -30,6 +30,8 @@ code {
   padding: 0;
   box-sizing: border-box;
   text-decoration: none !important;
+  color: var(--font) !important;
+  font-weight: bolder;
 }
 
 .font {
@@ -53,6 +55,7 @@ li {
 .dark {
   --hover: rgb(56, 74, 235);
   --back:#111827;
+  --btn:#713f12;
   --font: #fff;
   --foot: rgba(0, 0, 0, 00.9);
   --title: #000;
@@ -64,6 +67,7 @@ li {
   --card: #111827;
   --hover: rgb(56, 74, 235);
   --back: #e6effa;
+    --btn: rgba(202, 190, 190, 0.221);
   --font: #111827;
   --foot: rgba(0, 0, 0, 0.1);
   --title: #fff;

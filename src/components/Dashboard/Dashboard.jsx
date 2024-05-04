@@ -145,10 +145,11 @@ const Dashboard = ({ children }) => {
     //user : profile( info ) , category,products,bills{create bill},order(agree , accept), customer(create , show bills )
     const sidebarStyle = {
         width: "18vw",
-        height: "97vh",
+        height: "84vh",
         paddingRight: "2vw",
-        paddingTop: "20vh",
-        boxShadow: language === "ar" ? "-5px 0px 3px  rgba(0, 0, 0, 0.1)" : "5px 0px 3px  rgba(0, 0, 0, 0.1)"
+        paddingTop: "2vh",
+        marginTop: "15vh",
+        boxShadow: language === "ar" ? "-4px 0px 2px  rgba(0, 0, 0, 0.1)" : "5px 0px 3px  rgba(0, 0, 0, 0.1)"
     };
 
     const [activeLink, setActiveLink] = useState(null);
@@ -164,7 +165,7 @@ const Dashboard = ({ children }) => {
     };
 
     return (
-        <div className="text-gray-900 dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
+        <div className=" text-gray-900 dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
             {decodedToken.role === "admin" &&
                 <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
                     {
@@ -180,10 +181,10 @@ const Dashboard = ({ children }) => {
                                 </NavLink>
                                 {activeLink === index && isProfileActive && item.dropdownItems && (
                                     <div className='transition ease-in-out duration-75' dir={language === "ar" ? "rtl" : "ltr"}>
-                                        <div className='flex flex-col w-full mx-auto justify-start font-bold text-white'>
+                                        <div className='flex flex-col w-full mx-auto justify-start font-bold'>
                                             {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
                                                 <NavLink key={dropdownIndex} to={dropdownItem.path} className={module.link}>
-                                                    <p className='text-white'>{dropdownItem.text}</p>
+                                                    <p>{dropdownItem.text}</p>
                                                 </NavLink>
                                             ))}
                                         </div>
@@ -221,8 +222,6 @@ const Dashboard = ({ children }) => {
                         ))
                     }
                 </div>}
-
-
             {decodedToken.role === "manager" &&
                 <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
                     {
