@@ -5,7 +5,15 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useI18nContext } from "../context/i18n-context";
 import { CiSearch } from "react-icons/ci";
-import { DotsThree, Eye, NotePencil, Printer, TrashSimple } from "@phosphor-icons/react";
+import {
+  CaretLeft,
+  CaretRight,
+  DotsThree,
+  Eye,
+  NotePencil,
+  Printer,
+  TrashSimple,
+} from "@phosphor-icons/react";
 import ConfirmationDelete from "./ConfirmationDelete";
 const API_Bills = "https://store-system-api.gleeze.com/api/Bills";
 
@@ -81,9 +89,7 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
 
   const { t, language } = useI18nContext();
   const toggleEditDropdown = (billId) => {
-    setSelectedBillId((prevBillId) =>
-      prevBillId === billId ? null : billId
-    );
+    setSelectedBillId((prevBillId) => (prevBillId === billId ? null : billId));
   };
   const dropdownRefs = useRef({});
   const handleEditBill = (bill) => {
@@ -95,14 +101,14 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
   return (
     <div>
       <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
-      <ConfirmationDelete
-        show={showConfirmation}
-        onCancel={cancelDelete}
-        onConfirm={() => {
-          confirmDelete();
-          setShowConfirmation(false);
-        }}
-      />
+        <ConfirmationDelete
+          show={showConfirmation}
+          onCancel={cancelDelete}
+          onConfirm={() => {
+            confirmDelete();
+            setShowConfirmation(false);
+          }}
+        />
         <div className="flex justify-between">
           <div className="relative w-96 m-3">
             <input
@@ -180,79 +186,90 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                       ))}
                     </td>
                     <td className="px-4 py-4">
-                      {new Date(bill.createdAt).toLocaleString()}
+                      <div>
+                        {new Date(bill.createdAt).toLocaleTimeString("en-US", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </div>
+                      <div>
+                        {new Date(bill.createdAt).toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "numeric",
+                          year: "numeric",
+                        })}
+                      </div>
                     </td>
                     <td className="px-4 py-3 flex items-center justify-end">
-                    <button
-                      className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
-                      type="button"
-                      onClick={() => toggleEditDropdown(bill._id)}
-                      ref={(el) => (dropdownRefs.current[bill._id] = el)}
-                    >
-                      <DotsThree
-                        size={25}
-                        weight="bold"
-                        className=" hover:bg-gray-700 w-10 rounded-lg"
-                      />
-                    </button>
-                    <div
-                      className="absolute z-50"
-                      dir={language === "ar" ? "rtl" : "ltr"}
-                    >
-                      <div
-                        className={`${
-                          selectedBillId === bill._id
-                            ? `absolute -top-3 ${
-                                lang === "en" ? "right-full" : "left-full"
-                              } overflow-auto`
-                            : "hidden"
-                        } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                      <button
+                        className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
+                        type="button"
+                        onClick={() => toggleEditDropdown(bill._id)}
+                        ref={(el) => (dropdownRefs.current[bill._id] = el)}
                       >
-                        <ul className="text-sm bg-transparent pl-0 mb-0">
-                          <li className="">
-                            <button
-                              type="button"
-                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                              onClick={() => handleEditBill(bill)}
-                            >
-                              <NotePencil size={18} weight="bold" />
-                              {t("Category.Edit")}
-                            </button>
-                          </li>
-                          <li>
-                            <button
-                              type="button"
-                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                            >
-                              <Eye size={18} weight="bold" />
-                              {t("Category.Preview")}
-                            </button>
-                          </li>
-                          <li>
-                            <button
-                              type="button"
-                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                              onClick={() => handleDeleteBill(bill._id)}
-                            >
-                              <TrashSimple size={18} weight="bold" />
+                        <DotsThree
+                          size={25}
+                          weight="bold"
+                          className=" hover:bg-gray-700 w-10 rounded-lg"
+                        />
+                      </button>
+                      <div
+                        className="absolute z-50"
+                        dir={language === "ar" ? "rtl" : "ltr"}
+                      >
+                        <div
+                          className={`${
+                            selectedBillId === bill._id
+                              ? `absolute -top-3 ${
+                                  lang === "en" ? "right-full" : "left-full"
+                                } overflow-auto`
+                              : "hidden"
+                          } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                        >
+                          <ul className="text-sm bg-transparent pl-0 mb-0">
+                            <li className="">
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                onClick={() => handleEditBill(bill)}
+                              >
+                                <NotePencil size={18} weight="bold" />
+                                {t("Category.Edit")}
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                              >
+                                <Eye size={18} weight="bold" />
+                                {t("Category.Preview")}
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                onClick={() => handleDeleteBill(bill._id)}
+                              >
+                                <TrashSimple size={18} weight="bold" />
 
-                              {t("Category.Delete")}
-                            </button>
-                          </li>
-                          <li>
-                            <button
-                              type="button"
-                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                              // onClick={() => handleDeleteCustomer(bill._id)}
-                            >
-                              <Printer size={18} weight="bold" />
-                              A Print
-                            </button>
-                          </li>
-                        </ul>
+                                {t("Category.Delete")}
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                // onClick={() => handleDeleteCustomer(bill._id)}
+                              >
+                                <Printer size={18} weight="bold" />A Print
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
-                    </div>
-                  </td>
+                    </td>
                     {/* <td className="px-4 py-4">
                       <PrintButton />
                     </td> */}
@@ -262,6 +279,65 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
             )}
           </tbody>
         </table>
+        <nav
+          className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 "
+          dir="rtl"
+        >
+          <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ">
+            {"      "} {t("Products.appear")}
+            {"   "}
+            <span
+              className="font-semibold text-gray-900 dark:text-white m-2"
+              dir="ltr"
+            >
+              {"     "} 1-10 {"      "}
+            </span>{" "}
+            {"  "}
+            {"   "}
+            {t("Products.from")}
+            <span className="font-semibold text-gray-900 dark:text-white m-2">
+              {"   "}1000 {"   "}
+            </span>
+          </span>
+          <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
+            <li>
+              <button
+                className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-gray-700 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={() => {
+                  /* Handle previous page */
+                }}
+              >
+                <span className="sr-only">Previous</span>
+                <CaretLeft size={18} weight="bold" />
+              </button>
+            </li>
+            {/* Pagination links */}
+            {/* Update with appropriate URLs or onClick handlers */}
+            {/* Example: */}
+            <li>
+              <button
+                className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={() => {
+                  /* Handle page click */
+                }}
+              >
+                1
+              </button>
+            </li>
+            {/* End of pagination links */}
+            <li>
+              <button
+                className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={() => {
+                  /* Handle next page */
+                }}
+              >
+                <span className="sr-only">Next</span>
+                <CaretRight size={18} weight="bold" />
+              </button>
+            </li>
+          </ul>
+        </nav>
       </section>
     </div>
   );
