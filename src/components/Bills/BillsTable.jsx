@@ -177,9 +177,9 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                     >
                       {bill._id.slice(-4)}
                     </th>
-                    <td className="px-4 py-4">{bill.customer.name}</td>
+                    <td className="px-4 py-4">{bill.customer?.name}</td>
                     <td className="px-4 py-4">
-                      {bill.customer.phone.map((phone, index) => (
+                      {bill.customer?.phone.map((phone, index) => (
                         <div key={index}>{phone}</div>
                       ))}
                     </td>
