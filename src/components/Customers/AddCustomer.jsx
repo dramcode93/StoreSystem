@@ -67,20 +67,19 @@ export default function AddCustomer({ closeModal, role, modal }) {
         .post(
           "https://store-system-api.gleeze.com/api/customers",
           {
-            name,
-            phone,
+            name:name,
+            phone:phone,
             address: {
               governorate: selectedGovernorate,
               city: selectedCity,
-              street,
+              street:street,
             },
           },
           { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((response) => {
-          window.location.href = "/customers";
+          // window.location.href = "/customers";
         });
-      console.log("Customer added successfully:", response.data);
       closeModal();
     } catch (error) {
       console.error("Error adding customer:", error);

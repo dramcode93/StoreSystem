@@ -47,7 +47,7 @@ const CreateBills = ({ closeModal, modal }) => {
     setCustomerId(selectedCustomerId);
   };
   const addProductToBill = () => {
-    if (selectedProduct && quantity && selectedCustomer) {
+    if (selectedProduct && quantity) {
       // Check if the selected product already exists in the bill items
       const existingItemIndex = billItems.findIndex(
         (item) => item.product._id === selectedProduct._id
@@ -73,7 +73,7 @@ const CreateBills = ({ closeModal, modal }) => {
         };
         setBillItems([...billItems, newItem]);
       }
-// console.log(billItems)
+      // console.log(billItems)
       // Reset form fields
       setQuantity("");
       setDiscount("");
@@ -120,8 +120,8 @@ const CreateBills = ({ closeModal, modal }) => {
     try {
       setLoading(true);
       // if (!customerId || !phoneNumber || !customerAddress) {
-      if (!customerId) {
-        console.error("Customer information is incomplete");
+      if (!customerId && !paidAmount && !discount) {
+        console.error("information is incomplete");
         return;
       }
       const totalPaidAmount = billItems.reduce(
@@ -144,7 +144,7 @@ const CreateBills = ({ closeModal, modal }) => {
         paidAmount: totalPaidAmount,
         discount: totalDiscount,
       };
-// console.log(requestBody)
+      // console.log(requestBody)
       const response = await axios.post(API_BILLS_URL, requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -220,7 +220,7 @@ const CreateBills = ({ closeModal, modal }) => {
                   value: product._id,
                   label: product.name,
                 }))}
-                 name="product"
+                name="product"
                 value={productId}
               />
               <FormNumber
