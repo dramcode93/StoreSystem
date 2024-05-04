@@ -5,6 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useI18nContext } from "../context/i18n-context";
 import { CiSearch } from "react-icons/ci";
+import { handlePrint } from "./handlePrint";
 import {
     CaretLeft,
     CaretRight,
@@ -256,7 +257,7 @@ const UserBillsTable = ({ openEdit, openCreate, openPreview, id }) => {
                                                             <button
                                                                 type="button"
                                                                 className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                                            // onClick={() => handleDeleteCustomer(bill._id)}
+                                                                onClick={() => handlePrint(bills, bill._id)}
                                                             >
                                                                 <Printer size={18} weight="bold" />A Print
                                                             </button>

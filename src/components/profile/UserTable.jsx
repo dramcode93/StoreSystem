@@ -166,16 +166,17 @@ const UserTable = ({ openCreate, openEdit }) => {
                     className="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[5rem] truncate"
                   >{user._id.slice(-4)}</th>
                   <td className="px-4 py-4">{user.username}</td>
+                  <td className="px-4 py-4">{user.name}</td>
 
-                  {decodedToken.role === 'admin' && (
+                  {/*decodedToken.role === 'admin' && (
                     <td className="px-4 py-4">
                       <Link to={`/users/${user._id}/userBills`}  >
                         {user.name}
                       </Link>
                     </td>
-                  )}
+                  )*/}
 
-                  {decodedToken.role === 'manager' && <td>{user.name}</td>}
+                  {/*decodedToken.role === 'manager' && <td>{user.name}</td>*/}
                   <td className="px-4 py-4">{user.phone.map((phone, index) => (<div key={index}>{phone}</div>))}</td>
                   <td className="px-4 py-4">{user.role}</td>
                   <td className="px-4 py-4">{user.active === true ? <FaCircle className='!text-green-600 w-full text-center' /> : <FaCircle className='!text-red-600 w-full text-center' />}</td>
