@@ -16,7 +16,7 @@ import ConfirmationModal from "./ConfirmationModel";
 
 const API_category = "https://store-system-api.gleeze.com/api/categories";
 
-const CategoryTable = ({ openEdit, openCreate, openPreview, closeModal }) => {
+const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   const token = Cookies.get("token");
   const [categories, setCategories] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -104,7 +104,6 @@ const CategoryTable = ({ openEdit, openCreate, openPreview, closeModal }) => {
     setSelectedCategoryId((prevCategoryId) =>
       prevCategoryId === categoryId ? null : categoryId
     );
-    closeModal();
   };
 
   const dropdownRefs = useRef({});
@@ -112,11 +111,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview, closeModal }) => {
     openEdit(category);
   };
 
-  const handleBackgroundClick = (e) => {
-    if (e.target === e.currentTarget) {
-      closeModal();
-    }
-  };
+
   return (
     <section className=" bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
       <ConfirmationModal
@@ -193,7 +188,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview, closeModal }) => {
                     {/* {console.log(category)} */}
                   </th>
                   <td className="px-4 py-4">{category.name}</td>
-                  <td className="px-4 py-3 flex items-center justify-end" onClick={handleBackgroundClick}>
+                  <td className="px-4 py-3 flex items-center justify-end" >
                     <button
                       className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                       type="button"

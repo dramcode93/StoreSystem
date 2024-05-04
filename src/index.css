@@ -30,7 +30,6 @@ code {
   padding: 0;
   box-sizing: border-box;
   text-decoration: none !important;
-  color: var(--font) !important;
   font-weight: bolder;
 }
 
