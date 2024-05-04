@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "../Products/Products.module.css";
-import { Translate } from "translate-easy";
-
+ 
 const ConfirmationModal = ({ show, onConfirm, onCancel }) => {
   if (!show) {
     return null;
@@ -11,14 +10,14 @@ const ConfirmationModal = ({ show, onConfirm, onCancel }) => {
     <div className={styles.confirmationModal}>
       <div className={styles.confirmationModalCon}>
         <p>
-          <Translate>Are you sure you want to delete this category?</Translate>
+           Are you sure you want to delete this category? 
         </p>
         <div className={styles.flex}>
           <button onClick={onConfirm}>
-            <Translate>Yes</Translate>
+            Yes
           </button>
           <button onClick={onCancel}>
-            <Translate>No</Translate>
+             No 
           </button>
         </div>
       </div>

@@ -220,7 +220,7 @@ const CreateBills = ({ closeModal, modal }) => {
                   value: product._id,
                   label: product.name,
                 }))}
-                name="product"
+                 name="product"
                 value={productId}
               />
               <FormNumber

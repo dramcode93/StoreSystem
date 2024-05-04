@@ -18,7 +18,7 @@ const MyComponent = () => {
   const {t, language, changeLanguage } = useI18nContext();
 
   return (
-    <div className="fixed w-100 shadow shadow-gray-200 dark:shadow-gray-900  bg-gray dark:bg-gray-900 p-6" dir={language === "ar" ? "rtl" : "ltr"}>
+    <div className="z-50 fixed w-100 shadow shadow-gray-200 dark:shadow-gray-900  bg-gray dark:bg-gray-900 p-6" dir={language === "ar" ? "rtl" : "ltr"}>
       <div className="flex  items-center justify-content-between" >
         <h3 className="text-gray-900  dark:text-gray-100 font flex justify-content-center gap-2 " ><SketchLogo /> {t(`Home.salesManagement`)}  </h3>
 
