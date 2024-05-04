@@ -1,6 +1,6 @@
 const ar = {
-  Loading:{
-    LOADING:"تحميل ..."
+  Loading: {
+    LOADING: "تحميل ..."
   },
   Home: {
     Home: "الرئيسية",
@@ -147,6 +147,31 @@ const ar = {
     exceptional: "استثنائى",
     uploadPic: "تحميل الصورة",
   },
+  Users: {
+    User: "Users",
+    USERNAME: "اسم المستخدم",
+    Username: "اسم المستخدم",
+    NAME: "الاسم",
+    Name: "الاسم",
+    PHONE: "رقم الهاتف",
+    Phone: "رقم الهاتف",
+    ROLE: "الدور",
+    ACTIVE: "النشاط",
+    ADDRESS: "العنوان",
+    ADD: "إضافة",
+    Password: "كلمة السر",
+    ConfirmPassword: "تأكيد كلمة السر",
+    Email: "البريد الإلكتروني",
+    Street: "الشارع",
+    Governorate: "المحافظة",
+    City: "المدينة",
+    Edit: "تعديل",
+    Preview: "معاينة",
+    changePassword: "تغيير كلمة السر",
+    Disable: "إلغاء التفعيل",
+    Enable: "تفعيل",
+    AddUser: "إضافة مستخدم",
+  }
 };
 
 export default ar;

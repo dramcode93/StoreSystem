@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import {   X } from "@phosphor-icons/react";
- import FormInput from "../../form/FormInput";
+import { X } from "@phosphor-icons/react";
+import FormInput from "../../form/FormInput";
 import { useI18nContext } from "../context/i18n-context";
 import FormSelect from "../../form/FormSelect";
 import FormNumber from "../../form/FormNumber";
@@ -112,7 +112,7 @@ export default function CreateUser({ closeModal, role, modal }) {
                             className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
                         >
                             <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                                Add User
+                                {t('Users.AddUser')}
                             </h3>
                             <button
                                 type="button"
@@ -129,58 +129,58 @@ export default function CreateUser({ closeModal, role, modal }) {
                             dir={language === "ar" ? "rtl" : "ltr"}
                         >
                             <FormInput
-                                label="User Name"
+                                label={t('Users.Username')}
                                 name="username"
                                 value={username}
                                 onChange={(e) => setUserName(e.target.value)}
-                                placeholder="UserName"
+                                placeholder={t('Users.Username')}
                             />
                             <FormInput
-                                label="Name"
+                                label={t('Users.Name')}
                                 name="name"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder="Name"
+                                placeholder={t('Users.Name')}
                             />
                             <FormInput
-                                label="Password"
+                                label={t('Users.Password')}
                                 name="Password"
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="password"
+                                placeholder={t('Users.Password')}
                             />
                             <FormInput
-                                label="Confirm Password"
+                                label={t('Users.ConfirmPassword')}
                                 name="Confirm Password"
                                 type="password"
                                 value={passwordConfirmation}
                                 onChange={(e) => setPasswordConfirmation(e.target.value)}
-                                placeholder="Confirm Password"
+                                placeholder={t('Users.ConfirmPassword')}
                             />
                             <FormInput
-                                label="Email"
+                                label={t('Users.ConfirmPassword')}
                                 name="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Email"
+                                placeholder={t('Users.ConfirmPassword')}
                             />
                             <FormNumber
-                                label="Phone Number"
+                                label={t('Users.Phone')}
                                 name="Phone"
                                 value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
-                                placeholder="Phone Number"
+                                placeholder={t('Users.Phone')}
                             />
                             <FormInput
-                                label="Street"
+                                label={t('Users.Street')}
                                 name="Street"
                                 value={street}
                                 onChange={(e) => setStreet(e.target.value)}
-                                placeholder="Street"
+                                placeholder={t('Users.Street')}
                             />
                             <FormSelect
-                                selectLabel="Governorate"
+                                selectLabel={t('Users.Governorate')}
                                 headOption="Select Governorate"
                                 handleChange={handleGovernorateChange}
                                 options={governorates.map((governorate) => ({
@@ -195,7 +195,7 @@ export default function CreateUser({ closeModal, role, modal }) {
                             />
                             {selectedGovernorate ? (
                                 <FormSelect
-                                    selectLabel="City"
+                                    selectLabel={t('Users.City')}
                                     headOption="Select City"
                                     handleChange={(e) => {
                                         setSelectedCity(e.target.value);
@@ -227,7 +227,7 @@ export default function CreateUser({ closeModal, role, modal }) {
                                     className="bg-yellow-900 w-96 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
 
                                 >
-                                    Add User +
+                                    {t('Users.AddUser')} +
                                 </button>
                                 <div>&nbsp;</div>
                             </div>

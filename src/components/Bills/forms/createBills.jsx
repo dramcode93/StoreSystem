@@ -29,15 +29,13 @@ const CreateBills = ({ closeModal, modal }) => {
   const [selectedCustomer, setSelectedCustomer] = useState("");
   const [billItems, setBillItems] = useState([]);
 
-  console.log(billItems);
-
   const handleProductChange = (e) => {
     const selectedProductId = e.target.value;
     const selectedProduct = products.find(
       (product) => product._id === selectedProductId
     );
     setSelectedProduct(selectedProduct);
-    setProductId(selectedProductId)
+    setProductId(selectedProductId);
   };
 
   const handleCustomerChange = (e) => {
@@ -54,15 +52,15 @@ const CreateBills = ({ closeModal, modal }) => {
       const existingItemIndex = billItems.findIndex(
         (item) => item.product._id === selectedProduct._id
       );
-  
+
       if (existingItemIndex !== -1) {
         // If the product already exists, update its data
         const updatedItems = [...billItems];
         updatedItems[existingItemIndex] = {
           ...updatedItems[existingItemIndex],
-          quantity: Number(updatedItems[existingItemIndex].quantity) + Number(quantity),
-          discount: Number(updatedItems[existingItemIndex].discount) + Number(discount),
-          paidAmount: Number(updatedItems[existingItemIndex].paidAmount) + Number(paidAmount),
+          quantity: Number(quantity),
+          discount: Number(discount),
+          paidAmount: Number(paidAmount),
         };
         setBillItems(updatedItems);
       } else {
@@ -75,22 +73,16 @@ const CreateBills = ({ closeModal, modal }) => {
         };
         setBillItems([...billItems, newItem]);
       }
-  
+// console.log(billItems)
       // Reset form fields
       setQuantity("");
       setDiscount("");
       setPaidAmount("");
       setSelectedProduct("");
       setSelectedCustomer("");
-  
-      console.log("Quantity:", quantity);
-      console.log("Discount:", discount);
-      console.log("Paid Amount:", paidAmount);
-      console.log("Selected Product:", selectedProduct);
-      console.log("Selected Customer:", selectedCustomer);
     }
   };
-  
+
   const handleDeleteItem = (index) => {
     const updatedBillItems = [...billItems];
     updatedBillItems.splice(index, 1);
@@ -110,7 +102,6 @@ const CreateBills = ({ closeModal, modal }) => {
           }),
         ]);
         setProducts(productsResponse.data.data);
-        console.log(productsResponse.data.data);
         setCustomers(customersResponse.data.data);
       }
     } catch (error) {
@@ -153,13 +144,10 @@ const CreateBills = ({ closeModal, modal }) => {
         paidAmount: totalPaidAmount,
         discount: totalDiscount,
       };
-
-      console.log("requestBody", requestBody);
+// console.log(requestBody)
       const response = await axios.post(API_BILLS_URL, requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("response", response);
-
       setCustomerId("");
       // setPhoneNumber("");
       setPaidAmount("");
@@ -258,17 +246,6 @@ const CreateBills = ({ closeModal, modal }) => {
                 name="customer"
                 value={customerId}
               />
-              {/* <FormSelect
-                selectLabel="Category"
-                headOption="Select Category"
-                handleChange={(e) => setCategory(e.target.value)}
-                options={categories.map((category) => ({
-                  value: category._id,
-                  label: category.name,
-                }))}
-                value={category}
-                name="Category"
-              /> */}
               {selectedProduct && (
                 <div className="m-2 w-full flex flex-col">
                   <label className="text-xl fw-bold">
@@ -325,13 +302,14 @@ const CreateBills = ({ closeModal, modal }) => {
                 <tbody>
                   {billItems.map((item, index) => (
                     <tr
-
                       key={index}
                       className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
                     >
                       <td className="px-4 py-4">{item.product?.name}</td>
                       <td className="px-4 py-4">{item.quantity}</td>
-                      <td className="px-4 py-4">{item.product?.sellingPrice}</td>
+                      <td className="px-4 py-4">
+                        {item.product?.sellingPrice}
+                      </td>
                       <td className="px-4 py-4">
                         {item.quantity * item.product?.sellingPrice}
                       </td>
