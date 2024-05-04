@@ -15,6 +15,7 @@ import {
   TrashSimple,
 } from "@phosphor-icons/react";
 import ConfirmationDelete from "./ConfirmationDelete";
+import { handlePrint } from "./handlePrint";
 const API_Bills = "https://store-system-api.gleeze.com/api/Bills";
 
 const BillsTable = ({ openEdit, openCreate, openPreview }) => {
@@ -96,7 +97,13 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
   };
 
   const lang = localStorage.getItem("language");
-
+  const handlePrintBill = useCallback(
+    (billId) => {
+      // Invoke the handlePrint function with the bill model and bill ID
+      handlePrint(bills, billId);
+    },
+    [bills]
+  );
   return (
     <div>
       <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
@@ -256,10 +263,11 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                               </button>
                             </li>
                             <li>
+                              {console.log(bill)}
                               <button
                                 type="button"
                                 className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                // onClick={() => handleDeleteCustomer(bill._id)}
+                                onClick={() => handlePrintBill(bill._id)}
                               >
                                 <Printer size={18} weight="bold" />A Print
                               </button>
