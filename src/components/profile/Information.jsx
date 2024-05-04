@@ -175,7 +175,7 @@ const Information = ({ openAdd }) => {
 
   return (
     <div className="bg-gray-700 bg-opacity-25 mx-10 rounded-md py-4 px-4  text-gray-200 absolute top-40 w-3/4 " >
-      <h3 className='font-bold text-white'><Translate>Information Page</Translate></h3>
+      <h3 className='font-bold text-white'>Information Page</h3>
       {loading ? <div className=" fs-4 text-center mb-5 pb-3"><Loading /> </div> : (
         <ul>
           <ProfileField
