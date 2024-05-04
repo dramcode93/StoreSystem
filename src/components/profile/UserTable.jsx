@@ -227,7 +227,7 @@ const UserTable = ({ openCreate, openEdit }) => {
                               <button
                                 type="button"
                                 className="flex w-56 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                              //  onClick={() => openPreview(product)}
+                                onClick={() => navigate(`/${user._id}/userBill`)}
                               >
                                 <Eye size={18} weight="bold" />
                                 {t("Users.Preview")}
@@ -258,7 +258,7 @@ const UserTable = ({ openCreate, openEdit }) => {
                                   </>
                                 ) : (
                                   <>
-                                    <VscActivateBreakpoints size={18} weight="bold" className='text-black' />
+                                    <VscActivateBreakpoints size={18} weight="bold" className='text-green-600' />
                                     {t("Users.Enable")}
                                   </>
                                 )}
