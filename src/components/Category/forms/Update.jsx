@@ -33,10 +33,10 @@ function UpdateCategory({ closeModal, role, modal, categoryData }) {
         }
       )
       .then((response) => {
-        window.location.href = "/products";
+        window.location.href = "/category";
       })
       .catch((error) => {
-        console.error("Error updating products:", error);
+        console.error("Error updating category:", error);
       });
   };
   const handleBackgroundClick = (e) => {
