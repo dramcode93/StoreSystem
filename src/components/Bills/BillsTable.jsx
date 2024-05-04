@@ -36,7 +36,6 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setBills(response.data.data);
-        console.log(response.data.data);
         setPagination(response.data.paginationResult);
       }
     } catch (error) {
@@ -167,7 +166,6 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                     <td colSpan="7">No Bills available</td>
                   </tr>
                 )}
-                {console.log("bills", bills)}
                 {bills.map((bill) => (
                   <tr
                     key={bill._id}

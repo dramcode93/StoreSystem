@@ -16,7 +16,6 @@ const API_URL = "https://store-system-api.gleeze.com/api/products/list";
 const API_CUSTOMERS_URL = "https://store-system-api.gleeze.com/api/customers";
 
 const UpdateBills = ({ closeModal, role, modal, billData }) => {
-  console.log("billData", billData);
   const token = Cookies.get("token");
   // const { id } = useParams();
 
@@ -30,6 +29,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
 
   const { t, language } = useI18nContext();
   const [customerId, setCustomerId] = useState("");
+  const [productId, setProductId] = useState("");
   const [newPaidAmount, setNewPaidAmount] = useState("");
   const [newQuantity, setNewQuantity] = useState("");
   const [newDiscount, setNewDiscount] = useState("");
@@ -57,7 +57,6 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
         const customersResponse = await axios.get(API_CUSTOMERS_URL, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("customersResponse.data.data", customersResponse.data.data);
         setCustomers(customersResponse.data.data);
         // setCustomerName(billResponse.data?.data?.customerName);
         // setPhoneNumber(billResponse.data?.data?.phone);
@@ -81,11 +80,10 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
             discount: billData.discount,
             paidAmount: billData.paidAmount,
           }));
-
           setBillItems(formattedBillItems);
           setNewDiscount(billData.discount);
           setNewPaidAmount(billData.paidAmount);
-          console.log("formattedBillItems", formattedBillItems);
+          // setNewQuantity(billData.product?.productQuantity)
         }
       } else {
         console.error("No token found.");
@@ -201,28 +199,54 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
     updatedBillItems.splice(index, 1);
     setBillItems(updatedBillItems);
   };
+
   const addProductToBill = () => {
     if (selectedProduct && newQuantity && selectedCustomer) {
-      const newItem = {
-        product: {
-          id: selectedProduct._id,
-          name: selectedProduct.name,
-          sellingPrice: selectedProduct.sellingPrice,
-          totalPrice: selectedProduct.totalPrice, // Handle undefined totalPrice
-          productQuantity: newQuantity,
-          // Add any other properties you need from the product
-        },
-        discount: newDiscount,
-        paidAmount: newPaidAmount,
-      };
-      setBillItems([...billItems, newItem]);
+      // Check if the selected product already exists in the bill items
+      const existingItemIndex = billItems.findIndex(
+        (item) => item.product.id === selectedProduct._id
+      );
+
+      if (existingItemIndex !== -1) {
+        // If the product already exists, update its data
+        const updatedItems = [...billItems];
+        updatedItems[existingItemIndex] = {
+          ...updatedItems[existingItemIndex],
+          product: {
+            ...updatedItems[existingItemIndex].product,
+            productQuantity: newQuantity,
+            // Update any other properties you need from the product
+          },
+          discount: newDiscount,
+          paidAmount: newPaidAmount,
+        };
+        setBillItems(updatedItems);
+      } else {
+        // If the product doesn't exist, add it as a new item
+        const newItem = {
+          product: {
+            id: selectedProduct._id,
+            name: selectedProduct.name,
+            sellingPrice: selectedProduct.sellingPrice,
+            totalPrice: selectedProduct.totalPrice, // Handle undefined totalPrice
+            productQuantity: newQuantity,
+            // Add any other properties you need from the product
+          },
+          discount: newDiscount,
+          paidAmount: newPaidAmount,
+        };
+        setBillItems([...billItems, newItem]);
+      }
+
+      // Reset form fields
       setNewQuantity("");
-      // setNewDiscount("");
-      // setNewPaidAmount("");
-      setSelectedProduct(null);
-      // setSelectedCustomer(null);
+      setNewDiscount("");
+      setNewPaidAmount("");
+      setSelectedProduct("");
+      setSelectedCustomer("");
     }
   };
+
   const handleCustomerChange = (e) => {
     const selectedCustomerId = e.target.value;
     const selectedCustomer = customers.find(
@@ -237,6 +261,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
       (product) => product._id === selectedProductId
     );
     setSelectedProduct(selectedProduct);
+    setProductId(selectedProductId);
   };
 
   const updateBill = async (e) => {
@@ -265,8 +290,6 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
         paidAmount: totalPaidAmount,
         // discount: totalDiscount,
       };
-
-      console.log("requestBody", requestBody);
       const response = await axios.put(
         `https://store-system-api.gleeze.com/api/bills/${billData?._id}`,
         requestBody,
@@ -274,8 +297,6 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("response", response);
-
       setCustomerId("");
       // setPhoneNumber("");
       setNewPaidAmount("");
@@ -283,7 +304,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
       // setSelectedProducts([]);
       window.location.href = "/bills"; // Redirect to bills page after successful submission
     } catch (error) {
-      console.error("Error creating bill:", error);
+      console.error("Error updating bill:", error);
       // Handle the error, display error message or take appropriate action
     } finally {
       setLoading(false);
@@ -454,12 +475,13 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
             <FormSelect
               selectLabel="Select Product"
               headOption="Select a product"
-              handleChange={handleProductChange}
+              handleChange={(e) => handleProductChange(e)}
               options={products.map((product) => ({
                 value: product._id,
                 label: product.name,
               }))}
               name="product"
+              value={productId}
             />
             <FormNumber
               label="Quantity"
@@ -480,13 +502,13 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
             <FormSelect
               selectLabel="Select Customer"
               headOption="Select a Customer"
-              handleChange={handleCustomerChange}
+              handleChange={(e) => handleCustomerChange(e)}
               options={customers.map((customer) => ({
                 value: customer._id,
                 label: customer.name,
               }))}
               name="customer"
-              // value={selectedCustomer}
+              value={customerId}
             />
             {selectedProduct && (
               <div className="m-2 w-full flex flex-col">
@@ -506,7 +528,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
             )}
             <div className="col-span-2 flex justify-between">
               <button
-                type="button"
+                type="reset"
                 onClick={addProductToBill}
                 className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl m-2"
               >
