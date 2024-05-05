@@ -1,6 +1,7 @@
 const en = {
-  Loading: {
-    LOADING: "LOADING ..."
+  Global: {
+    LOADING: "LOADING ...",
+    print: "Print",
   },
   Home: {
     Home: "Home",
