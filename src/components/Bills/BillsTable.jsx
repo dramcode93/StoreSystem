@@ -265,7 +265,8 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                                 className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
                                 onClick={() => handlePrint(bills, bill._id,language)}
                               >
-                                <Printer size={18} weight="bold" />A Print
+                                <Printer size={18} weight="bold" />    
+                                  {t('Global.print')}
                               </button>
                             </li>
                           </ul>

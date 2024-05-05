@@ -1,10 +1,10 @@
 import React from 'react';
-import styles from './styles.module.css';
-import { Translate } from 'translate-easy';
+import { useI18nContext } from '../context/i18n-context';
 const PrintButton = ({ onPrint }) => {
+  const t = useI18nContext();
   return (
     <button className='w-55 rounded-md bg-orange-600 hover:bg-orange-400 ' onClick={onPrint}>
-      <Translate>A Print</Translate>
+      {t('Global.print')}
     </button>
   );
 };
