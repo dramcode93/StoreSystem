@@ -22,6 +22,7 @@ import UserBills from "./components/Bills/forms/UserBills.jsx";
 import Bills from "./components/Bills/Bills.jsx";
 import { UserInfo } from "./components/profile/UserInfo.jsx";
 import User from "./components/profile/Users.jsx";
+import UserBill from "./components/Bills/UserBill.jsx";
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
@@ -97,6 +98,7 @@ const App = () => {
                 <Route path="/Profile/Users" element={<UserTable />} />
                 <Route path="/users" element={<User />} />
                 <Route path="/users/:id/userBills" element={<UserBills />} />
+                <Route path="/:id/userBill" element={<UserBill />} />
               </>
             )}
           </Routes>

@@ -18,10 +18,10 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({
-    currentPge: 1,
+    currentPage: 1, // Corrected key name
     totalPages: 1,
-    totalRecords: 0,
-  });
+   });
+
   const fetchData = useCallback(async () => {
     try {
       if (token) {
@@ -30,11 +30,11 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setCategories(categoriesResponse.data.data);
+        console.log('object', categoriesResponse.data)
         setPagination({
           currentPge: pagination.currentPge,
           totalPages: categoriesResponse.data.paginationResult.numberOfPages,
-          totalRecords: categoriesResponse.data.paginationResult.totalRecords,
-        });
+         });
       } else {
         console.error("No token found.");
       }
@@ -255,16 +255,13 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
       </table>
       <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8" dir="rtl">
         <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-          {t("Products.appear")}{" "}
+          {t("Products.appear")}
           <span className="font-semibold text-gray-900 dark:text-white m-2" dir="ltr">
-            {pagination.currentPge}-{Math.min(
-              pagination.currentPge * 5,
-              pagination.totalRecords
-            )}{" "}
+           1-10{" "}
           </span>
           {t("Products.from")}
           <span className="font-semibold text-gray-900 dark:text-white m-2">
-            {pagination.totalRecords}
+20
           </span>
         </span>
         <ul className="inline-flex items-stretch -space-x-px" dir="ltr">

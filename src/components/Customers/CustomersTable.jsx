@@ -101,6 +101,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
     setModalIsOpen(false);
   };
   const lang = localStorage.getItem("language");
+  
   const toggleEditDropdown = (customerId) => {
     setSelectedCustomerId((prevCustomerId) =>
       prevCustomerId === customerId ? null : customerId
@@ -193,19 +194,27 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
                   </th>
                   <td className="px-4 py-4">{customer.name}</td>
                   <td className="px-4 py-4">
-                    {`${customer.address[0].street},
-                  ${
-                    language === "ar"
-                      ? customer.address[0].city.city_name_ar
-                      : customer.address[0].city.city_name_en
-                  },
-                  ${
-                    language === "ar"
-                      ? customer.address[0].governorate.governorate_name_ar
-                      : customer.address[0].governorate.governorate_name_en
-                  }`}
+                    {customer.address.map((address) => (
+                      <div key={address.id}>
+                        {`${address.street},
+                        ${
+                          language === "ar"
+                            ? address.city.city_name_ar
+                            : address.city.city_name_en
+                        },
+                        ${
+                          language === "ar"
+                            ? address.governorate.governorate_name_ar
+                            : address.governorate.governorate_name_en
+                        }`}
+                      </div>
+                    ))}
                   </td>
-                  <td className="px-4 py-4">{customer.phone[0]}</td>
+                  <td className="px-4 py-4">
+                    {customer.phone.map((phone, index) => (
+                      <div key={index}>{phone}</div>
+                    ))}
+                  </td>
                   <td className="px-4 py-3 flex items-center justify-end">
                     <button
                       className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
