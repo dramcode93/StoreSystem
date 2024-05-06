@@ -11,6 +11,7 @@ function UpdateCategory({ closeModal, role, modal, categoryData }) {
     categoryData?.name || ""
   );
    const {   language } = useI18nContext();
+   console.log("categoryData",categoryData);
 
  
   useEffect(() => {
