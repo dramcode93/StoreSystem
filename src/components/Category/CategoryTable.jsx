@@ -37,7 +37,6 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setCategories(categoriesResponse.data.data);
-        console.log("object", categoriesResponse.data);
         setPagination({
           currentPge: pagination.currentPge,
           totalPages: categoriesResponse.data.paginationResult.numberOfPages,
@@ -252,7 +251,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                             <button
                               type="button"
                               className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
-                              onClick={()=>openPreview(category)}
+                              onClick={()=>handlePreviewCategory(category)}
                             >
                               <Eye size={18} weight="bold" />
                               {t("Category.Preview")}

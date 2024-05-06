@@ -1,6 +1,7 @@
 const ar = {
-  Loading: {
-    LOADING: "تحميل ..."
+  Global: {
+    LOADING: "تحميل ...",
+    print: "طباعة",
   },
   Home: {
     Home: "الرئيسية",

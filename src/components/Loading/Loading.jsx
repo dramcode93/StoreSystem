@@ -9,7 +9,7 @@ const Loading = () => {
     <div className='text-center'>
       <div className="loading">
       </div>
-      {t("Loading.LOADING")}
+      {t("Global.LOADING")}
     </div>
   );
 };
