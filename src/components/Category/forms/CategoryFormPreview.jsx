@@ -14,13 +14,16 @@ export default function CategoryFormPreview({ details, t, headers, loading }) {
         <Loading />
       ) : (
         <>
-          <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
-            {headers?.name} :
-          </dt>
-          <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-            {details?.name}
-          </dd>
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.name} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {details?.name}
+            </dd>
+          </div>
 
+          
           <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor">
             {headers?.products} :
           </dt>

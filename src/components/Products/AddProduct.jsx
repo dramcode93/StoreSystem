@@ -28,6 +28,7 @@ export default function AddProduct({ closeModal, role, modal }) {
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [imageURLs, setImageURLs] = useState([]);
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
@@ -53,14 +54,19 @@ export default function AddProduct({ closeModal, role, modal }) {
       );
 
       console.log("Product added successfully:", response.data);
+
+      // Check if response.data.images is defined before mapping over it
+      if (response.data.images) {
+        // Extract image URLs from response and store them
+        const uploadedImageURLs = response.data.images.map(image => image.url);
+        setImageURLs(uploadedImageURLs);
+      }
+
       closeModal();
     } catch (error) {
       console.error("Error adding Product:", error);
     }
   };
-
-
-
 
   const fetchCategories = async () => {
     try {
@@ -81,15 +87,12 @@ export default function AddProduct({ closeModal, role, modal }) {
   const handleImageChange = (e) => {
     console.log("Event:", e);
     if (e.target) {
-       const file = e.target.files[0];
-       if (file) {
-         setImages(prevImages => [...prevImages, file]);
-       }
+      const file = e.target.files[0];
+      if (file) {
+        setImages(prevImages => [...prevImages, file]);
+      }
     }
   };
-
-
-
 
   return (
     <>
@@ -188,11 +191,12 @@ export default function AddProduct({ closeModal, role, modal }) {
                 file={images.file}
 
               />
+              {/* Display uploaded images */}
               <div className="col-span-2 grid grid-cols-3 gap-4">
-                {images.map((image, index) => (
+                {imageURLs.map((imageURL, index) => (
                   <img
                     key={index}
-                    src={URL.createObjectURL(image)}
+                    src={imageURL}
                     alt={`Image ${index}`}
                     className="w-full h-auto rounded-lg"
                   />
