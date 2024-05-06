@@ -6,9 +6,11 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import FormText from "../../form/FormText";
 import FormSelect from "../../form/FormSelect";
+import FormTextArea from "../../form/FormTextArea";
+import FormPic from "../../form/FormPic";
 
 export default function AddProduct({ closeModal, role, modal }) {
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -23,7 +25,8 @@ export default function AddProduct({ closeModal, role, modal }) {
   const [quantity, setQuantity] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [sellingPrice, setSellingPrice] = useState("");
-  const [description, setDescription] = useState("");  
+  const [description, setDescription] = useState("");
+  const [images, setImages] = useState(null);
   const [categories, setCategories] = useState([]);
 
   const handleAddProduct = async (e) => {
@@ -34,11 +37,12 @@ export default function AddProduct({ closeModal, role, modal }) {
           "https://store-system-api.gleeze.com/api/products",
           {
             name,
-            description, 
+            description,
             productPrice,
             sellingPrice,
             quantity,
             category,
+            images
           },
           { headers: { Authorization: `Bearer ${token}` } }
         )
@@ -47,6 +51,15 @@ export default function AddProduct({ closeModal, role, modal }) {
         });
       console.log("Product added successfully:", response.data);
 
+
+          // Print the values to the console
+    console.log("Name:", name);
+    console.log("Description:", description);
+    console.log("Product Price:", productPrice);
+    console.log("Selling Price:", sellingPrice);
+    console.log("Quantity:", quantity);
+    console.log("Category:", category);
+    console.log("Image Files:", images);
       closeModal();
     } catch (error) {
       console.error("Error adding Product:", error);
@@ -71,6 +84,11 @@ export default function AddProduct({ closeModal, role, modal }) {
     fetchCategories();
   }, []);
 
+  const handleImageChange = (files) => {
+    console.log("Selected files:", files); // Check if files are correctly received
+    setImages(files);
+  };
+  
   return (
     <>
       <div
@@ -116,14 +134,6 @@ export default function AddProduct({ closeModal, role, modal }) {
                 }}
                 placeholder="Name"
               />
-              <FormText
-                label="Description"  
-                name="description"
-                onChange={(e) => {
-                  setDescription(e.target.value);
-                }}
-                placeholder="Description"
-              />
               <FormSelect
                 selectLabel="Category"
                 headOption="Select Category"
@@ -151,6 +161,14 @@ export default function AddProduct({ closeModal, role, modal }) {
                 }}
                 placeholder="Product Price"
               />
+              <FormTextArea
+                label="Description"
+                name="description"
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+                placeholder="Description..."
+              />
               <FormNumber
                 label="Selling Price"
                 name="sellingPrice"
@@ -159,11 +177,19 @@ export default function AddProduct({ closeModal, role, modal }) {
                 }}
                 placeholder="Selling Price"
               />
+              <FormPic
+                label="Upload Picture"
+                name="Upload Picture"
+                onChange={handleImageChange}
+                placeholder="Product Picture"
+
+              />
+              {images? console.log("imageFiles",images):""}
               <div className="col-span-2 flex justify-center">
                 <button
                   disabled={
                     !name ||
-                    !description ||  
+                    !description ||
                     !category ||
                     !quantity ||
                     !productPrice ||

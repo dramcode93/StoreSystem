@@ -60,7 +60,6 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
     setShowConfirmation(true);
   };
 
-
   const confirmDelete = useCallback(() => {
     axios
       .delete(`${API_URL}/${selectedProductsId}`, {
@@ -112,6 +111,10 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
   const handleEditProduct = (product) => {
     openEdit(product);
   };
+
+  const handlePreviewCategory = (product) => {
+    openPreview(product);
+  };
   return (
     <div>
       <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
@@ -134,8 +137,9 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
               placeholder={t("Products.Search")}
             />{" "}
             <CiSearch
-              className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
-                } `}
+              className={`absolute top-2 text-white text-xl ${
+                language === "ar" ? "left-3" : "right-3"
+              } `}
             />{" "}
           </div>
           <div>
@@ -227,11 +231,13 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
                         dir={language === "ar" ? "rtl" : "ltr"}
                       >
                         <div
-                          className={`${selectedProductsId === product._id
-                              ? `absolute -top-3 ${lang === "en" ? "right-full" : "left-full"
-                              } overflow-auto`
+                          className={`${
+                            selectedProductsId === product._id
+                              ? `absolute -top-3 ${
+                                  lang === "en" ? "right-full" : "left-full"
+                                } overflow-auto`
                               : "hidden"
-                            } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                          } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                         >
                           <ul className="text-sm bg-transparent pl-0 mb-0">
                             <li className="">
@@ -248,6 +254,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
                               <button
                                 type="button"
                                 className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                onClick={() => handlePreviewCategory(product)}
                               >
                                 <Eye size={18} weight="bold" />
                                 {t("Category.Preview")}
