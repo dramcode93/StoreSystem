@@ -8,45 +8,51 @@ import ProductFormPreview from "./ProductFormPreview";
 
 export default function PreviewProduct({ closeModal, assistantData }) {
   const { t } = useI18nContext();
-  const [specificProducts, setSpecificProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+//   const [specificProducts, setSpecificProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   console.log("assistantData",assistantData)
-  const detailsData = {
-    code: assistantData._id.slice(-4),
-    name: assistantData.name || "لم يتم تحديده",
-    products: specificProducts,
-  };
+
+//   const detailsData = {
+//     code: assistantData._id.slice(-4),
+//     name: assistantData.name || "لم يتم تحديده",
+//     products: specificProducts,
+//   };
   const headers = {
-    code: "Category Code",
-    name: "Category Name",
-    products: "Products",
+    code: "Product Code",
+    name: "Product Name",
+    description:"Description",
+    category: "Category",
+    quantity:"Quantity",
+    productPrice:"Product Price",
+    sellingPrice:"Selling Price",
+    sold:"Sold",
+    images:"Images"
   };
   const token = Cookies.get("token");
-  console.log(assistantData._id);
-  const fetchData = useCallback(async () => {
-    try {
-      if (token) {
-        const product = await axios.get(
-          `https://store-system-api.gleeze.com/api/categories/${assistantData._id}/products?sort=name`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+//   const fetchData = useCallback(async () => {
+//     try {
+//       if (token) {
+//         const product = await axios.get(
+//           `https://store-system-api.gleeze.com/api/categories/${assistantData._id}/products?sort=name`,
+//           { headers: { Authorization: `Bearer ${token}` } }
+//         );
 
-        setSpecificProducts(product.data.data);
-        console.log("specific", product.data.data);
-      } else {
-        console.error("No token found.");
-      }
-    } catch (error) {
-      console.error("Error specific data:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [token, assistantData._id]);
+//         // setSpecificProducts(product.data.data);
+//         console.log("specific", product.data.data);
+//       } else {
+//         console.error("No token found.");
+//       }
+//     } catch (error) {
+//       console.error("Error specific data:", error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   }, [token, assistantData._id]);
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+//   useEffect(() => {
+//     fetchData();
+//   }, [fetchData]);
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
@@ -93,7 +99,7 @@ export default function PreviewProduct({ closeModal, assistantData }) {
           >
             <h3 className="font-semibold ">{t("previewForm.title")}</h3>
           </div>
-          <ProductFormPreview t={t} details={detailsData} headers={headers} loading={loading} />
+          <ProductFormPreview t={t} details={assistantData} headers={headers} loading={loading} />
 
           <div className="flex justify-between items-center mt-14">
             <div className="flex items-center">

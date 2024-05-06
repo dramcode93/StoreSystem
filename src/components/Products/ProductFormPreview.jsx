@@ -13,32 +13,99 @@ export default function ProductFormPreview({ details, t, headers, loading }) {
         <Loading />
       ) : (
         <>
-          <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
-            {headers?.name} :
-          </dt>
-          <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-            {details?.name}
-          </dd>
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor">
+              {headers?.code} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {details?._id.slice(-4)}
+            </dd>
+          </div>
 
-          <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor">
-            {headers?.products} :
-          </dt>
-          <div className="grid grid-cols-2 gap-2 text-gray-900 dark:text-gray-300 m-0">
-            {headers && details?.products && details.products.length > 0 ? (
-              details.products.map((product, index) => (
-                <div className="d-flex gap-1" key={product.id}>
-                  <dd className="!text-base font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-                    {product.name}
-                  </dd>
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.name} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {details?.name}
+            </dd>
+          </div>
+
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.description} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {details?.description}
+            </dd>
+          </div>
+
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.category} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {details?.category.name}
+            </dd>
+          </div>
+
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.quantity} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {details?.quantity}
+            </dd>
+          </div>
+
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.productPrice} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {details?.productPrice}
+            </dd>
+          </div>
+
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.sellingPrice} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {details?.sellingPrice}
+            </dd>
+          </div>
+
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.sold} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {details?.sold}
+            </dd>
+          </div>
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.images}:
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {loading ? (
+                <Loading />
+              ) : details?.images == null ? (
+                <div className="grid grid-cols-2 gap-1 m-0">
+                  {details?.images.map((imageUrl, index) => (
+                    <img
+                      key={index}
+                      src={imageUrl}
+                      alt=""
+                      className="max-w-full h-auto"
+                    />
+                  ))}
                 </div>
-              ))
-            ) : (
-              <div className="d-flex gap-1">
-                <dd className="!text-base font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-                  No products yet
-                </dd>
-              </div>
-            )}
+              ) : (
+                "No Images Yet"
+              )}
+            </dd>
           </div>
         </>
       )}

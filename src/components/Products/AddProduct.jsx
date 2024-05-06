@@ -184,7 +184,6 @@ export default function AddProduct({ closeModal, role, modal }) {
                 placeholder="Product Picture"
 
               />
-              {images? console.log("imageFiles",images):""}
               <div className="col-span-2 flex justify-center">
                 <button
                   disabled={
