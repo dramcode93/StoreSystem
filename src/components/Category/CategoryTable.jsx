@@ -2,7 +2,14 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { CiSearch } from "react-icons/ci";
-import { CaretLeft, CaretRight, DotsThree, Eye, NotePencil, TrashSimple } from "@phosphor-icons/react";
+import {
+  CaretLeft,
+  CaretRight,
+  DotsThree,
+  Eye,
+  NotePencil,
+  TrashSimple,
+} from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
 import Loading from "../Loading/Loading";
 import ConfirmationModal from "./ConfirmationModel";
@@ -20,7 +27,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   const [pagination, setPagination] = useState({
     currentPage: 1, // Corrected key name
     totalPages: 1,
-   });
+  });
 
   const fetchData = useCallback(async () => {
     try {
@@ -30,11 +37,11 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setCategories(categoriesResponse.data.data);
-        console.log('object', categoriesResponse.data)
+        console.log("object", categoriesResponse.data);
         setPagination({
           currentPge: pagination.currentPge,
           totalPages: categoriesResponse.data.paginationResult.numberOfPages,
-         });
+        });
       } else {
         console.error("No token found.");
       }
@@ -44,7 +51,6 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
       setLoading(false);
     }
   }, [token, searchTerm, pagination.currentPge]);
-
 
   useEffect(() => {
     fetchData();
@@ -87,8 +93,12 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
 
   const { t, language } = useI18nContext();
 
-  const handleEditProduct = (category) => {
+  const handleEditCategory = (category) => {
     openEdit(category);
+  };
+
+  const handlePreviewCategory = (category) => {
+    openPreview(category);
   };
 
   const toggleEditDropdown = (categoryId) => {
@@ -101,10 +111,22 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
 
   const MAX_DISPLAY_PAGES = 5;
 
-  const startPage = Math.max(1, Math.min(pagination.currentPge - Math.floor(MAX_DISPLAY_PAGES / 2), pagination.totalPages - MAX_DISPLAY_PAGES + 1));
-  const endPage = Math.min(startPage + MAX_DISPLAY_PAGES - 1, pagination.totalPages);
+  const startPage = Math.max(
+    1,
+    Math.min(
+      pagination.currentPge - Math.floor(MAX_DISPLAY_PAGES / 2),
+      pagination.totalPages - MAX_DISPLAY_PAGES + 1
+    )
+  );
+  const endPage = Math.min(
+    startPage + MAX_DISPLAY_PAGES - 1,
+    pagination.totalPages
+  );
 
-  const pageButtons = Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
+  const pageButtons = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, index) => startPage + index
+  );
   const handlePreviousPage = () => {
     if (pagination.currentPge > 1) {
       handlePageChange(pagination.currentPge - 1);
@@ -136,8 +158,9 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
             placeholder={t("Products.Search")}
           />
           <CiSearch
-            className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
-              } `}
+            className={`absolute top-2 text-white text-xl ${
+              language === "ar" ? "left-3" : "right-3"
+            } `}
           />
         </div>
         <div>
@@ -208,17 +231,18 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                     >
                       <div
                         id={`category-dropdown-${category._id}`}
-                        className={`${selectedCategoryId === category._id
-                          ? "absolute -top-3 me-5 -right-10 overflow-auto"
-                          : "hidden"
-                          } z-10 w-44 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                        className={`${
+                          selectedCategoryId === category._id
+                            ? "absolute -top-3 me-5 -right-10 overflow-auto"
+                            : "hidden"
+                        } z-10 w-44 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
                         <ul className="text-sm bg-transparent pl-0 mb-0">
                           <li className="">
                             <button
                               type="button"
                               className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
-                              onClick={() => handleEditProduct(category)}
+                              onClick={() => handleEditCategory(category)}
                             >
                               <NotePencil size={18} weight="bold" />
                               {t("Category.Edit")}
@@ -228,6 +252,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                             <button
                               type="button"
                               className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
+                              onClick={()=>openPreview(category)}
                             >
                               <Eye size={18} weight="bold" />
                               {t("Category.Preview")}
@@ -253,15 +278,21 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           )}
         </tbody>
       </table>
-      <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8" dir="rtl">
+      <nav
+        className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8"
+        dir="rtl"
+      >
         <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
           {t("Products.appear")}
-          <span className="font-semibold text-gray-900 dark:text-white m-2" dir="ltr">
-           1-10{" "}
+          <span
+            className="font-semibold text-gray-900 dark:text-white m-2"
+            dir="ltr"
+          >
+            1-10{" "}
           </span>
           {t("Products.from")}
           <span className="font-semibold text-gray-900 dark:text-white m-2">
-20
+            20
           </span>
         </span>
         <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
@@ -277,10 +308,11 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           {pageButtons.map((page) => (
             <li key={page}>
               <button
-                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
-                  ? "bg-gray-200 text-gray-800"
-                  : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  }`}
+                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
+                  pagination.currentPge === page
+                    ? "bg-gray-200 text-gray-800"
+                    : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                }`}
                 onClick={() => handlePageChange(page)}
               >
                 {page}

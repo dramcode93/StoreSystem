@@ -79,7 +79,15 @@ const en = {
     place: "place",
     unDefind: "undefind",
     edit: "Edit",
-    delete: "delete",
+    delete: "Delete",
+
+    userName:"user Name",
+    email:"email",
+    gender:"gender",
+    age:"age",
+    role:"role",
+    phone:"phone",
+    nationalId:"nationalId"
   },
   ExpensesForm: {
     createExpenses: "Create Expenses",

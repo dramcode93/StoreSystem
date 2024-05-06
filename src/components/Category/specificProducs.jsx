@@ -6,7 +6,6 @@ import LogOut from "../LogOut/LogOut";
 import { Link, useParams } from "react-router-dom";
 import Loading from "../Loading/Loading";
 import ConfirmationModal from "../Category/ConfirmationModel";
-import MainComponent from "../Aside/MainComponent";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 
@@ -114,8 +113,8 @@ const CategoryProducts = () => {
 
   return (
     <div>
-      <LogOut />
-      <MainComponent />
+      {/* <LogOut /> */}
+      {/* <MainComponent /> */}
       <div className={styles.container2}>
         <form className={styles.AddSection}>
           {decodedToken.role === "admin" && (
