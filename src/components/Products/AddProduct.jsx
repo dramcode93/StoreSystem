@@ -10,7 +10,7 @@ import FormTextArea from "../../form/FormTextArea";
 import FormPic from "../../form/FormPic";
 
 export default function AddProduct({ closeModal, role, modal }) {
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -26,40 +26,42 @@ export default function AddProduct({ closeModal, role, modal }) {
   const [productPrice, setProductPrice] = useState("");
   const [sellingPrice, setSellingPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [images, setImages] = useState(null);
+  const [images, setImages] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [imageURLs, setImageURLs] = useState([]);
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
+
     try {
-      const response = await axios
-        .post(
-          "https://store-system-api.gleeze.com/api/products",
-          {
-            name,
-            description,
-            productPrice,
-            sellingPrice,
-            quantity,
-            category,
-            images
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
-        )
-        .then((response) => {
-          window.location.href = "/products";
-        });
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("productPrice", productPrice);
+      formData.append("sellingPrice", sellingPrice);
+      formData.append("quantity", quantity);
+      formData.append("category", category);
+
+      // Append each image separately
+      images.forEach((image, index) => {
+        formData.append(`images[${index}]`, image);
+      });
+
+      const response = await axios.post(
+        "https://store-system-api.gleeze.com/api/products",
+        formData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
       console.log("Product added successfully:", response.data);
 
+      // Check if response.data.images is defined before mapping over it
+      if (response.data.images) {
+        // Extract image URLs from response and store them
+        const uploadedImageURLs = response.data.images.map(image => image.url);
+        setImageURLs(uploadedImageURLs);
+      }
 
-          // Print the values to the console
-    console.log("Name:", name);
-    console.log("Description:", description);
-    console.log("Product Price:", productPrice);
-    console.log("Selling Price:", sellingPrice);
-    console.log("Quantity:", quantity);
-    console.log("Category:", category);
-    console.log("Image Files:", images);
       closeModal();
     } catch (error) {
       console.error("Error adding Product:", error);
@@ -70,9 +72,7 @@ export default function AddProduct({ closeModal, role, modal }) {
     try {
       const response = await axios.get(
         "https://store-system-api.gleeze.com/api/categories",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setCategories(response.data.data);
     } catch (error) {
@@ -84,18 +84,24 @@ export default function AddProduct({ closeModal, role, modal }) {
     fetchCategories();
   }, []);
 
-  const handleImageChange = (files) => {
-    console.log("Selected files:", files); // Check if files are correctly received
-    setImages(files);
+  const handleImageChange = (e) => {
+    console.log("Event:", e);
+    if (e.target) {
+      const file = e.target.files[0];
+      if (file) {
+        setImages(prevImages => [...prevImages, file]);
+      }
+    }
   };
-  
+
   return (
     <>
       <div
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
         absolute top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${modal ? "left-1/2" : "-left-[100%]"}
+        z-50 justify-center items-center ${modal ? "left-1/2" : "-left-[100%]"
+          }
          bg-opacity-40 w-full h-full `}
       >
         <div
@@ -182,8 +188,20 @@ export default function AddProduct({ closeModal, role, modal }) {
                 name="Upload Picture"
                 onChange={handleImageChange}
                 placeholder="Product Picture"
+                file={images.file}
 
               />
+              {/* Display uploaded images */}
+              <div className="col-span-2 grid grid-cols-3 gap-4">
+                {imageURLs.map((imageURL, index) => (
+                  <img
+                    key={index}
+                    src={imageURL}
+                    alt={`Image ${index}`}
+                    className="w-full h-auto rounded-lg"
+                  />
+                ))}
+              </div>
               <div className="col-span-2 flex justify-center">
                 <button
                   disabled={

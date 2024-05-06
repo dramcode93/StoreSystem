@@ -6,7 +6,7 @@ import axios from "axios";
 import { useI18nContext } from "../context/i18n-context";
 import ProductFormPreview from "./ProductFormPreview";
 
-export default function PreviewProduct({ closeModal, assistantData }) {
+export default function PreviewProduct({ closeModal, assistantData,images }) {
   const { t } = useI18nContext();
 //   const [specificProducts, setSpecificProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -58,6 +58,7 @@ export default function PreviewProduct({ closeModal, assistantData }) {
       closeModal();
     }
   };
+
   return (
     <div
       onClick={handleBackgroundClick}
@@ -100,7 +101,7 @@ export default function PreviewProduct({ closeModal, assistantData }) {
             <h3 className="font-semibold ">{t("previewForm.title")}</h3>
           </div>
           <ProductFormPreview t={t} details={assistantData} headers={headers} loading={loading} />
-
+          
           <div className="flex justify-between items-center mt-14">
             <div className="flex items-center">
               <button
