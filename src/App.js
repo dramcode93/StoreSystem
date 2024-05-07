@@ -23,6 +23,8 @@ import Bills from "./components/Bills/Bills.jsx";
 import { UserInfo } from "./components/profile/UserInfo.jsx";
 import User from "./components/profile/Users.jsx";
 import UserBill from "./components/Bills/UserBill.jsx";
+import SignUp from "./components/Signup/Signup.jsx";
+
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
@@ -84,6 +86,7 @@ const App = () => {
             <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
             <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
             <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
             {isLoggedIn && !isTokenExpired && (
               <>
                 <Route path="/home" element={<Home />} />

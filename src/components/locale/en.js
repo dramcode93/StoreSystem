@@ -13,6 +13,7 @@ const en = {
     Bill: "Bills",
     Profile: "The Profile",
     Login: "Log in",
+    Signup: "SignUp",
     Describe: "Access the dashboard using your username and password",
     Username: "Username",
     Password: "Password",
@@ -82,13 +83,13 @@ const en = {
     edit: "Edit",
     delete: "Delete",
 
-    userName:"user Name",
-    email:"email",
-    gender:"gender",
-    age:"age",
-    role:"role",
-    phone:"phone",
-    nationalId:"nationalId"
+    userName: "user Name",
+    email: "email",
+    gender: "gender",
+    age: "age",
+    role: "role",
+    phone: "phone",
+    nationalId: "nationalId"
   },
   ExpensesForm: {
     createExpenses: "Create Expenses",
