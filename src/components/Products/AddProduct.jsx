@@ -26,9 +26,9 @@ export default function AddProduct({ closeModal, role, modal }) {
   const [productPrice, setProductPrice] = useState("");
   const [sellingPrice, setSellingPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState("");
   const [categories, setCategories] = useState([]);
-  // const [imageURLs, setImageURLs] = useState([]);
+  const [fileList, setFileList] = useState("");
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
@@ -43,9 +43,9 @@ export default function AddProduct({ closeModal, role, modal }) {
       formData.append("category", category);
 
       // Append each image separately
-      images.forEach((image, index) => {
-        formData.append(`images[${index}]`, image);
-      });
+      // images.forEach((image, index) => {
+      formData.append(`images`, images);
+      // });
 
       const response = await axios.post(
         "https://store-system-api.gleeze.com/api/products",
@@ -87,28 +87,10 @@ export default function AddProduct({ closeModal, role, modal }) {
   }, []);
 
   const handleImageChange = (e) => {
-    console.log("Event:", e);
-    if (e.target) {
-      const file = e.target.files[0];
-      console.log("Selected file:", file);
-      if (file) {
-        setImages((prevImages) => [...prevImages, file]);
-        console.log("Images after update:", images);
-      }
-    }
+    setImages(e.target.files[0])
+    setFileList(e.target.files[0])
   };
 
-  const [fileList, setFileList] = useState([]);
-  const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files).slice(0, 5); // Limit to 5 files
-    const remainingSpace = 5 - fileList.length; // Calculate remaining space for files
-    const newFiles = selectedFiles.slice(0, remainingSpace); // Get new files up to remaining space
-  
-    // Append new files to existing fileList and images
-    setFileList((prevFileList) => [...prevFileList, ...newFiles]);
-    setImages((prevImages) => [...prevImages, ...newFiles]);
-  };
-  
   console.log("fileeeeeee", fileList);
 
   return (
@@ -202,26 +184,11 @@ export default function AddProduct({ closeModal, role, modal }) {
               <FormPic
                 label="Upload Picture"
                 name="Upload Picture"
-                onChange={(e) => handleFileChange(e)}
+                onChange={handleImageChange}
                 placeholder="Product Picture"
-                // file={images.file}
                 fileList={fileList}
               />
-              {/* Display uploaded images
-              {console.log("imageURLs", images)}
-              {fileList.length > 0 && (
-                <div className="d-flex gap-1 mt-2">
-                  {fileList.map((file, index) => (
-                    <div key={index}>
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt={`Uploaded ${index + 1}`}
-                        style={{ maxWidth: "100%", maxHeight: "50px" }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              )} */}
+              {/* <input type="file" name="file" onChange={handleImageChange} /> */}
               <div className="col-span-2 flex justify-center">
                 <button
                   disabled={

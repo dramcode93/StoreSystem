@@ -116,6 +116,7 @@ export default function ProductFormPreview({ details, t, headers, loading }) {
       <Loading />
     ) : details?.images && details.images.length > 0 ? ( // Check if images array exists and has items
       <div className="grid grid-cols-2 gap-1 m-0">
+      {console.log(details.images.map((url)=>url))}
         {details.images.map((imageUrl, index) => (
           <img
             key={index}
