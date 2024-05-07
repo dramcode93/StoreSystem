@@ -1,16 +1,14 @@
 import { TrashSimple, X } from "@phosphor-icons/react";
 
-import { useCallback, useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import axios from "axios";
-import { useI18nContext } from "../context/i18n-context";
+import {   useState } from "react";
+ import { useI18nContext } from "../context/i18n-context";
 import ProductFormPreview from "./ProductFormPreview";
 
 export default function PreviewProduct({ closeModal, assistantData }) {
   const { t } = useI18nContext();
   const [loading, setLoading] = useState(false);
   const { images } = assistantData;
-  console.log("assistantData", assistantData);
+
 
   console.log("images", `${images.map((img) => img).join("\n")} \n`);
   console.log(
@@ -76,14 +74,9 @@ export default function PreviewProduct({ closeModal, assistantData }) {
           >
             <h3 className="font-semibold ">{t("previewForm.title")}</h3>
           </div>
-          <ProductFormPreview
-            t={t}
-            details={assistantData}
-            headers={headers}
-            loading={loading}
-          />
+          <ProductFormPreview t={t} details={assistantData} headers={headers} loading={loading} />
+          <div className="flex justify-between items-center mt-14">
 
-          <div className="flex justify-between items-center mt-3">
             <div className="flex items-center">
               <button
                 type="button"
@@ -92,7 +85,6 @@ export default function PreviewProduct({ closeModal, assistantData }) {
                    focus:ring-primary-300 font-medium rounded-lg text-sm px-5 
                    py-2.5 text-center dark:focus:ring-themeColor"
               >
-                {/* <img src={EditIcon} className="w-5 h-5" /> */}
                 <span className="font-bold text-base">
                   {t("previewForm.edit")}
                 </span>

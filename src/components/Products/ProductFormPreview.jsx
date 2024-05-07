@@ -10,12 +10,6 @@ export default function ProductFormPreview({ details, t, headers, loading }) {
   ];
   return (
     <dl className="">
-      {/* <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
-        {headers?.code} :
-      </dt>
-      <dd className="mb-4 font-bold text-gray-500 sm:mb-5 dark:text-gray-300">
-        {details?.code}
-      </dd> */}
       {loading ? (
         <Loading />
       ) : (
@@ -91,54 +85,32 @@ export default function ProductFormPreview({ details, t, headers, loading }) {
               {details?.sold}
             </dd>
           </div>
-          <div className=" ">
-            <dt className="mb-3 font-semibold leading-none text-gray-900 dark:text-themeColor">
-              {headers?.images}:
-            </dt>
-            <dd className="font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {loading ? (
-                <Loading />
-              ) : imageLinks && imageLinks.length > 0 ? (
-                <div className="d-flex gap-3 flex-wrap">
-                  {imageLinks.map((imageUrl, index) => (
-                    <img
-                      key={index}
-                      src={imageUrl}
-                      alt=""
-                      className="w-30 h-20 rounded-md"
-                    />
-                  ))}
-                </div>
-              ) : (
-                "No Images Yet"
-              )}
-            </dd>
-          </div>
+       
 
-          {/* <div className="d-flex gap-2 items-center">
-            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
-              {headers?.images}:
-            </dt>
-            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {loading ? (
-                <Loading />
-              ) :
-               details?.images && details.images.length > 0 ? ( // Check if images array exists and has items
-                <div className="grid grid-cols-2 gap-1 m-0">
-                  {details.images.map((imageUrl, index) => (
-                    <img
-                      key={index}
-                      src={imageUrl}
-                      alt=""
-                      className="max-w-full h-auto"
-                    />
-                  ))}
-                </div>
-              ) : (
-                "No Images Yet"
-              )}
-            </dd>
-          </div> */}
+            <div className="d-flex gap-2 items-center">
+              <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+                {headers?.images}:
+              </dt>
+              <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+                {details.images && details.images.length > 0 ? (
+                  <div className="grid grid-cols-2 gap-1 m-0">
+                    {details.images.map((imageUrl, index) => (
+                      <img
+                        key={index}
+                        src={imageUrl}
+                        alt="Product"
+                        className="max-w-full h-auto"
+                        crossOrigin="anonymous"
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  "No Images Yet"
+                )}
+              </dd>
+            </div>
+
+
         </>
       )}
     </dl>
