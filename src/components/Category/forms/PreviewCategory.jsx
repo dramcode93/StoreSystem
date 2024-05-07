@@ -61,9 +61,9 @@ export default function PreviewCategory({ closeModal, assistantData }) {
     >
       <div
         className={`PreviewUser max-w-2xl 
-       dark:bg-gray-800 rounded-xl duration-200 ease-linear
+       dark:bg-gray-800 rounded-2xl duration-200 ease-linear
        absolute top-2/3 sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  w-full
-       min-h-screen overflow-auto p-3 `}
+       min-h-screen overflow-auto `}
       >
         <div className="relative dark:bg-gray-800 sm:p-5">
           <div

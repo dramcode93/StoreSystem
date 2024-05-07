@@ -88,10 +88,27 @@ export default function AddProduct({ closeModal, role, modal }) {
   //   setImages(files);
   // };
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
-    setImages(files);
-  };
+// AddProduct.js
+// Inside AddProduct component
+
+const handleImageChange = (e) => {
+  const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
+  setImages(prevFiles => {
+    const totalFiles = prevFiles.length + files.length;
+    if (totalFiles <= 5) {
+      return [...prevFiles, ...files];
+    } else {
+      const remainingSpace = 5 - prevFiles.length;
+      const newFiles = files.slice(0, remainingSpace);
+      return [...prevFiles, ...newFiles];
+    }
+  });
+};
+
+  // const handleImageChange = (e) => {
+  //   const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
+  //   setImages(files);
+  // };
   
 
   return (
