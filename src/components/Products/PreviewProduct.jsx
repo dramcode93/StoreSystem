@@ -1,23 +1,15 @@
 import { TrashSimple, X } from "@phosphor-icons/react";
 
-import { useCallback, useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import axios from "axios";
-import { useI18nContext } from "../context/i18n-context";
+import {   useState } from "react";
+ import { useI18nContext } from "../context/i18n-context";
 import ProductFormPreview from "./ProductFormPreview";
 
 export default function PreviewProduct({ closeModal, assistantData,images }) {
   const { t } = useI18nContext();
-//   const [specificProducts, setSpecificProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
+   const [loading, setLoading] = useState(false);
 
   console.log("assistantData",assistantData)
 
-//   const detailsData = {
-//     code: assistantData._id.slice(-4),
-//     name: assistantData.name || "لم يتم تحديده",
-//     products: specificProducts,
-//   };
   const headers = {
     code: "Product Code",
     name: "Product Name",
@@ -29,30 +21,6 @@ export default function PreviewProduct({ closeModal, assistantData,images }) {
     sold:"Sold",
     images:"Images"
   };
-  const token = Cookies.get("token");
-//   const fetchData = useCallback(async () => {
-//     try {
-//       if (token) {
-//         const product = await axios.get(
-//           `https://store-system-api.gleeze.com/api/categories/${assistantData._id}/products?sort=name`,
-//           { headers: { Authorization: `Bearer ${token}` } }
-//         );
-
-//         // setSpecificProducts(product.data.data);
-//         console.log("specific", product.data.data);
-//       } else {
-//         console.error("No token found.");
-//       }
-//     } catch (error) {
-//       console.error("Error specific data:", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   }, [token, assistantData._id]);
-
-//   useEffect(() => {
-//     fetchData();
-//   }, [fetchData]);
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
@@ -101,7 +69,6 @@ export default function PreviewProduct({ closeModal, assistantData,images }) {
             <h3 className="font-semibold ">{t("previewForm.title")}</h3>
           </div>
           <ProductFormPreview t={t} details={assistantData} headers={headers} loading={loading} />
-          
           <div className="flex justify-between items-center mt-14">
             <div className="flex items-center">
               <button
@@ -111,7 +78,6 @@ export default function PreviewProduct({ closeModal, assistantData,images }) {
                    focus:ring-primary-300 font-medium rounded-lg text-sm px-5 
                    py-2.5 text-center dark:focus:ring-themeColor"
               >
-                {/* <img src={EditIcon} className="w-5 h-5" /> */}
                 <span className="font-bold text-base">
                   {t("previewForm.edit")}
                 </span>

@@ -8,6 +8,7 @@ import FormText from "../../form/FormText";
 import FormSelect from "../../form/FormSelect";
 import FormTextArea from "../../form/FormTextArea";
 import FormPic from "../../form/FormPic";
+import ProductFormPreview from "./ProductFormPreview";
 
 export default function AddProduct({ closeModal, role, modal }) {
   useEffect(() => { }, []);
@@ -26,9 +27,10 @@ export default function AddProduct({ closeModal, role, modal }) {
   const [productPrice, setProductPrice] = useState("");
   const [sellingPrice, setSellingPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState("");
   const [categories, setCategories] = useState([]);
-  const [fileList, setFileList] = useState([]);
+  const [fileList, setFileList] = useState("");
+  const [imageURLs, setImageURLs] = useState([]);
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
@@ -41,11 +43,7 @@ export default function AddProduct({ closeModal, role, modal }) {
       formData.append("sellingPrice", sellingPrice);
       formData.append("quantity", quantity);
       formData.append("category", category);
-
-      // Append each image separately
-      images.forEach((image, index) => {
-        formData.append(`image${index}`, image);
-      });
+      formData.append(`images`, images);
 
       const response = await axios.post(
         "https://store-system-api.gleeze.com/api/products",
@@ -54,12 +52,9 @@ export default function AddProduct({ closeModal, role, modal }) {
       );
 
       console.log("Product added successfully:", response.data);
-
       if (response.data.images) {
-        const uploadedImageURLs = response.data.images.map(
-          (image) => image.url
-        );
-        setImages(uploadedImageURLs);
+        const uploadedImageURLs = response.data.images.map((image) => image.url);
+        setImageURLs(uploadedImageURLs);
       }
 
       closeModal();
@@ -67,6 +62,7 @@ export default function AddProduct({ closeModal, role, modal }) {
       console.error("Error adding Product:", error);
     }
   };
+
 
   const fetchCategories = async () => {
     try {
@@ -85,27 +81,53 @@ export default function AddProduct({ closeModal, role, modal }) {
   }, []);
 
   const handleImageChange = (e) => {
-    const selectedFiles = Array.from(e.target.files).slice(0, 5); // Limit to 5 files
-    const remainingSpace = 5 - fileList.length; // Calculate remaining space for files
-    const newFiles = selectedFiles.slice(0, remainingSpace); // Get new files up to remaining space
-
-    // Append new files to existing fileList and images
-    setFileList((prevFileList) => [...prevFileList, ...newFiles]);
-    setImages((prevImages) => [...prevImages, ...newFiles]);
+    setImages(e.target.files[0])
+    setFileList(e.target.files[0])
   };
 
   console.log("fileeeeeee", fileList);
 
-  return (
+  <ProductFormPreview
+    details={{
+      _id: "",
+      name,
+      description,
+      category: { name: category }, 
+      quantity,
+      productPrice,
+      sellingPrice,
+      sold: "", 
+      images: imageURLs
+    }}
+   t={t}
+    headers={{
+      code: "Code", 
+      name: "Name",
+      description: "Description",
+      category: "Category",
+      quantity: "Quantity", 
+      productPrice: "Product Price", 
+      sellingPrice: "Selling Price", 
+      sold: "Sold",
+      images: "Images" 
+    }}
+    loading={false} 
+  />
+ 
+   return (
     <>
       <div
         onClick={handleBackgroundClick}
-        className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear absolute top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 justify-center items-center ${modal ? "left-1/2" : "-left-[100%]"
-          } bg-opacity-40 w-full h-full `}
+        className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
+        absolute top-1/2 -translate-x-1/2 -translate-y-1/2
+        z-50 justify-center items-center ${modal ? "left-1/2" : "-left-[100%]"}
+         bg-opacity-40 w-full h-full `}
       >
         <div
-          className={`CreateCenter w-full max-w-min dark:bg-gray-800 rounded-r-xl duration-200 ease-linear ${modal ? "absolute left-0" : "absolute -left-[100%]"
-            } h-screen overflow-auto`}
+          className={`CreateCenter w-full max-w-min 
+           dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
+           ${modal ? "absolute left-0" : "absolute -left-[100%]"}
+           h-screen overflow-auto`}
         >
           <div className="relative p-4 dark:bg-gray-800 sm:p-5">
             <div
@@ -183,25 +205,21 @@ export default function AddProduct({ closeModal, role, modal }) {
               <FormPic
                 label="Upload Picture"
                 name="Upload Picture"
-                onChange={(e) => handleImageChange(e)} // Fixing function name
+                onChange={handleImageChange}
                 placeholder="Product Picture"
                 fileList={fileList}
               />
-              {console.log("imageURLs", images)}
-              {fileList.length > 0 && (
-                <div className="d-flex gap-1 mt-2">
-                  {fileList.map((file, index) => (
-                    <div key={index}>
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt={`Uploaded ${index + 1}`}
-                        style={{ maxWidth: "100%", maxHeight: "50px" }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-              <div className="col-span-2 flex justify-center">
+              <div className="col-span-2 grid grid-cols-3 gap-4">
+                {imageURLs.map((imageURL, index) => (
+                  <img
+                    key={index}
+                    src={imageURL}
+                    alt=''
+                    className="w-full h-auto rounded-lg"
+                  />
+                ))}
+              </div>
+               <div className="col-span-2 flex justify-center">
                 <button
                   disabled={
                     !name ||
@@ -209,8 +227,7 @@ export default function AddProduct({ closeModal, role, modal }) {
                     !category ||
                     !quantity ||
                     !productPrice ||
-                    !sellingPrice ||
-                    !images
+                    !sellingPrice
                   }
                   className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
                 >
