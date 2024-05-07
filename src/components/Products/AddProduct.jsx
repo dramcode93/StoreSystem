@@ -10,7 +10,7 @@ import FormTextArea from "../../form/FormTextArea";
 import FormPic from "../../form/FormPic";
 
 export default function AddProduct({ closeModal, role, modal }) {
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -28,7 +28,7 @@ export default function AddProduct({ closeModal, role, modal }) {
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [imageURLs, setImageURLs] = useState([]);
+  // const [imageURLs, setImageURLs] = useState([]);
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
@@ -58,8 +58,10 @@ export default function AddProduct({ closeModal, role, modal }) {
       // Check if response.data.images is defined before mapping over it
       if (response.data.images) {
         // Extract image URLs from response and store them
-        const uploadedImageURLs = response.data.images.map(image => image.url);
-        setImageURLs(uploadedImageURLs);
+        const uploadedImageURLs = response.data.images.map(
+          (image) => image.url
+        );
+        setImages(uploadedImageURLs);
       }
 
       closeModal();
@@ -88,11 +90,26 @@ export default function AddProduct({ closeModal, role, modal }) {
     console.log("Event:", e);
     if (e.target) {
       const file = e.target.files[0];
+      console.log("Selected file:", file);
       if (file) {
-        setImages(prevImages => [...prevImages, file]);
+        setImages((prevImages) => [...prevImages, file]);
+        console.log("Images after update:", images);
       }
     }
   };
+
+  const [fileList, setFileList] = useState([]);
+  const handleFileChange = (e) => {
+    const selectedFiles = Array.from(e.target.files).slice(0, 5); // Limit to 5 files
+    const remainingSpace = 5 - fileList.length; // Calculate remaining space for files
+    const newFiles = selectedFiles.slice(0, remainingSpace); // Get new files up to remaining space
+  
+    // Append new files to existing fileList and images
+    setFileList((prevFileList) => [...prevFileList, ...newFiles]);
+    setImages((prevImages) => [...prevImages, ...newFiles]);
+  };
+  
+  console.log("fileeeeeee", fileList);
 
   return (
     <>
@@ -100,8 +117,7 @@ export default function AddProduct({ closeModal, role, modal }) {
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
         absolute top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${modal ? "left-1/2" : "-left-[100%]"
-          }
+        z-50 justify-center items-center ${modal ? "left-1/2" : "-left-[100%]"}
          bg-opacity-40 w-full h-full `}
       >
         <div
@@ -186,22 +202,26 @@ export default function AddProduct({ closeModal, role, modal }) {
               <FormPic
                 label="Upload Picture"
                 name="Upload Picture"
-                onChange={handleImageChange}
+                onChange={(e) => handleFileChange(e)}
                 placeholder="Product Picture"
-                file={images.file}
-
+                // file={images.file}
+                fileList={fileList}
               />
-              {/* Display uploaded images */}
-              <div className="col-span-2 grid grid-cols-3 gap-4">
-                {imageURLs.map((imageURL, index) => (
-                  <img
-                    key={index}
-                    src={imageURL}
-                    alt={`Image ${index}`}
-                    className="w-full h-auto rounded-lg"
-                  />
-                ))}
-              </div>
+              {/* Display uploaded images
+              {console.log("imageURLs", images)}
+              {fileList.length > 0 && (
+                <div className="d-flex gap-1 mt-2">
+                  {fileList.map((file, index) => (
+                    <div key={index}>
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt={`Uploaded ${index + 1}`}
+                        style={{ maxWidth: "100%", maxHeight: "50px" }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )} */}
               <div className="col-span-2 flex justify-center">
                 <button
                   disabled={
