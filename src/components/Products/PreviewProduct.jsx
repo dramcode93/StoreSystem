@@ -6,53 +6,29 @@ import axios from "axios";
 import { useI18nContext } from "../context/i18n-context";
 import ProductFormPreview from "./ProductFormPreview";
 
-export default function PreviewProduct({ closeModal, assistantData,images }) {
+export default function PreviewProduct({ closeModal, assistantData }) {
   const { t } = useI18nContext();
-//   const [specificProducts, setSpecificProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { images } = assistantData;
+  console.log("assistantData", assistantData);
 
-  console.log("assistantData",assistantData)
+  console.log("images", `${images.map((img) => img).join("\n")} \n`);
+  console.log(
+    "images",
+    `${images.map((img) => img.replace(/\s/g, "%20")).join("\n")} \n`
+  );
 
-//   const detailsData = {
-//     code: assistantData._id.slice(-4),
-//     name: assistantData.name || "لم يتم تحديده",
-//     products: specificProducts,
-//   };
   const headers = {
     code: "Product Code",
     name: "Product Name",
-    description:"Description",
+    description: "Description",
     category: "Category",
-    quantity:"Quantity",
-    productPrice:"Product Price",
-    sellingPrice:"Selling Price",
-    sold:"Sold",
-    images:"Images"
+    quantity: "Quantity",
+    productPrice: "Product Price",
+    sellingPrice: "Selling Price",
+    sold: "Sold",
+    images: "Images",
   };
-  const token = Cookies.get("token");
-//   const fetchData = useCallback(async () => {
-//     try {
-//       if (token) {
-//         const product = await axios.get(
-//           `https://store-system-api.gleeze.com/api/categories/${assistantData._id}/products?sort=name`,
-//           { headers: { Authorization: `Bearer ${token}` } }
-//         );
-
-//         // setSpecificProducts(product.data.data);
-//         console.log("specific", product.data.data);
-//       } else {
-//         console.error("No token found.");
-//       }
-//     } catch (error) {
-//       console.error("Error specific data:", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   }, [token, assistantData._id]);
-
-//   useEffect(() => {
-//     fetchData();
-//   }, [fetchData]);
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
@@ -69,9 +45,9 @@ export default function PreviewProduct({ closeModal, assistantData,images }) {
     >
       <div
         className={`PreviewUser max-w-2xl 
-       dark:bg-gray-800 rounded-xl duration-200 ease-linear
+       dark:bg-grey-800 rounded-2xl duration-200 ease-linear
        absolute top-2/3 sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  w-full
-       min-h-screen overflow-auto p-3 `}
+       min-h-screen overflow-auto  `}
       >
         <div className="relative dark:bg-gray-800 sm:p-5">
           <div
@@ -100,9 +76,14 @@ export default function PreviewProduct({ closeModal, assistantData,images }) {
           >
             <h3 className="font-semibold ">{t("previewForm.title")}</h3>
           </div>
-          <ProductFormPreview t={t} details={assistantData} headers={headers} loading={loading} />
-          
-          <div className="flex justify-between items-center mt-14">
+          <ProductFormPreview
+            t={t}
+            details={assistantData}
+            headers={headers}
+            loading={loading}
+          />
+
+          <div className="flex justify-between items-center mt-3">
             <div className="flex items-center">
               <button
                 type="button"
