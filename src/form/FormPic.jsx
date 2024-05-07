@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
-function FormPic({ label, name, onChange }) {
-  const [fileList, setFileList] = useState([]);
+function FormPic({ label, name, onChange,fileList }) {
+  // const [fileList, setFileList] = useState([]);
 
-  const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files).slice(0, 5); // Limit to 5 files
-    const newFiles = [...fileList, ...selectedFiles.slice(0, 5 - fileList.length)]; // Append new files to existing fileList
-    setFileList(newFiles);
-    onChange(newFiles); // Pass newFiles to the onChange function
-  };
+  // const handleFileChange = (e) => {
+  //   const selectedFiles = Array.from(e.target.files).slice(0, 5); // Limit to 5 files
+  //   const newFiles = [...fileList, ...selectedFiles.slice(0, 5 - fileList.length)]; // Append new files to existing fileList
+  //   setFileList(newFiles);
+  //   onChange(newFiles); // Pass newFiles to the onChange function
+  // };
   
   return (
     <div>
@@ -25,7 +25,7 @@ function FormPic({ label, name, onChange }) {
         id="file-upload"
         name={name}
         className="hidden"
-        onChange={handleFileChange}
+        onChange={onChange}
         multiple
         accept="image/*"
         alt="Upload Image"
