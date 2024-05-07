@@ -28,7 +28,7 @@ export default function AddProduct({ closeModal, role, modal }) {
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [imageURLs, setImageURLs] = useState([]);
+  const [fileList, setFileList] = useState([]);
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
@@ -42,8 +42,9 @@ export default function AddProduct({ closeModal, role, modal }) {
       formData.append("quantity", quantity);
       formData.append("category", category);
 
+      // Append each image separately
       images.forEach((image, index) => {
-        formData.append(`images[${index}]`, image); // Use `image` instead of `images`
+        formData.append(`image${index}`, image);
       });
 
       const response = await axios.post(
@@ -53,9 +54,12 @@ export default function AddProduct({ closeModal, role, modal }) {
       );
 
       console.log("Product added successfully:", response.data);
+
       if (response.data.images) {
-        const uploadedImageURLs = response.data.images.map((image) => image.url);
-        setImageURLs(uploadedImageURLs);
+        const uploadedImageURLs = response.data.images.map(
+          (image) => image.url
+        );
+        setImages(uploadedImageURLs);
       }
 
       closeModal();
@@ -63,7 +67,6 @@ export default function AddProduct({ closeModal, role, modal }) {
       console.error("Error adding Product:", error);
     }
   };
-
 
   const fetchCategories = async () => {
     try {
@@ -82,41 +85,27 @@ export default function AddProduct({ closeModal, role, modal }) {
   }, []);
 
   const handleImageChange = (e) => {
-    if (e.target && e.target.files) {
-      const files = e.target.files;
-      const acceptedTypes = ["image/jpeg", "image/png"]; // Add more types if needed
-      const selectedImages = [];
+    const selectedFiles = Array.from(e.target.files).slice(0, 5); // Limit to 5 files
+    const remainingSpace = 5 - fileList.length; // Calculate remaining space for files
+    const newFiles = selectedFiles.slice(0, remainingSpace); // Get new files up to remaining space
 
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        console.log('object',files)
-        if (acceptedTypes.includes(file.type)) {
-          selectedImages.push(file);
-        } else {
-          console.warn(`File ${file.name} is not a supported image type.`);
-        }
-      }
-
-      setImages((prevImages) => [...prevImages, ...selectedImages]);
-    }
+    // Append new files to existing fileList and images
+    setFileList((prevFileList) => [...prevFileList, ...newFiles]);
+    setImages((prevImages) => [...prevImages, ...newFiles]);
   };
 
+  console.log("fileeeeeee", fileList);
 
   return (
     <>
       <div
         onClick={handleBackgroundClick}
-        className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
-        absolute top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${modal ? "left-1/2" : "-left-[100%]"
-          }
-         bg-opacity-40 w-full h-full `}
+        className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear absolute top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 justify-center items-center ${modal ? "left-1/2" : "-left-[100%]"
+          } bg-opacity-40 w-full h-full `}
       >
         <div
-          className={`CreateCenter w-full max-w-min 
-           dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
-           ${modal ? "absolute left-0" : "absolute -left-[100%]"}
-           h-screen overflow-auto`}
+          className={`CreateCenter w-full max-w-min dark:bg-gray-800 rounded-r-xl duration-200 ease-linear ${modal ? "absolute left-0" : "absolute -left-[100%]"
+            } h-screen overflow-auto`}
         >
           <div className="relative p-4 dark:bg-gray-800 sm:p-5">
             <div
@@ -194,24 +183,24 @@ export default function AddProduct({ closeModal, role, modal }) {
               <FormPic
                 label="Upload Picture"
                 name="Upload Picture"
-                onChange={(e) => handleImageChange(e)} // Pass the event explicitly
+                onChange={(e) => handleImageChange(e)} // Fixing function name
                 placeholder="Product Picture"
-                file={images.file}
+                fileList={fileList}
               />
-
-              <div className="col-span-2 grid grid-cols-3 gap-4">
-                {images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={URL.createObjectURL(image)}
-                    alt=''
-                    className="w-full h-auto rounded-lg"
-                  />
-                ))}
-              </div>
-
-
-
+              {console.log("imageURLs", images)}
+              {fileList.length > 0 && (
+                <div className="d-flex gap-1 mt-2">
+                  {fileList.map((file, index) => (
+                    <div key={index}>
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt={`Uploaded ${index + 1}`}
+                        style={{ maxWidth: "100%", maxHeight: "50px" }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
               <div className="col-span-2 flex justify-center">
                 <button
                   disabled={
