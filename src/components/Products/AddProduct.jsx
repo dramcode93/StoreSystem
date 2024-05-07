@@ -42,9 +42,8 @@ export default function AddProduct({ closeModal, role, modal }) {
       formData.append("quantity", quantity);
       formData.append("category", category);
 
-      // Append each image separately
       images.forEach((image, index) => {
-        formData.append(`images[${index}]`, image);
+        formData.append(`images[${index}]`, image); // Use `image` instead of `images`
       });
 
       const response = await axios.post(
@@ -54,11 +53,8 @@ export default function AddProduct({ closeModal, role, modal }) {
       );
 
       console.log("Product added successfully:", response.data);
-
-      // Check if response.data.images is defined before mapping over it
       if (response.data.images) {
-        // Extract image URLs from response and store them
-        const uploadedImageURLs = response.data.images.map(image => image.url);
+        const uploadedImageURLs = response.data.images.map((image) => image.url);
         setImageURLs(uploadedImageURLs);
       }
 
@@ -67,6 +63,7 @@ export default function AddProduct({ closeModal, role, modal }) {
       console.error("Error adding Product:", error);
     }
   };
+
 
   const fetchCategories = async () => {
     try {
@@ -85,14 +82,25 @@ export default function AddProduct({ closeModal, role, modal }) {
   }, []);
 
   const handleImageChange = (e) => {
-    console.log("Event:", e);
-    if (e.target) {
-      const file = e.target.files[0];
-      if (file) {
-        setImages(prevImages => [...prevImages, file]);
+    if (e.target && e.target.files) {
+      const files = e.target.files;
+      const acceptedTypes = ["image/jpeg", "image/png"]; // Add more types if needed
+      const selectedImages = [];
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        console.log('object',files)
+        if (acceptedTypes.includes(file.type)) {
+          selectedImages.push(file);
+        } else {
+          console.warn(`File ${file.name} is not a supported image type.`);
+        }
       }
+
+      setImages((prevImages) => [...prevImages, ...selectedImages]);
     }
   };
+
 
   return (
     <>
@@ -186,22 +194,24 @@ export default function AddProduct({ closeModal, role, modal }) {
               <FormPic
                 label="Upload Picture"
                 name="Upload Picture"
-                onChange={handleImageChange}
+                onChange={(e) => handleImageChange(e)} // Pass the event explicitly
                 placeholder="Product Picture"
                 file={images.file}
-
               />
-              {/* Display uploaded images */}
+
               <div className="col-span-2 grid grid-cols-3 gap-4">
-                {imageURLs.map((imageURL, index) => (
+                {images.map((image, index) => (
                   <img
                     key={index}
-                    src={imageURL}
-                    alt={`Image ${index}`}
+                    src={URL.createObjectURL(image)}
+                    alt=''
                     className="w-full h-auto rounded-lg"
                   />
                 ))}
               </div>
+
+
+
               <div className="col-span-2 flex justify-center">
                 <button
                   disabled={
@@ -210,7 +220,8 @@ export default function AddProduct({ closeModal, role, modal }) {
                     !category ||
                     !quantity ||
                     !productPrice ||
-                    !sellingPrice
+                    !sellingPrice ||
+                    !images
                   }
                   className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
                 >
