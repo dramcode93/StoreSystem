@@ -30,6 +30,7 @@ function FormPic({ label, name, onChange,fileList }) {
         accept="image/*"
         alt="Upload Image"
       />
+
       {fileList.length > 0 && (
         <div className="d-flex gap-1 mt-2">
           {fileList.map((file, index) => (
