@@ -79,13 +79,33 @@ export default function AddProduct({ closeModal, role, modal }) {
   useEffect(() => {
     fetchCategories();
   }, []);
+  // const handleImageChange = (e) => {
+  //   const files = Array.from(e.target.files);
+  //   setImages(files);
+  // };
 
-  const handleImageChange = (e) => {
-    setImages(e.target.files[0])
-    setFileList(e.target.files[0])
-  };
+// AddProduct.js
+// Inside AddProduct component
 
-  console.log("fileeeeeee", fileList);
+const handleImageChange = (e) => {
+  const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
+  setImages(prevFiles => {
+    const totalFiles = prevFiles.length + files.length;
+    if (totalFiles <= 5) {
+      return [...prevFiles, ...files];
+    } else {
+      const remainingSpace = 5 - prevFiles.length;
+      const newFiles = files.slice(0, remainingSpace);
+      return [...prevFiles, ...newFiles];
+    }
+  });
+};
+
+  // const handleImageChange = (e) => {
+  //   const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
+  //   setImages(files);
+  // };
+  
 
   <ProductFormPreview
     details={{
@@ -207,7 +227,7 @@ export default function AddProduct({ closeModal, role, modal }) {
                 name="Upload Picture"
                 onChange={handleImageChange}
                 placeholder="Product Picture"
-                fileList={fileList}
+                fileList={images}
               />
               <div className="col-span-2 grid grid-cols-3 gap-4">
                 {imageURLs.map((imageURL, index) => (
@@ -220,6 +240,7 @@ export default function AddProduct({ closeModal, role, modal }) {
                 ))}
               </div>
                <div className="col-span-2 flex justify-center">
+     
                 <button
                   disabled={
                     !name ||
