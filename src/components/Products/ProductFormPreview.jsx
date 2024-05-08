@@ -88,18 +88,18 @@ export default function ProductFormPreview({ details, t, headers, loading }) {
        
 
             <div className="d-flex gap-2 items-center">
-              <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              <dt className=" font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
                 {headers?.images}:
               </dt>
-              <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              <dd className=" font-light text-gray-500 sm:mb-5 dark:text-gray-400">
                 {details.images && details.images.length > 0 ? (
-                  <div className="grid grid-cols-2 gap-1 m-0">
+                  <div className="d-grid grid-cols-2">
                     {details.images.map((imageUrl, index) => (
                       <img
                         key={index}
                         src={imageUrl}
                         alt="Product"
-                        className="max-w-full h-auto"
+                        className="max-w-full h-75"
                         crossOrigin="anonymous"
                       />
                     ))}

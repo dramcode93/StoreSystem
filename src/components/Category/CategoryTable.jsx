@@ -22,10 +22,11 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [nextPageData, setNextPageData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({
-    currentPage: 1, // Corrected key name
+    currentPge: 1,
     totalPages: 1,
   });
 
@@ -54,6 +55,22 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   useEffect(() => {
     fetchData();
   }, [searchTerm, pagination.currentPge, fetchData]);
+
+  useEffect(() => {
+    if (pagination.currentPge < pagination.totalPages) {
+      axios
+        .get(
+          `${API_category}?sort=category name&search=${searchTerm}&page=${pagination.currentPge + 1}&limit=5`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((response) => {
+          setNextPageData(response.data.data);
+        })
+        .catch((error) => {
+          console.error("Error preloading next page:", error);
+        });
+    }
+  }, [pagination.currentPge, pagination.totalPages, searchTerm, token]);
 
   const handleDeleteCategory = (categoryId) => {
     setSelectedCategoryId(categoryId);
@@ -139,7 +156,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   };
 
   return (
-    <section className="bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-40 w-3/4">
+    <section className="bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 w-3/4">
       <ConfirmationModal
         show={showConfirmation}
         onCancel={cancelDelete}
@@ -153,13 +170,14 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           <input
             className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
             type="text"
-            onClick={handleSearch}
+            onChange={(e) => setSearchInput(e.target.value)}
+            value={searchInput}
             placeholder={t("Products.Search")}
           />
           <CiSearch
-            className={`absolute top-2 text-white text-xl ${
-              language === "ar" ? "left-3" : "right-3"
-            } `}
+            className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
+              } cursor-pointer`}
+            onClick={handleSearch}
           />
         </div>
         <div>

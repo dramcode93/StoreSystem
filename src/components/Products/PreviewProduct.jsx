@@ -39,18 +39,18 @@ export default function PreviewProduct({ closeModal, assistantData }) {
       className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
     absolute top-1/2 -translate-x-1/2 -translate-y-1/2
     z-50 justify-center items-center left-1/2
-     bg-opacity-40 w-full h-full `}
+     bg-opacity-40 w-full h-full`}
     >
       <div
         className={`PreviewUser max-w-2xl 
        dark:bg-grey-800 rounded-2xl duration-200 ease-linear
        absolute top-2/3 sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  w-full
-       min-h-screen overflow-auto  `}
+       min-h-screen overflow-auto p-3 my-5`}
       >
         <div className="relative dark:bg-gray-800 sm:p-5">
           <div
             dir="rtl"
-            className="flex justify-between items-center w-full mb-3 rounded "
+            className="flex justify-between items-center w-full my-5 rounded "
           >
             <button
               type="button"
@@ -70,7 +70,7 @@ export default function PreviewProduct({ closeModal, assistantData }) {
         </form> */}
           <div
             className={`text-lg text-white bg-themeColor md:text-xl mx-auto text-center
-               dark:text-white dark:bg-themeColor p-1 mb-4 rounded-md `}
+               dark:text-white dark:bg-themeColor p-1  rounded-md `}
           >
             <h3 className="font-semibold ">{t("previewForm.title")}</h3>
           </div>
