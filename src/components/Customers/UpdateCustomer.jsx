@@ -107,7 +107,7 @@ function UpdateCustomer({ closeModal, role, modal, customerData }) {
         className={`CreateCenter w-full max-w-min 
        dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
        ${modal ? "absolute left-0" : "absolute -left-[100%]"}
-       h-screen overflow-auto`}
+       h-screen overflow-auto z-50`}
       >
         <div className="relative p-4 dark:bg-gray-800 sm:p-5">
           <div

@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useI18nContext } from "../context/i18n-context";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { CiSearch } from "react-icons/ci";
@@ -12,31 +11,38 @@ import {
   NotePencil,
   TrashSimple,
 } from "@phosphor-icons/react";
-import ConfirmationDelete from "./ConfirmationDelete";
+import ConfirmationModal from "../Category/ConfirmationModel";
+import { useI18nContext } from "../context/i18n-context";
 
 const API_URL = "https://store-system-api.gleeze.com/api/products";
 const API_category = "https://store-system-api.gleeze.com/api/categories/list";
+
 const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
   const token = Cookies.get("token");
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [selectedProductsId, setSelectedProductsId] = useState(null);
+  const [selectedProductId, setSelectedProductId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [pagination, setPagination] = useState({});
-
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+  });
+  const {t,language} = useI18nContext();
   const fetchData = useCallback(async () => {
     try {
       if (token) {
         const productsResponse = await axios.get(
-          `${API_URL}?sort=category name&search=${searchTerm}&page=${pagination.currentPge}&limit=20`,
+          `${API_URL}?sort=category name&search=${searchTerm}&page=${pagination.currentPage}&limit=5`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setProducts(productsResponse.data.data);
-        setPagination(productsResponse.data.paginationResult);
-
+        setPagination((prevPagination) => ({
+          ...prevPagination,
+          totalPages: productsResponse.data.paginationResult.numberOfPages,
+        }));
         const categoriesResponse = await axios.get(`${API_category}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -49,40 +55,20 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
     } finally {
       setLoading(false);
     }
-  }, [token, searchTerm, pagination.currentPge]);
+  }, [token, searchTerm, pagination.currentPage]);
 
   useEffect(() => {
     fetchData();
-  }, [searchTerm, pagination.currentPge, fetchData]);
+  }, [searchTerm, pagination.currentPage, fetchData]);
 
-  const handleDeleteProduct = (productId) => {
-    setSelectedProductsId(productId);
-    setShowConfirmation(true);
-  };
 
-  const confirmDelete = useCallback(() => {
-    axios
-      .delete(`${API_URL}/${selectedProductsId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(() => fetchData())
-      .catch((error) => console.error("Error deleting product:", error))
-      .finally(() => {
-        setShowConfirmation(false);
-        setSelectedProductsId(null);
-      });
-  }, [selectedProductsId, token, fetchData]);
 
-  const cancelDelete = useCallback(() => {
-    setShowConfirmation(false);
-    setSelectedProductsId(null);
-  }, []);
 
   const handlePageChange = (newPage) => {
-    setPagination({
-      ...pagination,
-      currentPge: newPage,
-    });
+    setPagination((prevPagination) => ({
+      ...prevPagination,
+      currentPage: newPage,
+    }));
   };
 
   const handleSearch = (e) => {
@@ -90,23 +76,40 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
     setSearchTerm(searchInput);
   };
 
-  const { t, language } = useI18nContext();
-
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalIsOpen(false);
-  };
-  const lang = localStorage.getItem("language");
   const toggleEditDropdown = (productId) => {
-    setSelectedProductsId((prevProductId) =>
+    setSelectedProductId((prevProductId) =>
       prevProductId === productId ? null : productId
     );
   };
+
+  const pageButtons = Array.from(
+    { length: pagination.totalPages },
+    (_, index) => index + 1
+  );
+
+  const handleDeleteProduct = (productId) => {
+    setShowConfirmation(true);
+    setSelectedProductId(productId);
+  };
+  const confirmDelete = useCallback(() => {
+    axios
+      .delete(`${API_URL}/${selectedProductId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(() => fetchData())
+      .catch((error) => console.error("Error deleting product:", error))
+      .finally(() => {
+        setShowConfirmation(false);  
+        setSelectedProductId(null);  
+      });
+  }, [selectedProductId, token, fetchData]);
+
+  // Cancel deletion
+  const cancelDelete = useCallback(() => {
+    setShowConfirmation(false);  
+    setSelectedProductId(null);  
+  }, []);
+   
   const dropdownRefs = useRef({});
   const handleEditProduct = (product) => {
     openEdit(product);
@@ -117,8 +120,8 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
   };
   return (
     <div>
-      <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
-        <ConfirmationDelete
+      <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-32 w-3/4 ">
+        <ConfirmationModal
           show={showConfirmation}
           onCancel={cancelDelete}
           onConfirm={() => {
@@ -133,14 +136,15 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
             <input
               className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
               type="text"
-              onClick={handleSearch}
+              onChange={(e) => setSearchInput(e.target.value)}
+              value={searchInput}
               placeholder={t("Products.Search")}
-            />{" "}
+            />
             <CiSearch
-              className={`absolute top-2 text-white text-xl ${
-                language === "ar" ? "left-3" : "right-3"
-              } `}
-            />{" "}
+              className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
+                } cursor-pointer`}
+              onClick={handleSearch}
+            />
           </div>
           <div>
             <button
@@ -231,13 +235,11 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
                         dir={language === "ar" ? "rtl" : "ltr"}
                       >
                         <div
-                          className={`${
-                            selectedProductsId === product._id
-                              ? `absolute -top-3 ${
-                                  lang === "en" ? "right-full" : "left-full"
-                                } overflow-auto`
+                          className={`${selectedProductId === product._id
+                              ? `absolute -top-3 ${language === "en" ? "right-full" : "left-full"
+                              } overflow-auto`
                               : "hidden"
-                          } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                            } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                         >
                           <ul className="text-sm bg-transparent pl-0 mb-0">
                             <li className="">
@@ -286,80 +288,39 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
           dir="rtl"
         >
           <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ">
-            {"      "} {t("Products.appear")}
-            {"   "}
-            <span
-              className="font-semibold text-gray-900 dark:text-white m-2"
-              dir="ltr"
-            >
-              {"     "} 1-10 {"      "}
-            </span>{" "}
-            {"  "}
-            {"   "}
-            {t("Products.from")}
-            <span className="font-semibold text-gray-900 dark:text-white m-2">
-              {"   "}1000 {"   "}
-            </span>
+            {`Products appear 1-10 from ${products.length}`}
           </span>
           <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
             <li>
-              <a
-                href="/"
+              <button
                 className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-gray-700 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={() => handlePageChange(pagination.currentPage - 1)}
+                disabled={pagination.currentPage === 1}
               >
-                <span className="sr-only">Previous</span>
                 <CaretLeft size={18} weight="bold" />
-              </a>
+              </button>
             </li>
+            {pageButtons.map((page) => (
+              <li key={page}>
+                <button
+                  className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPage === page
+                      ? "bg-gray-200 text-gray-800"
+                      : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    }`}
+                  onClick={() => handlePageChange(page)}
+                >
+                  {page}
+                </button>
+              </li>
+            ))}
             <li>
-              <a
-                href="/"
-                className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                1
-              </a>
-            </li>
-            <li>
-              <a
-                href="/"
-                className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                2
-              </a>
-            </li>
-            <li>
-              <a
-                href="/"
-                aria-current="page"
-                className="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-gray-700 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-              >
-                3
-              </a>
-            </li>
-            <li>
-              <a
-                href="/"
-                className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                ...
-              </a>
-            </li>
-            <li>
-              <a
-                href="/"
-                className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                100
-              </a>
-            </li>
-            <li>
-              <a
-                href="/"
+              <button
                 className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={() => handlePageChange(pagination.currentPage + 1)}
+                disabled={pagination.currentPage === pagination.totalPages}
               >
-                <span className="sr-only">Next</span>
                 <CaretRight size={18} weight="bold" />
-              </a>
+              </button>
             </li>
           </ul>
         </nav>
