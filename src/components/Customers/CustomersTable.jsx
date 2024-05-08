@@ -20,24 +20,28 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
 
   const token = Cookies.get("token");
   const [customers, setCustomers] = useState([]);
-  // const [categories, setCategories] = useState([]);
-  const [showConfirmation, setShowConfirmation] = useState(false);
+   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedCustomerId, setSelectedCustomerId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [nextPageData, setNextPageData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [pagination, setPagination] = useState({});
-
+  const [pagination, setPagination] = useState({
+    currentPge: 1,
+    totalPages: 1,
+  });
   const fetchData = useCallback(async () => {
     try {
       if (token) {
         const response = await axios.get(
-          `https://store-system-api.gleeze.com/api/customers?sort=name&search=${searchInput}&page=${pagination.currentPge}&limit=20`,
+          `https://store-system-api.gleeze.com/api/customers?sort=name&search=${searchInput}&page=${pagination.currentPge}&limit=5`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setCustomers(response.data.data);
-        setPagination(response.data.paginationResult);
-      } else {
+        setPagination({
+          currentPge: pagination.currentPge,
+          totalPages: response.data.paginationResult.numberOfPages,
+        });      } else {
         console.error("No token found.");
       }
     } catch (error) {
@@ -49,7 +53,23 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
 
   useEffect(() => {
     fetchData();
-  }, [searchTerm, pagination.currentPge, fetchData]);
+  }, [searchTerm, pagination.currentPge, token, fetchData]);
+
+  useEffect(() => {
+    if (pagination.currentPge < pagination.totalPages) {
+      axios
+        .get(
+          `https://store-system-api.gleeze.com/api/customers?sort=name&search=${searchInput}&page=${pagination.currentPge}&limit=5`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((response) => {
+          setNextPageData(response.data.data);
+        })
+        .catch((error) => {
+          console.error("Error preloading next page:", error);
+        });
+    }
+  }, [pagination.currentPge, pagination.totalPages, searchTerm, token]);
 
   const handleDeleteCustomer = (customerId) => {
     setSelectedCustomerId(customerId);
@@ -90,16 +110,6 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
   };
 
   const { t, language } = useI18nContext();
-
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalIsOpen(false);
-  };
   const lang = localStorage.getItem("language");
   
   const toggleEditDropdown = (customerId) => {
@@ -111,8 +121,38 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
   const handleEditCustomer = (customer) => {
     openEdit(customer);
   };
+
+  const MAX_DISPLAY_PAGES = 5;
+
+  const startPage = Math.max(
+    1,
+    Math.min(
+      pagination.currentPge - Math.floor(MAX_DISPLAY_PAGES / 2),
+      pagination.totalPages - MAX_DISPLAY_PAGES + 1
+    )
+  );
+  const endPage = Math.min(
+    startPage + MAX_DISPLAY_PAGES - 1,
+    pagination.totalPages
+  );
+
+  const pageButtons = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, index) => startPage + index
+  );
+  const handlePreviousPage = () => {
+    if (pagination.currentPge > 1) {
+      handlePageChange(pagination.currentPge - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (pagination.currentPge < pagination.totalPages) {
+      handlePageChange(pagination.currentPge + 1);
+    }
+  };
   return (
-    <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
+    <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-32 w-3/4 ">
       <ConfirmationDelete
         show={showConfirmation}
         onCancel={cancelDelete}
@@ -122,20 +162,19 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
         }}
       />
       <div className="flex justify-between">
-        {" "}
-        <div className="relative w-96 m-3">
-          {" "}
-          <input
+         <div className="relative w-96 m-3">
+           <input
             className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
             type="text"
-            onClick={handleSearch}
+            onChange={(e) => setSearchInput(e.target.value)}
+            value={searchInput}
             placeholder={t("Products.Search")}
-          />{" "}
+          />
           <CiSearch
-            className={`absolute top-2 text-white text-xl ${
-              language === "ar" ? "left-3" : "right-3"
-            } `}
-          />{" "}
+            className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
+              } cursor-pointer`}
+            onClick={handleSearch}
+          /> 
         </div>
         <div>
           <button
@@ -235,11 +274,11 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
                       <div
                         className={`${
                           selectedCustomerId === customer._id
-                            ? `absolute -top-3 ${
+                          ? `absolute -top-3 me-5 -right-10 overflow-auto ${
                                 lang === "en" ? "right-full" : "left-full"
                               } overflow-auto`
                             : "hidden"
-                        } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                          } z-10 w-44 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
                         <ul className="text-sm bg-transparent pl-0 mb-0">
                           <li className="">
@@ -304,63 +343,35 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
         </span>
         <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
           <li>
-            <a
-              href="/"
+            <button
               className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-gray-700 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={handlePreviousPage}
             >
               <span className="sr-only">Previous</span>
               <CaretLeft size={18} weight="bold" />
-            </a>
+            </button>
           </li>
+          {pageButtons.map((page) => (
+            <li key={page}>
+              <button
+                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
+                    ? "bg-gray-200 text-gray-800"
+                    : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  }`}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            </li>
+          ))}
           <li>
-            <a
-              href="/"
-              className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              1
-            </a>
-          </li>
-          <li>
-            <a
-              href="/"
-              className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              2
-            </a>
-          </li>
-          <li>
-            <a
-              href="/"
-              aria-current="page"
-              className="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-gray-700 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-            >
-              3
-            </a>
-          </li>
-          <li>
-            <a
-              href="/"
-              className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              ...
-            </a>
-          </li>
-          <li>
-            <a
-              href="/"
-              className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              100
-            </a>
-          </li>
-          <li>
-            <a
-              href="/"
+            <button
               className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={handleNextPage}
             >
               <span className="sr-only">Next</span>
               <CaretRight size={18} weight="bold" />
-            </a>
+            </button>
           </li>
         </ul>
       </nav>

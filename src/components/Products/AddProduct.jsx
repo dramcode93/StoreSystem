@@ -8,9 +8,10 @@ import FormText from "../../form/FormText";
 import FormSelect from "../../form/FormSelect";
 import FormTextArea from "../../form/FormTextArea";
 import FormPic from "../../form/FormPic";
+import ProductFormPreview from "./ProductFormPreview";
 
 export default function AddProduct({ closeModal, role, modal }) {
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -28,6 +29,8 @@ export default function AddProduct({ closeModal, role, modal }) {
   const [description, setDescription] = useState("");
   const [images, setImages] = useState("");
   const [categories, setCategories] = useState([]);
+  const [fileList, setFileList] = useState("");
+  const [imageURLs, setImageURLs] = useState([]);
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
@@ -53,14 +56,9 @@ export default function AddProduct({ closeModal, role, modal }) {
       );
 
       console.log("Product added successfully:", response.data);
-
-      // Check if response.data.images is defined before mapping over it
       if (response.data.images) {
-        // Extract image URLs from response and store them
-        const uploadedImageURLs = response.data.images.map(
-          (image) => image.url
-        );
-        setImages(uploadedImageURLs);
+        const uploadedImageURLs = response.data.images.map((image) => image.url);
+        setImageURLs(uploadedImageURLs);
       }
 
       closeModal();
@@ -68,6 +66,7 @@ export default function AddProduct({ closeModal, role, modal }) {
       console.error("Error adding Product:", error);
     }
   };
+
 
   const fetchCategories = async () => {
     try {
@@ -112,7 +111,34 @@ const handleImageChange = (e) => {
   // };
   
 
-  return (
+  <ProductFormPreview
+    details={{
+      _id: "",
+      name,
+      description,
+      category: { name: category }, 
+      quantity,
+      productPrice,
+      sellingPrice,
+      sold: "", 
+      images: imageURLs
+    }}
+   t={t}
+    headers={{
+      code: "Code", 
+      name: "Name",
+      description: "Description",
+      category: "Category",
+      quantity: "Quantity", 
+      productPrice: "Product Price", 
+      sellingPrice: "Selling Price", 
+      sold: "Sold",
+      images: "Images" 
+    }}
+    loading={false} 
+  />
+ 
+   return (
     <>
       <div
         onClick={handleBackgroundClick}
@@ -207,7 +233,18 @@ const handleImageChange = (e) => {
                 placeholder="Product Picture"
                 fileList={images}
               />
-              <div className="col-span-2 flex justify-center">
+              <div className="col-span-2 grid grid-cols-3 gap-4">
+                {imageURLs.map((imageURL, index) => (
+                  <img
+                    key={index}
+                    src={imageURL}
+                    alt=''
+                    className="w-full h-auto rounded-lg"
+                  />
+                ))}
+              </div>
+               <div className="col-span-2 flex justify-center">
+     
                 <button
                   disabled={
                     !name ||

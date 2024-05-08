@@ -3,6 +3,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Eye, EyeClosed } from '@phosphor-icons/react';
 import { useI18nContext } from '../context/i18n-context';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const { language } = useI18nContext();
@@ -114,7 +115,10 @@ const Login = () => {
             >
               {t("Home.Login")}
             </button>
+
           </div>
+          <Link to='/signup'>I don't have an account. Sign Up?</Link>
+
         </form>
       </div>
     </div>
