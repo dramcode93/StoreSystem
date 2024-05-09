@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function FormPic({ label, name, onChange,fileList }) {
+function FormPic({ label, name, onChange }) {
   // const [fileList, setFileList] = useState([]);
 
   // const handleFileChange = (e) => {
@@ -31,7 +31,7 @@ function FormPic({ label, name, onChange,fileList }) {
         alt="Upload Image"
       />
 
-      {fileList.length > 0 && (
+      {/* {fileList.length > 0 && (
         <div className="d-flex gap-1 mt-2">
           {fileList.map((file, index) => (
             <div key={index}>
@@ -43,7 +43,7 @@ function FormPic({ label, name, onChange,fileList }) {
             </div>
           ))}
         </div>
-      )}
+      )} */}
     </div>
   );
 }

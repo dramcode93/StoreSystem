@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import PrintButton from "./PrintButton";
-import Loading from "../Loading/Loading";
+ import Loading from "../Loading/Loading";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useI18nContext } from "../context/i18n-context";
@@ -21,34 +20,56 @@ const API_Bills = "https://store-system-api.gleeze.com/api/Bills";
 const BillsTable = ({ openEdit, openCreate, openPreview }) => {
   const token = Cookies.get("token");
   const [bills, setBills] = useState([]);
-  const [pagination, setPagination] = useState({ currentPage: 1 });
   const [loading, setLoading] = useState(true);
   const [selectedBillId, setSelectedBillId] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchInput, setSearchInput] = useState("");
+  const [nextPageData, setNextPageData] = useState([]);
 
+  const [pagination, setPagination] = useState({
+    currentPge: 1,
+    totalPages: 1,
+  });
   const fetchData = useCallback(async () => {
     try {
       if (token) {
         setLoading(true);
         const response = await axios.get(
-          `${API_Bills}?search=${searchInput}&page=${pagination.currentPage}&limit=20`, // Corrected currentPage
+          `${API_Bills}?search=${searchTerm}&page=${pagination.currentPge}&limit=5`, // Corrected currentPge
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setBills(response.data.data);
-        setPagination(response.data.paginationResult);
-      }
+        setPagination({
+          currentPge: pagination.currentPge,
+          totalPages: response.data.paginationResult.numberOfPages,
+        });      }
     } catch (error) {
       console.error("Error fetching bills:", error);
     } finally {
       setLoading(false);
     }
-  }, [token, searchInput, pagination.currentPage]); // Corrected currentPage
+  }, [token, searchTerm, pagination.currentPge]); // Corrected currentPge
 
   useEffect(() => {
     fetchData();
-  }, [fetchData, searchInput, pagination.currentPage]); // Corrected currentPage
+  }, [fetchData, searchInput, pagination.currentPge]); // Corrected currentPge
+
+  useEffect(() => {
+    if (pagination.currentPge < pagination.totalPages) {
+      axios
+        .get(
+          `${API_Bills}?search=${searchTerm}&page=${pagination.currentPge}&limit=5`, // Corrected currentPge
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((response) => {
+          setNextPageData(response.data.data);
+        })
+        .catch((error) => {
+          console.error("Error preloading next page:", error);
+        });
+    }
+  }, [pagination.currentPge, pagination.totalPages, searchTerm, token]);
 
   const handleDeleteBill = useCallback((billId) => {
     setSelectedBillId(billId);
@@ -75,16 +96,16 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
   const handlePageChange = useCallback((newPage) => {
     setPagination((prevState) => ({
       ...prevState,
-      currentPage: newPage, // Corrected currentPage
+      currentPge: newPage, // Corrected currentPge
     }));
   }, []);
 
   const handleSearch = () => {
     setPagination((prevState) => ({
       ...prevState,
-      currentPage: 1, // Reset currentPage to 1 on search
+      currentPge: 1, // Reset currentPge to 1 on search
     }));
-    setSearchInput(searchTerm);
+    setSearchTerm(searchInput);
   };
 
   const { t, language } = useI18nContext();
@@ -97,16 +118,46 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
   };
 
   const lang = localStorage.getItem("language");
-  const handlePrintBill = useCallback(
-    (billId) => {
-      // Invoke the handlePrint function with the bill model and bill ID
-      handlePrint(bills, billId);
-    },
-    [bills]
+  // const handlePrintBill = useCallback(
+  //   (billId) => {
+  //     // Invoke the handlePrint function with the bill model and bill ID
+  //     handlePrint(bills, billId);
+  //   },
+  //   [bills]
+  // );
+
+  const MAX_DISPLAY_PAGES = 5;
+
+  const startPage = Math.max(
+    1,
+    Math.min(
+      pagination.currentPge - Math.floor(MAX_DISPLAY_PAGES / 2),
+      pagination.totalPages - MAX_DISPLAY_PAGES + 1
+    )
   );
+  const endPage = Math.min(
+    startPage + MAX_DISPLAY_PAGES - 1,
+    pagination.totalPages
+  );
+
+  const pageButtons = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, index) => startPage + index
+  );
+  const handlePreviousPage = () => {
+    if (pagination.currentPge > 1) {
+      handlePageChange(pagination.currentPge - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (pagination.currentPge < pagination.totalPages) {
+      handlePageChange(pagination.currentPge + 1);
+    }
+  };
   return (
     <div>
-      <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
+      <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
         <ConfirmationDelete
           show={showConfirmation}
           onCancel={cancelDelete}
@@ -120,13 +171,14 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
             <input
               className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
               type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => setSearchInput(e.target.value)}
+              value={searchInput}
               placeholder={t("Products.Search")}
             />
             <CiSearch
               className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
-                }`}
+                } cursor-pointer`}
+              onClick={handleSearch}
             />
           </div>
           <div>
@@ -306,34 +358,29 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
             <li>
               <button
                 className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-gray-700 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => {
-                  /* Handle previous page */
-                }}
+                onClick={handlePreviousPage}
               >
                 <span className="sr-only">Previous</span>
                 <CaretLeft size={18} weight="bold" />
               </button>
             </li>
-            {/* Pagination links */}
-            {/* Update with appropriate URLs or onClick handlers */}
-            {/* Example: */}
-            <li>
-              <button
-                className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => {
-                  /* Handle page click */
-                }}
-              >
-                1
-              </button>
-            </li>
-            {/* End of pagination links */}
+            {pageButtons.map((page) => (
+              <li key={page}>
+                <button
+                  className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
+                      ? "bg-gray-200 text-gray-800"
+                      : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    }`}
+                  onClick={() => handlePageChange(page)}
+                >
+                  {page}
+                </button>
+              </li>
+            ))}
             <li>
               <button
                 className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => {
-                  /* Handle next page */
-                }}
+                onClick={handleNextPage}
               >
                 <span className="sr-only">Next</span>
                 <CaretRight size={18} weight="bold" />

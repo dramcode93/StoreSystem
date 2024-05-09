@@ -34,7 +34,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     try {
       if (token) {
         const categoriesResponse = await axios.get(
-          `${API_category}?sort=category name&search=${searchTerm}&page=${pagination.currentPge}&limit=5`,
+          `${API_category}?sort=category name&search=${searchTerm}&page=${pagination.currentPge}&limit=20`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setCategories(categoriesResponse.data.data);
@@ -60,7 +60,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     if (pagination.currentPge < pagination.totalPages) {
       axios
         .get(
-          `${API_category}?sort=category name&search=${searchTerm}&page=${pagination.currentPge + 1}&limit=5`,
+          `${API_category}?sort=category name&search=${searchTerm}&page=${pagination.currentPge + 1}&limit=20`,
           { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((response) => {
@@ -134,6 +134,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
       pagination.totalPages - MAX_DISPLAY_PAGES + 1
     )
   );
+
   const endPage = Math.min(
     startPage + MAX_DISPLAY_PAGES - 1,
     pagination.totalPages
@@ -143,6 +144,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     { length: endPage - startPage + 1 },
     (_, index) => startPage + index
   );
+
   const handlePreviousPage = () => {
     if (pagination.currentPge > 1) {
       handlePageChange(pagination.currentPge - 1);
@@ -155,8 +157,9 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     }
   };
 
+
   return (
-    <section className="bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 w-3/4">
+    <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
       <ConfirmationModal
         show={showConfirmation}
         onCancel={cancelDelete}
@@ -190,7 +193,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
         </div>
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xm text-gray-200 uppercase">
+        <thead className="text-xm text-gray-200 uppercase ">
           <tr className="text-center fs-6 bg-gray-500 tracking-wide bg-opacity-25 transition ease-out duration-200">
             <th scope="col" className="px-5 py-4">
               {t("Category.Code")}

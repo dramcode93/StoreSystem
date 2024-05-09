@@ -11,7 +11,7 @@ import FormPic from "../../form/FormPic";
 import ProductFormPreview from "./ProductFormPreview";
 
 export default function AddProduct({ closeModal, role, modal }) {
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -43,7 +43,9 @@ export default function AddProduct({ closeModal, role, modal }) {
       formData.append("sellingPrice", sellingPrice);
       formData.append("quantity", quantity);
       formData.append("category", category);
-      formData.append(`images`, images);
+      images.forEach((file, index) => {
+        formData.append("images", file);
+      });
 
       const response = await axios.post(
         "https://store-system-api.gleeze.com/api/products",
@@ -53,7 +55,9 @@ export default function AddProduct({ closeModal, role, modal }) {
 
       console.log("Product added successfully:", response.data);
       if (response.data.images) {
-        const uploadedImageURLs = response.data.images.map((image) => image.url);
+        const uploadedImageURLs = response.data.images.map(
+          (image) => image.url
+        );
         setImageURLs(uploadedImageURLs);
       }
 
@@ -62,7 +66,6 @@ export default function AddProduct({ closeModal, role, modal }) {
       console.error("Error adding Product:", error);
     }
   };
-
 
   const fetchCategories = async () => {
     try {
@@ -84,57 +87,56 @@ export default function AddProduct({ closeModal, role, modal }) {
   //   setImages(files);
   // };
 
-// AddProduct.js
-// Inside AddProduct component
+  // AddProduct.js
+  // Inside AddProduct component
 
-const handleImageChange = (e) => {
-  const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
-  setImages(prevFiles => {
-    const totalFiles = prevFiles.length + files.length;
-    if (totalFiles <= 5) {
-      return [...prevFiles, ...files];
-    } else {
-      const remainingSpace = 5 - prevFiles.length;
-      const newFiles = files.slice(0, remainingSpace);
-      return [...prevFiles, ...newFiles];
-    }
-  });
-};
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
+    setImages((prevFiles) => {
+      const totalFiles = prevFiles.length + files.length;
+      if (totalFiles <= 5) {
+        return [...prevFiles, ...files];
+      } else {
+        const remainingSpace = 5 - prevFiles.length;
+        const newFiles = files.slice(0, remainingSpace);
+        return [...prevFiles, ...newFiles];
+      }
+    });
+  };
 
   // const handleImageChange = (e) => {
   //   const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
   //   setImages(files);
   // };
-  
 
   <ProductFormPreview
     details={{
       _id: "",
       name,
       description,
-      category: { name: category }, 
+      category: { name: category },
       quantity,
       productPrice,
       sellingPrice,
-      sold: "", 
-      images: imageURLs
+      sold: "",
+      images: imageURLs,
     }}
-   t={t}
+    t={t}
     headers={{
-      code: "Code", 
+      code: "Code",
       name: "Name",
       description: "Description",
       category: "Category",
-      quantity: "Quantity", 
-      productPrice: "Product Price", 
-      sellingPrice: "Selling Price", 
+      quantity: "Quantity",
+      productPrice: "Product Price",
+      sellingPrice: "Selling Price",
       sold: "Sold",
-      images: "Images" 
+      images: "Images",
     }}
-    loading={false} 
-  />
- 
-   return (
+    loading={false}
+  />;
+
+  return (
     <>
       <div
         onClick={handleBackgroundClick}
@@ -229,18 +231,20 @@ const handleImageChange = (e) => {
                 placeholder="Product Picture"
                 fileList={images}
               />
-              <div className="col-span-2 grid grid-cols-3 gap-4">
-                {imageURLs.map((imageURL, index) => (
-                  <img
-                    key={index}
-                    src={imageURL}
-                    alt=''
-                    className="w-full h-auto rounded-lg"
-                  />
-                ))}
-              </div>
-               <div className="col-span-2 flex justify-center">
-     
+              {images.length > 0 && (
+                <div className="d-flex gap-2">
+                  {images.map((file, index) => (
+                    <div key={index}>
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt={`Uploaded ${index + 1}`}
+                       className="max-w-full h-10"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="col-span-2 flex justify-center">
                 <button
                   disabled={
                     !name ||
