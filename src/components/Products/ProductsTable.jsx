@@ -35,7 +35,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
     try {
       if (token) {
         const productsResponse = await axios.get(
-          `${API_URL}?sort=category name&search=${searchTerm}&page=${pagination.currentPage}&limit=5`,
+          `${API_URL}?sort=category name&search=${searchTerm}&page=${pagination.currentPage}&limit=15`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setProducts(productsResponse.data.data);
@@ -120,7 +120,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
   };
   return (
     <div>
-      <section className=" bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 left-10 -z-3 w-3/4">
+      <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
         <ConfirmationModal
           show={showConfirmation}
           onCancel={cancelDelete}
