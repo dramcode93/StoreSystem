@@ -1,15 +1,9 @@
 import Loading from "../../Loading/Loading";
-import CategoryProducts from "../specificProducs";
 
 export default function CategoryFormPreview({ details, t, headers, loading }) {
   return (
-    <dl className="">
-      {/* <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
-        {headers?.code} :
-      </dt>
-      <dd className="mb-4 font-bold text-gray-500 sm:mb-5 dark:text-gray-300">
-        {details?.code}
-      </dd> */}
+    <dl>
+     
       {loading ? (
         <Loading />
       ) : (

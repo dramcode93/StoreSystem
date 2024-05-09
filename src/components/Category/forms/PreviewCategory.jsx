@@ -55,7 +55,7 @@ export default function PreviewCategory({ closeModal, assistantData }) {
     <div
       onClick={handleBackgroundClick}
       className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
-    absolute top-1/2 -translate-x-1/2 -translate-y-1/2
+    fixed top-1/2 -translate-x-1/2 -translate-y-1/2
     z-50 justify-center items-center left-1/2
      bg-opacity-40 w-full h-full `}
     >

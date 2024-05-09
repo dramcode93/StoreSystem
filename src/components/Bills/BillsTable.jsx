@@ -157,7 +157,7 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
   };
   return (
     <div>
-      <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-40 w-3/4 ">
+      <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-32 w-3/4 ">
         <ConfirmationDelete
           show={showConfirmation}
           onCancel={cancelDelete}

@@ -17,7 +17,7 @@ const Home = (role,modal) => {
   };
   return (
     <div>
-      <div dir={language === "ar" ? "rtl" : "ltr"} className=' relative top-8 flex flex-col justify-content-center'>
+      <div dir={language === "ar" ? "rtl" : "ltr"} className=' absolute top-32 left-10 -z-3 flex flex-col justify-content-center'>
         <img src={image} alt='' className='image-container w-75 my-5' />
         <div className="col-span-2 flex justify-center">
           <button

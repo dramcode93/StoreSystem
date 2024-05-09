@@ -120,7 +120,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
   };
   return (
     <div>
-      <section className=" bg-gray-700 bg-opacity-25  mx-10 rounded-md pt-2 absolute top-32 w-3/4 ">
+      <section className=" bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 left-10 -z-3 w-3/4">
         <ConfirmationModal
           show={showConfirmation}
           onCancel={cancelDelete}
