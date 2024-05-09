@@ -140,6 +140,56 @@ const Dashboard = ({ children }) => {
             ]
         },
     ];
+
+    const customer = [
+        {
+            path: '/Home',
+            name: t("Home.Home"),
+            icon: <House />
+        },
+        {
+            path: '/category',
+            name: "Products",
+            icon: <BiCategory />
+        },
+        {
+            path: "/products",
+            name: "Cart",
+            icon: <MdProductionQuantityLimits />
+        },
+        {
+            name: t("Home.Bill"),
+            icon: <LiaMoneyBillSolid />,
+            dropdownItems: [
+                { text: 'Create bills', path: '/create-bills' },
+            ]
+        },
+        {
+            name: t("Home.Order"),
+            icon: <MdBorderColor />,
+            dropdownItems: [
+                { text: 'Agree', path: '/agree' },
+                { text: 'Accept', path: '/accept' },
+            ]
+        },
+        {
+            path: "/customers",
+            name: t("Home.Customer"),
+            icon: <BsFillPersonVcardFill />,
+            dropdownItems: [
+                { text: 'Create', path: '/create' },
+                { text: 'Show bills', path: '/show-bills' },
+            ]
+        },
+        {
+            name: t("Home.Profile"),
+            icon: <CgProfile />,
+            dropdownItems: [
+                { text: 'Information', path: '/information' },
+            ]
+        },
+    ];
+
     //manager : profile(change pass , info ), users (admin , manager)
     //admin : profile(change pass , info ), users ( users ) , category,products,bills,shop
     //user : profile( info ) , category,products,bills{create bill},order(agree , accept), customer(create , show bills )
@@ -250,6 +300,35 @@ const Dashboard = ({ children }) => {
                         ))
                     }
                 </div>}
+            {decodedToken.role === "customer" &&
+                <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
+                    {
+                        customer.map((item, index) => (
+                            <div key={index}>
+                                <NavLink to={item.path} className={module.link} onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}>
+                                    <div className={module.icon}>{item.icon}</div>
+                                    {item.name === "The Profile" ? (
+                                        <div className={`${module.link_text} flex`}>{item.name} {activeLink === index ? <FiChevronUp /> : <FiChevronDown />}</div>
+                                    ) : (
+                                        <div className={module.link_text}>{item.name}</div>
+                                    )}
+                                </NavLink>
+                                {activeLink === index && isProfileActive && item.dropdownItems && (
+                                    <div className='transition ease-in-out duration-75' dir={language === "ar" ? "rtl" : "ltr"}>
+                                        <div className='flex flex-col w-full mx-auto justify-start font-bold'>
+                                            {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
+                                                <NavLink key={dropdownIndex} to={dropdownItem.path} className={module.link}>
+                                                    <p>{dropdownItem.text}</p>
+                                                </NavLink>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ))
+                    }
+                </div>}
+
             <main>{children}</main>
         </div>
     );
