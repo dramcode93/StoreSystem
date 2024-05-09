@@ -2,9 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import Loading from '../Loading/Loading';
+import { useI18nContext } from "../context/i18n-context";
 
 const BestSeller = () => {
-    const API_URL = "https://store-system-api.gleeze.com/api/products";
+    const API_URL = "https://store-system-api.gleeze.com/api/products/customers";
     const API_SHOP = "https://store-system-api.gleeze.com/api/shops";
 
     const [products, setProducts] = useState([]);
@@ -12,6 +13,7 @@ const BestSeller = () => {
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const token = Cookies.get("token");
+    const { t, language } = useI18nContext();
 
     const fetchData = useCallback(async () => {
         setLoading(true);
@@ -51,8 +53,8 @@ const BestSeller = () => {
     }, [fetchData]);
 
     return (
-        <div>
-            <div className="bg-gray-700 bg-opacity-25 mx-10 rounded-md py-4 px-4 text-gray-200 absolute top-40 w-3/4">
+        <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
+            <div>
                 <h3 className="font-bold text-white text-5xl">Our <span className='text-blue-500 font'>Bestseller Products</span></h3>
                 {loading ? (
                     <div className="fs-4 text-center mb-5 pb-3"><Loading /></div>
@@ -86,7 +88,7 @@ const BestSeller = () => {
                     </div>
                 )}
             </div>
-        </div >
+        </section >
     );
 };
 
