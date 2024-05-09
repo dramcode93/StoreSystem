@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import BillsTable from "./BillsTable";
-import CreateBills from "./forms/createBills";
+ import CreateBills from "./forms/createBills";
 import UpdateBills from "./forms/UpdateBills";
 import { useParams } from 'react-router-dom';
 import UserBillsTable from "./UserBillsTable";

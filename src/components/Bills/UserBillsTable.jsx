@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import PrintButton from "./PrintButton";
-import Loading from "../Loading/Loading";
+ import Loading from "../Loading/Loading";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useI18nContext } from "../context/i18n-context";
