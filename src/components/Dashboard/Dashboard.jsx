@@ -165,16 +165,16 @@ const Dashboard = ({ children }) => {
     };
 
     return (
-        <div className=" text-gray-900 dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
+        <div className="fixed top-5 text-gray-900 dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
             {decodedToken.role === "admin" &&
-                <div style={sidebarStyle} className={`${language === "ar" ? module.sidebarArabic : module.sidebar}`}>
+                <div style={sidebarStyle}>
                     {
                         admin.map((item, index) => (
                             <div key={index}>
                                 <NavLink to={item.path} className={module.link} onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}>
                                     <div className={module.icon}>{item.icon}</div>
-                                    {item.name === "The Profile" ? (
-                                        <div className={`${module.link_text} flex`}>{item.name} {activeLink === index ? <FiChevronUp /> : <FiChevronDown />}</div>
+                                    {item.name === "The Profile" || item.name === "الملف الشخصي" ? (
+                                        <div className={`${module.link_text} flex`} dir={language === "ar" ? "rtl" : "ltr"}>{item.name} {activeLink === index ? <FiChevronUp /> : <FiChevronDown />}</div>
                                     ) : (
                                         <div className={module.link_text}>{item.name}</div>
                                     )}
