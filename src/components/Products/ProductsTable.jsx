@@ -35,7 +35,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
     try {
       if (token) {
         const productsResponse = await axios.get(
-          `${API_URL}?sort=category name&search=${searchTerm}&page=${pagination.currentPage}&limit=5`,
+          `${API_URL}?sort=name name&search=${searchTerm}&page=${pagination.currentPage}&limit=5`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setProducts(productsResponse.data.data);
