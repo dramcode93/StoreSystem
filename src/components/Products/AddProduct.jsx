@@ -43,8 +43,12 @@ export default function AddProduct({ closeModal, role, modal }) {
       formData.append("sellingPrice", sellingPrice);
       formData.append("quantity", quantity);
       formData.append("category", category);
-      formData.append(`images`, images);
+      images.forEach((file, index) => {
+        formData.append("images", file);
+      });
 
+
+      
       const response = await axios.post(
         "https://store-system-api.gleeze.com/api/products",
         formData,
