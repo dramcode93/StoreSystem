@@ -18,7 +18,6 @@ const Dashboard = ({ children }) => {
     const { t, language } = useI18nContext();
 
     const admin = [
-
         {
             path: '/Home',
             name: t("Home.Home"),
@@ -148,9 +147,9 @@ const Dashboard = ({ children }) => {
             icon: <House />
         },
         {
-            path: '/category',
-            name: "Products",
-            icon: <BiCategory />
+            path: '/best-seller',
+            name: t("Home.products"),
+            icon: <MdProductionQuantityLimits />
         },
         {
             path: "/products",
@@ -158,34 +157,15 @@ const Dashboard = ({ children }) => {
             icon: <MdProductionQuantityLimits />
         },
         {
-            name: t("Home.Bill"),
-            icon: <LiaMoneyBillSolid />,
-            dropdownItems: [
-                { text: 'Create bills', path: '/create-bills' },
-            ]
-        },
-        {
             name: t("Home.Order"),
             icon: <MdBorderColor />,
-            dropdownItems: [
-                { text: 'Agree', path: '/agree' },
-                { text: 'Accept', path: '/accept' },
-            ]
-        },
-        {
-            path: "/customers",
-            name: t("Home.Customer"),
-            icon: <BsFillPersonVcardFill />,
-            dropdownItems: [
-                { text: 'Create', path: '/create' },
-                { text: 'Show bills', path: '/show-bills' },
-            ]
         },
         {
             name: t("Home.Profile"),
             icon: <CgProfile />,
             dropdownItems: [
                 { text: 'Information', path: '/information' },
+                { text: 'Change Password', path: '/change-password' },
             ]
         },
     ];
@@ -315,10 +295,10 @@ const Dashboard = ({ children }) => {
                                 </NavLink>
                                 {activeLink === index && isProfileActive && item.dropdownItems && (
                                     <div className='transition ease-in-out duration-75' dir={language === "ar" ? "rtl" : "ltr"}>
-                                        <div className='flex flex-col w-full mx-auto justify-start font-bold'>
+                                        <div className='flex flex-col w-full mx-auto justify-start font-bold text-white'>
                                             {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
                                                 <NavLink key={dropdownIndex} to={dropdownItem.path} className={module.link}>
-                                                    <p>{dropdownItem.text}</p>
+                                                    <p className='text-white'>{dropdownItem.text}</p>
                                                 </NavLink>
                                             ))}
                                         </div>

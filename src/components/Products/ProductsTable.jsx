@@ -30,7 +30,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
     currentPage: 1,
     totalPages: 1,
   });
-  const {t,language} = useI18nContext();
+  const { t, language } = useI18nContext();
   const fetchData = useCallback(async () => {
     try {
       if (token) {
@@ -99,17 +99,17 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
       .then(() => fetchData())
       .catch((error) => console.error("Error deleting product:", error))
       .finally(() => {
-        setShowConfirmation(false);  
-        setSelectedProductId(null);  
+        setShowConfirmation(false);
+        setSelectedProductId(null);
       });
   }, [selectedProductId, token, fetchData]);
 
   // Cancel deletion
   const cancelDelete = useCallback(() => {
-    setShowConfirmation(false);  
-    setSelectedProductId(null);  
+    setShowConfirmation(false);
+    setSelectedProductId(null);
   }, []);
-   
+
   const dropdownRefs = useRef({});
   const handleEditProduct = (product) => {
     openEdit(product);
@@ -236,9 +236,9 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
                       >
                         <div
                           className={`${selectedProductId === product._id
-                              ? `absolute -top-3 ${language === "en" ? "right-full" : "left-full"
-                              } overflow-auto`
-                              : "hidden"
+                            ? `absolute -top-3 ${language === "en" ? "right-full" : "left-full"
+                            } overflow-auto`
+                            : "hidden"
                             } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                         >
                           <ul className="text-sm bg-transparent pl-0 mb-0">
@@ -304,8 +304,8 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
               <li key={page}>
                 <button
                   className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPage === page
-                      ? "bg-gray-200 text-gray-800"
-                      : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    ? "bg-gray-200 text-gray-800"
+                    : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     }`}
                   onClick={() => handlePageChange(page)}
                 >
