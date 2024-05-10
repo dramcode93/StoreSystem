@@ -42,21 +42,23 @@ const PreviewProduct = () => {
             {loading ? (
                 <div className="fs-4 text-center mb-5 pb-3"><Loading /></div>
             ) : product ? (
-                <div className='flex m-5'>
-                    <div>
-                        <img
-                            src={product.images[0]}
-                            alt={product.name}
-                            crossOrigin="anonymous"
-                            className='object-cover w-96 rounded-sm h-96 transition-transform duration-300 transform bg-white'
-                        />
-                    </div>
-                    <div>
-                        <h2 className='text-white font-bold'>{product.name}</h2>
-                        <h4 className='text-white font-bold'>{product.sellingPrice} <span className='text-yellow-400'>$</span></h4>
-                        <h4 className='text-white font-bold'>Quantity: {product.quantity}</h4>
-                        <h4 className='text-white font-bold'>Shop: {product.shop.name}</h4>
+                <div className=' flex justify-center items-center'>
+                    <div className='flex mx-20 w-2/3 my-10'>
+                        <div>
+                            <img
+                                src={product.images[0]}
+                                alt={product.name}
+                                crossOrigin="anonymous"
+                                className='object-cover w-96 rounded-sm h-96 transition-transform duration-300 transform bg-white'
+                            />
+                        </div>
+                        <div>
+                            <h2 className='text-white font-bold'>{product.name}</h2>
+                            <h4 className='text-white font-bold'>{product.sellingPrice} <span className='text-yellow-400'>$</span></h4>
+                            <h4 className='text-white font-bold'>Quantity: {product.quantity}</h4>
+                            <h4 className='text-white font-bold'>Shop: {product.shop.name}</h4>
 
+                        </div>
                     </div>
                 </div>
             ) : (
