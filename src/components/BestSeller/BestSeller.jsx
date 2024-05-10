@@ -3,17 +3,17 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import Loading from '../Loading/Loading';
 import { useI18nContext } from "../context/i18n-context";
+import { useNavigate } from 'react-router-dom'
 
 const BestSeller = () => {
     const API_URL = "https://store-system-api.gleeze.com/api/products/customers";
-    const API_SHOP = "https://store-system-api.gleeze.com/api/shops";
-
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const token = Cookies.get("token");
     const { t, language } = useI18nContext();
+    const navigate = useNavigate()
 
     const fetchData = useCallback(async () => {
         setLoading(true);
@@ -68,20 +68,24 @@ const BestSeller = () => {
                                     crossOrigin="anonymous"
                                     className='object-cover w-full h-1/2 transition-transform duration-300 transform hover:scale-110'
                                 />
-                                <p className='text-center  text-white text-xl font-bold'>{product.name}</p>
-                                <p className='text-white text-center text-xl font-bold'>{product.sellingPrice}$</p>
-                                <p className='text-white text-center text-xl font-bold'>{product.shop.name}</p>
-                                <div className='flex justify-center flex-col mb-5'>
-                                    {product.quantity === 0 ? (
-                                        <button className="bg-gray-400 rounded-full w-52 fw-bold " disabled>Sold out</button>
-                                    ) : (
-                                        <button
-                                            className="bg-yellow-900 rounded-full hover:bg-yellow-800 w-52 fw-bold "
-                                            onClick={() => handleAddtoCart(product._id)}
-                                        >
-                                            Add to Cart
-                                        </button>
-                                    )}
+                                <div>
+                                    <p className='text-center mt-2 text-white text-xl font-bold'>{product.name}</p>
+                                    <p className='text-white text-center text-xl font-bold'>{product.sellingPrice}$</p>
+                                    <p className='text-white text-center text-xl font-bold'>{product.shop.name}</p>
+                                </div>
+                                <div className='flex justify-center  mb-5 mx-2'>
+                                    <button
+                                        className="bg-yellow-900 rounded-full hover:bg-yellow-800 w-36 fw-bold "
+                                        onClick={() => handleAddtoCart(product._id)}
+                                    >
+                                        Add to Cart
+                                    </button>
+                                    <button
+                                        className="bg-pink-100  text-black rounded-full hover:bg-pink-300  w-36 fw-bold "
+                                        onClick={() => { navigate(`/previewProduct/${product._id}`) }}
+                                    >
+                                        Preview
+                                    </button>
                                 </div>
                             </div>
                         ))}

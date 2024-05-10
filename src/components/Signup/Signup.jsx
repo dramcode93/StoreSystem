@@ -57,9 +57,9 @@ const SignUp = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center ">
-            <div className="bg-gray-900 dark:bg-gray-100 border-2 parentDiv rounded-xl shadow-md " dir={language === "ar" ? "rtl" : "ltr"}>
-                <div className="flex flex-col gap-2 p-3 items-center w-full text-white">
+        <div className="min-h-screen flex">
+            <div className="bg-gray-900 w-2/3 dark:bg-gray-100 border-2 parentDiv rounded-xl shadow-md " dir={language === "ar" ? "rtl" : "ltr"}>
+                <div className="flex flex-col gap-1 p-3 items-center  text-white">
                     <h1 className="font-medium text-base">{usernameError || passwordError}</h1>
                     <h1 className="font-semibold text-center pdarkForm plightForm text-2xl">
                         {t("Home.Signup")}
@@ -71,7 +71,7 @@ const SignUp = () => {
                         <div className=" right-1 gap-1 flex">
 
                             <div>
-                                <label htmlFor="username" className={`block font-semibold absolute top-0  py-0 px-1 text-white ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+                                <label htmlFor="username" className={`block font-semibold   py-0 px-1 text-white ${language === 'ar' ? 'rtl' : 'ltr'}`}>
                                     {language === 'en' ? 'Username' : t("Home.Username")}
                                 </label>
                                 <input
@@ -85,7 +85,7 @@ const SignUp = () => {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="username" className={`block font-semibold absolute top-0  py-0 px-1 text-white ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+                                <label htmlFor="username" className={`block font-semibold py-0 px-1 text-white ${language === 'ar' ? 'rtl' : 'ltr'}`}>
                                     name
                                 </label>
                                 <input
