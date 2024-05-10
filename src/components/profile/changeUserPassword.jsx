@@ -11,13 +11,11 @@ const ChangeUserPassword = () => {
     const API_password1 = `https://store-system-api.gleeze.com/api/Users/${id}/changeUserPassword`;
 
     useEffect(() => {
-        // Fetch token from cookies
         const token = Cookies.get("token");
-        // Check if token is missing or not
         if (!token) {
             setError('Authentication token is missing. Please login again.');
         }
-    }, []); // Run once on component mount
+    }, []);
 
     const handleEditPassword = async (e) => {
         e.preventDefault();
@@ -30,7 +28,8 @@ const ChangeUserPassword = () => {
             const response = await axios.put(API_password1, {
                 password,
                 passwordConfirmation
-            }, { headers: { Authorization: `Bearer ${token}` } });
+            },
+             { headers: { Authorization: `Bearer ${token}` } });
             window.location.href = '/users';
         } catch (error) {
             console.error('An error occurred while sending the reset password request', error);

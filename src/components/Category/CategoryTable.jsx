@@ -300,21 +300,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
       </table>
       <nav
         className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8"
-        dir="rtl"
       >
-        <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-          {t("Products.appear")}
-          <span
-            className="font-semibold text-gray-900 dark:text-white m-2"
-            dir="ltr"
-          >
-            1-10{" "}
-          </span>
-          {t("Products.from")}
-          <span className="font-semibold text-gray-900 dark:text-white m-2">
-            20
-          </span>
-        </span>
         <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
           <li>
             <button

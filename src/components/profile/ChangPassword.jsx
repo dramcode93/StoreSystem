@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useI18nContext } from '../context/i18n-context';
 
 const API_password = 'https://store-system-api.gleeze.com/api/users/updateMyPassword';
 
@@ -9,7 +10,7 @@ const ChangePassword = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-
+const language =useI18nContext();
   let token = Cookies.get("token");
 
   const handleEditPassword = async (e) => {
@@ -30,7 +31,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="bg-gray-700 bg-opacity-25 mx-10 rounded-md py-4 px-4  text-gray-200 absolute top-40 w-3/4 ">
+    <div className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 p-4 ${language === "ar" ? "left-10" : "right-10"}`} >
       <h3 className='font-bold text-white'>Change Password Page</h3>
       <form className=''>
         <label htmlFor='password'>Current Password :</label>
