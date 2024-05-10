@@ -7,6 +7,7 @@ import ProfileField from './ProfileField';
 import Loading from '../Loading/Loading';
 import AddressField from './AddressField';
 import PhoneField from './PhoneField';
+import { useI18nContext } from '../context/i18n-context';
 
 const API_info = 'https://store-system-api.gleeze.com/api/users/getMe';
 const API_update = 'https://store-system-api.gleeze.com/api/users/updateMe';
@@ -25,7 +26,7 @@ const Information = ({ openAdd }) => {
   const [isDeletingPhone, setIsDeletingPhone] = useState(false); // Add state for phone deletion loading
   const [isDeletingAddress, setIsDeletingAddress] = useState(false); // Add state for phone deletion loading
   const [isAddingPhone, setIsAddingPhone] = useState(false); // Add state for phone addition loading
-
+const language =useI18nContext();
   const decodedToken = jwtDecode(token);
 
   const fetchData = useCallback(async () => {
@@ -174,8 +175,8 @@ const Information = ({ openAdd }) => {
   };
 
   return (
-    <div className="bg-gray-700 bg-opacity-25 mx-10 rounded-md py-4 px-4  text-gray-200 absolute top-40 w-3/4 " >
-      <h3 className='font-bold text-white'>Information Page</h3>
+    <div className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 p-10 ${language === "ar" ? "left-10" : "right-10"}`} >
+      <h3 className='font-bold text-white py-3'>Information Page</h3>
       {loading ? <div className=" fs-4 text-center mb-5 pb-3"><Loading /> </div> : (
         <ul>
           <ProfileField

@@ -1,8 +1,6 @@
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
 import { useI18nContext } from "../context/i18n-context";
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import Cookies from 'js-cookie';
 import { CiSearch } from "react-icons/ci";
@@ -18,51 +16,60 @@ const UserTable = ({ openCreate, openEdit }) => {
   const token = Cookies.get('token');
   const [users, setUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState(null);
-  const [searchInput, setSearchInput] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [pagination, setPagination] = useState({});
-  const [loading, setLoading] = useState(true);
-
-  const decodedToken = jwtDecode(token);
-  const navigate = useNavigate()
+     const [loading, setLoading] = useState(true);
+  const [nextPageData, setNextPageData] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [pagination, setPagination] = useState({
+    currentPge: 1,
+    totalPages: 1,
+  });
+   const navigate = useNavigate()
 
   const fetchData = useCallback(async () => {
     try {
       if (token) {
-        const response = await axios.get(`${API_users}?sort=-role name&fields=username name email phone address active role`, { headers: { Authorization: `Bearer ${token}` } });
+        const response = await axios.get(`${API_users}?sort=-role name&fields=username name email phone address active role&search=${searchTerm}&page=${pagination.currentPge}&limit=5`,
+         { headers: { Authorization: `Bearer ${token}` } });
         setUsers(response.data.data);
-        setPagination(response.data.paginationResult);
-      }
+        setPagination({
+          currentPge: pagination.currentPge,
+          totalPages: response.data.paginationResult.numberOfPages,
+        });
+}
     } catch (error) {
       console.error('Error fetching users:', error);
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, [token, pagination.currentPge, searchInput]);
 
   useEffect(() => {
     fetchData();
-  }, [searchInput, fetchData]);
+  }, [searchTerm, pagination.currentPge, token, fetchData]);
 
-  const handleSearch = () => {
-    setSearchInput(searchTerm);
-  };
+  useEffect(() => {
+    if (pagination.currentPge < pagination.totalPages) {
+      axios
+        .get(
+          `${API_users}?sort=-role name&fields=username name email phone address active role&search=${searchTerm}&page=${pagination.currentPge}&limit=5`,
+                    { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((response) => {
+          setNextPageData(response.data.data);
+        })
+        .catch((error) => {
+          console.error("Error preloading next page:", error);
+        });
+    }
+  }, [pagination.currentPge, pagination.totalPages, searchTerm, token]);
 
 
-
-
-
-  const handlePageChange = (newPage) => {
-    setPagination({
-      ...pagination,
-      currentPge: newPage,
-    });
-  };
   const { t, language } = useI18nContext();
 
   const handleUpdateActive = (id, newActiveStatus) => {
     axios
-      .put(`https://store-system-api.gleeze.com/api/users/${id}/activeUser?search=${searchInput}&page=${pagination.currentPage}&limit=20`, { active: newActiveStatus }, {
+      .put(`https://store-system-api.gleeze.com/api/users/${id}/activeUser?search=${searchInput}&page=${pagination.currentPge}&limit=20`, { active: newActiveStatus }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -82,36 +89,84 @@ const UserTable = ({ openCreate, openEdit }) => {
       prevProductId === productId ? null : productId
     );
   };
-  const handleClickOutside = (event, productId) => {
-    const dropdown = dropdownRefs.current[productId];
-
-    if (
-      dropdown &&
-      !dropdown.contains(event.target) &&
-      !event.target.classList.contains("edit-button")
-    ) {
-      setSelectedUserId(null);
-    }
-  };
+ 
   const dropdownRefs = useRef({});
 
   const handleEditUser = (user) => {
     openEdit(user);
   };
+  const MAX_DISPLAY_PAGES = 5;
+
+  const startPage = Math.max(
+    1,
+    Math.min(
+      pagination.currentPge - Math.floor(MAX_DISPLAY_PAGES / 2),
+      pagination.totalPages - MAX_DISPLAY_PAGES + 1
+    )
+  );
+  const endPage = Math.min(
+    startPage + MAX_DISPLAY_PAGES - 1,
+    pagination.totalPages
+  );
+
+  const pageButtons = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, index) => startPage + index
+  );
+  useEffect(() => {
+    if (pagination.currentPge < pagination.totalPages) {
+      axios
+        .get(
+          `${API_users}?sort=-role name&fields=username name email phone address active role&search=${searchTerm}&page=${pagination.currentPge + 1}&limit=3`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((response) => {
+          setNextPageData(response.data.data);
+        })
+        .catch((error) => {
+          console.error("Error preloading next page:", error);
+        });
+    }
+  }, [pagination.currentPge, pagination.totalPages, searchTerm, token]);
+
+  const handlePageChange = (newPage) => {
+    setPagination({
+      ...pagination,
+      currentPge: newPage,
+    });
+  };
+
+  const handlePreviousPage = () => {
+    if (pagination.currentPge > 1) {
+      handlePageChange(pagination.currentPge - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (pagination.currentPge < pagination.totalPages) {
+      handlePageChange(pagination.currentPge + 1);
+    }
+  };
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchTerm(searchInput);
+  };
   return (
     <div>
-      <section className="bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-40 w-3/4">
+      <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
         <div className="flex justify-between">
           <div className="relative w-96 m-3">
             <input
               className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
               type="text"
-              onClick={handleSearch}
+              onChange={(e) => setSearchInput(e.target.value)}
+              value={searchInput}
               placeholder={t("Products.Search")}
             />
             <CiSearch
               className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
-                } `}
+                } cursor-pointer`}
+              onClick={handleSearch}
             />
           </div>
           <div>
@@ -272,85 +327,41 @@ const UserTable = ({ openCreate, openEdit }) => {
                     </div>
                   </td>
 
-
-                  {/*decodedToken._id !== user._id &&
-                    <td className="px-4 py-4">
-                      <button className='border'
-                        value={!user.active}
-                        onClick={() => handleUpdateActive(user._id, !user.active)}
-                      >
-                        {user.active === true ? (
-                          <Translate>active</Translate>
-                        ) : (
-                          <Translate>deactive</Translate>
-                        )}
-                      </button>
-                      </td>*/}
-                  {/*decodedToken.role !== 'user' &&
-                                        user.role !== 'manager' && (
-                                            <td className="px-4 py-4">
-                                                <Link to={`/changeUserPassword/${user._id}`} className={styles.deleteBtn}>
-                                                    <Translate translations={{ ar: 'تغيير كلمة المرور', en: 'change password' }}>{selectedLanguage === 'ar' ? 'تغيير كلمة المرور' : 'change password'}</Translate>
-                                                </Link>
-                                            </td>
-                                        )*/}
                 </tr>
               ))}
             </tbody></>)}
         </table>
 
         <nav
-          className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 "
-          dir="rtl"
+          className="md:flex-row items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 "
         >
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ">
-            {"      "} {t("Products.appear")}
-            {"   "}
-            <span
-              className="font-semibold text-gray-900 dark:text-white m-2"
-              dir="ltr"
-            >
-              {"     "} 1-10 {"      "}
-            </span>{" "}
-            {"  "}
-            {"   "}
-            {t("Products.from")}
-            <span className="font-semibold text-gray-900 dark:text-white m-2">
-              {"   "}1000 {"   "}
-            </span>
-          </span>
           <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
             <li>
               <button
                 className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-gray-700 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => {
-                  /* Handle previous page */
-                }}
+                onClick={handlePreviousPage}
               >
                 <span className="sr-only">Previous</span>
                 <CaretLeft size={18} weight="bold" />
               </button>
             </li>
-            {/* Pagination links */}
-            {/* Update with appropriate URLs or onClick handlers */}
-            {/* Example: */}
-            <li>
-              <button
-                className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => {
-                  /* Handle page click */
-                }}
-              >
-                1
-              </button>
-            </li>
-            {/* End of pagination links */}
+            {pageButtons.map((page) => (
+              <li key={page}>
+                <button
+                  className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
+                    ? "bg-gray-200 text-gray-800"
+                    : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    }`}
+                  onClick={() => handlePageChange(page)}
+                >
+                  {page}
+                </button>
+              </li>
+            ))}
             <li>
               <button
                 className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => {
-                  /* Handle next page */
-                }}
+                onClick={handleNextPage}
               >
                 <span className="sr-only">Next</span>
                 <CaretRight size={18} weight="bold" />
