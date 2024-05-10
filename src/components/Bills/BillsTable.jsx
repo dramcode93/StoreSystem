@@ -117,14 +117,6 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
     openEdit(bill);
   };
 
-  const lang = localStorage.getItem("language");
-  // const handlePrintBill = useCallback(
-  //   (billId) => {
-  //     // Invoke the handlePrint function with the bill model and bill ID
-  //     handlePrint(bills, billId);
-  //   },
-  //   [bills]
-  // );
 
   const MAX_DISPLAY_PAGES = 5;
 
@@ -258,7 +250,7 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                     </td>
                     <td className="px-4 py-3 flex items-center justify-end">
                       <button
-                        className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
+                        className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                         type="button"
                         onClick={() => toggleEditDropdown(bill._id)}
                         ref={(el) => (dropdownRefs.current[bill._id] = el)}
@@ -266,25 +258,25 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                         <DotsThree
                           size={25}
                           weight="bold"
-                          className=" hover:bg-gray-700 w-10 rounded-lg"
+                          className="hover:bg-gray-700 w-10 rounded-lg"
                         />
                       </button>
                       <div
-                        className="absolute z-50"
+                        className="absolute z-10"
                         dir={language === "ar" ? "rtl" : "ltr"}
                       >
                         <div
+                          id={`category-dropdown-${bill._id}`}
                           className={`${selectedBillId === bill._id
-                              ? `absolute -top-3 ${lang === "en" ? "right-full" : "left-full"
-                              } overflow-auto`
+                              ? "absolute -top-3 me-5 -right-10 overflow-auto"
                               : "hidden"
-                            } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                            } z-10 w-44 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                         >
                           <ul className="text-sm bg-transparent pl-0 mb-0">
                             <li className="">
                               <button
                                 type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                className="-z-3 flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
                                 onClick={() => handleEditBill(bill)}
                               >
                                 <NotePencil size={18} weight="bold" />
@@ -325,9 +317,7 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                         </div>
                       </div>
                     </td>
-                    {/* <td className="px-4 py-4">
-                      <PrintButton />
-                    </td> */}
+                   
                   </tr>
                 ))}
               </>

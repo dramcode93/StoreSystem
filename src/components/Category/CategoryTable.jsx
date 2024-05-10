@@ -250,12 +250,12 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                       dir={language === "ar" ? "rtl" : "ltr"}
                     >
                       <div
-                        id={`category-dropdown-${category._id}`}
-                        className={`${
-                          selectedCategoryId === category._id
-                            ? "absolute -top-3 me-5 -right-10 overflow-auto"
+                        id={`manager-dropdown-${category._id}`}
+                        className={`${selectedCategoryId === category._id
+                            ? `absolute -top-3 ${language === "en" ? "right-full" : "left-full"
+                            } overflow-auto`
                             : "hidden"
-                        } z-10 w-44 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                          } z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
                         <ul className="text-sm bg-transparent pl-0 mb-0">
                           <li className="">

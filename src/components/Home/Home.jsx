@@ -5,7 +5,7 @@ import image from '../../Images/images (1).jpg';
 import CreateShop from './forms/CreateShop';
 
 const Home = (role,modal) => {
-  const {   language } = useI18nContext();
+  const {language } = useI18nContext();
   const [showCreateShop, setShowCreateShop] = useState(false);
 
   const toggleCreateShop = () => {
@@ -15,10 +15,11 @@ const Home = (role,modal) => {
   const toggleOpenCreateModal = () => {
     setOpenCreate(!openCreate);
   };
+
   return (
     <div>
-      <div dir={language === "ar" ? "rtl" : "ltr"} className=' absolute top-32 left-10 -z-3 flex flex-col justify-content-center'>
-        <img src={image} alt='' className='image-container w-75 my-5' />
+      <div className={`absolute top-32 -z-3 flex flex-col justify-content-center ${language === "ar" ? "left-10 " : "right-10 "}`}>
+        <img src={image} alt='' className='image-container my-5' />
         <div className="col-span-2 flex justify-center">
           <button
             onClick={toggleCreateShop}
