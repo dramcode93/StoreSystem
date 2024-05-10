@@ -6,7 +6,7 @@ import FormInput from "../../../form/FormInput";
 import { useI18nContext } from "../../context/i18n-context";
 import FormSelect from "../../../form/FormSelect";
 
-export default function AddShop({ closeModal, role, modal }) {
+export default function CreateShop({ closeModal, role, modal }) {
     useEffect(() => { }, []);
     const handleBackgroundClick = (e) => {
         if (e.target === e.currentTarget) {

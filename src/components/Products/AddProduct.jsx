@@ -70,7 +70,7 @@ export default function AddProduct({ closeModal, role, modal }) {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        "https://store-system-api.gleeze.com/api/categories",
+        "https://store-system-api.gleeze.com/api/categories/list",
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setCategories(response.data.data);
@@ -141,14 +141,14 @@ export default function AddProduct({ closeModal, role, modal }) {
       <div
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
-        absolute top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${modal ? "left-1/2" : "-left-[100%]"}
+        fixed top-1/2 -translate-x-1/2 -translate-y-1/2
+        z-50 justify-center items-center ${modal ? "-right-1/2" : "-left-[100%]"}
          bg-opacity-40 w-full h-full `}
       >
         <div
-          className={`CreateCenter w-full max-w-min 
+          className={`w-full max-w-min 
            dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
-           ${modal ? "absolute left-0" : "absolute -left-[100%]"}
+           ${modal ? "absolute right-0" : "absolute -left-[100%]"}
            h-screen overflow-auto`}
         >
           <div className="relative p-4 dark:bg-gray-800 sm:p-5">
