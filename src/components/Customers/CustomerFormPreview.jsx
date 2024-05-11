@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import FormPic from "../../form/FormPic";
 import ConfirmationModal from "../Category/ConfirmationModel";
 
-export default function ProductFormPreview({ details, t, headers }) {
+export default function CustomerFormPreview({ details, t, headers }) {
   const token = Cookies.get("token");
   const [images, setImages] = useState("");
   const [loading, setLoading] = useState(true);
