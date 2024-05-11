@@ -200,7 +200,7 @@ const Cart = () => {
                                 </div>))}
                             <div className='flex m-3 bg-gray-500 p-4 bg-opacity-25 rounded-xl'>
                                 <p className='text-white text-2xl font-bold'>Total Cart Price:</p>
-                                <p className='text-white text-2xl font-bold'>{products.totalCartPrice}</p>
+                                <p className='text-white text-2xl font-bold'>{products.totalCartPrice} $</p>
 
                             </div>
                         </div>

@@ -27,6 +27,7 @@ import SignUp from "./components/Signup/Signup.jsx";
 import BestSeller from "./components/BestSeller/BestSeller.jsx";
 import PreviewProduct from "./components/BestSeller/PreviewProduct.jsx";
 import Cart from "./components/BestSeller/Cart.jsx";
+import Shops from "./components/BestSeller/Shops.jsx";
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -96,6 +97,7 @@ const App = () => {
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/best-seller" element={<BestSeller />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/shops" element={<Shops />} />
                 <Route path="/category" element={<Category />} />
                 <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
                 <Route path="/previewProduct/:id" element={<PreviewProduct />} />
