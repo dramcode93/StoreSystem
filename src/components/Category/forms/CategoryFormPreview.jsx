@@ -16,8 +16,6 @@ export default function CategoryFormPreview({ details, t, headers, loading }) {
               {details?.name}
             </dd>
           </div>
-
-          
           <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor">
             {headers?.products} :
           </dt>
