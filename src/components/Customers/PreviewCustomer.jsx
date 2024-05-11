@@ -6,25 +6,12 @@ import CustomerFormPreview from "./CustomerFormPreview";
 
 export default function PreviewCustomer({ closeModal, assistantData }) {
   const { t } = useI18nContext();
-  // const [loading, setLoading] = useState(false);
-  // const { images } = assistantData;
-
-  // console.log("images", `${images.map((img) => img).join("\n")} \n`);
-  // console.log(
-  //   "images",
-  //   `${images.map((img) => img.replace(/\s/g, "%20")).join("\n")} \n`
-  // );
-
   const headers = {
-    code: "Product Code",
-    name: "Product Name",
-    description: "Description",
-    category: "Category",
-    quantity: "Quantity",
-    productPrice: "Product Price",
-    sellingPrice: "Selling Price",
-    sold: "Sold",
-    images: "Images",
+    code: "Customer Code",
+    name: "Customer Name",
+    address:"Customer Address",
+    phone:"Customer Phone",
+    bills:"Bills"
   };
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -68,35 +55,6 @@ export default function PreviewCustomer({ closeModal, assistantData }) {
             <h3 className="font-semibold ">{t("previewForm.title")}</h3>
           </div>
           <CustomerFormPreview t={t} details={assistantData} headers={headers} />
-          {/* <div className="flex justify-between items-center mt-14">
-            <div className="flex items-center">
-              <button
-                type="button"
-                className="gap-2 text-white inline-flex items-center justify-center bg-themeColor
-                   hover:bg-orange-700 focus:ring-4 focus:outline-none duration-100 ease-linear
-                   focus:ring-primary-300 font-medium rounded-lg text-sm px-5 
-                   py-2.5 text-center dark:focus:ring-themeColor"
-              >
-                <span className="font-bold text-base">
-                  {t("previewForm.edit")}
-                </span>
-              </button>
-            </div>
-            <button
-              type="button"
-              className="gap-2 inline-flex items-center 
-                text-white bg-red-600 hover:bg-red-700 
-                focus:ring-4 focus:outline-none 
-                focus:ring-red-300 font-medium duration-100 ease-linear
-                rounded-lg text-sm px-5 py-2.5 text-center 
-                dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900 max-w-min"
-            >
-              <TrashSimple size={18} weight="bold" />
-              <span className="font-bold text-base">
-                {t("previewForm.delete")}{" "}
-              </span>
-            </button>
-          </div> */}
         </div>
       </div>
     </div>

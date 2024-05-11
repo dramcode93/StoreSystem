@@ -1,124 +1,51 @@
 import { useCallback, useEffect, useState } from "react";
 import Loading from "../Loading/Loading";
-import { FaTrash } from "react-icons/fa";
 import axios from "axios";
 import Cookies from "js-cookie";
-import FormPic from "../../form/FormPic";
-import ConfirmationModal from "../Category/ConfirmationModel";
+import { useI18nContext } from "../context/i18n-context";
 
-export default function CustomerFormPreview({ details, t, headers }) {
+export default function CustomerFormPreview({ details, headers }) {
   const token = Cookies.get("token");
-  const [images, setImages] = useState("");
   const [loading, setLoading] = useState(true);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [selectedImage, setSelectedImage] = useState();
+  const { t, language } = useI18nContext();
 
-  useEffect(() => {
-    if (details) {
-      setLoading(false);
-    }
-  }, [details]);
-  const handleDelete = useCallback(async () => {
-    const imageName = selectedImage.split("/products/").pop();
-    // setLoading(true);
+  const [specificCustomer, setSpecificCustomer] = useState();
+
+  const fetchData = useCallback(async () => {
     try {
-      const response = await axios.delete(
-        `https://store-system-api.gleeze.com/api/products/${details._id}/images`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-          data: { images: imageName },
-        }
-      );
-      // setImages((prevImages) => prevImages.filter((img) => img !== imageUrl));
-      // setLoading(false);
-      // const updatedImages = assistantDetails.images.filter(
-      //   (img) => img !== imageUrl
-      // );
-      // setAssistantDetails((prevState) => ({
-      //   ...prevState,
-      //   images: updatedImages,
-      // }));
-      console.log("Response:", response.data);
-      console.log("Image deleted successfully!", imageName);
-      window.location.href = "/products";
-    } catch (error) {
-      // setLoading(false);
-      console.error("Error deleting image:", error);
-    }
-  }, [token, details, selectedImage]);
-
-  const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
-    setImages((prevFiles) => {
-      const totalFiles = prevFiles.length + files.length;
-      if (totalFiles <= 5) {
-        return [...prevFiles, ...files];
-      } else {
-        const remainingSpace = 5 - prevFiles.length;
-        const newFiles = files.slice(0, remainingSpace);
-        return [...prevFiles, ...newFiles];
-      }
-    });
-  };
-
-  const addImages = async (e) => {
-    try {
-      if (images) {
-        const formData = new FormData();
-        images.forEach((file, index) => {
-          formData.append("images", file);
-        });
-        // setLoading(true);
-        const response = await axios.put(
-          `https://store-system-api.gleeze.com/api/products/${details._id}/images`,
-          formData,
+      if (token) {
+        
+        const product = await axios.get(
+          `https://store-system-api.gleeze.com/api/customers/${details._id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-
-        console.log("Image added successfully:", response.data);
-        // setLoading(false);
-        // setImages([]);
-        window.location.href = "/products";
+        setSpecificCustomer(product.data.data);
+        // console.log("specific", product.data.data);
+      } else {
+        console.error("No token found.");
       }
-
-      // if (response.data.images) {
-      //   const uploadedImageURLs = response.data.images.map(
-      //     (image) => image.url
-      //   );
-      // setImageURLs(uploadedImageURLs);
-      // }
     } catch (error) {
-      console.error("Error adding Image:", error);
+      console.error("Error specific data:", error);
+    } finally {
+      setLoading(false);
     }
-  };
-  const cancelDelete = useCallback(() => {
-    setShowConfirmation(false);
-  }, []);
-  const handleDeleteImage = (imageUrl) => {
-    setShowConfirmation(true);
-    setSelectedImage(imageUrl);
-  };
+  }, [token, details]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
   return (
     <dl className="">
       {loading ? (
         <Loading />
       ) : (
         <>
-          <ConfirmationModal
-            item="Image"
-            show={showConfirmation}
-            onCancel={cancelDelete}
-            onConfirm={() => {
-              handleDelete();
-              setShowConfirmation(false);
-            }}
-          />
           <div className="d-flex gap-2 items-center">
             <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor">
               {headers?.code} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?._id.slice(-4)}
+              {specificCustomer?._id.slice(-4)}
             </dd>
           </div>
 
@@ -127,146 +54,90 @@ export default function CustomerFormPreview({ details, t, headers }) {
               {headers?.name} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.name}
+              {specificCustomer?.name}
             </dd>
           </div>
 
           <div className="d-flex gap-2 items-center">
             <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
-              {headers?.description} :
+              {headers?.address} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.description}
-            </dd>
-          </div>
-
-          <div className="d-flex gap-2 items-center">
-            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
-              {headers?.category} :
-            </dt>
-            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.category.name}
-            </dd>
-          </div>
-
-          <div className="d-flex gap-2 items-center">
-            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
-              {headers?.quantity} :
-            </dt>
-            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.quantity}
-            </dd>
-          </div>
-
-          <div className="d-flex gap-2 items-center">
-            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
-              {headers?.productPrice} :
-            </dt>
-            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.productPrice}
-            </dd>
-          </div>
-
-          <div className="d-flex gap-2 items-center">
-            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
-              {headers?.sellingPrice} :
-            </dt>
-            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.sellingPrice}
-            </dd>
-          </div>
-
-          <div className="d-flex gap-2 items-center">
-            <dt className="mb-3 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
-              {headers?.sold} :
-            </dt>
-            <dd className="mb-3 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.sold}
-            </dd>
-          </div>
-
-          {/* <div className="d-flex gap-2 items-center">
-              <dt className=" font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
-                {headers?.images}:
-              </dt>
-              <dd className=" font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-                {details.images && details.images.length > 0 ? (
-                  <div className="d-grid grid-cols-1 gap-1 ">
-                    {details.images.map((imageUrl, index) => (
-                      <img
-                        key={index}
-                        src={imageUrl}
-                        alt="Product"
-                        className="max-w-full h-20"
-                        crossOrigin="anonymous"
-                      />
-                    ))}
-                  </div>
-                ) : (
-                 <div className="d-flex ">
-                 No Images Yet
-                 </div>
-                )}
-              </dd>
-            </div> */}
-
-          <div className="d-flex gap-2 items-center">
-            <dt className=" font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
-              {headers?.images}:
-            </dt>
-            <dd className="mb-0 font-light text-gray-500 sm:mb-5 dark:text-gray-400 d-flex gap-2 items-center">
-              {details.images && details.images.length > 0 ? (
-                <div className="d-grid grid-cols-5 m-0 gap-4 ">
-                  {details.images.map((imageUrl, index) => (
-                    <div key={index} className="d-flex ">
-                      <img
-                        src={imageUrl}
-                        alt="Product"
-                        className="max-w-full h-20 rounded-md"
-                        crossOrigin="anonymous"
-                      />
-                      <button
-                        className=""
-                        onClick={() => handleDeleteImage(imageUrl)}
-                      >
-                        <FaTrash size={18} color="red" />
-                      </button>
-                    </div>
-                  ))}
+              {specificCustomer?.address.map((address) => (
+                <div key={address.id}>
+                  {`${address.street},
+                        ${
+                          language === "ar"
+                            ? address.city.city_name_ar
+                            : address.city.city_name_en
+                        },
+                        ${
+                          language === "ar"
+                            ? address.governorate.governorate_name_ar
+                            : address.governorate.governorate_name_en
+                        }`}
                 </div>
+              ))}
+            </dd>
+          </div>
+
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.phone} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {specificCustomer?.phone.map((phone, index) => (
+                <div key={index}>{phone}</div>
+              ))}
+            </dd>
+          </div>
+          <div className="">
+            <dt className="mb-1 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.bills} :
+            </dt>
+            <dt className="d-flex flex-col text-gray-900 dark:text-gray-300 m-0">
+              {specificCustomer && specificCustomer.bills && specificCustomer.bills.length > 0 ? (
+                specificCustomer.bills.map((bill, index) => (
+                  <dt
+                    className="d-flex gap-1 items-center justify-between flex-wrap border-b-2 mb-2"
+                    key={index}
+                  >
+                    <div>
+                      <dd className="!text-base font-medium">Bill Code: </dd>
+                      <dd className="!text-base font-light text-gray-500 sm:mb-3 dark:text-gray-400">
+                        {bill._id.slice(-6)}
+                      </dd>
+                    </div>
+                    <div>
+                      <dd className="!text-base font-medium">Created At:</dd>
+                      <dd className="!text-base font-light text-gray-500 sm:mb-3 dark:text-gray-400">
+                        {new Date(bill.createdAt).toLocaleString()}
+                      </dd>
+                    </div>
+                    <div>
+                      <dd className="!text-base font-medium">Updated At:</dd>
+                      <dd className="!text-base font-light text-gray-500 sm:mb-3 dark:text-gray-400">
+                        {new Date(bill.updatedAt).toLocaleString()}
+                      </dd>
+                    </div>
+                    <div>
+                      <dd className="!text-base font-medium">Products:</dd>
+                      <dd className="!text-base font-light text-gray-500 sm:mb-3 dark:text-gray-400">
+                        {bill.products.map((product, index) => (
+                          <span key={index}>
+                            {product.product.name}
+                            {index !== bill.products.length - 1 && ", "}
+                          </span>
+                        ))}
+                      </dd>
+                    </div>
+                  </dt>
+                ))
               ) : (
-                <div className="d-flex items-center ">No Images Yet</div>
+                <dd>No bills found</dd>
               )}
-            </dd>
+            </dt>
           </div>
-          <div className="d-flex items-center justify-center mt-2 gap-5">
-            <FormPic
-              label="Upload Images"
-              name="Upload Images"
-              onChange={handleImageUpload}
-              placeholder="Product Image"
-            />
-            <button
-              type="button"
-              onClick={addImages}
-              className=" h-min rounded-md bg-orange-400 font-medium text-xl max-w-60"
-            >
-              Add Images
-            </button>
-          </div>
-          {images.length > 0 && (
-                <div className="d-flex gap-2 items-center justify-center mt-2">
-                  {images.map((file, index) => (
-                    <div key={index}>
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt={`Uploaded ${index + 1}`}
-                        className="max-w-full h-20 rounded-md"
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
         </>
       )}
     </dl>

@@ -70,7 +70,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
           console.error("Error preloading next page:", error);
         });
     }
-  }, [pagination.currentPge, pagination.totalPages, searchTerm, token]);
+  }, [pagination.currentPge, pagination.totalPages, searchTerm, token,searchInput]);
 
   const handleDeleteCustomer = (customerId) => {
     setSelectedCustomerId(customerId);
@@ -151,6 +151,10 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
     if (pagination.currentPge < pagination.totalPages) {
       handlePageChange(pagination.currentPge + 1);
     }
+  };
+  
+  const handlePreviewCustomer = (customer) => {
+    openPreview(customer);
   };
   return (
     <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
@@ -296,6 +300,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
                             <button
                               type="button"
                               className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                            onClick={() => handlePreviewCustomer(customer)}
                             >
                               <Eye size={18} weight="bold" />
                               {t("Category.Preview")}
