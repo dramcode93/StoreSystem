@@ -26,7 +26,7 @@ const Information = ({ openAdd }) => {
   const [isDeletingPhone, setIsDeletingPhone] = useState(false); // Add state for phone deletion loading
   const [isDeletingAddress, setIsDeletingAddress] = useState(false); // Add state for phone deletion loading
   const [isAddingPhone, setIsAddingPhone] = useState(false); // Add state for phone addition loading
-const language =useI18nContext();
+  const language = useI18nContext();
   const decodedToken = jwtDecode(token);
 
   const fetchData = useCallback(async () => {
@@ -177,60 +177,61 @@ const language =useI18nContext();
   return (
     <div className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 p-10 ${language === "ar" ? "left-10" : "right-10"}`} >
       <h3 className='font-bold text-white py-3'>Information Page</h3>
-      {loading ? <div className=" fs-4 text-center mb-5 pb-3"><Loading /> </div> : (
-        <ul>
-          <ProfileField
-            label="Username"
-            value={info.username}
-          />
+      {loading ? <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
+        : (
+          <ul>
+            <ProfileField
+              label="Username"
+              value={info.username}
+            />
 
-          <ProfileField
-            label="Name"
-            value={info.name}
-            isEditing={isNameEditing}
-            inputValue={inputValues.name}
-            handleInputChange={handleInputChange}
-            handleEditToggle={handleEditToggle}
-          />
+            <ProfileField
+              label="Name"
+              value={info.name}
+              isEditing={isNameEditing}
+              inputValue={inputValues.name}
+              handleInputChange={handleInputChange}
+              handleEditToggle={handleEditToggle}
+            />
 
-          <ProfileField
-            label="Email"
-            value={info.email}
-            isEditing={isEmailEditing}
-            inputValue={inputValues.email}
-            handleInputChange={handleInputChange}
-            handleEditToggle={handleEditToggle}
-          />
+            <ProfileField
+              label="Email"
+              value={info.email}
+              isEditing={isEmailEditing}
+              inputValue={inputValues.email}
+              handleInputChange={handleInputChange}
+              handleEditToggle={handleEditToggle}
+            />
 
-          <PhoneField
-            label="Phone"
-            value={info.phone}
-            handleInputChange={handleInputChange}
-            isEditing={isPhoneAdding}
-            handleDelPhone={handleDelPhone}
-            handleAddPhone={handleAddPhone}
-            handleAddToggle={handleAddToggle}
-            isLoading={isDeletingPhone || isAddingPhone}
-          />
+            <PhoneField
+              label="Phone"
+              value={info.phone}
+              handleInputChange={handleInputChange}
+              isEditing={isPhoneAdding}
+              handleDelPhone={handleDelPhone}
+              handleAddPhone={handleAddPhone}
+              handleAddToggle={handleAddToggle}
+              isLoading={isDeletingPhone || isAddingPhone}
+            />
 
-          <AddressField
-            label="Address"
-            values={info.address}
-            openAdd={openAdd}
-            handleDelAddress={handleDelAddress}
-            isLoading={isDeletingAddress}
-          />
+            <AddressField
+              label="Address"
+              values={info.address}
+              openAdd={openAdd}
+              handleDelAddress={handleDelAddress}
+              isLoading={isDeletingAddress}
+            />
 
 
-          {decodedToken.role !== 'user' &&
-            <div className='mx-10'>
-              {(isNameEditing || isEmailEditing) && (
-                <button onClick={handleSaveChanges} className="bg-yellow-900  rounded-full hover:bg-yellow-800 fw-bold">Save Changes</button>
-              )}
-            </div>
-          }
-        </ul>
-      )}
+            {decodedToken.role !== 'user' &&
+              <div className='mx-10'>
+                {(isNameEditing || isEmailEditing) && (
+                  <button onClick={handleSaveChanges} className="bg-yellow-900  rounded-full hover:bg-yellow-800 fw-bold">Save Changes</button>
+                )}
+              </div>
+            }
+          </ul>
+        )}
     </div>
   );
 };

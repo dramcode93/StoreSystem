@@ -6,6 +6,7 @@ const en = {
   Home: {
     Home: "Home",
     shop: "Shop",
+    Cart: "Cart",
     Category: "Category",
     products: "Products",
     Product: "Product",
