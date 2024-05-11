@@ -53,20 +53,20 @@ const BestSeller = () => {
     }, [fetchData]);
 
     return (
-        <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
+        <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-4/5 ${language === "ar" ? "left-10" : "right-10"}`}>
             <div>
-                <h3 className="font-bold text-white text-5xl">Our <span className='text-blue-500 font'>Bestseller Products</span></h3>
+                <h3 className="font-bold text-white text-5xl m-3">Our <span className='text-blue-500 font'>Bestseller Products</span></h3>
                 {loading ? (
                     <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
                 ) : (
                     <div className='flex flex-wrap'>
                         {products.map((product) => (
-                            <div key={product._id} className='w-80 h-96 bg-slate-900 m-3 rounded-xl overflow-hidden relative '>
+                            <div key={product._id} className='w-80 h-80 bg-gray-500  bg-opacity-25 m-3 rounded-xl overflow-hidden relative '>
                                 <img
                                     src={product.images[0]}
                                     alt={product.name}
                                     crossOrigin="anonymous"
-                                    className='object-cover w-full h-1/2 transition-transform duration-300 transform hover:scale-110'
+                                    className='object-cover border-spacing-2 border-blue-500 rounded-lg w-1/2 mx-auto mt-2 h-1/3 bg-white transition-transform duration-300 transform hover:scale-110'
                                 />
                                 <div>
                                     <p className='text-center mt-2 text-white text-xl font-bold'>{product.name}</p>
