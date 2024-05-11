@@ -134,7 +134,7 @@ export default function CustomerFormPreview({ details, headers }) {
                   </dt>
                 ))
               ) : (
-                <dd>No bills found</dd>
+                <dd>No bills Yet</dd>
               )}
             </dt>
           </div>
