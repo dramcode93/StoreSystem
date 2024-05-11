@@ -161,6 +161,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   return (
     <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
       <ConfirmationModal
+        item="category"
         show={showConfirmation}
         onCancel={cancelDelete}
         onConfirm={() => {
@@ -252,9 +253,9 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                       <div
                         id={`manager-dropdown-${category._id}`}
                         className={`${selectedCategoryId === category._id
-                            ? `absolute -top-3 ${language === "en" ? "right-full" : "left-full"
-                            } overflow-auto`
-                            : "hidden"
+                          ? `absolute -top-3 ${language === "en" ? "right-full" : "left-full"
+                          } overflow-auto`
+                          : "hidden"
                           } z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                       >
                         <ul className="text-sm bg-transparent pl-0 mb-0">
@@ -272,7 +273,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                             <button
                               type="button"
                               className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
-                              onClick={()=>handlePreviewCategory(category)}
+                              onClick={() => handlePreviewCategory(category)}
                             >
                               <Eye size={18} weight="bold" />
                               {t("Category.Preview")}
@@ -328,17 +329,16 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           {pageButtons.map((page) => (
             <li key={page}>
               <button
-                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
-                  pagination.currentPge === page
-                    ? "bg-gray-200 text-gray-800"
-                    : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                }`}
+                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
+                  ? "bg-gray-200 text-gray-800"
+                  : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  }`}
                 onClick={() => handlePageChange(page)}
               >
                 {page}
               </button>
             </li>
-          ))}   
+          ))}
           <li>
             <button
               className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"

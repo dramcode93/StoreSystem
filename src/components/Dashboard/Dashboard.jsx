@@ -152,7 +152,7 @@ const Dashboard = ({ children }) => {
             icon: <MdProductionQuantityLimits />
         },
         {
-            path: "/products",
+            path: "/cart",
             name: "Cart",
             icon: <MdProductionQuantityLimits />
         },

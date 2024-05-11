@@ -45,9 +45,9 @@ const BestSeller = () => {
             console.log("Product added successfully:", response.data);
         } catch (error) {
             console.error("Error adding Product:", error);
+            setError(error.message || "Error fetching data");
         }
     };
-
     useEffect(() => {
         fetchData();
     }, [fetchData]);
