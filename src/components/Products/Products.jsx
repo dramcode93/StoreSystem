@@ -24,28 +24,28 @@ const Products = ({ role }) => {
   };
   return (
     <>
-          {openPreview && (
+      {openPreview && (
         <PreviewProduct
           closeModal={toggleOpenPreviewModal}
           assistantData={selectedAssistantData}
         />
       )}
-        <AddProduct
-          closeModal={toggleOpenCreateModal}
-          modal={openCreate}
-          role={role}
-        />
-        <UpdateProduct
-          closeModal={toggleOpenEditModal}
-          modal={openEdit}
-          role={role}
-          productData={selectedProductData}
-        />
-        <ProductsTable
-          openEdit={toggleOpenEditModal}
-          openCreate={toggleOpenCreateModal}
-          openPreview={toggleOpenPreviewModal}
-        />
+      <AddProduct
+        closeModal={toggleOpenCreateModal}
+        modal={openCreate}
+        role={role}
+      />
+      <UpdateProduct
+        closeModal={toggleOpenEditModal}
+        modal={openEdit}
+        role={role}
+        productData={selectedProductData}
+      />
+      <ProductsTable
+        openEdit={toggleOpenEditModal}
+        openCreate={toggleOpenCreateModal}
+        openPreview={toggleOpenPreviewModal}
+      />
     </>
   );
 };

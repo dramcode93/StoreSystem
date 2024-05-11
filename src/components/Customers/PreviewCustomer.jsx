@@ -2,9 +2,9 @@ import { TrashSimple, X } from "@phosphor-icons/react";
 
 import { useState } from "react";
 import { useI18nContext } from "../context/i18n-context";
-import ProductFormPreview from "./ProductFormPreview";
+import CustomerFormPreview from "./CustomerFormPreview";
 
-export default function PreviewProduct({ closeModal, assistantData }) {
+export default function PreviewCustomer({ closeModal, assistantData }) {
   const { t } = useI18nContext();
   // const [loading, setLoading] = useState(false);
   // const { images } = assistantData;
@@ -67,7 +67,7 @@ export default function PreviewProduct({ closeModal, assistantData }) {
           >
             <h3 className="font-semibold ">{t("previewForm.title")}</h3>
           </div>
-          <ProductFormPreview t={t} details={assistantData} headers={headers} />
+          <CustomerFormPreview t={t} details={assistantData} headers={headers} />
           {/* <div className="flex justify-between items-center mt-14">
             <div className="flex items-center">
               <button
