@@ -286,11 +286,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
         </table>
         <nav
           className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 "
-          dir="rtl"
         >
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ">
-            {`Products appear 1-10 from ${products.length}`}
-          </span>
           <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
             <li>
               <button
