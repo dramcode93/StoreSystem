@@ -108,6 +108,7 @@ export default function AddProduct({ closeModal, role, modal }) {
   //   const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
   //   setImages(files);
   // };
+  
 
   <ProductFormPreview
     details={{

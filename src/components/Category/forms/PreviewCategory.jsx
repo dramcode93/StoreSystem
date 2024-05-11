@@ -22,7 +22,7 @@ export default function PreviewCategory({ closeModal, assistantData }) {
     products: "Products",
   };
   const token = Cookies.get("token");
-  console.log(assistantData._id);
+  // console.log(assistantData._id);
   const fetchData = useCallback(async () => {
     try {
       if (token) {

@@ -14,7 +14,7 @@ export default function PreviewProduct({ closeModal, assistantData }) {
   //   "images",
   //   `${images.map((img) => img.replace(/\s/g, "%20")).join("\n")} \n`
   // );
-
+// console.log(assistantData)
   const headers = {
     code: "Product Code",
     name: "Product Name",

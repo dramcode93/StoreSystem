@@ -10,17 +10,34 @@ export default function ProductFormPreview({ details, t, headers }) {
   const token = Cookies.get("token");
   const [images, setImages] = useState("");
   const [loading, setLoading] = useState(true);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [selectedImage, setSelectedImage] = useState();
-
-  useEffect(() => {
-    if (details) {
+  // const [showConfirmation, setShowConfirmation] = useState(false);
+  // const [selectedImage, setSelectedImage] = useState();
+  const [specificProduct, setSpecificProduct] = useState();
+  const fetchData = useCallback(async () => {
+    try {
+      if (token) {
+        const product = await axios.get(
+          `https://store-system-api.gleeze.com/api/categories/${details.category._id}/products/${details._id}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setSpecificProduct(product.data.data);
+        // console.log("specific", product.data.data);
+      } else {
+        console.error("No token found.");
+      }
+    } catch (error) {
+      console.error("Error specific data:", error);
+    } finally {
       setLoading(false);
     }
-  }, [details]);
-  const handleDelete = useCallback(async () => {
-    const imageName = selectedImage.split("/products/").pop();
-    // setLoading(true);
+  }, [token, details]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+  const handleDelete = useCallback(async (imgUrl) => {
+    const imageName = imgUrl.split("/products/").pop();
+    setLoading(true);
     try {
       const response = await axios.delete(
         `https://store-system-api.gleeze.com/api/products/${details._id}/images`,
@@ -29,23 +46,16 @@ export default function ProductFormPreview({ details, t, headers }) {
           data: { images: imageName },
         }
       );
-      // setImages((prevImages) => prevImages.filter((img) => img !== imageUrl));
-      // setLoading(false);
-      // const updatedImages = assistantDetails.images.filter(
-      //   (img) => img !== imageUrl
-      // );
-      // setAssistantDetails((prevState) => ({
-      //   ...prevState,
-      //   images: updatedImages,
-      // }));
-      console.log("Response:", response.data);
-      console.log("Image deleted successfully!", imageName);
-      window.location.href = "/products";
+      // console.log("Response:", response.data);
+      // console.log("Image deleted successfully!", imageName);
+      fetchData();
+      setLoading(false);
+      // window.location.href = "/products";
     } catch (error) {
       // setLoading(false);
       console.error("Error deleting image:", error);
     }
-  }, [token, details, selectedImage]);
+  }, [token, details, fetchData]);
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
@@ -68,7 +78,7 @@ export default function ProductFormPreview({ details, t, headers }) {
         images.forEach((file, index) => {
           formData.append("images", file);
         });
-        // setLoading(true);
+        setLoading(true);
         const response = await axios.put(
           `https://store-system-api.gleeze.com/api/products/${details._id}/images`,
           formData,
@@ -76,35 +86,31 @@ export default function ProductFormPreview({ details, t, headers }) {
         );
 
         console.log("Image added successfully:", response.data);
-        // setLoading(false);
-        // setImages([]);
-        window.location.href = "/products";
+        setImages([]);
+        fetchData();
+        setLoading(false);
+        
+        // window.location.href = "/products";
       }
-
-      // if (response.data.images) {
-      //   const uploadedImageURLs = response.data.images.map(
-      //     (image) => image.url
-      //   );
-      // setImageURLs(uploadedImageURLs);
-      // }
     } catch (error) {
       console.error("Error adding Image:", error);
     }
   };
-  const cancelDelete = useCallback(() => {
-    setShowConfirmation(false);
-  }, []);
-  const handleDeleteImage = (imageUrl) => {
-    setShowConfirmation(true);
-    setSelectedImage(imageUrl);
-  };
+  // const cancelDelete = useCallback(() => {
+  //   setShowConfirmation(false);
+  // }, []);
+  // const handleDeleteImage = (imageUrl) => {
+  //   setShowConfirmation(true);
+  //   setSelectedImage(imageUrl);
+  // };
+
   return (
     <dl className="">
       {loading ? (
         <Loading />
       ) : (
         <>
-          <ConfirmationModal
+          {/* <ConfirmationModal
             item="Image"
             show={showConfirmation}
             onCancel={cancelDelete}
@@ -112,13 +118,13 @@ export default function ProductFormPreview({ details, t, headers }) {
               handleDelete();
               setShowConfirmation(false);
             }}
-          />
+          /> */}
           <div className="d-flex gap-2 items-center">
             <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor">
               {headers?.code} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?._id.slice(-4)}
+              {specificProduct?._id.slice(-4)}
             </dd>
           </div>
 
@@ -127,7 +133,7 @@ export default function ProductFormPreview({ details, t, headers }) {
               {headers?.name} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.name}
+              {specificProduct?.name}
             </dd>
           </div>
 
@@ -136,7 +142,7 @@ export default function ProductFormPreview({ details, t, headers }) {
               {headers?.description} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.description}
+              {specificProduct?.description}
             </dd>
           </div>
 
@@ -145,7 +151,7 @@ export default function ProductFormPreview({ details, t, headers }) {
               {headers?.category} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.category.name}
+              {specificProduct?.category.name}
             </dd>
           </div>
 
@@ -154,7 +160,7 @@ export default function ProductFormPreview({ details, t, headers }) {
               {headers?.quantity} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.quantity}
+              {specificProduct?.quantity}
             </dd>
           </div>
 
@@ -163,7 +169,7 @@ export default function ProductFormPreview({ details, t, headers }) {
               {headers?.productPrice} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.productPrice}
+              {specificProduct?.productPrice}
             </dd>
           </div>
 
@@ -172,7 +178,7 @@ export default function ProductFormPreview({ details, t, headers }) {
               {headers?.sellingPrice} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.sellingPrice}
+              {specificProduct?.sellingPrice}
             </dd>
           </div>
 
@@ -181,7 +187,7 @@ export default function ProductFormPreview({ details, t, headers }) {
               {headers?.sold} :
             </dt>
             <dd className="mb-3 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.sold}
+              {specificProduct?.sold}
             </dd>
           </div>
 
@@ -215,9 +221,9 @@ export default function ProductFormPreview({ details, t, headers }) {
               {headers?.images}:
             </dt>
             <dd className="mb-0 font-light text-gray-500 sm:mb-5 dark:text-gray-400 d-flex gap-2 items-center">
-              {details.images && details.images.length > 0 ? (
+              {specificProduct.images && specificProduct.images?.length > 0 ? (
                 <div className="d-grid grid-cols-5 m-0 gap-4 ">
-                  {details.images.map((imageUrl, index) => (
+                  {specificProduct.images?.map((imageUrl, index) => (
                     <div key={index} className="d-flex ">
                       <img
                         src={imageUrl}
@@ -227,7 +233,7 @@ export default function ProductFormPreview({ details, t, headers }) {
                       />
                       <button
                         className=""
-                        onClick={() => handleDeleteImage(imageUrl)}
+                        onClick={() => handleDelete(imageUrl)}
                       >
                         <FaTrash size={18} color="red" />
                       </button>
@@ -238,6 +244,33 @@ export default function ProductFormPreview({ details, t, headers }) {
                 <div className="d-flex items-center ">No Images Yet</div>
               )}
             </dd>
+            {/* <dd className="mb-0 font-light text-gray-500 sm:mb-5 dark:text-gray-400 d-flex gap-2 items-center">
+              {loading ? (
+                <Loading />
+              ) : specificProduct.images &&
+                specificProduct.images.length > 0 ? (
+                <div className="d-grid grid-cols-5 m-0 gap-4 ">
+                  {specificProduct.images.map((imageUrl, index) => (
+                    <div key={index} className="d-flex ">
+                      <img
+                        src={imageUrl}
+                        alt="Product"
+                        className="max-w-full h-20 rounded-md"
+                        crossOrigin="anonymous"
+                      />
+                      <button
+                        className=""
+                        onClick={() => handleDelete(imageUrl)}
+                      >
+                        <FaTrash size={18} color="red" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="d-flex items-center ">No Images Yet</div>
+              )}
+            </dd> */}
           </div>
           <div className="d-flex items-center justify-center mt-2 gap-5">
             <FormPic
@@ -255,18 +288,18 @@ export default function ProductFormPreview({ details, t, headers }) {
             </button>
           </div>
           {images.length > 0 && (
-                <div className="d-flex gap-2 items-center justify-center mt-2">
-                  {images.map((file, index) => (
-                    <div key={index}>
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt={`Uploaded ${index + 1}`}
-                        className="max-w-full h-20 rounded-md"
-                      />
-                    </div>
-                  ))}
+            <div className="d-flex gap-2 items-center justify-center mt-2">
+              {images.map((file, index) => (
+                <div key={index}>
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt={`Uploaded ${index + 1}`}
+                    className="max-w-full h-20 rounded-md"
+                  />
                 </div>
-              )}
+              ))}
+            </div>
+          )}
         </>
       )}
     </dl>
