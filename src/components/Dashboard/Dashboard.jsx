@@ -75,7 +75,7 @@ const roleRoutes = {
     customer: [
         { path: '/Home', name: "Home.Home", icon: <House /> },
         { path: '/best-seller', name: "Home.products", icon: <MdProductionQuantityLimits /> },
-        { path: "/products", name: "Cart", icon: <MdProductionQuantityLimits /> },
+        { path: "/cart", name: "Home.Cart", icon: <MdProductionQuantityLimits /> },
         { name: "Home.Order", icon: <MdBorderColor /> },
         {
             name: "Home.Profile", icon: <CgProfile />, dropdownItems: [

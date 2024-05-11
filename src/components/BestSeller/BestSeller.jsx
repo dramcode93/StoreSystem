@@ -45,9 +45,9 @@ const BestSeller = () => {
             console.log("Product added successfully:", response.data);
         } catch (error) {
             console.error("Error adding Product:", error);
+            setError(error.message || "Error fetching data");
         }
     };
-
     useEffect(() => {
         fetchData();
     }, [fetchData]);
@@ -57,7 +57,7 @@ const BestSeller = () => {
             <div>
                 <h3 className="font-bold text-white text-5xl">Our <span className='text-blue-500 font'>Bestseller Products</span></h3>
                 {loading ? (
-                    <div className="fs-4 text-center mb-5 pb-3"><Loading /></div>
+                    <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
                 ) : (
                     <div className='flex flex-wrap'>
                         {products.map((product) => (

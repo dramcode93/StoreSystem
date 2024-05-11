@@ -8,7 +8,7 @@ import Loading from '../Loading/Loading';
 const PreviewProduct = () => {
     const { t, language } = useI18nContext();
     const { id } = useParams();
-    const API_URL = "https://store-system-api.gleeze.com/api/products";
+    const API_URL = "https://store-system-api.gleeze.com/api/products/customers";
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -32,32 +32,63 @@ const PreviewProduct = () => {
             setLoading(false);
         }
     }, [id, token]);
-
+    console.log(product);
     useEffect(() => {
         fetchData();
     }, [fetchData]);
+    const handleAddtoCart = async () => {
+        try {
+            const response = await axios.post(
+                "https://store-system-api.gleeze.com/api/cart",
+                { productId: id },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            console.log("Product added successfully:", response.data);
+        } catch (error) {
+            console.error("Error adding Product:", error);
+        }
+    };
 
     return (
-        <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
+        <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-1/4 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
             {loading ? (
                 <div className="fs-4 text-center mb-5 pb-3"><Loading /></div>
             ) : product ? (
-                <div className=' flex justify-center items-center'>
-                    <div className='flex mx-20 w-2/3 my-10'>
+                <div className=' '>
+                    <div className='flex mx-20 w-3/4 my-10 '>
                         <div>
                             <img
                                 src={product.images[0]}
                                 alt={product.name}
                                 crossOrigin="anonymous"
-                                className='object-cover w-96 rounded-sm h-96 transition-transform duration-300 transform bg-white'
+                                className='object-cover w-96 rounded-xl h-96 transition-transform duration-300 transform bg-white'
                             />
                         </div>
                         <div>
-                            <h2 className='text-white font-bold'>{product.name}</h2>
-                            <h4 className='text-white font-bold'>{product.sellingPrice} <span className='text-yellow-400'>$</span></h4>
-                            <h4 className='text-white font-bold'>Quantity: {product.quantity}</h4>
-                            <h4 className='text-white font-bold'>Shop: {product.shop.name}</h4>
+                            <h1 className='text-white font-bold mb-3'>{product.name}</h1>
+                            <div className='mx-3'>
+                                <h4 className='text-white font-bold'>{product?.description}</h4>
+                                <h4 className='text-white font-bold'>{product.sellingPrice} <span className='text-yellow-400'>$</span></h4>
+                                <h4 className='text-white font-bold'>Quantity: {product.quantity}</h4>
+                                <h4 className='text-white font-bold'>Shop: {product.shop.name}</h4>
+                                <h4 className='text-white font-bold'>Shop address:</h4>
+                                {product.shop.address.map((address, index) => (
+                                    <div key={index} className='text-white font-bold mx-4 text-2xl'>
+                                        {`${address.street},  
+            ${language === "ar" ? address.city?.city_name_ar : address.city?.city_name_en},  
+            ${language === "ar" ? address.governorate?.governorate_name_ar : address.governorate?.governorate_name_en}`}
+                                    </div>
+                                ))}
 
+                                <div className='mt-3'>
+                                    <button
+                                        className="bg-yellow-900 rounded-full hover:bg-yellow-800 w-56 fw-bold "
+                                        onClick={() => handleAddtoCart(product._id)}
+                                    >
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
