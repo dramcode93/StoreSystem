@@ -10,6 +10,7 @@ import { House } from "@phosphor-icons/react";
 import { FiChevronDown, FiChevronUp, FiShoppingCart } from "react-icons/fi";
 import Cookies from 'js-cookie';
 import { BsFillPersonVcardFill } from "react-icons/bs";
+import { FaBagShopping } from "react-icons/fa6";
 import axios from 'axios';
 
 const roleRoutes = {
@@ -75,7 +76,8 @@ const roleRoutes = {
     customer: [
         { path: '/Home', name: "Home.Home", icon: <House /> },
         { path: '/best-seller', name: "Home.products", icon: <MdProductionQuantityLimits /> },
-        { path: "/products", name: "Cart", icon: <MdProductionQuantityLimits /> },
+        { path: '/shops', name: "Home.shops", icon: <FaBagShopping /> },
+        { path: "/cart", name: "Home.Cart", icon: <MdProductionQuantityLimits /> },
         { name: "Home.Order", icon: <MdBorderColor /> },
         {
             name: "Home.Profile", icon: <CgProfile />, dropdownItems: [

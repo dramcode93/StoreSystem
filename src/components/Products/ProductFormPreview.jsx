@@ -1,38 +1,63 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Loading from "../Loading/Loading";
 import { FaTrash } from "react-icons/fa";
 import axios from "axios";
 import Cookies from "js-cookie";
 import FormPic from "../../form/FormPic";
+import ConfirmationModal from "../Category/ConfirmationModel";
 
-export default function ProductFormPreview({ details, t, headers, loading }) {
+export default function ProductFormPreview({ details, t, headers }) {
   const token = Cookies.get("token");
-  const [images, setImages] = useState([]);
-
-  const handleDelete = useCallback(
-    async (imageUrl) => {
-      const imageName = imageUrl.split("/products/").pop();
-
-      try {
-        const response = await axios.delete(
-          `https://store-system-api.gleeze.com/api/products/${details._id}/images`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-            data: { images: imageName },
-          }
+  const [images, setImages] = useState("");
+  const [loading, setLoading] = useState(true);
+  // const [showConfirmation, setShowConfirmation] = useState(false);
+  // const [selectedImage, setSelectedImage] = useState();
+  const [specificProduct, setSpecificProduct] = useState();
+  const fetchData = useCallback(async () => {
+    try {
+      if (token) {
+        const product = await axios.get(
+          `https://store-system-api.gleeze.com/api/categories/${details.category._id}/products/${details._id}`,
+          { headers: { Authorization: `Bearer ${token}` } }
         );
-        console.log("Response:", response.data);
-        console.log("Image deleted successfully!", imageName);
-      } catch (error) {
-        console.error("Error deleting image:", error);
+        setSpecificProduct(product.data.data);
+        // console.log("specific", product.data.data);
+      } else {
+        console.error("No token found.");
       }
-    },
-    [token, details]
-  );
+    } catch (error) {
+      console.error("Error specific data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [token, details]);
 
-  console.log(images);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+  const handleDelete = useCallback(async (imgUrl) => {
+    const imageName = imgUrl.split("/products/").pop();
+    setLoading(true);
+    try {
+      const response = await axios.delete(
+        `https://store-system-api.gleeze.com/api/products/${details._id}/images`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          data: { images: imageName },
+        }
+      );
+      // console.log("Response:", response.data);
+      // console.log("Image deleted successfully!", imageName);
+      fetchData();
+      setLoading(false);
+      // window.location.href = "/products";
+    } catch (error) {
+      // setLoading(false);
+      console.error("Error deleting image:", error);
+    }
+  }, [token, details, fetchData]);
 
-  const handleImageAdd = (e) => {
+  const handleImageUpload = (e) => {
     const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
     setImages((prevFiles) => {
       const totalFiles = prevFiles.length + files.length;
@@ -48,94 +73,112 @@ export default function ProductFormPreview({ details, t, headers, loading }) {
 
   const addImages = async (e) => {
     try {
-      const formData = new FormData();
-      images.forEach((file, index) => {
-        formData.append("images", file);
-      });
+      if (images) {
+        const formData = new FormData();
+        images.forEach((file, index) => {
+          formData.append("images", file);
+        });
+        setLoading(true);
+        const response = await axios.put(
+          `https://store-system-api.gleeze.com/api/products/${details._id}/images`,
+          formData,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
-      const response = await axios.put(
-        `https://store-system-api.gleeze.com/api/products/${details._id}/images`,
-        formData,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      console.log("Image added successfully:", response.data);
-      // if (response.data.images) {
-      //   const uploadedImageURLs = response.data.images.map(
-      //     (image) => image.url
-      //   );
-      // setImageURLs(uploadedImageURLs);
-      // }
+        console.log("Image added successfully:", response.data);
+        setImages([]);
+        fetchData();
+        setLoading(false);
+        
+        // window.location.href = "/products";
+      }
     } catch (error) {
       console.error("Error adding Image:", error);
     }
   };
+  // const cancelDelete = useCallback(() => {
+  //   setShowConfirmation(false);
+  // }, []);
+  // const handleDeleteImage = (imageUrl) => {
+  //   setShowConfirmation(true);
+  //   setSelectedImage(imageUrl);
+  // };
+
   return (
     <dl className="">
       {loading ? (
         <Loading />
       ) : (
         <>
+          {/* <ConfirmationModal
+            item="Image"
+            show={showConfirmation}
+            onCancel={cancelDelete}
+            onConfirm={() => {
+              handleDelete();
+              setShowConfirmation(false);
+            }}
+          /> */}
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-3 font-semibold leading-none text-gray-900 dark:text-themeColor">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor">
               {headers?.code} :
             </dt>
-            <dd className="mb-3 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?._id.slice(-4)}
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {specificProduct?._id.slice(-4)}
             </dd>
           </div>
 
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-3 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
               {headers?.name} :
             </dt>
-            <dd className="mb-3 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.name}
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {specificProduct?.name}
             </dd>
           </div>
 
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-3 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
               {headers?.description} :
             </dt>
-            <dd className="mb-3 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.description}
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {specificProduct?.description}
             </dd>
           </div>
 
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-3 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
               {headers?.category} :
             </dt>
-            <dd className="mb-3 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.category.name}
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {specificProduct?.category.name}
             </dd>
           </div>
 
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-3 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
               {headers?.quantity} :
             </dt>
-            <dd className="mb-3 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.quantity}
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {specificProduct?.quantity}
             </dd>
           </div>
 
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-3 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
               {headers?.productPrice} :
             </dt>
-            <dd className="mb-3 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.productPrice}
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {specificProduct?.productPrice}
             </dd>
           </div>
 
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-3 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
               {headers?.sellingPrice} :
             </dt>
-            <dd className="mb-3 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.sellingPrice}
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {specificProduct?.sellingPrice}
             </dd>
           </div>
 
@@ -144,7 +187,7 @@ export default function ProductFormPreview({ details, t, headers, loading }) {
               {headers?.sold} :
             </dt>
             <dd className="mb-3 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {details?.sold}
+              {specificProduct?.sold}
             </dd>
           </div>
 
@@ -178,9 +221,9 @@ export default function ProductFormPreview({ details, t, headers, loading }) {
               {headers?.images}:
             </dt>
             <dd className="mb-0 font-light text-gray-500 sm:mb-5 dark:text-gray-400 d-flex gap-2 items-center">
-              {details.images && details.images.length > 0 ? (
-                <div className="d-grid grid-cols-2 m-0 gap-2 ">
-                  {details.images.map((imageUrl, index) => (
+              {specificProduct.images && specificProduct.images?.length > 0 ? (
+                <div className="d-grid grid-cols-5 m-0 gap-4 ">
+                  {specificProduct.images?.map((imageUrl, index) => (
                     <div key={index} className="d-flex ">
                       <img
                         src={imageUrl}
@@ -200,36 +243,63 @@ export default function ProductFormPreview({ details, t, headers, loading }) {
               ) : (
                 <div className="d-flex items-center ">No Images Yet</div>
               )}
-              {images.length > 0 && (
-                <div className="d-flex gap-2">
-                  {images.map((file, index) => (
-                    <div key={index}>
+            </dd>
+            {/* <dd className="mb-0 font-light text-gray-500 sm:mb-5 dark:text-gray-400 d-flex gap-2 items-center">
+              {loading ? (
+                <Loading />
+              ) : specificProduct.images &&
+                specificProduct.images.length > 0 ? (
+                <div className="d-grid grid-cols-5 m-0 gap-4 ">
+                  {specificProduct.images.map((imageUrl, index) => (
+                    <div key={index} className="d-flex ">
                       <img
-                        src={URL.createObjectURL(file)}
-                        alt={`Uploaded ${index + 1}`}
-                        className="max-w-full h-10"
+                        src={imageUrl}
+                        alt="Product"
+                        className="max-w-full h-20 rounded-md"
+                        crossOrigin="anonymous"
                       />
+                      <button
+                        className=""
+                        onClick={() => handleDelete(imageUrl)}
+                      >
+                        <FaTrash size={18} color="red" />
+                      </button>
                     </div>
                   ))}
                 </div>
+              ) : (
+                <div className="d-flex items-center ">No Images Yet</div>
               )}
-              <div>
-                <FormPic
-                  label="Upload Images"
-                  name="Upload Images"
-                  onChange={handleImageAdd}
-                  placeholder="Product Image"
-                />
-                <button
-                  type="submit"
-                  onClick={addImages}
-                  className=" h-min rounded-md bg-orange-400 mt-2 font-medium text-xl"
-                >
-                  Add Images
-                </button>
-              </div>
-            </dd>
+            </dd> */}
           </div>
+          <div className="d-flex items-center justify-center mt-2 gap-5">
+            <FormPic
+              label="Upload Images"
+              name="Upload Images"
+              onChange={handleImageUpload}
+              placeholder="Product Image"
+            />
+            <button
+              type="button"
+              onClick={addImages}
+              className=" h-min rounded-md bg-orange-400 font-medium text-xl max-w-60"
+            >
+              Add Images
+            </button>
+          </div>
+          {images.length > 0 && (
+            <div className="d-flex gap-2 items-center justify-center mt-2">
+              {images.map((file, index) => (
+                <div key={index}>
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt={`Uploaded ${index + 1}`}
+                    className="max-w-full h-20 rounded-md"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </>
       )}
     </dl>

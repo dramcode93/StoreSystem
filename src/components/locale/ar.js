@@ -6,6 +6,8 @@ const ar = {
   Home: {
     Home: "الرئيسية",
     shop: "تسوق",
+    Cart: "العربة",
+    shops: "المحلات",
     Category: "الفئات",
     products: "المنتجات",
     Customers: "العملاء",

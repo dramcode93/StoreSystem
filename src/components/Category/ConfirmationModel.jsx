@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../Products/Products.module.css";
- 
-const ConfirmationModal = ({ show, onConfirm, onCancel }) => {
+
+const ConfirmationModal = ({ show, onConfirm, onCancel, item }) => {
   if (!show) {
     return null;
   }
@@ -10,14 +10,14 @@ const ConfirmationModal = ({ show, onConfirm, onCancel }) => {
     <div className={styles.confirmationModal}>
       <div className={styles.confirmationModalCon}>
         <p>
-           Are you sure you want to delete this category? 
+          Are you sure you want to delete this {item}?
         </p>
         <div className={styles.flex}>
           <button onClick={onConfirm}>
             Yes
           </button>
           <button onClick={onCancel}>
-             No 
+            No
           </button>
         </div>
       </div>

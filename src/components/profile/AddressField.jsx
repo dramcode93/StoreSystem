@@ -25,7 +25,7 @@ const AddressField = ({ label, values, openAdd, handleDelAddress, isLoading }) =
                             <MdDelete className='text-2xl mb-3' onClick={() => handleDelAddress(index)} />
                         </div>
                     ))}
-                    <IoMdAdd className="text-2xl" onClick={openAdd} />
+                    <IoMdAdd className="text-white text-2xl" onClick={openAdd} />
                 </>
             )}
         </li>
