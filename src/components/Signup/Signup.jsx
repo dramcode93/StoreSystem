@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Eye, EyeClosed } from '@phosphor-icons/react';
 import { useI18nContext } from '../context/i18n-context';
 import { Link } from 'react-router-dom';
+import FormSelect from '../../form/FormSelect';
 
 const SignUp = () => {
     const { language } = useI18nContext();
@@ -14,10 +15,17 @@ const SignUp = () => {
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
+    const [street, setStreet] = useState("");
     const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [selectedGovernorate, setSelectedGovernorate] = useState("");
+    const [selectedCity, setSelectedCity] = useState("");
+    const [governorates, setGovernorates] = useState([]);
+    const [cities, setCities] = useState([]);
+    const [loading, setLoading] = useState(true);
+
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -37,7 +45,7 @@ const SignUp = () => {
                 password,
                 passwordConfirmation,
                 email,
-                phone
+                phone,
             });
             const token = response.data.token;
             const tokenTime = 2;
@@ -52,8 +60,46 @@ const SignUp = () => {
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
+
     const toggleShowConfirmPassword = () => {
         setShowConfirmPassword(!showConfirmPassword);
+    };
+
+    useEffect(() => {
+        const fetchGovernorates = async () => {
+            try {
+                const response = await axios.get(
+                    "https://store-system-api.gleeze.com/api/governorates"
+                );
+                setGovernorates(response.data.data);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching governorates:", error);
+                setLoading(false);
+            }
+        };
+        fetchGovernorates();
+    }, []);
+
+
+    const fetchCities = async (governorateId) => {
+        try {
+            const response = await axios.get(
+                `https://store-system-api.gleeze.com/api/cities?governorate=${governorateId}`
+            );
+            setCities(response.data.data);
+            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching cities:", error);
+            setLoading(false);
+        }
+    };
+
+    const handleGovernorateChange = (e) => {
+        const selectedGovernorateId = e.target.value;
+        setSelectedGovernorate(selectedGovernorateId);
+        setSelectedCity("");
+        fetchCities(selectedGovernorateId);
     };
 
     return (
@@ -66,9 +112,9 @@ const SignUp = () => {
                     </h1>
 
                 </div>
-                <form onSubmit={handleSignup} className="p-8 darkForm lightForm relative">
+                <form onSubmit={handleSignup} className="p-8 darkForm lightForm w-2/3 relative">
                     <div className="space-y-8">
-                        <div className=" right-1 gap-1 flex">
+                        <div className=" right-1  flex">
 
                             <div>
                                 <label htmlFor="username" className={`block font-semibold   py-0 px-1 text-white ${language === 'ar' ? 'rtl' : 'ltr'}`}>
@@ -167,7 +213,52 @@ const SignUp = () => {
                                 />
                             </div>
                         </div>
+                        <div className="right-1 flex">
+                            <div>
+                                <label htmlFor="email" className={`block font-semibold py-1 px-1 text-white ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+                                    Street</label>
+                                <input
+                                    type="text"
+                                    id="Street"
+                                    value={street}
+                                    onChange={(e) => setStreet(e.target.value)}
+                                    name="Street"
+                                    className={`w-80 darkForm lightForm px-3 py-3 border-2 text-white bg-gray-900 rounded-md focus:border-orange-400 outline-none ${usernameError ? "border-red-500" : "border-gray-200"} placeholder:tracking-wide  mb-2 `}
+                                    placeholder={language === 'en' ? 'Enter your street' : t("Home.Username")}
+                                />
+                            </div>
+                            <FormSelect
+                                selectLabel="Governorate"
+                                headOption="Select Governorate"
+                                handleChange={handleGovernorateChange}
+                                options={governorates.map((governorate) => ({
+                                    value: governorate._id,
+                                    label:
+                                        language === "ar"
+                                            ? governorate.governorate_name_ar
+                                            : governorate.governorate_name_en,
+                                }))}
+                                value={selectedGovernorate}
+                                name="governorate"
+                            />
 
+                            <FormSelect
+
+                                selectLabel="City"
+                                headOption="Select City"
+                                handleChange={(e) => {
+                                    setSelectedCity(e.target.value);
+                                }}
+                                options={cities.map((city) => ({
+                                    value: city._id,
+                                    label:
+                                        language === "ar" ? city.city_name_ar : city.city_name_en,
+                                }))}
+                                value={selectedCity}
+                                name="city"
+                            />
+
+                        </div>
                         <button
                             type="submit"
                             className={`${language === 'ar' ? 'rtl' : 'ltr'} w-80 bg-yellow-900 text-white border-2 outline-yellow-900 font-semibold rounded-md  ease-linear duration-150 hover:bg-gray-900 rounded-md py-2 tracking-wide mt-5`}
