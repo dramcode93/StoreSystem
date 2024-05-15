@@ -16,7 +16,7 @@ function UpdateUser({ closeModal, role, modal, userData }) {
             closeModal();
         }
     };
-    const { t, language } = useI18nContext();
+    const { language } = useI18nContext();
     const token = Cookies.get("token");
     const [newName, setNewName] = useState("");
     const [newEmail, setNewEmail] = useState("");
@@ -191,7 +191,7 @@ function UpdateUser({ closeModal, role, modal, userData }) {
             <div
                 className={`CreateCenter w-full max-w-min 
        dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
-       ${modal ? "absolute left-0" : "absolute -left-[100%]"}
+           ${language === 'ar' ? "absolute left-0" : "absolute right-0"}
        h-screen overflow-auto`}
             >
                 <div className="relative p-4 dark:bg-gray-800 sm:p-5">

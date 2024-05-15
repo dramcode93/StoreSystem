@@ -158,8 +158,21 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   };
 
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
+      if (isOutsideDropdown) {
+        setSelectedCategoryId(null);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
   return (
-    <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
+    <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
       <ConfirmationModal
         item="category"
         show={showConfirmation}
@@ -251,7 +264,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                       dir={language === "ar" ? "rtl" : "ltr"}
                     >
                       <div
-                        id={`manager-dropdown-${category._id}`}
+                        id={`category-dropdown-${category._id}`}
                         className={`${selectedCategoryId === category._id
                           ? `absolute -top-3 ${language === "en" ? "right-full" : "left-full"
                           } overflow-auto`

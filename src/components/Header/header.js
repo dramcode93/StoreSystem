@@ -26,7 +26,7 @@ function Header() {
 
   return (
     <>
-      <header className="flex">
+      <header className="flex z-50">
         <div id="icon"  onClick={mode}>
           {window.localStorage.getItem("mode") === "light" ? <FaMoon 
            className="relative bg-transparent rounded-full p-1  

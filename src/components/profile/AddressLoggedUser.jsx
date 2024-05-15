@@ -14,12 +14,9 @@ export default function AddressLoggedUser({ closeModal, role, modal }) {
         }
     };
 
-    const { t, language } = useI18nContext();
+    const { language } = useI18nContext();
     const token = Cookies.get("token");
-    const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
     const [street, setStreet] = useState("");
-    const [selectedCountry, setSelectedCountry] = useState("");
     const [selectedGovernorate, setSelectedGovernorate] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
     const [governorates, setGovernorates] = useState([]);
@@ -96,7 +93,7 @@ export default function AddressLoggedUser({ closeModal, role, modal }) {
                 <div
                     className={`CreateCenter w-full max-w-min 
            dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
-           ${modal ? "absolute left-0" : "absolute -left-[100%]"}
+           ${language === 'ar' ? "absolute left-0" : "absolute right-0"}
            h-screen overflow-auto`}
                 >
                     <div className="relative p-4 dark:bg-gray-800 sm:p-5">

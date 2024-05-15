@@ -5,9 +5,7 @@ import ConfirmationModal from '../../Category/ConfirmationModel';
  import PrintButton from '../PrintButton';
 import Loading from '../../Loading/Loading';
 import axios from 'axios';
-import LogOut from '../../LogOut/LogOut';
-import { Translate } from 'translate-easy';
-import { jwtDecode } from "jwt-decode";
+  import { jwtDecode } from "jwt-decode";
 import Cookies from 'js-cookie';
 import { handlePrint } from '../handlePrint';
 
@@ -87,7 +85,7 @@ const UserBills = () => {
                     <div>
                         <input type="search" name="search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                         <button className='btn btn-primary' onClick={handleSearch}>
-                            <Translate>A Search</Translate>
+                              Search 
                         </button>
                     </div>
                 </div>
@@ -100,27 +98,27 @@ const UserBills = () => {
                                 <div className='flex'>
                                     <div>
                                         <p>
-                                            <Translate>Bill Code :</Translate>   {bill._id.slice(-4)}
+                                            Bill Code : {bill._id.slice(-4)}
                                         </p>
                                         <p>
-                                            <Translate>Client Name :</Translate>   {bill.customerName}
+                                            Client Name :    {bill.customerName}
                                         </p>
                                         <p>
-                                            <Translate> Phone :</Translate> {bill.phone}
+                                         Phone : {bill.phone}
                                         </p>
                                         <p>
-                                            <Translate> customer Address :</Translate> {bill?.customerAddress}
+                                             customer Address :  {bill?.customerAddress}
                                         </p>
                                     </div>
                                     <div>
                                         <p>
-                                            <Translate> Name Seller:</Translate> {bill?.user.name}
+                                             Name Seller: {bill?.user.name}
                                         </p>
                                         <p>
-                                            <Translate>Bill Date :</Translate> {bill?.createdAt && new Date(bill.createdAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+                                            Bill Date : {bill?.createdAt && new Date(bill.createdAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
                                         </p>
                                         <p>
-                                            <Translate>update Date :</Translate> {bill?.updatedAt && new Date(bill.updatedAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+                                            update Date : {bill?.updatedAt && new Date(bill.updatedAt).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
                                         </p>
                                     </div>
                                     <div>
@@ -130,10 +128,10 @@ const UserBills = () => {
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th> <Translate>product</Translate> </th>
-                                            <th><Translate>Price</Translate></th>
-                                            <th><Translate>Quantity</Translate></th>
-                                            <th><Translate>total price</Translate></th>
+                                            <th> product </th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>total price</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -147,13 +145,13 @@ const UserBills = () => {
                                         ))}
                                         <tr>
                                             <td colSpan='2'>
-                                                <Translate> Total :</Translate>  {bill.totalAmount}
+                                                 Total :  {bill.totalAmount}
                                             </td>
                                             <td>
-                                                <Translate> Paid : </Translate> {bill.paidAmount}
+                                                 Paid :  {bill.paidAmount}
                                             </td>
                                             <td>
-                                                <Translate>Remaining : </Translate>  {bill.remainingAmount}
+                                                Remaining :   {bill.remainingAmount}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -161,10 +159,10 @@ const UserBills = () => {
                                 {decodedToken.role === "admin" &&
                                     <div className={styles.Actions}>
                                         <Link to={`/updateBills/${bill._id}`} className={styles.updateBtn}>
-                                            <Translate>Update</Translate>
+                                            Update
                                         </Link>
                                         <button className={styles.deleteBtn} onClick={() => handleDeleteBill(bill._id)}>
-                                            <Translate>Delete</Translate>
+                                            Delete
                                         </button>
 
                                     </div>
@@ -178,7 +176,7 @@ const UserBills = () => {
                 )}
 
                 <ConfirmationModal show={showConfirmation} onConfirm={confirmDelete} onCancel={cancelDelete} />
-                {bills.length === 0 && <p><Translate>No bills available</Translate></p>}
+                {bills.length === 0 && <p>No bills available</p>}
 
             </div>
             <div className={styles.flex}>

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Translate } from 'translate-easy';
-import forget from './forget.module.css';
+ import forget from './forget.module.css';
 import Cookies from 'js-cookie';
 
 const ForgotPassword2 = () => {
@@ -25,8 +24,8 @@ const ForgotPassword2 = () => {
 
   return (
     <div className={forget.forgetPasswordContainer}>
-      <h4><Translate>Step 2 : Verify Identity</Translate></h4>
-      <p><Translate>We've sent a verification code to your email. Please enter the code below.</Translate></p>
+      <h4>Step 2 : Verify Identity</h4>
+      <p>We've sent a verification code to your email. Please enter the code below.</p>
       <input
         type="text"
         placeholder="Enter verification code"
@@ -34,7 +33,7 @@ const ForgotPassword2 = () => {
         onChange={(e) => setVerificationCode(e.target.value)}
       />
       <button onClick={handleForgetPassword} disabled={loading}>
-        {loading ? <Translate>Loading...</Translate> : <Translate>Reset Password</Translate>}
+        {loading ? 'Loading...' : 'Reset Password'}
       </button>
     </div>
   );

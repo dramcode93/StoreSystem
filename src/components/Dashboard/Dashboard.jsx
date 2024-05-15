@@ -34,10 +34,11 @@ const roleRoutes = {
             ]
         }
     ],
+    //manager : profile(change pass , info ), users (admin , manager)
+    //admin : profile(change pass , info ), users ( users ) , category,products,bills,shop
+    //user : profile( info ) , category,products,bills{create bill},order(agree , accept), customer(create , show bills )
     manager: [
         { path: '/Home', name: "Home.Home", icon: <House /> },
-        { path: "/products", name: "Home.products", icon: <MdProductionQuantityLimits /> },
-        { path: "/bills", name: "Home.Bill", icon: <LiaMoneyBillSolid /> },
         {
             name: "Home.Profile", icon: <CgProfile />, dropdownItems: [
                 { text: 'Information', path: '/information' },
@@ -114,14 +115,11 @@ const Dashboard = ({ children }) => {
         setActiveLink(index);
         setIsProfileActive(index === roleRoutes[role].length - 1 ? !isProfileActive : false);
 
-        // Store active link index in localStorage
         localStorage.setItem('activeLinkIndex', index);
     }, [role, isProfileActive]);
 
     useEffect(() => {
-        // Retrieve active link index from localStorage
         const storedActiveLinkIndex = localStorage.getItem('activeLinkIndex');
-        // If there's a stored index, set it as the active link
         if (storedActiveLinkIndex !== null) {
             setActiveLink(parseInt(storedActiveLinkIndex));
         }
