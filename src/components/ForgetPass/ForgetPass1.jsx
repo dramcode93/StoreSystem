@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Translate } from 'translate-easy';
-import forget from './forget.module.css';
+ import forget from './forget.module.css';
 import Cookies from 'js-cookie';
 
 const ForgetPassword1 = () => {
@@ -27,10 +26,10 @@ const ForgetPassword1 = () => {
 
   return (
     <div className={forget.forgetPasswordContainer}>
-      <label><Translate>Email : </Translate></label>
+      <label> Email : </label>
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
       <button onClick={handleForgetPassword} disabled={loading}>
-        {loading ? <Translate>Sending...</Translate> : <Translate>Send Reset Code</Translate>}
+        {loading ? 'Sending...': 'Send Reset Code'}
       </button>
     </div>
   );

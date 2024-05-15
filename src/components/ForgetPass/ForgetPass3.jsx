@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Translate } from 'translate-easy';
-import forget from './forget.module.css';
+ import forget from './forget.module.css';
 import Cookies from 'js-cookie';
 
 const ForgotPassword3 = () => {
@@ -28,15 +27,15 @@ const ForgotPassword3 = () => {
 
   return (
     <div className={forget.forgetPasswordContainer3}>
-      <h4><Translate>Step 3 : Reset Password</Translate></h4>
-      <p><Translate>Choose a new password for your account : </Translate></p>
+      <h4>Step 3 : Reset Password</h4>
+      <p>Choose a new password for your account : </p>
       <input className={forget.firstInput}
         type="password"
         placeholder="Enter new password"
         value={newPassword}
         onChange={(e) => setNewPassword(e.target.value)}
       />
-      <p><Translate>Confirm password :</Translate></p>
+      <p>Confirm password :</p>
       <input className={forget.firstInput}
         type="password"
         placeholder="Confirm new password"
@@ -44,7 +43,7 @@ const ForgotPassword3 = () => {
         onChange={(e) => setConfirmNewPassword(e.target.value)}
       />
       <button onClick={handleForgetPassword} disabled={loading}>
-        {loading ? <Translate>Loading...</Translate> : <Translate>Reset Password</Translate>}
+        {loading ? 'Loading...' :' Reset Password'}
       </button>
     </div>
   );

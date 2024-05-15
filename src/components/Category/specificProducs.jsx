@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import styles from "../Products/Products.module.css";
-import { Translate, useLanguage } from "translate-easy";
-import LogOut from "../LogOut/LogOut";
-import { Link, useParams } from "react-router-dom";
+ import { Link, useParams } from "react-router-dom";
 import Loading from "../Loading/Loading";
 import ConfirmationModal from "../Category/ConfirmationModel";
 import { jwtDecode } from "jwt-decode";
@@ -23,8 +21,7 @@ const CategoryProducts = () => {
   const [newProductPrice, setNewProductPrice] = useState("");
   const [newProductQuantity, setNewProductQuantity] = useState("");
   const [loading, setLoading] = useState(true);
-  const { selectedLanguage } = useLanguage();
-  const [searchInput, setSearchInput] = useState("");
+   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({ currentPage: 1 });
   const decodedToken = jwtDecode(token);
@@ -155,15 +152,13 @@ const CategoryProducts = () => {
               onChange={(e) => setSearchInput(e.target.value)}
             />
             <button className="btn btn-primary py-2" onClick={handleSearch}>
-              <Translate>A Search</Translate>
+              A Search
             </button>
           </div>
         </form>
         {decodedToken.role === "admin" && (
           <button onClick={confirmAddProduct} className={styles.addButton}>
-            <Translate translations={{ ar: "ضيف", en: "Add" }}>
-              {selectedLanguage === "ar" ? "ضيف" : "Add"}
-            </Translate>
+            Add
           </button>
         )}
       </div>
@@ -180,26 +175,26 @@ const CategoryProducts = () => {
                 <thead>
                   <tr>
                     <th>
-                      <Translate>ID</Translate>
+                      ID
                     </th>
                     <th>
-                      <Translate>product Name</Translate>
+                      product Name
                     </th>
                     <th>
-                      <Translate>Category</Translate>
+                      Category
                     </th>
                     <th>
-                      <Translate>Quantity</Translate>
+                      Quantity
                     </th>
                     <th>
-                      <Translate>Price</Translate>
+                      Price
                     </th>
                     <th>
-                      <Translate>Sold</Translate>
+                      Sold
                     </th>
                     {decodedToken.role === "admin" && (
                       <th className="px-5">
-                        <Translate>Actions</Translate>
+                        Actions
                       </th>
                     )}
                   </tr>
@@ -219,21 +214,15 @@ const CategoryProducts = () => {
                             to={`/updateProduct/${product._id}`}
                             className={styles.updateBtn}
                           >
-                            <Translate
-                              translations={{ ar: "تعديل", en: "update" }}
-                            >
-                              {selectedLanguage === "ar" ? "تعديل" : "update"}
-                            </Translate>
+                            update
+                            
                           </Link>
                           <button
                             className={styles.deleteBtn}
                             onClick={() => handleDeleteProduct(product._id)}
                           >
-                            <Translate
-                              translations={{ ar: "حذف", en: "Delete" }}
-                            >
-                              {selectedLanguage === "ar" ? "حذف" : "Delete"}
-                            </Translate>
+                            Delete
+                            
                           </button>
                         </td>
                       )}
@@ -261,7 +250,7 @@ const CategoryProducts = () => {
           </button>
         )}
         <button className={styles.paginationNext}>
-          <Translate>Page</Translate> {pagination.currentPge}
+          Page {pagination.currentPge}
         </button>
         {pagination.next && (
           <button

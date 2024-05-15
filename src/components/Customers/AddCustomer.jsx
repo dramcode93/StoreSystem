@@ -97,7 +97,7 @@ export default function AddCustomer({ closeModal, role, modal }) {
         <div
           className={`w-full max-w-min 
            dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
-           ${modal ? "absolute right-0" : "absolute -left-[100%]"}
+           ${language === 'ar' ? "absolute left-0" : "absolute right-0"}
            h-screen overflow-auto`}
         >
           <div className="relative p-4 dark:bg-gray-800 sm:p-5">

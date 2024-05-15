@@ -151,6 +151,20 @@ const UserTable = ({ openCreate, openEdit }) => {
     e.preventDefault();
     setSearchTerm(searchInput);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
+      if (isOutsideDropdown) {
+        setSelectedUserId(null);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
   return (
     <div>
       <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>

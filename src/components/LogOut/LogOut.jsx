@@ -14,7 +14,7 @@ const logOut = () => {
     <div>
       <User className='relative bg-transparent rounded-full p-1
                      text-gray-500  dark:hover:text-white focus:outline-none
-                    hover:text-slate-500 w-fit'
+                    hover:text-slate-500 w-fit z-50'
                      size={32} onClick={handle}
   />
      </div>
