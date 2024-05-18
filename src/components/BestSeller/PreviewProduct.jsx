@@ -32,7 +32,6 @@ const PreviewProduct = () => {
             setLoading(false);
         }
     }, [id, token]);
-    console.log(product);
     useEffect(() => {
         fetchData();
     }, [fetchData]);
@@ -46,15 +45,18 @@ const PreviewProduct = () => {
             console.log("Product added successfully:", response.data);
         } catch (error) {
             console.error("Error adding Product:", error);
+            setError(error.response?.data?.message || "Error adding product to cart");
+
         }
     };
 
     return (
         <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-1/4 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
             {loading ? (
-                <div className="fs-4 text-center mb-5 pb-3"><Loading /></div>
+                <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
             ) : product ? (
                 <div className=' '>
+                    {error && <div className="text-red-500 text-center mb-4">{error}</div>}
                     <div className='flex mx-20 w-3/4 my-10 '>
                         <div>
                             <img

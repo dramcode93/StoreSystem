@@ -45,7 +45,7 @@ const ShopProduct = () => {
             console.log("Product added successfully:", response.data);
         } catch (error) {
             console.error("Error adding Product:", error);
-            setError(error.message || "Error fetching data");
+            setError(error.response?.data?.message || "Error adding product to cart");
         }
     };
     useEffect(() => {
@@ -55,6 +55,8 @@ const ShopProduct = () => {
     return (
         <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-4/5 ${language === "ar" ? "left-10" : "right-10"}`}>
             <div>
+                {error && <div className="text-red-500 text-center mb-4">{error}</div>}
+
                 {loading ? (
                     <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
                 ) : (

@@ -7,20 +7,22 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import ConfirmationModal from '../Category/ConfirmationModel';
 import { LiaEditSolid } from "react-icons/lia";
 import { FaCheck } from "react-icons/fa";
+import Swal from 'sweetalert2';  // Import Swal if not already imported
+import { DeleteAlert } from '../../form/Alert';  // Assuming this is correct path
 
 const Cart = () => {
-
     const { t, language } = useI18nContext();
     const API_URL = "https://store-system-api.gleeze.com/api/cart";
     const [products, setProducts] = useState([]);
     const [editingProducts, setEditingProducts] = useState({});
     const [loading, setLoading] = useState(false);
-    const [quantity, setQuantity] = useState(false);
+    const [quantity, setQuantity] = useState(1);
     const [error, setError] = useState(null);
     const [selectedProductId, setSelectedProductId] = useState(null);
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const [showDeleteAlert, setShowDeleteAlert] = useState(false); // Add state to show delete alert
     const token = Cookies.get("token");
-    const [isEditingProduct, setIsEditingProduct] = useState({}); // Define isEditingProduct state
+    const [isEditingProduct, setIsEditingProduct] = useState({});
 
     const isEditingQuantity = (productId) => {
         setEditingProducts(prevState => ({
@@ -88,26 +90,23 @@ const Cart = () => {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then(() => {
-                fetchData()
-                window.location.href = "/cart"
+                fetchData();
+                window.location.href = "/cart";
             })
             .catch((error) => console.error("Error deleting product:", error))
             .finally(() => {
-                setShowConfirmation(false);
-                setSelectedProductId(null);
+                setShowDeleteAlert(false);  // Hide alert after deletion
             });
-    }, [selectedProductId, token, fetchData]);
-
+    }, [token, fetchData]);
 
     const handleEditinQuantity = async (productId) => {
         try {
             if (token) {
-                const response = await axios.put(
-                    `${API_URL}/${productId}`, // use productId here
+                await axios.put(
+                    `${API_URL}/${productId}`,
                     { productQuantity: quantity },
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
-
             } else {
                 console.error('No token found.');
             }
@@ -116,7 +115,16 @@ const Cart = () => {
             window.location.href = "/cart";
         } catch (error) {
             console.error('Error editing quantity:', error.response);
+            setError(error.response?.data?.message || "Error invalid quantity");
         }
+    };
+
+    const showDeleteConfirmation = () => {
+        DeleteAlert({
+            title: "Are you sure you want to delete all products?",
+            text: "You won't be able to revert this!",
+            deleteClick: deleteAll
+        });
     };
 
     return (
@@ -132,20 +140,19 @@ const Cart = () => {
                     }}
                 />
                 <div className="flex justify-between">
-                    {" "}
                     <div className="w-96 m-3">
-                        {" "}
                         <h2 className='text-white font-bold'>Shopping Cart</h2>
                     </div>
                     <div>
                         <button
                             className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
-                            onClick={() => { deleteAll() }}
+                            onClick={showDeleteConfirmation}  // Show the delete confirmation alert
                         >
-                            Clear All{" "}
+                            Clear All
                         </button>
                     </div>
                 </div>
+                {error && <div className="text-red-500 text-center mb-4">{error}</div>}
 
                 {loading ? (
                     <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
@@ -210,7 +217,7 @@ const Cart = () => {
                 )}
             </section>
         </div>
-    )
+    );
 }
 
 export default Cart;

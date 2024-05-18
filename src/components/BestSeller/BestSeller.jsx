@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import Loading from '../Loading/Loading';
 import { useI18nContext } from "../context/i18n-context";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 const BestSeller = () => {
     const API_URL = "https://store-system-api.gleeze.com/api/products/customers";
@@ -13,7 +13,7 @@ const BestSeller = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const token = Cookies.get("token");
     const { t, language } = useI18nContext();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const fetchData = useCallback(async () => {
         setLoading(true);
@@ -41,13 +41,15 @@ const BestSeller = () => {
                 { productId: id },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            window.location.href = "/best-seller";
             console.log("Product added successfully:", response.data);
+            setError(null);  // Clear error if request is successful
         } catch (error) {
             console.error("Error adding Product:", error);
-            setError(error.message || "Error fetching data");
+            setError(error.response?.data?.message || "Error adding product to cart");
         }
     };
+    //console.log(error)
+
     useEffect(() => {
         fetchData();
     }, [fetchData]);
@@ -56,12 +58,13 @@ const BestSeller = () => {
         <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-4/5 ${language === "ar" ? "left-10" : "right-10"}`}>
             <div>
                 <h3 className="font-bold text-white text-5xl m-3">Our <span className='text-blue-500 font'>Bestseller Products</span></h3>
+                {error && <div className="text-red-500 text-center mb-4">{error}</div>}
                 {loading ? (
                     <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
                 ) : (
                     <div className='flex flex-wrap'>
                         {products.map((product) => (
-                            <div key={product._id} className='w-80 h-80 bg-gray-500  bg-opacity-25 m-3 rounded-xl overflow-hidden relative '>
+                            <div key={product._id} className='w-80 h-80 bg-gray-500 bg-opacity-25 m-3 rounded-xl overflow-hidden relative '>
                                 <img
                                     src={product.images[0]}
                                     alt={product.name}
@@ -73,15 +76,15 @@ const BestSeller = () => {
                                     <p className='text-white text-center text-xl font-bold'>{product.sellingPrice}$</p>
                                     <p className='text-white text-center text-xl font-bold'>{product.shop.name}</p>
                                 </div>
-                                <div className='flex justify-center  mb-5 mx-2'>
+                                <div className='flex justify-center mb-5 mx-2'>
                                     <button
-                                        className="bg-yellow-900 rounded-full hover:bg-yellow-800 w-36 fw-bold "
+                                        className="bg-yellow-900 rounded-full hover:bg-yellow-800 w-36 fw-bold"
                                         onClick={() => handleAddtoCart(product._id)}
                                     >
                                         Add to Cart
                                     </button>
                                     <button
-                                        className="bg-pink-100  text-black rounded-full hover:bg-pink-300  w-36 fw-bold "
+                                        className="bg-pink-100 text-black rounded-full hover:bg-pink-300 w-36 fw-bold"
                                         onClick={() => { navigate(`/previewProduct/${product._id}`) }}
                                     >
                                         Preview
@@ -92,7 +95,7 @@ const BestSeller = () => {
                     </div>
                 )}
             </div>
-        </section >
+        </section>
     );
 };
 
