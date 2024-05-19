@@ -57,3 +57,44 @@
 .image-container {
   animation: fadeIn 1s ease-in-out forwards;
 }
+
+    .calendar-container {
+      padding: 10px;
+    }
+  
+    .react-calendar {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+    }
+  
+    .react-calendar__navigation button {
+      min-width: 44px;
+      color: black;
+    }
+  
+    .react-calendar__tile {
+      height: 20px !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: gray;
+    }
+  
+    .react-calendar__tile--active {
+      background: #3b82f6;
+      font-weight: bold;
+    }
+  
+    .react-calendar__tile--now {
+      background: #f87171;
+      font-weight: bold;
+    }
+  
+    .react-calendar__tile--weekend {
+      color: #d97706;
+    }
+  
+    .react-calendar__tile--now:enabled:hover,
+    .react-calendar__tile--now:enabled:focus {
+      background: #dc2626;
+    }
