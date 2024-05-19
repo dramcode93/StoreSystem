@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import MyComponent from "./components/MyComponent.jsx";
 import Home from "./components/Home/Home.jsx";
 import Products from "./components/Products/Products.jsx";
 import Login from "./components/Login/Login.jsx";
@@ -29,6 +28,7 @@ import PreviewProduct from "./components/BestSeller/PreviewProduct.jsx";
 import Cart from "./components/BestSeller/Cart.jsx";
 import Shops from "./components/BestSeller/Shops.jsx";
 import ShopProduct from "./components/BestSeller/ShopProduct.jsx";
+import MyComponent from "./components/Navbar/MyComponent.jsx";
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);

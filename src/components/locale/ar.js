@@ -175,7 +175,22 @@ const ar = {
     Disable: "إلغاء التفعيل",
     Enable: "تفعيل",
     AddUser: "إضافة مستخدم",
-  }
+  },
+   Information:{
+    InformationPage:"صفحة المعلومات",
+        Name:"الإسم",
+    Username:"إسم المستخدم",
+    Address:"العنوان",
+    Phone:"رقم الهاتف",
+    Email:"البريد الإلكتروني",
+  },
+   ChangePasswordPage:{
+    ChangePasswordPage:"صفحة تغيير كلمة المرور",
+    ChangePassword:" تغيير كلمة المرور",
+        NewPassword:"كلمة المرور الجديدة",
+    ConfirmNewPassword:"تأكيد كلمة المرور الجديدة",
+    CurrentPassword:"كلمة المرور الحالية",
+  },
 };
 
 export default ar;

@@ -24,7 +24,6 @@ export default function CreateUser({ closeModal, role, modal }) {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [street, setStreet] = useState("");
-    const [selectedCountry, setSelectedCountry] = useState("");
     const [selectedGovernorate, setSelectedGovernorate] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
     const [governorates, setGovernorates] = useState([]);

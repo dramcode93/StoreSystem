@@ -25,7 +25,7 @@ const Information = ({ openAdd }) => {
   const [isDeletingPhone, setIsDeletingPhone] = useState(false); // Add state for phone deletion loading
   const [isDeletingAddress, setIsDeletingAddress] = useState(false); // Add state for phone deletion loading
   const [isAddingPhone, setIsAddingPhone] = useState(false); // Add state for phone addition loading
-  const language = useI18nContext();
+  const {t,language} = useI18nContext();
   const decodedToken = jwtDecode(token);
 
   const fetchData = useCallback(async () => {
@@ -174,18 +174,18 @@ const Information = ({ openAdd }) => {
   };
 
   return (
-    <div className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 p-10 ${language === "ar" ? "left-10" : "right-10"}`} >
-      <h3 className='font-bold text-white py-3'>Information Page</h3>
+    <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
+      <h3 className='font-bold text-white p-3'>{t(`Information.InformationPage`)}</h3>
       {loading ? <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
         : (
           <ul>
             <ProfileField
-              label="Username"
+              label={t(`Information.Username`)}
               value={info.username}
             />
 
             <ProfileField
-              label="Name"
+              label={t(`Information.Name`)}
               value={info.name}
               isEditing={isNameEditing}
               inputValue={inputValues.name}
@@ -194,7 +194,7 @@ const Information = ({ openAdd }) => {
             />
 
             <ProfileField
-              label="Email"
+              label={t(`Information.Email`)}
               value={info.email}
               isEditing={isEmailEditing}
               inputValue={inputValues.email}
@@ -203,7 +203,7 @@ const Information = ({ openAdd }) => {
             />
 
             <PhoneField
-              label="Phone"
+              label={t(`Information.Phone`)}
               value={info.phone}
               handleInputChange={handleInputChange}
               isEditing={isPhoneAdding}
@@ -214,7 +214,7 @@ const Information = ({ openAdd }) => {
             />
 
             <AddressField
-              label="Address"
+              label={t(`Information.Address`)}
               values={info.address}
               openAdd={openAdd}
               handleDelAddress={handleDelAddress}
@@ -231,7 +231,7 @@ const Information = ({ openAdd }) => {
             }
           </ul>
         )}
-    </div>
+    </section>
   );
 };
 

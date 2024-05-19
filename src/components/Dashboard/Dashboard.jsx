@@ -34,9 +34,6 @@ const roleRoutes = {
             ]
         }
     ],
-    //manager : profile(change pass , info ), users (admin , manager)
-    //admin : profile(change pass , info ), users ( users ) , category,products,bills,shop
-    //user : profile( info ) , category,products,bills{create bill},order(agree , accept), customer(create , show bills )
     manager: [
         { path: '/Home', name: "Home.Home", icon: <House /> },
         {
@@ -92,6 +89,10 @@ const Dashboard = ({ children }) => {
     const token = Cookies.get('token');
     const { t, language } = useI18nContext();
     const [role, setRole] = useState("");
+    const [activeLink, setActiveLink] = useState(null);
+    const [isProfileActive, setIsProfileActive] = useState(false);
+    const [activeDropdownItem, setActiveDropdownItem] = useState(null);
+
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -99,29 +100,43 @@ const Dashboard = ({ children }) => {
                     "https://store-system-api.gleeze.com/api/Users/getMe",
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
-                setRole(response.data.data.role)
+                setRole(response.data.data.role);
             } catch (error) {
-                console.error("Error fetching :", error);
+                console.error("Error fetching user data:", error);
             }
         };
         fetchUserData();
-    }, []);
+    }, [token]);
 
-    const [activeLink, setActiveLink] = useState(null);
-    const [isProfileActive, setIsProfileActive] = useState(false);
+    useEffect(() => {
+        const storedActiveLinkIndex = localStorage.getItem('activeLinkIndex');
+        const storedIsProfileActive = localStorage.getItem('isProfileActive');
+        const storedActiveDropdownItem = localStorage.getItem('activeDropdownItem');
+
+        if (storedActiveLinkIndex !== null) {
+            setActiveLink(parseInt(storedActiveLinkIndex));
+        }
+
+        if (storedIsProfileActive !== null) {
+            setIsProfileActive(storedIsProfileActive === 'true');
+        }
+
+        if (storedActiveDropdownItem !== null) {
+            setActiveDropdownItem(parseInt(storedActiveDropdownItem));
+        }
+    }, []);
 
     const handleLinkClick = useCallback((index) => {
         setActiveLink(index);
         setIsProfileActive(index === roleRoutes[role].length - 1 ? !isProfileActive : false);
-
         localStorage.setItem('activeLinkIndex', index);
+        localStorage.setItem('isProfileActive', index === roleRoutes[role].length - 1 ? !isProfileActive : false);
+        setActiveDropdownItem(null);
     }, [role, isProfileActive]);
 
-    useEffect(() => {
-        const storedActiveLinkIndex = localStorage.getItem('activeLinkIndex');
-        if (storedActiveLinkIndex !== null) {
-            setActiveLink(parseInt(storedActiveLinkIndex));
-        }
+    const handleDropdownItemClick = useCallback((dropdownIndex) => {
+        setActiveDropdownItem(dropdownIndex);
+        localStorage.setItem('activeDropdownItem', dropdownIndex);
     }, []);
 
     return (
@@ -133,17 +148,23 @@ const Dashboard = ({ children }) => {
                             <NavLink to={item.path} className={module.link} onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}>
                                 <div className={module.icon}>{item.icon}</div>
                                 {item.name === "Home.Profile" ? (
-                                    <div className={`${module.link_text} flex`}>{t(item.name)} {activeLink === index ? <FiChevronUp /> : <FiChevronDown />}</div>
+                                    <div className={`${module.link_text} flex`}>{t(item.name)} {activeLink === index && isProfileActive ? <FiChevronUp /> : <FiChevronDown />}</div>
                                 ) : (
                                     <div className={module.link_text}>{t(item.name)}</div>
                                 )}
                             </NavLink>
                             {activeLink === index && isProfileActive && item.dropdownItems && (
                                 <div className='transition ease-in-out duration-75' dir={language === "ar" ? "rtl" : "ltr"}>
-                                    <div className='flex flex-col w-full mx-auto justify-start font-bold' >
+                                    <div className='flex flex-col w-full mx-auto font-bold' >
                                         {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
-                                            <NavLink key={dropdownIndex} to={dropdownItem.path} className={module.link} >
-                                                <p >{dropdownItem.text}</p>
+                                            <NavLink
+                                                key={dropdownIndex}
+                                                to={dropdownItem.path}
+                                                className={module.dropDown}
+                                                onClick={() => handleDropdownItemClick(dropdownIndex)}
+                                                style={activeDropdownItem === dropdownIndex ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}
+                                            >
+                                                <p>{dropdownItem.text}</p>
                                             </NavLink>
                                         ))}
                                     </div>

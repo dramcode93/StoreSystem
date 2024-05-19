@@ -1,3 +1,4 @@
+
 const en = {
   Global: {
     LOADING: "LOADING ...",
@@ -188,7 +189,22 @@ const en = {
     Enable: "Enable",
     AddUser: "Add User",
 
-  }
+  },
+  Information:{
+    InformationPage:"Information Page",
+    Name:"Name",
+    Username:"Username",
+    Address:"Address",
+    Phone:"Phone",
+    Email:"Email",
+  },
+    ChangePasswordPage:{
+    ChangePasswordPage:"Change Password Page",
+    ChangePassword:"Change Password",
+        NewPassword:"New Password",
+    ConfirmNewPassword:"Confirm New Password",
+    CurrentPassword:"Current Password",
+  },
 };
 
 export default en;

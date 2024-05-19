@@ -5,13 +5,13 @@ import Loading from '../Loading/Loading';
 import { useI18nContext } from "../context/i18n-context";
 
 const AddressField = ({ label, values, openAdd, handleDelAddress, isLoading }) => {
-    const { t, language } = useI18nContext();
+    const { language } = useI18nContext();
 
     return (
         <li className='bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3'>
             <p className='text-gray-200 font-bold text-xl'>{label} :</p>
 
-            {isLoading ? ( // Display loading indicator if isLoading is true
+            {isLoading ? ( 
                 <Loading />
             ) : (
                 <>
