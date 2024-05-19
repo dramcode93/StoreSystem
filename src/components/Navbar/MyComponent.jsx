@@ -1,8 +1,8 @@
 import React from "react";
 import Header from "./Header/header";
-import { useI18nContext } from "./context/i18n-context";
+import { useI18nContext } from "../context/i18n-context";
 import { Bell, SketchLogo, Translate } from "@phosphor-icons/react";
-import LogOut from "./LogOut/LogOut";
+import LogOut from "../LogOut/LogOut";
 import { jwtDecode } from "jwt-decode";
 
 import Cookies from 'js-cookie';

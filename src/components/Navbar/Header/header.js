@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
-import "../../App.css"
+import "../../../App.css"
 function Header() {
   const [show, setshow] = useState(true)
   const mode = () => {

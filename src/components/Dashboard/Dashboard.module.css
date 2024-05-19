@@ -14,9 +14,14 @@
      margin: 1vh 1vw 1vh 2vw;
      gap: 15px;
      transition: all 0.5s;
+    }
+    .dropDown {
+        color: var(--font);
+        margin: 5px 1vw 5px 2vw;
+        padding: 2px 5px 0;
  }
 
- .link:hover {
+ .link:hover , .dropDown:hover {
      background: #713f12;
      border-radius: 10px;
      transition: all 0.5s;
@@ -29,6 +34,7 @@
      -ms-transition: all 0.5s;
      -o-transition: all 0.5s;
 }
+
 
  .active {
      background: #713f12;

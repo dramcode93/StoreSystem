@@ -6,7 +6,7 @@ import axios from 'axios';
 import Loading from '../Loading/Loading';
 
 const PreviewProduct = () => {
-    const { t, language } = useI18nContext();
+    const { language } = useI18nContext();
     const { id } = useParams();
     const API_URL = "https://store-system-api.gleeze.com/api/products/customers";
     const [product, setProduct] = useState(null);

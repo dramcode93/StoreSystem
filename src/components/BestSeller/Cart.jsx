@@ -3,12 +3,11 @@ import { useI18nContext } from "../context/i18n-context";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Loading from '../Loading/Loading';
-import { MdDelete, MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import ConfirmationModal from '../Category/ConfirmationModel';
 import { LiaEditSolid } from "react-icons/lia";
 import { FaCheck } from "react-icons/fa";
-import Swal from 'sweetalert2';  // Import Swal if not already imported
-import { DeleteAlert } from '../../form/Alert';  // Assuming this is correct path
+import { DeleteAlert } from '../../form/Alert';  
 
 const Cart = () => {
     const { t, language } = useI18nContext();
@@ -20,7 +19,7 @@ const Cart = () => {
     const [error, setError] = useState(null);
     const [selectedProductId, setSelectedProductId] = useState(null);
     const [showConfirmation, setShowConfirmation] = useState(false);
-    const [showDeleteAlert, setShowDeleteAlert] = useState(false); // Add state to show delete alert
+    const [showDeleteAlert, setShowDeleteAlert] = useState(false);
     const token = Cookies.get("token");
     const [isEditingProduct, setIsEditingProduct] = useState({});
 
@@ -28,13 +27,6 @@ const Cart = () => {
         setEditingProducts(prevState => ({
             ...prevState,
             [productId]: true
-        }));
-    };
-
-    const cancelEditQuantity = (productId) => {
-        setEditingProducts(prevState => ({
-            ...prevState,
-            [productId]: false
         }));
     };
 
