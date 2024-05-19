@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import FormSelect from '../../form/FormSelect';
 import FormInput from '../../form/FormInput';
 
-
 const SignUp = (closeModal) => {
     const { language, t } = useI18nContext();
     const token = Cookies.get("token");
@@ -21,13 +20,12 @@ const SignUp = (closeModal) => {
     const [selectedGovernorate, setSelectedGovernorate] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
     const [governorates, setGovernorates] = useState([]);
-    const [cities, setCities] = useState([]); 
+    const [cities, setCities] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
-
 
     useEffect(() => {
         const fetchGovernorates = async () => {
@@ -100,43 +98,6 @@ const SignUp = (closeModal) => {
         setShowConfirmPassword(!showConfirmPassword);
     };
 
-    useEffect(() => {
-        const fetchGovernorates = async () => {
-            try {
-                const response = await axios.get(
-                    "https://store-system-api.gleeze.com/api/governorates"
-                );
-                setGovernorates(response.data.data);
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching governorates:", error);
-                setLoading(false);
-            }
-        };
-        fetchGovernorates();
-    }, []);
-
-
-    const fetchCities = async (governorateId) => {
-        try {
-            const response = await axios.get(
-                `https://store-system-api.gleeze.com/api/cities?governorate=${governorateId}`
-            );
-            setCities(response.data.data);
-            setLoading(false);
-        } catch (error) {
-            console.error("Error fetching cities:", error);
-            setLoading(false);
-        }
-    };
-
-    const handleGovernorateChange = (e) => {
-        const selectedGovernorateId = e.target.value;
-        setSelectedGovernorate(selectedGovernorateId);
-        setSelectedCity("");
-        fetchCities(selectedGovernorateId);
-    };
-
     return (
         <div className="min-h-screen flex">
             <div className="bg-gray-900 w-2/3 dark:bg-gray-100 border-2 parentDiv rounded-xl shadow-md " dir={language === "ar" ? "rtl" : "ltr"}>
@@ -146,10 +107,9 @@ const SignUp = (closeModal) => {
                         {t("Home.Signup")}
                     </h1>
                 </div>
-   <form onSubmit={handleSignUp} className="p-8 darkForm lightForm relative">
+                <form onSubmit={handleSignUp} className="p-8 darkForm lightForm relative">
                     <div className="space-y-8">
                         <div className="right-1 gap-1 flex">
-            
                             <div>
                                 <label htmlFor="username" className={`block font-semibold   py-0 px-1 text-white ${language === 'ar' ? 'rtl' : 'ltr'}`}>
                                     {language === 'en' ? 'Username' : t("Home.Username")}
@@ -285,8 +245,6 @@ const SignUp = (closeModal) => {
                                 />
                             </div>
                         </div>
- 
-                       
                         <button
                             type="submit"
                             className={`${language === 'ar' ? 'rtl' : 'ltr'} w-80 bg-yellow-900 text-white border-2 outline-yellow-900 font-semibold rounded-md  ease-linear duration-150 hover:bg-gray-900 rounded-md py-2 tracking-wide mt-5`}
