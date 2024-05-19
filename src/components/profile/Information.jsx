@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Translate } from 'translate-easy';
 import { jwtDecode } from "jwt-decode";
 import Cookies from 'js-cookie';
 import ProfileField from './ProfileField';

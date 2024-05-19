@@ -60,6 +60,8 @@ export default function AddCustomer({ closeModal, role, modal }) {
     setSelectedCity("");
     fetchCities(selectedGovernorateId);
   };
+
+  
   const handleAddCustomer = async (e) => {
     e.preventDefault();
     try {
