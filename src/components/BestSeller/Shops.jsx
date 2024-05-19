@@ -14,7 +14,6 @@ const Shops = () => {
     const token = Cookies.get("token");
     const { t, language } = useI18nContext();
     const navigate = useNavigate()
-    console.log(token)
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
@@ -63,6 +62,8 @@ const Shops = () => {
                                 <div className='flex justify-center  mb-5 mx-2'>
                                     <button
                                         className="bg-yellow-900 rounded-full mt-3 hover:bg-yellow-800  fw-bold "
+                                        onClick={() => { navigate(`/shopProduct/${shop._id}`) }}
+
                                     >
                                         Visit this shop
                                     </button>

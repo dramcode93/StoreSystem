@@ -28,10 +28,29 @@ import BestSeller from "./components/BestSeller/BestSeller.jsx";
 import PreviewProduct from "./components/BestSeller/PreviewProduct.jsx";
 import Cart from "./components/BestSeller/Cart.jsx";
 import Shops from "./components/BestSeller/Shops.jsx";
+import ShopProduct from "./components/BestSeller/ShopProduct.jsx";
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
+  const [role, setRole] = useState("");
+  const token = Cookies.get('token');
+
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(
+          "https://store-system-api.gleeze.com/api/Users/getMe",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setRole(response.data.data.role)
+      } catch (error) {
+        console.error("Error fetching :", error);
+      }
+    };
+    fetchUserData();
+  }, []);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -93,14 +112,15 @@ const App = () => {
             <Route path="/signup" element={<SignUp />} />
             {isLoggedIn && !isTokenExpired && (
               <>
-                <Route path="/home" element={<Home />} />
+                {role === "customer" ? <Route path="/home" element={<BestSeller />} />
+                  : <Route path="/home" element={<Home />} />}
                 <Route path="/shop" element={<Shop />} />
-                <Route path="/best-seller" element={<BestSeller />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/shops" element={<Shops />} />
                 <Route path="/category" element={<Category />} />
                 <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
                 <Route path="/previewProduct/:id" element={<PreviewProduct />} />
+                <Route path="/shopProduct/:id" element={<ShopProduct />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/bills" element={<Bills />} />
