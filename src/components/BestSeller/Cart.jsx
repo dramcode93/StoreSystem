@@ -4,10 +4,9 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import Loading from '../Loading/Loading';
 import { MdDelete } from "react-icons/md";
-import ConfirmationModal from '../Category/ConfirmationModel';
 import { LiaEditSolid } from "react-icons/lia";
 import { FaCheck } from "react-icons/fa";
-import { DeleteAlert } from '../../form/Alert';  
+import { DeleteAlert } from '../../form/Alert';
 
 const Cart = () => {
     const { t, language } = useI18nContext();
@@ -18,8 +17,6 @@ const Cart = () => {
     const [quantity, setQuantity] = useState(1);
     const [error, setError] = useState(null);
     const [selectedProductId, setSelectedProductId] = useState(null);
-    const [showConfirmation, setShowConfirmation] = useState(false);
-    const [showDeleteAlert, setShowDeleteAlert] = useState(false);
     const token = Cookies.get("token");
     const [isEditingProduct, setIsEditingProduct] = useState({});
 
@@ -43,7 +40,6 @@ const Cart = () => {
                 throw new Error("No token found.");
             }
         } catch (error) {
-            setError(error.message || "Error fetching data");
         } finally {
             setLoading(false);
         }
@@ -54,44 +50,46 @@ const Cart = () => {
     }, [fetchData]);
 
     const handleDeleteProduct = (productId) => {
-        setShowConfirmation(true);
-        setSelectedProductId(productId);
+        DeleteAlert({
+            title: "Are you sure you want to delete this product?",
+            text: "You won't be able to revert this!",
+            deleteClick: () => confirmDelete(productId),
+            cancelClick: () => setSelectedProductId(null)
+        });
     };
 
-    const cancelDelete = useCallback(() => {
-        setShowConfirmation(false);
-        setSelectedProductId(null);
-    }, []);
-
-    const confirmDelete = useCallback(() => {
+    const confirmDelete = useCallback((productId) => {
         axios
-            .delete(`${API_URL}/${selectedProductId}`, {
+            .delete(`${API_URL}/${productId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then(() => fetchData())
             .catch((error) => console.error("Error deleting product:", error))
             .finally(() => {
-                setShowConfirmation(false);
                 setSelectedProductId(null);
-            });
-    }, [selectedProductId, token, fetchData]);
-
-    const deleteAll = useCallback(() => {
-        axios
-            .delete(`${API_URL}`, {
-                headers: { Authorization: `Bearer ${token}` },
-            })
-            .then(() => {
-                fetchData();
-                window.location.href = "/cart";
-            })
-            .catch((error) => console.error("Error deleting product:", error))
-            .finally(() => {
-                setShowDeleteAlert(false);  // Hide alert after deletion
             });
     }, [token, fetchData]);
 
-    const handleEditinQuantity = async (productId) => {
+    const deleteAll = useCallback(() => {
+        DeleteAlert({
+            title: "Are you sure you want to delete all products?",
+            text: "You won't be able to revert this!",
+            deleteClick: () => {
+                axios
+                    .delete(`${API_URL}`, {
+                        headers: { Authorization: `Bearer ${token}` },
+                    })
+                    .then(() => {
+                        fetchData();
+                        window.location.href = "/cart";
+                    })
+                    .catch((error) => console.error("Error deleting products:", error));
+            },
+            cancelClick: () => setSelectedProductId(null)
+        });
+    }, [token, fetchData]);
+
+    const handleEditingQuantity = async (productId) => {
         try {
             if (token) {
                 await axios.put(
@@ -111,26 +109,9 @@ const Cart = () => {
         }
     };
 
-    const showDeleteConfirmation = () => {
-        DeleteAlert({
-            title: "Are you sure you want to delete all products?",
-            text: "You won't be able to revert this!",
-            deleteClick: deleteAll
-        });
-    };
-
     return (
         <div>
             <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
-                <ConfirmationModal
-                    item="product"
-                    show={showConfirmation}
-                    onCancel={cancelDelete}
-                    onConfirm={() => {
-                        confirmDelete();
-                        setShowConfirmation(false);
-                    }}
-                />
                 <div className="flex justify-between">
                     <div className="w-96 m-3">
                         <h2 className='text-white font-bold'>Shopping Cart</h2>
@@ -138,7 +119,7 @@ const Cart = () => {
                     <div>
                         <button
                             className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
-                            onClick={showDeleteConfirmation}  // Show the delete confirmation alert
+                            onClick={deleteAll}  // Show the delete confirmation alert
                         >
                             Clear All
                         </button>
@@ -174,7 +155,7 @@ const Cart = () => {
                                                     onChange={(e) => setQuantity(e.target.value)}
                                                     value={quantity}
                                                 />
-                                                <FaCheck className='text-white text-center text-xl font-bold mx-1' onClick={() => handleEditinQuantity(cartItem.product._id)} />
+                                                <FaCheck className='text-white text-center text-xl font-bold mx-1' onClick={() => handleEditingQuantity(cartItem.product._id)} />
                                             </div>
                                         ) : (
                                             <div className='flex mx-2'>

@@ -4,6 +4,7 @@ import axios from 'axios';
 import Loading from '../Loading/Loading';
 import { useI18nContext } from "../context/i18n-context";
 import { useNavigate } from 'react-router-dom';
+import { SuccessAlert, DeleteAlert, ErrorAlert } from '../../form/Alert'; // Adjust the import path accordingly
 
 const BestSeller = () => {
     const API_URL = "https://store-system-api.gleeze.com/api/products/customers";
@@ -18,17 +19,17 @@ const BestSeller = () => {
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            if (token) {
-                const productsResponse = await axios.get(
-                    `${API_URL}?sort=-sold name&search=${searchTerm}`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
-                setProducts(productsResponse.data.data);
-            } else {
-                throw new Error("No token found.");
-            }
+
+            const productsResponse = await axios.get(
+                `${API_URL}?sort=-sold name&search=${searchTerm}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            setProducts(productsResponse.data.data);
+            setError(null); // Clear any previous errors
+
         } catch (error) {
-            setError(error.message || "Error fetching data");
+            setError(error.response?.data?.message || "Error fetching data");
+            ErrorAlert({ text: error || "Error fetching data" });
         } finally {
             setLoading(false);
         }
@@ -43,12 +44,13 @@ const BestSeller = () => {
             );
             console.log("Product added successfully:", response.data);
             setError(null);  // Clear error if request is successful
+            SuccessAlert({ title: "Success", text: "Product added to cart!" });
         } catch (error) {
             console.error("Error adding Product:", error);
             setError(error.response?.data?.message || "Error adding product to cart");
+            ErrorAlert({ text: error.response?.data?.message || "Error adding product to cart" });
         }
     };
-    //console.log(error)
 
     useEffect(() => {
         fetchData();
@@ -58,7 +60,6 @@ const BestSeller = () => {
         <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-4/5 ${language === "ar" ? "left-10" : "right-10"}`}>
             <div>
                 <h3 className="font-bold text-white text-5xl m-3">Our <span className='text-blue-500 font'>Bestseller Products</span></h3>
-                {error && <div className="text-red-500 text-center mb-4">{error}</div>}
                 {loading ? (
                     <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
                 ) : (

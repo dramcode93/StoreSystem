@@ -4,10 +4,10 @@ import Cookies from 'js-cookie';
 import { User } from '@phosphor-icons/react';
 
 const logOut = () => {
-  
+
   const handle = () => {
     Cookies.remove('token');
-    window.location.href = '/';
+    window.location.href = '/login';
   };
 
   return (
@@ -15,9 +15,9 @@ const logOut = () => {
       <User className='relative bg-transparent rounded-full p-1
                      text-gray-500  dark:hover:text-white focus:outline-none
                     hover:text-slate-500 w-fit z-50'
-                     size={32} onClick={handle}
-  />
-     </div>
+        size={32} onClick={handle}
+      />
+    </div>
   );
 };
 
