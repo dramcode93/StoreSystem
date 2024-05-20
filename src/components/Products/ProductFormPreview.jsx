@@ -222,7 +222,7 @@ export default function ProductFormPreview({ details, t, headers }) {
             </dt>
             <dd className="mb-0 font-light text-gray-500 sm:mb-5 dark:text-gray-400 d-flex gap-2 items-center">
               {specificProduct.images && specificProduct.images?.length > 0 ? (
-                <div className="d-grid grid-cols-5 m-0 gap-4 ">
+                <div className="d-grid grid-cols-5 m-0 gap-2 ">
                   {specificProduct.images?.map((imageUrl, index) => (
                     <div key={index} className="d-flex ">
                       <img

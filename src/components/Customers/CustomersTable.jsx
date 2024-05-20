@@ -157,14 +157,26 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
     openPreview(customer);
   };
  
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
-      if (isOutsideDropdown) {
-        setSelectedCustomerId(null);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
+  //     if (isOutsideDropdown) {
+  //       setSelectedCustomerId(null);
+  //     }
+  //   };
 
+  //   document.addEventListener('click', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('click', handleClickOutside);
+  //   };
+  // }, []);
+  const handleClickOutside = (event) => {
+    const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => ref && !ref.contains(event.target));
+    if (isOutsideDropdown) {
+      setSelectedCustomerId(null);
+    }
+  };
+  useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);

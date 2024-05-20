@@ -158,14 +158,26 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   };
 
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
-      if (isOutsideDropdown) {
-        setSelectedCategoryId(null);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
+  //     if (isOutsideDropdown) {
+  //       setSelectedCategoryId(null);
+  //     }
+  //   };
 
+  //   document.addEventListener('click', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('click', handleClickOutside);
+  //   };
+  // }, []);
+  const handleClickOutside = (event) => {
+    const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => ref && !ref.contains(event.target));
+    if (isOutsideDropdown) {
+      setSelectedCategoryId(null);
+    }
+  };
+  useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
