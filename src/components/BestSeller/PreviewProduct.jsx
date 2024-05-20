@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import Loading from '../Loading/Loading';
+import { SuccessAlert, ErrorAlert } from '../../form/Alert'; // Adjust the import path accordingly
 
 const PreviewProduct = () => {
     const { language } = useI18nContext();
@@ -17,24 +18,25 @@ const PreviewProduct = () => {
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            if (token) {
-                const productsResponse = await axios.get(
-                    `${API_URL}/${id}`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
-                setProduct(productsResponse.data.data);
-            } else {
-                throw new Error("No token found.");
-            }
+            const productsResponse = await axios.get(
+                `${API_URL}/${id}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            setProduct(productsResponse.data.data);
+            setError(null); // Clear any previous errors
+
         } catch (error) {
-            setError(error.message || "Error fetching data");
+            setError(error.response?.data?.message || "Error fetching data");
+            ErrorAlert({ text: error.message || "Error fetching data" });
         } finally {
             setLoading(false);
         }
     }, [id, token]);
+
     useEffect(() => {
         fetchData();
     }, [fetchData]);
+
     const handleAddtoCart = async () => {
         try {
             const response = await axios.post(
@@ -43,10 +45,11 @@ const PreviewProduct = () => {
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             console.log("Product added successfully:", response.data);
+            SuccessAlert({ title: "Success", text: "Product added to cart!" });
         } catch (error) {
             console.error("Error adding Product:", error);
             setError(error.response?.data?.message || "Error adding product to cart");
-
+            ErrorAlert({ text: error.response?.data?.message || "Error adding product to cart" });
         }
     };
 
@@ -56,7 +59,6 @@ const PreviewProduct = () => {
                 <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
             ) : product ? (
                 <div className=' '>
-                    {error && <div className="text-red-500 text-center mb-4">{error}</div>}
                     <div className='flex mx-20 w-3/4 my-10 '>
                         <div>
                             <img
@@ -77,15 +79,15 @@ const PreviewProduct = () => {
                                 {product.shop.address.map((address, index) => (
                                     <div key={index} className='text-white font-bold mx-4 text-2xl'>
                                         {`${address.street},  
-            ${language === "ar" ? address.city?.city_name_ar : address.city?.city_name_en},  
-            ${language === "ar" ? address.governorate?.governorate_name_ar : address.governorate?.governorate_name_en}`}
+                                            ${language === "ar" ? address.city?.city_name_ar : address.city?.city_name_en},  
+                                            ${language === "ar" ? address.governorate?.governorate_name_ar : address.governorate?.governorate_name_en}`}
                                     </div>
                                 ))}
 
                                 <div className='mt-3'>
                                     <button
                                         className="bg-yellow-900 rounded-full hover:bg-yellow-800 w-56 fw-bold "
-                                        onClick={() => handleAddtoCart(product._id)}
+                                        onClick={() => handleAddtoCart()}
                                     >
                                         Add to Cart
                                     </button>

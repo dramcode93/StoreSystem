@@ -108,8 +108,13 @@ const App = () => {
             <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
             <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
             <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
-            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/shops" element={<Shops />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/" element={<BestSeller />} />
+            <Route path="/previewProduct/:id" element={<PreviewProduct />} />
+            <Route path="/shopProduct/:id" element={<ShopProduct />} />
             {isLoggedIn && !isTokenExpired && (
               <>
                 {role === "customer" ? <Route path="/home" element={<BestSeller />} />

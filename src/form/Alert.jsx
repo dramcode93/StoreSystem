@@ -30,7 +30,7 @@ const ErrorAlert = ({ title, text, deleteClick }) => {
     return Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Something went wrong!",
+        text: text,
         footer: '<a href="#">Why do I have this issue?</a>',
     });
 };

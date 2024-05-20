@@ -3,7 +3,8 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import Loading from '../Loading/Loading';
 import { useI18nContext } from "../context/i18n-context";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { ErrorAlert } from '../../form/Alert'; // Adjust the import path accordingly
 
 const Shops = () => {
     const API_URL = "https://store-system-api.gleeze.com/api/shops";
@@ -13,26 +14,24 @@ const Shops = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const token = Cookies.get("token");
     const { t, language } = useI18nContext();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            if (token) {
-                const productsResponse = await axios.get(
-                    `${API_URL}?sort=-sold name&search=${searchTerm}`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
-                setShops(productsResponse.data.data);
-            } else {
-                throw new Error("No token found.");
-            }
+            const productsResponse = await axios.get(
+                `${API_URL}?sort=-sold name&search=${searchTerm}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            setShops(productsResponse.data.data);
+            setError(null); // Clear any previous errors
         } catch (error) {
-            setError(error.message || "Error fetching data");
+            setError(error.response?.data?.message || "Error fetching data");
+            ErrorAlert({ text: error.response?.data?.message || "Error fetching data" });
         } finally {
             setLoading(false);
         }
     }, [token, searchTerm]);
-
 
     useEffect(() => {
         fetchData();
@@ -63,18 +62,16 @@ const Shops = () => {
                                     <button
                                         className="bg-yellow-900 rounded-full mt-3 hover:bg-yellow-800  fw-bold "
                                         onClick={() => { navigate(`/shopProduct/${shop._id}`) }}
-
                                     >
                                         Visit this shop
                                     </button>
-
                                 </div>
                             </div>
                         ))}
                     </div>
                 )}
             </div>
-        </section >
+        </section>
     );
 };
 
