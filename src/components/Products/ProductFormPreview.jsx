@@ -5,6 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import FormPic from "../../form/FormPic";
 import ConfirmationModal from "../Category/ConfirmationModel";
+import { MaxImgAlert } from "../../form/Alert";
 
 export default function ProductFormPreview({ details, t, headers }) {
   const token = Cookies.get("token");
@@ -31,42 +32,55 @@ export default function ProductFormPreview({ details, t, headers }) {
       setLoading(false);
     }
   }, [token, details]);
-
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-  const handleDelete = useCallback(async (imgUrl) => {
-    const imageName = imgUrl.split("/products/").pop();
-    setLoading(true);
-    try {
-      const response = await axios.delete(
-        `https://store-system-api.gleeze.com/api/products/${details._id}/images`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-          data: { images: imageName },
-        }
-      );
-      // console.log("Response:", response.data);
-      // console.log("Image deleted successfully!", imageName);
-      fetchData();
-      setLoading(false);
-      // window.location.href = "/products";
-    } catch (error) {
-      // setLoading(false);
-      console.error("Error deleting image:", error);
-    }
-  }, [token, details, fetchData]);
+  const handleDelete = useCallback(
+    async (imgUrl) => {
+      const imageName = imgUrl.split("/products/").pop();
+      setLoading(true);
+      try {
+        const response = await axios.delete(
+          `https://store-system-api.gleeze.com/api/products/${details._id}/images`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            data: { images: imageName },
+          }
+        );
+        // console.log("Response:", response.data);
+        // console.log("Image deleted successfully!", imageName);
+        fetchData();
+        setLoading(false);
+        // window.location.href = "/products";
+      } catch (error) {
+        // setLoading(false);
+        console.error("Error deleting image:", error);
+      }
+    },
+    [token, details, fetchData]
+  );
 
   const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
+    // Get the files from the event and limit to maximum 5 files
+    const newFiles = Array.from(e.target.files).slice(
+      0,
+      5 - details.images.length
+    );
     setImages((prevFiles) => {
-      const totalFiles = prevFiles.length + files.length;
-      if (totalFiles <= 5) {
-        return [...prevFiles, ...files];
-      } else {
-        const remainingSpace = 5 - prevFiles.length;
-        const newFiles = files.slice(0, remainingSpace);
+      const totalFiles =
+        prevFiles.length + newFiles.length + details.images.length;
+
+      if (details.images.length >= 5) {
+        // If details.images.length is already 5, don't accept additional images
+        MaxImgAlert({ title: "Oops...", text: "Maximum 5 images allowed" });
+        return prevFiles;
+      } else if (totalFiles <= 5) {
         return [...prevFiles, ...newFiles];
+      } else {
+        MaxImgAlert({ title: "Oops...", text: "Maximum 5 images allowed" });
+        // const remainingSpace = 5 - details.images.length;
+        // return [...prevFiles, ...newFiles.slice(0, remainingSpace)];
+        return prevFiles;
       }
     });
   };
@@ -89,7 +103,7 @@ export default function ProductFormPreview({ details, t, headers }) {
         setImages([]);
         fetchData();
         setLoading(false);
-        
+
         // window.location.href = "/products";
       }
     } catch (error) {
@@ -294,7 +308,7 @@ export default function ProductFormPreview({ details, t, headers }) {
                   <img
                     src={URL.createObjectURL(file)}
                     alt={`Uploaded ${index + 1}`}
-                    className="max-w-full h-20 rounded-md"
+                    className="w-40 h-20 rounded-md"
                   />
                 </div>
               ))}

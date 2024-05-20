@@ -9,6 +9,7 @@ import FormSelect from "../../form/FormSelect";
 import FormTextArea from "../../form/FormTextArea";
 import FormPic from "../../form/FormPic";
 import ProductFormPreview from "./ProductFormPreview";
+import { DeleteAlert, ErrorAlert, MaxImgAlert } from "../../form/Alert";
 
 export default function AddProduct({ closeModal, role, modal }) {
   useEffect(() => {}, []);
@@ -29,7 +30,6 @@ export default function AddProduct({ closeModal, role, modal }) {
   const [description, setDescription] = useState("");
   const [images, setImages] = useState("");
   const [categories, setCategories] = useState([]);
-  const [fileList, setFileList] = useState("");
   const [imageURLs, setImageURLs] = useState([]);
 
   const handleAddProduct = async (e) => {
@@ -90,6 +90,20 @@ export default function AddProduct({ closeModal, role, modal }) {
   // AddProduct.js
   // Inside AddProduct component
 
+  // const handleImageChange = (e) => {
+  //   const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
+  //   setImages((prevFiles) => {
+  //     const totalFiles = prevFiles.length + files.length;
+  //     if (totalFiles <= 5) {
+  //       return [...prevFiles, ...files];
+  //     } else {
+  //       const remainingSpace = 5 - prevFiles.length;
+  //       const newFiles = files.slice(0, remainingSpace);
+  //       return [...prevFiles, ...newFiles];
+  //     }
+  //   });
+  // };
+
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
     setImages((prevFiles) => {
@@ -97,13 +111,12 @@ export default function AddProduct({ closeModal, role, modal }) {
       if (totalFiles <= 5) {
         return [...prevFiles, ...files];
       } else {
-        const remainingSpace = 5 - prevFiles.length;
-        const newFiles = files.slice(0, remainingSpace);
-        return [...prevFiles, ...newFiles];
+        MaxImgAlert({ title: "Oops...", text: "Maximum 5 images allowed" }); // Display error alert
+        // setImages("")
+        return prevFiles; // Prevent adding more files
       }
     });
   };
-
   // const handleImageChange = (e) => {
   //   const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
   //   setImages(files);
@@ -232,6 +245,7 @@ export default function AddProduct({ closeModal, role, modal }) {
                 placeholder="Product Picture"
                 fileList={images}
               />
+             
               {images.length > 0 && (
                 <div className="d-flex gap-2">
                   {images.map((file, index) => (
