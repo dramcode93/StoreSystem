@@ -119,14 +119,26 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
     openPreview(product);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
-      if (isOutsideDropdown) {
-        setSelectedProductId(null);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
+  //     if (isOutsideDropdown) {
+  //       setSelectedProductId(null);
+  //     }
+  //   };
 
+  //   document.addEventListener('click', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('click', handleClickOutside);
+  //   };
+  // }, []);
+  const handleClickOutside = (event) => {
+    const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => ref && !ref.contains(event.target));
+    if (isOutsideDropdown) {
+      setSelectedProductId(null);
+    }
+  };
+  useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);

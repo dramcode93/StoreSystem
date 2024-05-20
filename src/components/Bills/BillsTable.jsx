@@ -147,19 +147,35 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
       handlePageChange(pagination.currentPge + 1);
     }
   };
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
-      if (isOutsideDropdown) {
-        setSelectedBillId(null);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
+  //     if (isOutsideDropdown) {
+  //       setSelectedBillId(null);
+  //     }
+  //   };
 
+  //   document.addEventListener('click', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('click', handleClickOutside);
+  //   };
+  // }, []);
+  const handleClickOutside = (event) => {
+    const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => ref && !ref.contains(event.target));
+    if (isOutsideDropdown) {
+      setSelectedBillId(null);
+    }
+  };
+  useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
+    
+    const handlePreviewBill = (bill) => {
+    openPreview(bill);
+  };
   return (
     <div>
       <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
@@ -300,6 +316,7 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                               <button
                                 type="button"
                                 className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                onClick={() => handlePreviewBill(bill)}
                               >
                                 <Eye size={18} weight="bold" />
                                 {t("Category.Preview")}
