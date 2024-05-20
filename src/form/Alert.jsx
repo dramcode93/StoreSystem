@@ -27,12 +27,12 @@ const DeleteAlert = ({ title, text, deleteClick }) => {
 };
 
 const ErrorAlert = ({ title, text, deleteClick }) => {
-  return Swal.fire({
-    icon: "error",
-    title: "Oops...",
-    text: "Something went wrong!",
-    footer: '<a href="#">Why do I have this issue?</a>',
-  });
+    return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: text,
+        footer: '<a href="#">Why do I have this issue?</a>',
+    });
 };
 const MaxImgAlert = ({ title, text }) => {
   return Swal.fire({
