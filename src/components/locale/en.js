@@ -7,7 +7,18 @@ const en = {
   Home: {
     Home: "Home",
     shop: "Shop",
+    Sales: "Sales",
+    Revenue: "Revenue",
+    Growth: "Growth",
+    Profit: "Profit",
+    SalesByProductCategory: "Sales by Product Category",
+    ShowAll: "Show All",
+    MonthlySales: "Monthly Sales",
+    Calendar: "Calendar",
+    BestSellingProducts: "Best Selling Products",
+    ProductName: "Product Name",
     Cart: "Cart",
+    
     shops: "Shops",
     Category: "Category",
     products: "Products",
