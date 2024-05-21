@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 import { Chart } from 'chart.js/auto';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { FaShoppingCart, FaDollarSign, FaChartLine, FaMoneyBillWave } from 'react-icons/fa';
 
 const Home = ({ role, modal }) => {
-  const { language } = useI18nContext();
+  const { language,t } = useI18nContext();
   const productChartRef = useRef(null);
   const monthlyChartRef = useRef(null);
   const [refresh, setRefresh] = useState(false);
@@ -91,35 +92,67 @@ const Home = ({ role, modal }) => {
   return (
     <div>
       <div className={` absolute top-28 text-gray-100 dark:text-gray-900 -z-3 w-full ${language === "ar" ? "right-24" : "left-24"}`}>
+        <div className="container mx-auto pt-4 px-4">
+          <div className="d-flex items-center justify-around w-full">
+            <div className="bg-gray-900 dark:bg-gray-100 w-1/5 rounded flex items-center justify-between p-4">
+              <div className="ml-3">
+                <p className="mb-2">{t('Home.Sales')}</p>
+                <h6 className="mb-0">150</h6>
+              </div>
+              <FaShoppingCart className="fs-3 text-blue-500" />
+            </div>
+            <div className="bg-gray-900 dark:bg-gray-100 w-1/5 rounded flex items-center justify-between p-4">
+              <div className="ml-3">
+                <p className="mb-2">{t('Home.Revenue')}</p>
+                <h6 className="mb-0">$45,000</h6>
+              </div>
+              <FaDollarSign className="fs-3 text-blue-500" />
+            </div>
+            <div className="bg-gray-900 dark:bg-gray-100 w-1/5 rounded flex items-center justify-between p-4">
+              <div className="ml-3">
+                <p className="mb-2">{t('Home.Growth')}</p>
+                <h6 className="mb-0">25%</h6>
+              </div>
+              <FaChartLine className="fs-3 text-blue-500" />
+            </div>
+            <div className="bg-gray-900 dark:bg-gray-100 w-1/5 rounded flex items-center justify-between p-4">
+              <div className="ml-3">
+                <p className="mb-2">{t('Home.Profit')}</p>
+                <h6 className="mb-0">$10,000</h6>
+              </div>
+              <FaMoneyBillWave className="fs-3 text-blue-500" />
+            </div>
+          </div>
+        </div>
         <div className="container-fluid pt-4 px-4 ">
           <div className="d-flex align-items-center justify-content-center gap-5">
             <div className="w-4/12">
               <div className="bg-gray-900 dark:bg-gray-100 text-center rounded p-4">
                 <div className="d-flex align-items-center justify-content-between mb-4">
-                  <h6 className="fw-bold mb-0">Sales by Product Category</h6>
-                  <Link to="#" onClick={handleRefresh}>Show All</Link>
+                  <h6 className="fw-bold mb-0">{t('Home.SalesByProductCategory')}</h6>
+                  <Link to="#" onClick={handleRefresh}>{t('Home.ShowAll')}</Link>
                 </div>
                 <canvas id="product-chart" ref={productChartRef}></canvas>
               </div>
             </div>
             <div className="w-4/12">
               <div className="bg-gray-900 dark:bg-gray-100 text-center rounded p-4">
-                <div className="d-flex align-items-center justify-content-between mb-4">
-                  <h6 className="fw-bold mb-0">Monthly Sales</h6>
-                  <Link to="#" onClick={handleRefresh}>Show All</Link>
+                <div className="d-flex align-items-center justify-content-between my-4">
+                  <h6 className="fw-bold mb-0">{t('Home.MonthlySales')}</h6>
+                  <Link to="#" onClick={handleRefresh}>{t('Home.ShowAll')}</Link>
                 </div>
                 <canvas id="monthly-chart" ref={monthlyChartRef}></canvas>
               </div>
             </div>
           </div>
-          <div className="d-flex align-items-center justify-content-center gap-5 mt-4">
+          <div className="d-flex align-items-center justify-content-center gap-5 my-4">
             <div className="w-4/12">
               <div className="bg-gray-900 dark:bg-gray-100 text-center rounded p-2">
                 <div className="d-flex align-items-center justify-content-between">
-                  <h6 className="mb-0 fw-bold">Calendar</h6>
+                  <h6 className="mb-0 fw-bold">{t('Home.Calendar')}</h6>
                 </div>
                 <div className="calendar-container">
-                  <Calendar
+                  <Calendar className='w-100'
                     onChange={setDate}
                     value={date}
                     tileClassName={({ date, view }) => {
@@ -133,12 +166,12 @@ const Home = ({ role, modal }) => {
             </div>
             <div className="w-4/12 ">
               <div className="bg-gray-900  dark:bg-gray-100 text-center rounded p-4">
-                <h6 className="mb-4 fw-bold">Best Selling Products</h6>
+                <h6 className="mb-4 fw-bold">{t('Home.BestSellingProducts')}</h6>
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead className='text-xm text-gray-900 uppercase'>
                     <tr className="text-center fs-6 bg-gray-500 tracking-wide bg-opacity-25 transition ease-out duration-200">
-                      <th scope="col" className="px-5 py-2">Product Name</th>
-                      <th scope="col" className="px-5 py-2">Sales</th>
+                      <th scope="col" className="px-5 py-2">{t('Home.ProductName')}</th>
+                      <th scope="col" className="px-5 py-2">{t('Home.Sales')}</th>
                     </tr>
                   </thead>
                   <tbody className='text-center fs-6'>
