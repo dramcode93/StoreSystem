@@ -85,24 +85,44 @@ const roleRoutes = {
     ]
 };
 
+const shop = [
+    { path: '/Home', name: "Home.Home", icon: <House /> },
+    { path: '/shops', name: "Home.shops", icon: <FaBagShopping /> },
+    { path: "/cart", name: "Home.Cart", icon: <MdProductionQuantityLimits /> },
+    { name: "Home.Order", icon: <MdBorderColor /> },
+    {
+        name: "Home.Profile", icon: <CgProfile />, dropdownItems: [
+            { text: 'Information', path: '/information' },
+            { text: 'Change Password', path: '/change-password' },
+        ]
+    }
+];
+
 const Dashboard = ({ children }) => {
     const token = Cookies.get('token');
     const { t, language } = useI18nContext();
-    const [role, setRole] = useState("");
+    const [role, setRole] = useState("shop"); // Default to "shop"
     const [activeLink, setActiveLink] = useState(null);
     const [isProfileActive, setIsProfileActive] = useState(false);
     const [activeDropdownItem, setActiveDropdownItem] = useState(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
-            try {
-                const response = await axios.get(
-                    "https://store-system-api.gleeze.com/api/Users/getMe",
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
-                setRole(response.data.data.role);
-            } catch (error) {
-                console.error("Error fetching user data:", error);
+            if (token) {
+                try {
+                    const response = await axios.get(
+                        "https://store-system-api.gleeze.com/api/Users/getMe",
+                        { headers: { Authorization: `Bearer ${token}` } }
+                    );
+                    setRole(response.data.data.role || "shop");
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                    // Handle malformed token
+                    if (error.response && error.response.data.message === "jwt malformed") {
+                        Cookies.remove('token'); // Remove the malformed token
+                    }
+                    setRole("shop");
+                }
             }
         };
         fetchUserData();
@@ -128,9 +148,9 @@ const Dashboard = ({ children }) => {
 
     const handleLinkClick = useCallback((index) => {
         setActiveLink(index);
-        setIsProfileActive(index === roleRoutes[role].length - 1 ? !isProfileActive : false);
+        setIsProfileActive(index === (roleRoutes[role] || shop).length - 1 ? !isProfileActive : false);
         localStorage.setItem('activeLinkIndex', index);
-        localStorage.setItem('isProfileActive', index === roleRoutes[role].length - 1 ? !isProfileActive : false);
+        localStorage.setItem('isProfileActive', index === (roleRoutes[role] || shop).length - 1 ? !isProfileActive : false);
         setActiveDropdownItem(null);
     }, [role, isProfileActive]);
 
@@ -139,11 +159,13 @@ const Dashboard = ({ children }) => {
         localStorage.setItem('activeDropdownItem', dropdownIndex);
     }, []);
 
+    const routes = roleRoutes[role] || shop;
+
     return (
-        <div className="fixed top-5 text-gray-900 dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
-            {roleRoutes[role] && (
+        <div className="fixed top-0 text-gray-900 dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
+            {routes && (
                 <div style={{ marginTop: "15vh", boxShadow: language === "ar" ? "-4px 0px 2px rgba(0, 0, 0, 0.1)" : "5px 0px 3px rgba(0, 0, 0, 0.1)" }} className={language === "ar" ? module.sidebarArabic : module.sidebar}>
-                    {roleRoutes[role].map((item, index) => (
+                    {routes.map((item, index) => (
                         <div key={index}>
                             <NavLink to={item.path} className={module.link} onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}>
                                 <div className={module.icon}>{item.icon}</div>
