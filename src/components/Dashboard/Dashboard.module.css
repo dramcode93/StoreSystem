@@ -14,6 +14,7 @@
      margin: 1vh 1vw 1vh 2vw;
      gap: 15px;
      transition: all 0.5s;
+     align-items: center;
     }
     .dropDown {
         color: var(--font);
