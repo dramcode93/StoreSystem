@@ -252,3 +252,60 @@ button {
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   /* Adjust values as needed */
 }
+
+
+::-webkit-scrollbar {
+  background: rgb(148, 171, 201);
+  border-left: 1px solid rgb(148, 171, 201);
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #263242;
+}
+
+::-webkit-scrollbar-button {
+  background: rgb(148, 171, 201);
+  display: none;
+}
+
+::selection {
+  background-color: #000;
+  color: rgb(167, 191, 223);
+}
+
+.slick-prev,
+.slick-next {
+  width: auto !important;
+  height: auto !important;
+  color: #000 !important;
+  z-index: 1;
+}
+
+.slick-next {
+  margin-right: 30px !important;
+}
+
+.slick-prev {
+  margin-left: 30px !important;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  font-size: 30px !important;
+  color: #000 !important;
+}
+
+/* Style for the label acting as a button */
+.file-label {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+
+
+
+ 

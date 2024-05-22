@@ -8,11 +8,9 @@ const Shop = () => {
             <Card
                 icon={<ChalkboardSimple size={60} />}
                 id='id'
-                name='center'
-                adminName='adminName'
-                rooms='rooms'
+                name='الخزنة'
+                 rooms='150000$'
             />
-           
         </div>
     )
 }
