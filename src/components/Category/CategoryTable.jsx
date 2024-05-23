@@ -185,7 +185,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     };
   }, []);
   return (
-    <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
+    <section className={`bg-gray-400 bg-opacity-5 dark:bg-gray-700 dark:bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`} >
       <ConfirmationModal
         item="category"
         show={showConfirmation}
@@ -198,14 +198,14 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
       <div className="flex justify-between">
         <div className="relative w-96 m-3">
           <input
-            className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
+            className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 dark:bg-gray-500"
             type="text"
             onChange={(e) => setSearchInput(e.target.value)}
             value={searchInput}
             placeholder={t("Products.Search")}
           />
           <CiSearch
-            className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
+            className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${language === "ar" ? "left-3" : "right-3"
               } cursor-pointer`}
             onClick={handleSearch}
           />
@@ -220,8 +220,8 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
         </div>
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xm text-gray-200 uppercase ">
-          <tr className="text-center fs-6 bg-gray-500 tracking-wide bg-opacity-25 transition ease-out duration-200">
+        <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase ">
+          <tr className="text-center fs-6 bg-gray-500 bg-opacity-25 dark:bg-gray-500 tracking-wide dark:bg-opacity-25 transition ease-out duration-200">
             <th scope="col" className="px-5 py-4">
               {t("Category.Code")}
             </th>
@@ -269,7 +269,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                       <DotsThree
                         size={25}
                         weight="bold"
-                        className="hover:bg-gray-700 w-10 rounded-lg"
+                        className="  hover:bg-gray-700 w-10 rounded-lg"
                       />
                     </button>
                     <div
@@ -331,7 +331,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
         <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
           <li>
             <button
-              className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-gray-700 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               onClick={handlePreviousPage}
             >
               <span className="sr-only">Previous</span>
@@ -343,7 +343,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
               <button
                 className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
                   ? "bg-gray-200 text-gray-800"
-                  : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                   }`}
                 onClick={() => handlePageChange(page)}
               >
@@ -353,7 +353,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           ))}
           <li>
             <button
-              className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               onClick={handleNextPage}
             >
               <span className="sr-only">Next</span>
