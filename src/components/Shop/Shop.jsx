@@ -4,6 +4,7 @@ import { ChalkboardSimple } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
 import Cookies from "js-cookie";
 import axios from "axios";
+import Actions from "./Actions";
 
 const Shop = () => {
   const language = useI18nContext();
@@ -18,6 +19,10 @@ const Shop = () => {
   const [yearlyEarning, setYearlyEarning] = useState(0);
   const [yearlySales, setYearlySales] = useState(0);
 
+  const [openCreate, setOpenCreate] = useState(false);
+  const toggleOpenCreateModal = () => {
+    setOpenCreate(!openCreate);
+  };
   const fetchData = useCallback(async () => {
     try {
       if (token) {
@@ -83,8 +88,14 @@ const Shop = () => {
   const formatMoney = (value) => {
     return value.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " $";
   };
+
   return (
     <>
+      <Actions
+        closeModal={toggleOpenCreateModal}
+        modal={openCreate}
+        // role={role}
+      />
       <div
         className={`mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${
           language === "ar" ? "left-10" : "right-10"
@@ -110,7 +121,10 @@ const Shop = () => {
         </div>
 
         <div className="d-flex justify-center items-center gap-10 my-3">
-          <button className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl w-40">
+          <button
+            onClick={toggleOpenCreateModal}
+            className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl w-40"
+          >
             Actions
           </button>
           {/* <button className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl w-40">
