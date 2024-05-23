@@ -38,6 +38,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setCategories(categoriesResponse.data.data);
+        console.log('object', setCategories)
         setPagination({
           currentPge: pagination.currentPge,
           totalPages: categoriesResponse.data.paginationResult.numberOfPages,

@@ -1,9 +1,6 @@
 import React from "react";
-import { useI18nContext } from "../components/context/i18n-context";
 
-function FormSelect({ selectLabel, handleChange, options, value, name,headOption }) {
-  const { t } = useI18nContext();
-
+function FormSelect({ selectLabel, handleChange, options, value, name, headOption }) {
   return (
     <div>
       <label
@@ -14,19 +11,18 @@ function FormSelect({ selectLabel, handleChange, options, value, name,headOption
       </label>
 
       <select
-        onChange={handleChange}
+        onChange={handleChange} // Pass the handleChange function
         id={selectLabel}
         name={name}
         className="bg-gray-50 border border-gray-300 text-xl rounded-md block w-full p-2.5 dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none focus:border-orange-400 dark:focus:border-orange-400 duration-100 ease-linear"
         value={value}
       >
-        <option  disabled value={""}>{headOption}</option>
-        {Array.isArray(options) &&
-          options.map((option, index) => (
-            <option key={index} value={option.value}>
-              {option.label}
-            </option>
-          ))}
+        <option value="" disabled>{headOption}</option>
+        {options.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
+        ))}
       </select>
     </div>
   );

@@ -19,6 +19,7 @@ const roleRoutes = {
         { path: "/shop", name: "Home.shop", icon: <FiShoppingCart /> },
         { path: '/category', name: "Home.Category", icon: <BiCategory /> },
         { path: "/products", name: "Home.products", icon: <MdProductionQuantityLimits /> },
+        { path: "/SalesTable", name: "Home.Sales", icon: <MdProductionQuantityLimits /> },
         {
             path: "/customers", name: "Home.Customer", icon: <BsFillPersonVcardFill />, dropdownItems: [
                 { text: 'Create', path: '/create' },
