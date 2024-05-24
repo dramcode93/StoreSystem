@@ -29,7 +29,7 @@ import Cart from "./components/BestSeller/Cart.jsx";
 import Shops from "./components/BestSeller/Shops.jsx";
 import ShopProduct from "./components/BestSeller/ShopProduct.jsx";
 import MyComponent from "./components/Navbar/MyComponent.jsx";
-import SalesTable from "./components/examGrades/ExamTable.jsx";
+import SalesTable from "./components/examGrades/SalesTable.jsx";
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -51,7 +51,7 @@ const App = () => {
       }
     };
     fetchUserData();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -79,7 +79,7 @@ const App = () => {
               const response = await axios.get('https://store-system-api.gleeze.com/api/auth/refreshToken', { headers: { Authorization: `Bearer ${token}` } });
               const newToken = response.data.token;
               const tokenTime = 2
-              Cookies.set('token', newToken, { expires: tokenTime, secure: true, sameSite: 'strict' }); // Set the new token with a 1-day expiration
+              Cookies.set('token', newToken, { expires: tokenTime, secure: true, sameSite: 'strict' }); 
             } catch (error) { console.error('Error refreshing token:', error); }
           }
         } catch (error) {
@@ -92,7 +92,7 @@ const App = () => {
 
     checkToken();
 
-    const refreshInterval = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
+    const refreshInterval = 6 * 60 * 60 * 1000; 
     const intervalId = setInterval(checkToken, refreshInterval);
 
     return () => clearInterval(intervalId);
