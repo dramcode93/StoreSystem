@@ -19,6 +19,7 @@ const roleRoutes = {
         { path: "/shop", name: "Home.shop", icon: <FiShoppingCart /> },
         { path: '/category', name: "Home.Category", icon: <BiCategory /> },
         { path: "/products", name: "Home.products", icon: <MdProductionQuantityLimits /> },
+        { path: "/SalesTable", name: "Home.Sales", icon: <MdProductionQuantityLimits /> },
         {
             path: "/customers", name: "Home.Customer", icon: <BsFillPersonVcardFill />, dropdownItems: [
                 { text: 'Create', path: '/create' },
@@ -82,22 +83,22 @@ const roleRoutes = {
                 { text: 'Change Password', path: '/change-password' },
             ]
         }
-    ]
+    ],
+
+
+shop :[
+        { path: '/Home', name: "Home.Home", icon: <House /> },
+        { path: '/shops', name: "Home.shops", icon: <FaBagShopping /> },
+        { path: "/cart", name: "Home.Cart", icon: <MdProductionQuantityLimits /> },
+        { name: "Home.Order", icon: <MdBorderColor /> },
+        {
+            name: "Home.Profile", icon: <CgProfile />, dropdownItems: [
+                { text: 'Information', path: '/information' },
+                { text: 'Change Password', path: '/change-password' },
+            ]
+        }
+    ],
 };
-
-const shop = [
-    { path: '/Home', name: "Home.Home", icon: <House /> },
-    { path: '/shops', name: "Home.shops", icon: <FaBagShopping /> },
-    { path: "/cart", name: "Home.Cart", icon: <MdProductionQuantityLimits /> },
-    { name: "Home.Order", icon: <MdBorderColor /> },
-    {
-        name: "Home.Profile", icon: <CgProfile />, dropdownItems: [
-            { text: 'Information', path: '/information' },
-            { text: 'Change Password', path: '/change-password' },
-        ]
-    }
-];
-
 const Dashboard = ({ children }) => {
     const token = Cookies.get('token');
     const { t, language } = useI18nContext();
@@ -117,11 +118,11 @@ const Dashboard = ({ children }) => {
                     setRole(response.data.data.role || "shop");
                 } catch (error) {
                     console.error("Error fetching user data:", error);
-                    // Handle malformed token
                     if (error.response && error.response.data.message === "jwt malformed") {
                         Cookies.remove('token'); // Remove the malformed token
                     }
                     setRole("shop");
+                    console.log(role)
                 }
             }
         };
@@ -148,9 +149,9 @@ const Dashboard = ({ children }) => {
 
     const handleLinkClick = useCallback((index) => {
         setActiveLink(index);
-        setIsProfileActive(index === (roleRoutes[role] || shop).length - 1 ? !isProfileActive : false);
+        setIsProfileActive(index === (roleRoutes[role]).length - 1 ? !isProfileActive : false);
         localStorage.setItem('activeLinkIndex', index);
-        localStorage.setItem('isProfileActive', index === (roleRoutes[role] || shop).length - 1 ? !isProfileActive : false);
+        localStorage.setItem('isProfileActive', index === (roleRoutes[role]).length - 1 ? !isProfileActive : false);
         setActiveDropdownItem(null);
     }, [role, isProfileActive]);
 
@@ -159,7 +160,7 @@ const Dashboard = ({ children }) => {
         localStorage.setItem('activeDropdownItem', dropdownIndex);
     }, []);
 
-    const routes = roleRoutes[role] || shop;
+    const routes = roleRoutes[role] || roleRoutes['shop'];
 
     return (
         <div className="fixed top-0 text-gray-900 dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
