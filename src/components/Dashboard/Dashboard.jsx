@@ -16,14 +16,10 @@ import axios from 'axios';
 const roleRoutes = {
     admin: [
         { path: '/Home', name: "Home.Home", icon: <House /> },
-        {
-            name: "Home.shop", icon: <FiShoppingCart />, dropdownItems: [
-                { text: 'Sales', path: '/SalesTable' },
-            ]
-        },
+        {path: '/shop',  name: "Home.shop", icon: <FiShoppingCart />},
+        { path: "/SalesTable", name: "Home.Sales", icon: <MdProductionQuantityLimits /> },
         { path: '/category', name: "Home.Category", icon: <BiCategory /> },
         { path: "/products", name: "Home.products", icon: <MdProductionQuantityLimits /> },
-        { path: "/SalesTable", name: "Home.Sales", icon: <MdProductionQuantityLimits /> },
         {
             path: "/customers", name: "Home.Customer", icon: <BsFillPersonVcardFill />, dropdownItems: [
                 { text: 'Create', path: '/create' },

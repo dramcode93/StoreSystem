@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 
 export default function SalesTable() {
   const [selectedSalesId, setSelectedSalesId] = useState(null);
-  const [selectedOption, setSelectedOption] = useState(""); // Updated default state to an empty string
+  const [selectedOption, setSelectedOption] = useState(""); 
   const [salesData, setSalesData] = useState([]);
   const [error, setError] = useState(null);
 
@@ -38,7 +38,7 @@ export default function SalesTable() {
 
       setSalesData(response.data.data);
       setError(null);
-      document.getElementById("table").style.display = "table"; // Show the table
+      document.getElementById("table").style.display = "table"; 
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       setError("You are not logged in! Please log in to get access.");
@@ -145,7 +145,6 @@ export default function SalesTable() {
                     </th>
                     <th scope="col" className="px-5 py-3">
                       {t("Sales.Sales")}
-     
                     </th>
                   </tr>
                 </thead>

@@ -17,8 +17,7 @@ const en = {
     Calendar: "Calendar",
     BestSellingProducts: "Best Selling Products",
     ProductName: "Product Name",
-    Cart: "Cart",
-    
+    Cart: "Cart",  
     shops: "Shops",
     Category: "Category",
     products: "Products",
