@@ -7,6 +7,7 @@ const ar = {
     Home: "الرئيسية",
     shop: "تسوق",
       Sales: "المبيعات",
+      FinancialTransactions: "المعاملات المالية",
     Revenue: "الدخل",
     Growth: "الزيادة",
     Profit: "الربح",
@@ -211,6 +212,20 @@ const ar = {
     Earnings: "الأرباح",
     SelectAnOption: "إختر",
     Search: "بحث",
+   },
+   Transactions: {
+     Id: " الكود",
+     day: " اليوم",
+     month: " الشهر",
+     year: " السنة",
+     date: " التاريخ",
+    Reason: "السبب",
+    Money: "المال",
+    SelectAnOption: "إختر",
+    Search: "بحث",
+    withdraw: "الايداع",
+    deposit: "السحب",
+    all: "الكل",
    },
 };
 
