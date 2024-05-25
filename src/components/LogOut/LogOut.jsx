@@ -7,7 +7,7 @@ const logOut = () => {
 
   const handle = () => {
     Cookies.remove('token');
-    window.location.href = '/login';
+    window.location.href = '/';
   };
 
   return (
