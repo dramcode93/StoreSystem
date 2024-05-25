@@ -4,11 +4,10 @@ import { useI18nContext } from "../context/i18n-context";
 import FormSelect from "../../form/FormSelect";
 import axios from "axios";
 import Cookies from "js-cookie";
-import FormText from "../../form/FormText";
 
 export default function SalesTable() {
   const [selectedSalesId, setSelectedSalesId] = useState(null);
-  const [selectedOption, setSelectedOption] = useState("day");
+  const [selectedOption, setSelectedOption] = useState(""); // Updated default state to an empty string
   const [salesData, setSalesData] = useState([]);
   const [error, setError] = useState(null);
 
@@ -36,7 +35,7 @@ export default function SalesTable() {
           Authorization: `Bearer ${token}`,
         },
       });
-console.log('object',response.data.data)
+
       setSalesData(response.data.data);
       setError(null);
       document.getElementById("table").style.display = "table"; // Show the table
@@ -70,25 +69,34 @@ console.log('object',response.data.data)
     };
   }, [selectedSalesId]);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    if (selectedOption === "day") {
+      return date.toLocaleDateString();
+    } else if (selectedOption === "month") {
+      return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+    } else if (selectedOption === "year") {
+      return date.getFullYear();
+    }
+  };
+
   return (
     <div>
-      <section className={` mx-10 rounded-md py-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
+      <section className={`mx-10 rounded-md py-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
         <div className="mx-auto max-w-screen-xl">
           <div>
-            <div
-              className="h-32 dark:bg-gray-800 relative shadow-md rounded-lg d-flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4 pb-0"
-            >
+            <div className="h-32 dark:bg-gray-800 relative shadow-md rounded-lg d-flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4 pb-0">
               <div className="w-full md:w-1/2">
                 <form className="d-flex items-center">
                   <div className="w-full sm:grid-cols-3">
                     <div>
                       <FormSelect
-                        selectLabel={t("ExamGradesForm.day")}
-                        headOption="Select an option"
+                        selectLabel={t("Sales.date")}
+                        headOption={t("Sales.SelectAnOption")}
                         options={[
-                          { value: "day", label: t("ExamGradesForm.day") },
-                          { value: "month", label: t("ExamGradesForm.month") },
-                          { value: "year", label: t("ExamGradesForm.year") },
+                          { value: "day", label: t("Sales.day") },
+                          { value: "month", label: t("Sales.month") },
+                          { value: "year", label: t("Sales.year") },
                         ]}
                         handleChange={handleSelectChange}
                         value={selectedOption}
@@ -97,20 +105,21 @@ console.log('object',response.data.data)
                   </div>
                 </form>
               </div>
-              <div className="w-full md:w-auto flex md:flex-row space-y-2 md:space-y-0 md:items-center justify-end md:space-x-3">
+              <div className="w-full  md:w-auto flex md:flex-row space-y-2 md:space-y-0 md:items-center justify-end md:space-x-3">
                 <button
                   type="button"
                   onClick={handleShowTable}
-                  className="d-flex items-center justify-center duration-150 ease-linear
+                  className="d-flex items-center fw-bold fs-6 justify-center duration-150 ease-linear
                     text-white bg-orange-500 hover:bg-orange-700 
                     focus:ring-4 focus:ring-orange-300 
                     font-medium rounded-lg text-sm px-4 py-2 
                     dark:bg-orange-300 dark:hover:bg-orange-500 dark:text-orange-800
                     dark:hover:text-white
                     focus:outline-none dark:focus:ring-orange-800"
+                  disabled={!selectedOption}
                 >
+                  {t("Sales.Search")}
                   <Plus size={18} weight="bold" />
-                  {t("ExamGradesForm.Search")}
                 </button>
               </div>
             </div>
@@ -119,50 +128,36 @@ console.log('object',response.data.data)
                 {error}
               </div>
             )}
-            <div
-              className="overflow-x-auto mt-4 dark:bg-gray-800 relative shadow-md rounded-lg"
-              style={{ display: "none" }}
-              id="table"
-            >
+            <div className="overflow-x-auto w-100 mt-4 dark:bg-gray-800 relative shadow-md rounded-lg" id="table" style={{ display: "none" }}>
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 text-center">
-                  <tr className="text-center">
-                    <th scope="col" className="px-4 py-4">
-                      Created At
+                <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
+                  <tr className="text-center fs-6 bg-gray-500 bg-opacity-25 dark:bg-gray-500 tracking-wide dark:bg-opacity-25 transition ease-out duration-200">
+                    <th scope="col" className="px-5 py-4">
+                      {t("Sales.Id")}
+                     </th>
+                    <th scope="col" className="px-5 py-4">
+                      {t("Sales.date")}
+  
                     </th>
-                    <th scope="col" className="px-4 py-3">
-                      Earnings
+                    <th scope="col" className="px-5 py-3">
+                      {t("Sales.Earnings")}
+  
                     </th>
-                    <th scope="col" className="px-4 py-3">
-                      Sales
+                    <th scope="col" className="px-5 py-3">
+                      {t("Sales.Sales")}
+     
                     </th>
-                    <th scope="col" className="px-4 py-3">
-                      Shop
-                    </th>
-                    <th scope="col" className="px-4 py-3">
-                      Updated At
-                    </th>
-                    <th scope="col" className="px-4 py-3">
-                      ID
-                    </th>
-                    {/* Additional table headers if needed */}
                   </tr>
                 </thead>
                 <tbody>
-
                   {salesData.map((sale, index) => (
-                    <tr key={index} 
-                      className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
-                    >
-                      <td className="px-4 py-3">{sale.createdAt}</td>
-                      <td className="px-4 py-3">{sale.earnings}</td>
-                      <td className="px-4 py-3">{sale.sales}</td>
-                      <td className="px-4 py-3">{sale.shop}</td>
-                      <td className="px-4 py-3">{sale.updatedAt}</td>
-                      <td className="px-4 py-3">{sale._id}</td>
+                    <tr key={index} className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200">
+                      <td className="px-5 py-3">{sale._id}</td>
+                      <td className="px-5 py-3">{formatDate(sale.createdAt)}</td>
+                      <td className="px-5 py-3">{sale.earnings}</td>
+                      <td className="px-5 py-3">{sale.sales}</td>
                     </tr>
                   ))}
-
                 </tbody>
               </table>
             </div>
