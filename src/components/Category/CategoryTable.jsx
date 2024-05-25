@@ -30,6 +30,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     totalPages: 1,
   });
 
+
   const fetchData = useCallback(async () => {
     try {
       if (token) {
@@ -38,7 +39,6 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setCategories(categoriesResponse.data.data);
-        console.log('object', setCategories)
         setPagination({
           currentPge: pagination.currentPge,
           totalPages: categoriesResponse.data.paginationResult.numberOfPages,
