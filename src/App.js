@@ -80,7 +80,7 @@ const App = () => {
               const response = await axios.get('https://store-system-api.gleeze.com/api/auth/refreshToken', { headers: { Authorization: `Bearer ${token}` } });
               const newToken = response.data.token;
               const tokenTime = 2
-              Cookies.set('token', newToken, { expires: tokenTime, secure: true, sameSite: 'strict' }); 
+              Cookies.set('token', newToken, { expires: tokenTime, secure: true, sameSite: 'strict' });
             } catch (error) { console.error('Error refreshing token:', error); }
           }
         } catch (error) {
@@ -93,7 +93,7 @@ const App = () => {
 
     checkToken();
 
-    const refreshInterval = 6 * 60 * 60 * 1000; 
+    const refreshInterval = 6 * 60 * 60 * 1000;
     const intervalId = setInterval(checkToken, refreshInterval);
 
     return () => clearInterval(intervalId);
@@ -110,13 +110,9 @@ const App = () => {
             <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
             <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
             <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/shops" element={<Shops />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/" element={<BestSeller />} />
-            <Route path="/previewProduct/:id" element={<PreviewProduct />} />
-            <Route path="/shopProduct/:id" element={<ShopProduct />} />
+
             {isLoggedIn && !isTokenExpired && (
               <>
                 {role === "customer" ? <Route path="/home" element={<BestSeller />} />
