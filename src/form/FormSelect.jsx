@@ -11,7 +11,7 @@ function FormSelect({ selectLabel, handleChange, options, value, name, headOptio
       </label>
 
       <select
-        onChange={handleChange} // Pass the handleChange function
+        onChange={handleChange} 
         id={selectLabel}
         name={name}
         className="bg-gray-50 border border-gray-300 text-xl rounded-md block w-full p-2.5 dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none focus:border-orange-400 dark:focus:border-orange-400 duration-100 ease-linear"

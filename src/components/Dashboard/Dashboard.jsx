@@ -16,7 +16,11 @@ import axios from 'axios';
 const roleRoutes = {
     admin: [
         { path: '/Home', name: "Home.Home", icon: <House /> },
-        { path: "/shop", name: "Home.shop", icon: <FiShoppingCart /> },
+        {
+            name: "Home.shop", icon: <FiShoppingCart />, dropdownItems: [
+                { text: 'Sales', path: '/SalesTable' },
+            ]
+        },
         { path: '/category', name: "Home.Category", icon: <BiCategory /> },
         { path: "/products", name: "Home.products", icon: <MdProductionQuantityLimits /> },
         { path: "/SalesTable", name: "Home.Sales", icon: <MdProductionQuantityLimits /> },
@@ -84,27 +88,15 @@ const roleRoutes = {
             ]
         }
     ],
-
-
-shop :[
-        { path: '/Home', name: "Home.Home", icon: <House /> },
-        { path: '/shops', name: "Home.shops", icon: <FaBagShopping /> },
-        { path: "/cart", name: "Home.Cart", icon: <MdProductionQuantityLimits /> },
-        { name: "Home.Order", icon: <MdBorderColor /> },
-        {
-            name: "Home.Profile", icon: <CgProfile />, dropdownItems: [
-                { text: 'Information', path: '/information' },
-                { text: 'Change Password', path: '/change-password' },
-            ]
-        }
-    ],
 };
+
 const Dashboard = ({ children }) => {
     const token = Cookies.get('token');
     const { t, language } = useI18nContext();
-    const [role, setRole] = useState("shop"); // Default to "shop"
+    const [role, setRole] = useState(""); // Default to "shop"
     const [activeLink, setActiveLink] = useState(null);
     const [isProfileActive, setIsProfileActive] = useState(false);
+    const [isShopActive, setIsShopActive] = useState(false);
     const [activeDropdownItem, setActiveDropdownItem] = useState(null);
 
     useEffect(() => {
@@ -132,6 +124,7 @@ const Dashboard = ({ children }) => {
     useEffect(() => {
         const storedActiveLinkIndex = localStorage.getItem('activeLinkIndex');
         const storedIsProfileActive = localStorage.getItem('isProfileActive');
+        const storedIsShopActive = localStorage.getItem('isShopActive');
         const storedActiveDropdownItem = localStorage.getItem('activeDropdownItem');
 
         if (storedActiveLinkIndex !== null) {
@@ -140,6 +133,9 @@ const Dashboard = ({ children }) => {
 
         if (storedIsProfileActive !== null) {
             setIsProfileActive(storedIsProfileActive === 'true');
+        }
+        if (storedIsShopActive !== null) {
+            setIsShopActive(storedIsShopActive === 'true');
         }
 
         if (storedActiveDropdownItem !== null) {
@@ -150,17 +146,19 @@ const Dashboard = ({ children }) => {
     const handleLinkClick = useCallback((index) => {
         setActiveLink(index);
         setIsProfileActive(index === (roleRoutes[role]).length - 1 ? !isProfileActive : false);
+        setIsShopActive(index === (roleRoutes[role]).length - 1 ? !isShopActive : false);
         localStorage.setItem('activeLinkIndex', index);
         localStorage.setItem('isProfileActive', index === (roleRoutes[role]).length - 1 ? !isProfileActive : false);
+        localStorage.setItem('isShopActive', index === (roleRoutes[role]).length - 1 ? !isShopActive : false);
         setActiveDropdownItem(null);
-    }, [role, isProfileActive]);
+    }, [role, isProfileActive, isShopActive]);
 
     const handleDropdownItemClick = useCallback((dropdownIndex) => {
         setActiveDropdownItem(dropdownIndex);
         localStorage.setItem('activeDropdownItem', dropdownIndex);
     }, []);
 
-    const routes = roleRoutes[role] || roleRoutes['shop'];
+    const routes = roleRoutes[role] || roleRoutes['shop']; // Change to render shop routes for admin role
 
     return (
         <div className="fixed top-0 text-gray-900 dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
@@ -171,12 +169,12 @@ const Dashboard = ({ children }) => {
                             <NavLink to={item.path} className={module.link} onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}>
                                 <div className={module.icon}>{item.icon}</div>
                                 {item.name === "Home.Profile" ? (
-                                    <div className={`${module.link_text} flex`}>{t(item.name)} {activeLink === index && isProfileActive ? <FiChevronUp /> : <FiChevronDown />}</div>
+                                    <div className={`${module.link_text} flex`}>{t(item.name)} {activeLink === index && isShopActive&& isProfileActive ? <FiChevronUp /> : <FiChevronDown />}</div>
                                 ) : (
                                     <div className={module.link_text}>{t(item.name)}</div>
                                 )}
                             </NavLink>
-                            {activeLink === index && isProfileActive && item.dropdownItems && (
+                            {activeLink === index && isProfileActive && isShopActive && item.dropdownItems && (
                                 <div className='transition ease-in-out duration-75' dir={language === "ar" ? "rtl" : "ltr"}>
                                     <div className='flex flex-col w-full mx-auto font-bold' >
                                         {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
@@ -193,6 +191,8 @@ const Dashboard = ({ children }) => {
                                     </div>
                                 </div>
                             )}
+                               
+                            
                         </div>
                     ))}
                 </div>
