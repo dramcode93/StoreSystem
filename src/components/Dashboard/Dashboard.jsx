@@ -18,6 +18,7 @@ const roleRoutes = {
         { path: '/Home', name: "Home.Home", icon: <House /> },
         {path: '/shop',  name: "Home.shop", icon: <FiShoppingCart />},
         { path: "/SalesTable", name: "Home.Sales", icon: <MdProductionQuantityLimits /> },
+        { path: "/FinancialTransactions", name: "Home.FinancialTransactions", icon: <MdProductionQuantityLimits /> },
         { path: '/category', name: "Home.Category", icon: <BiCategory /> },
         { path: "/products", name: "Home.products", icon: <MdProductionQuantityLimits /> },
         {

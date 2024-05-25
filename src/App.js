@@ -29,7 +29,8 @@ import Cart from "./components/BestSeller/Cart.jsx";
 import Shops from "./components/BestSeller/Shops.jsx";
 import ShopProduct from "./components/BestSeller/ShopProduct.jsx";
 import MyComponent from "./components/Navbar/MyComponent.jsx";
-import SalesTable from "./components/examGrades/SalesTable.jsx";
+import SalesTable from "./components/Sales/SalesTable.jsx";
+import FinancialTransactions from "./components/deposit/Deposit.jsx";
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -130,6 +131,7 @@ const App = () => {
                 <Route path="/products" element={<Products />} />
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/SalesTable" element={<SalesTable />} />
+                <Route path="/FinancialTransactions" element={<FinancialTransactions />} />
                 <Route path="/bills" element={<Bills />} />
                 <Route path="/information" element={<UserInfo />} />
                 <Route path="/change-password" element={<ChangPassword />} />
