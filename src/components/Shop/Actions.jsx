@@ -135,14 +135,14 @@ export default function Actions({ closeModal, modal }) {
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
         fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${
+        z-50 justify-center  items-center ${
           modal ? "-right-1/2" : "-left-[100%]"
         }
          bg-opacity-40 w-full h-full `}
       >
         <div
           className={`w-full max-w-min 
-           dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
+           bg-gray-800  rounded-r-xl duration-200 ease-linear
            ${language === "ar" ? "absolute left-0" : "absolute right-0"}
            h-screen overflow-auto`}
         >
@@ -151,9 +151,9 @@ export default function Actions({ closeModal, modal }) {
               dir="rtl"
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
             >
-              <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                {/* Add Product */}
-              </h3>
+              <h3 className="text-xl font-bold mr-3 text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
+                {t(`Shop.Actions`)}      
+                        </h3>
               <button
                 type="button"
                 onClick={closeModal}

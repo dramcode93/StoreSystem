@@ -241,6 +241,17 @@ const en = {
     deposit: "deposit",
     all: "all",
    },
+      Shop: {
+     TotalMoney: "Total Money",
+     YearlyEarnings: "Yearly Earnings",
+     YearlySales: "Yearly Sales",
+     MonthlyEarnings: " MonthlyEarnings ",
+     MonthlySales: "Monthly Sales",
+    DailyEarnings: "Daily Earnings",
+    DailySales: "Daily Sales",
+    ProductsMoney: "Products Mone",
+    Actions: "Actions",
+   },
 };
 
 export default en;
