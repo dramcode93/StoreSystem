@@ -5,7 +5,7 @@ const ar = {
   },
   Home: {
     Home: "الرئيسية",
-    shop: "تسوق",
+    shop: "المحل",
       Sales: "المبيعات",
       FinancialTransactions: "المعاملات المالية",
     Revenue: "الدخل",
@@ -226,6 +226,17 @@ const ar = {
     withdraw: "الايداع",
     deposit: "السحب",
     all: "الكل",
+   },
+   Shop: {
+     TotalMoney: " المال الكلي",
+     YearlyEarnings: " المكاسب السنوية",
+     YearlySales: " المبيعات السنوية",
+     MonthlyEarnings: " المكاسب الشهرية",
+     MonthlySales: " المبيعات الشهرية",
+    DailyEarnings: "المكاسب اليومية",
+    DailySales: "المبيعات اليومية",
+    ProductsMoney: "المال الكلي للمنتجات",
+    Actions: " الإجراءات",
    },
 };
 

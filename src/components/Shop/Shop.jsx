@@ -7,7 +7,7 @@ import axios from "axios";
 import Actions from "./Actions";
 
 const Shop = () => {
-  const language = useI18nContext();
+  const {language,t} = useI18nContext();
   const token = Cookies.get("token");
   const [loading, setLoading] = useState(true);
   const [allMoney, setAllMoney] = useState(0);
@@ -101,12 +101,12 @@ const Shop = () => {
           language === "ar" ? "left-10" : "right-10"
         }`}
       >
-        <div className="d-flex justify-around items-center">
+        <div className="d-flex justify-evenly items-center">
           <div className="flex justify-content-between align-center">
             <Card
               icon={<ChalkboardSimple size={60} />}
               id="id"
-              name="Total Money"
+              name={t(`Shop.TotalMoney`)}
               rooms={formatMoney(allMoney)}
             />
           </div>
@@ -114,22 +114,21 @@ const Shop = () => {
             <Card
               icon={<ChalkboardSimple size={60} />}
               id="id"
-              name="Products Money"
+              name={t(`Shop.ProductsMoney`)}
               rooms={formatMoney(productsMoney)}
             />
+            
           </div>
         </div>
 
         <div className="d-flex justify-center items-center gap-10 my-3">
           <button
             onClick={toggleOpenCreateModal}
-            className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl w-40"
+            className="bg-primary-600 h-12 rounded-md hover:bg-primary-700 fw-bold text-xl w-40"
           >
-            Actions
+            {t(`Shop.Actions`)}
+            
           </button>
-          {/* <button className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl w-40">
-          Deposit
-          </button> */}
         </div>
         <div className="d-flex justify-around items-center">
           <div className="d-flex justify-around items-center flex-col gap-4">
@@ -137,7 +136,7 @@ const Shop = () => {
               <Card
                 icon={<ChalkboardSimple size={60} />}
                 id="id"
-                name="Daily Sales"
+                name={t(`Shop.DailySales`)}
                 rooms={formatMoney(dailySales)}
               />
             </div>
@@ -145,14 +144,12 @@ const Shop = () => {
               <Card
                 icon={<ChalkboardSimple size={60} />}
                 id="id"
-                name="Daily Earnings"
+                name={t(`Shop.DailyEarnings`)}
                 rooms={formatMoney(dailyEarning)}
               />
             </div>
             <div>
-              <button className=" h-12 fw-bold text-xl w-40">
-                Show More ...
-              </button>
+          
             </div>
           </div>
 
@@ -161,7 +158,7 @@ const Shop = () => {
               <Card
                 icon={<ChalkboardSimple size={60} />}
                 id="id"
-                name="Monthly Sales"
+                name={t(`Shop.MonthlySales`)}
                 rooms={formatMoney(monthlySales)}
               />
             </div>
@@ -169,14 +166,11 @@ const Shop = () => {
               <Card
                 icon={<ChalkboardSimple size={60} />}
                 id="id"
-                name="Monthly Earnings"
+                name={t(`Shop.MonthlyEarnings`)}
                 rooms={formatMoney(monthlyEarning)}
               />
             </div>
             <div>
-              <button className=" h-12 fw-bold text-xl w-40">
-                Show More ...
-              </button>
             </div>
           </div>
 
@@ -185,7 +179,7 @@ const Shop = () => {
               <Card
                 icon={<ChalkboardSimple size={60} />}
                 id="id"
-                name="Yearly Sales"
+                name={t(`Shop.YearlySales`)}
                 rooms={formatMoney(yearlySales)}
               />
             </div>
@@ -193,14 +187,12 @@ const Shop = () => {
               <Card
                 icon={<ChalkboardSimple size={60} />}
                 id="id"
-                name="Yearly Earnings"
+                name={t(`Shop.YearlyEarnings`)}
                 rooms={formatMoney(yearlyEarning)}
               />
             </div>
             <div>
-              <button className=" h-12 fw-bold text-xl w-40">
-                Show More ...
-              </button>
+          
             </div>
           </div>
         </div>
