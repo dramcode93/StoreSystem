@@ -196,7 +196,9 @@ ul:hover li {
 .sticky-header {
   background-color: #f8f8f8;
 }
-
+.box {
+  box-shadow: 4.0px 6.0px 6.0px hsl(0deg 0% 0% / 0.08);
+}
 /* forget pass */
 .container1 {
   width: 700px;
