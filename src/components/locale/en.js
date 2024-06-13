@@ -7,6 +7,8 @@ const en = {
   Home: {
     Home: "Home",
     shop: "Shop",
+    coupons: "coupons",
+    orders: "orders",
     Sales: "Sales",
     FinancialTransactions: "Financial Transactions",
     Revenue: "Revenue",

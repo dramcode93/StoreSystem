@@ -6,6 +6,8 @@ const ar = {
   Home: {
     Home: "الرئيسية",
     shop: "المحل",
+    coupons: "الطلبات",
+    orders: "الكوبونات",
       Sales: "المبيعات",
       FinancialTransactions: "المعاملات المالية",
     Revenue: "الدخل",

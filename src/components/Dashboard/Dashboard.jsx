@@ -28,6 +28,8 @@ const roleRoutes = {
             ]
         },
         { path: "/bills", name: "Home.Bill", icon: <LiaMoneyBillSolid /> },
+        { path: "/orders", name: "Home.orders", icon: <LiaMoneyBillSolid /> },
+        { path: "/coupons", name: "Home.coupons", icon: <LiaMoneyBillSolid /> },
         {
             name: "Home.Profile", icon: <CgProfile />, dropdownItems: [
                 { text: 'Information', path: '/information' },

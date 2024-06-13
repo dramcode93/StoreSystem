@@ -6,19 +6,39 @@ import { Chart } from 'chart.js/auto';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { FaShoppingCart, FaDollarSign, FaChartLine, FaMoneyBillWave } from 'react-icons/fa';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Home = ({ role, modal }) => {
-  const { language,t } = useI18nContext();
+  const { language, t } = useI18nContext();
   const productChartRef = useRef(null);
   const monthlyChartRef = useRef(null);
   const [refresh, setRefresh] = useState(false);
   const [date, setDate] = useState(new Date());
-  const [bestSellingProducts, setBestSellingProducts] = useState([
-    { name: 'Product A', sales: 300 },
-    { name: 'Product B', sales: 250 },
-    { name: 'Product C', sales: 200 },
-    { name: 'Product D', sales: 180 },
-  ]);
+  const [bestSellingProducts, setBestSellingProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchBestSellingProducts = async () => {
+      try {
+        const token = Cookies.get("token");
+        const response = await axios.get(`https://store-system-api.gleeze.com/api/products/customers`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            sort: '-sold', // Assuming '-sales' sorts by sales in descending order
+            limit: 5        // Limits the results to the top 5 products
+          }
+        });
+        setBestSellingProducts(response.data.data);
+      } catch (error) {
+        console.error("Error fetching best-selling products:", error);
+      }
+    };
+
+    fetchBestSellingProducts();
+  }, []);
+
 
   useEffect(() => {
     const productCtx = productChartRef.current.getContext('2d');
@@ -87,11 +107,11 @@ const Home = ({ role, modal }) => {
     setRefresh(prev => !prev);
   };
 
-  const sortedProducts = bestSellingProducts.sort((a, b) => b.sales - a.sales);
+
 
   return (
     <div>
-      <div className={` absolute top-28 dark:text-gray-900 -z-3 w-full ${language === "ar" ? "right-28" : "left-40"}`}>
+      <div className={`absolute top-28 dark:text-gray-900 -z-3 w-full ${language === "ar" ? "right-28" : "left-40"}`}>
         <div className="container mx-auto pt-4 px-4">
           <div className="d-flex items-center justify-evenly w-full">
             <div className="bg-gray-100 w-1/5 rounded flex items-center justify-between p-4">
@@ -175,12 +195,12 @@ const Home = ({ role, modal }) => {
                     </tr>
                   </thead>
                   <tbody className='text-center fs-6'>
-                        {sortedProducts.map((product, index) => (
-                          <tr key={index} >
-                            <td className='py-2'>{product.name}</td>
-                            <td>{product.sales}</td>
-                          </tr>
-                        ))}            
+                    {bestSellingProducts.map((product, index) => (
+                      <tr key={index}>
+                        <td className='py-2'>{product.name}</td>
+                        <td>{product.sold}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

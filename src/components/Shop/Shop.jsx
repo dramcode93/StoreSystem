@@ -4,7 +4,6 @@ import { ChalkboardSimple } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
 import Cookies from "js-cookie";
 import axios from "axios";
-import Actions from "./Actions";
 
 const Shop = () => {
   const {language,t} = useI18nContext();
@@ -19,10 +18,7 @@ const Shop = () => {
   const [yearlyEarning, setYearlyEarning] = useState(0);
   const [yearlySales, setYearlySales] = useState(0);
 
-  const [openCreate, setOpenCreate] = useState(false);
-  const toggleOpenCreateModal = () => {
-    setOpenCreate(!openCreate);
-  };
+
   const fetchData = useCallback(async () => {
     try {
       if (token) {
@@ -77,31 +73,18 @@ const Shop = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-  //   const formatMoney = (value) => {
-  //     return (
-  //       value.toLocaleString(undefined, {
-  //         minimumFractionDigits: 2,
-  //         maximumFractionDigits: 2,
-  //       }) + " $"
-  //     );
-  //   };
   const formatMoney = (value) => {
     return value.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " $";
   };
 
   return (
-    <>
-      <Actions
-        closeModal={toggleOpenCreateModal}
-        modal={openCreate}
-        // role={role}
-      />
+    <> 
       <div
         className={`mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${
           language === "ar" ? "left-10" : "right-10"
         }`}
       >
-        <div className="d-flex justify-evenly items-center">
+        <div className="d-flex justify-evenly items-center mb-4">
           <div className="flex justify-content-between align-center">
             <Card
               icon={<ChalkboardSimple size={60} />}
@@ -117,19 +100,9 @@ const Shop = () => {
               name={t(`Shop.ProductsMoney`)}
               rooms={formatMoney(productsMoney)}
             />
-            
           </div>
         </div>
 
-        <div className="d-flex justify-center items-center gap-10 my-3">
-          <button
-            onClick={toggleOpenCreateModal}
-            className="bg-primary-600 h-12 rounded-md hover:bg-primary-700 fw-bold text-xl w-40"
-          >
-            {t(`Shop.Actions`)}
-            
-          </button>
-        </div>
         <div className="d-flex justify-around items-center">
           <div className="d-flex justify-around items-center flex-col gap-4">
             <div className="flex justify-content-between align-center">
