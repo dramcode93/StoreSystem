@@ -14,7 +14,7 @@ export default function Card({
   return (
     <div
       onClick={click}
-      className={`cursor-pointer bg-gray-100 rounded-md -z-3  ${
+      className={`cursor-pointer dark:bg-gray-800 bg-gray-100 rounded-md -z-3  ${
         language === "ar" ? "left-10" : "right-10"
       }`}
     >

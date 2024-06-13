@@ -31,6 +31,7 @@ import ShopProduct from "./components/BestSeller/ShopProduct.jsx";
 import MyComponent from "./components/Navbar/MyComponent.jsx";
 import SalesTable from "./components/Sales/SalesTable.jsx";
 import FinancialTransactions from "./components/deposit/Deposit.jsx";
+import Orders from "./components/orders/Orders.jsx";
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -124,6 +125,7 @@ const App = () => {
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/shops" element={<Shops />} />
+                <Route path="/orders" element={<Orders />} />
                 <Route path="/category" element={<Category />} />
                 <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
                 <Route path="/previewProduct/:id" element={<PreviewProduct />} />
