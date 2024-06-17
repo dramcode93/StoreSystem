@@ -34,7 +34,7 @@ const Shop = () => {
         );
         setDailyEarning(dailyResponse.data.data.earnings);
         setDailySales(dailyResponse.data.data.sales);
-
+ 
         const monthlyResponse = await axios.get(
           `https://store-system-api.gleeze.com/api/sales/monthly/thisMonth`,
           { headers: { Authorization: `Bearer ${token}` } }
