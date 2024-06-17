@@ -47,87 +47,6 @@ export default function Actions({ closeModal, modal }) {
     }
   };
 
-  //   const fetchCategories = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         "https://store-system-api.gleeze.com/api/categories/list",
-  //         { headers: { Authorization: `Bearer ${token}` } }
-  //       );
-  //       setCategories(response.data.data);
-  //     } catch (error) {
-  //       console.error("Error fetching categories:", error);
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     fetchCategories();
-  //   }, []);
-  // const handleImageChange = (e) => {
-  //   const files = Array.from(e.target.files);
-  //   setImages(files);
-  // };
-
-  // AddProduct.js
-  // Inside AddProduct component
-
-  // const handleImageChange = (e) => {
-  //   const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
-  //   setImages((prevFiles) => {
-  //     const totalFiles = prevFiles.length + files.length;
-  //     if (totalFiles <= 5) {
-  //       return [...prevFiles, ...files];
-  //     } else {
-  //       const remainingSpace = 5 - prevFiles.length;
-  //       const newFiles = files.slice(0, remainingSpace);
-  //       return [...prevFiles, ...newFiles];
-  //     }
-  //   });
-  // };
-
-  //   const handleImageChange = (e) => {
-  //     const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
-  //     setImages((prevFiles) => {
-  //       const totalFiles = prevFiles.length + files.length;
-  //       if (totalFiles <= 5) {
-  //         return [...prevFiles, ...files];
-  //       } else {
-  //         MaxImgAlert({ title: "Oops...", text: "Maximum 5 images allowed" }); // Display error alert
-  //         // setImages("")
-  //         return prevFiles; // Prevent adding more files
-  //       }
-  //     });
-  //   };
-  // const handleImageChange = (e) => {
-  //   const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
-  //   setImages(files);
-  // };
-
-  //   <ProductFormPreview
-  //     details={{
-  //       _id: "",
-  //       name,
-  //       description,
-  //       category: { name: category },
-  //       quantity,
-  //       productPrice,
-  //       sellingPrice,
-  //       sold: "",
-  //       images: imageURLs,
-  //     }}
-  //     t={t}
-  //     headers={{
-  //       code: "Code",
-  //       name: "Name",
-  //       description: "Description",
-  //       category: "Category",
-  //       quantity: "Quantity",
-  //       productPrice: "Product Price",
-  //       sellingPrice: "Selling Price",
-  //       sold: "Sold",
-  //       images: "Images",
-  //     }}
-  //     loading={false}
-  //   />;
 
   return (
     <>
@@ -135,14 +54,14 @@ export default function Actions({ closeModal, modal }) {
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
         fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${
+        z-50 justify-center  items-center ${
           modal ? "-right-1/2" : "-left-[100%]"
         }
          bg-opacity-40 w-full h-full `}
       >
         <div
           className={`w-full max-w-min 
-           dark:bg-gray-800 rounded-l-xl duration-200 ease-linear
+           bg-gray-800  rounded-r-xl duration-200 ease-linear
            ${language === "ar" ? "absolute left-0" : "absolute right-0"}
            h-screen overflow-auto`}
         >
@@ -151,9 +70,9 @@ export default function Actions({ closeModal, modal }) {
               dir="rtl"
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
             >
-              <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                {/* Add Product */}
-              </h3>
+              <h3 className="text-xl font-bold mr-3 text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
+                {t(`Shop.Actions`)}      
+                        </h3>
               <button
                 type="button"
                 onClick={closeModal}

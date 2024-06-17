@@ -7,6 +7,8 @@ const en = {
   Home: {
     Home: "Home",
     shop: "Shop",
+    coupons: "coupons",
+    orders: "orders",
     Sales: "Sales",
     FinancialTransactions: "Financial Transactions",
     Revenue: "Revenue",
@@ -240,6 +242,17 @@ const en = {
     withdraw: "withdraw",
     deposit: "deposit",
     all: "all",
+   },
+      Shop: {
+     TotalMoney: "Total Money",
+     YearlyEarnings: "Yearly Earnings",
+     YearlySales: "Yearly Sales",
+     MonthlyEarnings: " Monthly Earnings ",
+     MonthlySales: "Monthly Sales",
+    DailyEarnings: "Daily Earnings",
+    DailySales: "Daily Sales",
+    ProductsMoney: "Products Money",
+    Actions: "Actions",
    },
 };
 

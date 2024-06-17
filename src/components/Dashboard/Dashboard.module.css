@@ -1,6 +1,8 @@
  .sidebar {
      background: var(--back);
      transition: all 0.5s;
+     height: 100vh;
+     padding: 10px 0px;
  }
 
  .logo {
@@ -23,7 +25,8 @@
  }
 
  .link:hover , .dropDown:hover {
-     background: #713f12;
+     background: #006edc;
+     color: aliceblue;
      border-radius: 10px;
      transition: all 0.5s;
      -webkit-border-radius: 10px;
@@ -34,12 +37,7 @@
      -moz-transition: all 0.5s;
      -ms-transition: all 0.5s;
      -o-transition: all 0.5s;
-}
-
-
- .active {
-     background: #713f12;
- }
+    }
 
  .icon,
  .link_text {
