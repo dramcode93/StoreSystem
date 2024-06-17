@@ -247,11 +247,11 @@ const en = {
      TotalMoney: "Total Money",
      YearlyEarnings: "Yearly Earnings",
      YearlySales: "Yearly Sales",
-     MonthlyEarnings: " MonthlyEarnings ",
+     MonthlyEarnings: " Monthly Earnings ",
      MonthlySales: "Monthly Sales",
     DailyEarnings: "Daily Earnings",
     DailySales: "Daily Sales",
-    ProductsMoney: "Products Mone",
+    ProductsMoney: "Products Money",
     Actions: "Actions",
    },
 };
