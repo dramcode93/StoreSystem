@@ -69,8 +69,6 @@ const Shop = () => {
     }
   }, [token]);
 
-  console.log(allMoney)
-  console.log(productsMoney)
   useEffect(() => {
     fetchData();
   }, [fetchData]);
