@@ -19,12 +19,12 @@ const API_category = "https://store-system-api.gleeze.com/api/categories";
 const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   const token = Cookies.get("token");
   const [categories, setCategories] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [nextPageData, setNextPageData] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({
     currentPge: 1,
     totalPages: 1,
