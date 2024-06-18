@@ -7,6 +7,7 @@ const en = {
   Home: {
     Home: "Home",
     shop: "Shop",
+    branches:"branches",
     coupons: "coupons",
     orders: "orders",
     Sales: "Sales",
