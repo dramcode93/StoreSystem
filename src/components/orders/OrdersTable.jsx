@@ -12,6 +12,29 @@ const OrdersTable = ({ openEdit, openPreview }) => {
     const token = Cookies.get("token");
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [role, setRole] = useState("");
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            if (token) {
+                try {
+                    const response = await axios.get(
+                        "https://store-system-api.gleeze.com/api/Users/getMe",
+                        { headers: { Authorization: `Bearer ${token}` } }
+                    );
+                    setRole(response.data.data.role || "shop");
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                    if (error.response && error.response.data.message === "jwt malformed") {
+                        Cookies.remove('token');
+                    }
+                    setRole("shop");
+                    console.log(role)
+                }
+            }
+        };
+        fetchUserData();
+    }, [token]);
 
     const fetchData = useCallback(async () => {
         try {
@@ -69,11 +92,11 @@ const OrdersTable = ({ openEdit, openPreview }) => {
                         onClick={handleSearch}
                     />
                 </div>
-                <div>
+                {role !== "customer" && <div>
                     <button className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold">
                         {t("Products.Add")}
                     </button>
-                </div>
+                </div>}
             </div>
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
@@ -119,7 +142,7 @@ const OrdersTable = ({ openEdit, openPreview }) => {
                                                 <td className="px-4 py-4">{product?.name}</td>
                                                 <td className="px-4 py-4">{item.productQuantity}</td>
                                                 <td className="px-4 py-4">{item.totalPrice}</td>
-                                                {index === 0 && (
+                                                {index === 0 && role != "customer" && (
                                                     <td rowSpan={order.cartItems.length} className="px-4 py-3 flex items-center justify-end">
                                                         <button
                                                             className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"

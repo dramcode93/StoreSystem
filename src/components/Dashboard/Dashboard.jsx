@@ -16,7 +16,7 @@ import axios from 'axios';
 const roleRoutes = {
     admin: [
         { path: '/Home', name: "Home.Home", icon: <House /> },
-        {path: '/shop',  name: "Home.shop", icon: <FiShoppingCart />},
+        { path: '/shop', name: "Home.shop", icon: <FiShoppingCart /> },
         { path: "/SalesTable", name: "Home.Sales", icon: <MdProductionQuantityLimits /> },
         { path: "/FinancialTransactions", name: "Home.FinancialTransactions", icon: <MdProductionQuantityLimits /> },
         { path: '/category', name: "Home.Category", icon: <BiCategory /> },
@@ -77,9 +77,8 @@ const roleRoutes = {
     ],
     customer: [
         { path: '/Home', name: "Home.Home", icon: <House /> },
-        { path: '/shops', name: "Home.shops", icon: <FaBagShopping /> },
         { path: "/cart", name: "Home.Cart", icon: <MdProductionQuantityLimits /> },
-        { name: "Home.Order", icon: <MdBorderColor /> },
+        { path: "/orders", name: "Home.Order", icon: <MdBorderColor /> },
         {
             name: "Home.Profile", icon: <CgProfile />, dropdownItems: [
                 { text: 'Information', path: '/information' },
@@ -92,7 +91,7 @@ const roleRoutes = {
 const Dashboard = ({ children }) => {
     const token = Cookies.get('token');
     const { t, language } = useI18nContext();
-    const [role, setRole] = useState(""); 
+    const [role, setRole] = useState("");
     const [activeLink, setActiveLink] = useState(null);
     const [isProfileActive, setIsProfileActive] = useState(false);
     const [isShopActive, setIsShopActive] = useState(false);
@@ -110,7 +109,7 @@ const Dashboard = ({ children }) => {
                 } catch (error) {
                     console.error("Error fetching user data:", error);
                     if (error.response && error.response.data.message === "jwt malformed") {
-                        Cookies.remove('token'); 
+                        Cookies.remove('token');
                     }
                     setRole("shop");
                     console.log(role)
@@ -157,7 +156,7 @@ const Dashboard = ({ children }) => {
         localStorage.setItem('activeDropdownItem', dropdownIndex);
     }, []);
 
-    const routes = roleRoutes[role] || roleRoutes['shop']; 
+    const routes = roleRoutes[role] || roleRoutes['shop'];
 
     return (
         <div className=" dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
@@ -165,10 +164,10 @@ const Dashboard = ({ children }) => {
                 <div style={{ marginTop: "6vw", boxShadow: language === "ar" ? "-4px 0px 2px rgba(0, 0, 0, 0.1)" : "4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.08)" }} className={module.sidebar}>
                     {routes.map((item, index) => (
                         <div key={index}>
-                            <NavLink to={item.path} className={module.link} onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#006edc", color:"white", borderRadius: "10px" } : {}}>
+                            <NavLink to={item.path} className={module.link} onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#006edc", color: "white", borderRadius: "10px" } : {}}>
                                 <div className={module.icon}>{item.icon}</div>
                                 {item.name === "Home.Profile" ? (
-                                    <div className={`${module.link_text} flex`}>{t(item.name)} {activeLink === index && isShopActive&& isProfileActive ? <FiChevronUp /> : <FiChevronDown />}</div>
+                                    <div className={`${module.link_text} flex`}>{t(item.name)} {activeLink === index && isShopActive && isProfileActive ? <FiChevronUp /> : <FiChevronDown />}</div>
                                 ) : (
                                     <div className={module.link_text}>{t(item.name)}</div>
                                 )}
@@ -190,8 +189,8 @@ const Dashboard = ({ children }) => {
                                     </div>
                                 </div>
                             )}
-                               
-                            
+
+
                         </div>
                     ))}
                 </div>

@@ -8,7 +8,7 @@ export default function Order({ role }) {
     const [selectedAssistantData, setSelectedAssistantData] = useState({});
     const [openPreview, setOpenPreview] = useState(false);
 
-   
+
     const toggleOpenEditModal = (selectedOrder) => {
         setOpenEdit(!openEdit);
         setSelectedOrderData(selectedOrder);
@@ -20,7 +20,7 @@ export default function Order({ role }) {
     };
     return (
         <div className="text-white">
-         
+
             <UpdateOrder
                 closeModal={toggleOpenEditModal}
                 modal={openEdit}
