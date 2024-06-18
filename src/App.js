@@ -33,6 +33,7 @@ import SalesTable from "./components/Sales/SalesTable.jsx";
 import FinancialTransactions from "./components/deposit/Deposit.jsx";
 import ShopInformation from "./components/Shop/ShopInformation.jsx";
 import Order from "./components/orders/Order.jsx";
+import OrdersTable from "./components/orders/OrdersTable.jsx";
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -117,13 +118,14 @@ const App = () => {
 
             {isLoggedIn && !isTokenExpired && (
               <>
-                {role === "customer" ? <Route path="/home" element={<BestSeller />} />
+                {role === "customer" ? <Route path="/home" element={<Shops />} />
                   : <Route path="/home" element={<Home />} />}
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/shops" element={<Shops />} />
                 <Route path="/shopInformation" element={<ShopInformation />} />
-                <Route path="/orders" element={<Order />} />
+                <Route path="/order" element={<Order />} />
+                <Route path="/orders" element={<OrdersTable />} />
                 <Route path="/category" element={<Category />} />
                 <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
                 <Route path="/previewProduct/:id" element={<PreviewProduct />} />
