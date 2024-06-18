@@ -4,7 +4,7 @@ import axios from 'axios';
 import Loading from '../Loading/Loading';
 import { useI18nContext } from "../context/i18n-context";
 import { useNavigate } from 'react-router-dom';
-import { SuccessAlert, DeleteAlert, ErrorAlert } from '../../form/Alert'; // Adjust the import path accordingly
+import { SuccessAlert, ErrorAlert } from '../../form/Alert';
 
 const BestSeller = () => {
     const API_URL = "https://store-system-api.gleeze.com/api/products/customers";
@@ -25,7 +25,7 @@ const BestSeller = () => {
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setProducts(productsResponse.data.data);
-            setError(null); // Clear any previous errors
+            setError(null);
 
         } catch (error) {
             setError(error.response?.data?.message || "Error fetching data");
@@ -34,7 +34,7 @@ const BestSeller = () => {
             setLoading(false);
         }
     }, [token, searchTerm]);
-
+    console.log(token)
     const handleAddtoCart = async (id) => {
         try {
             const response = await axios.post(
@@ -43,7 +43,7 @@ const BestSeller = () => {
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             console.log("Product added successfully:", response.data);
-            setError(null);  // Clear error if request is successful
+            setError(null);
             SuccessAlert({ title: "Success", text: "Product added to cart!" });
         } catch (error) {
             console.error("Error adding Product:", error);

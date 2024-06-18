@@ -6,9 +6,10 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 const Shop = () => {
-  const {language,t} = useI18nContext();
+  const { language, t } = useI18nContext();
   const token = Cookies.get("token");
   const [loading, setLoading] = useState(true);
+  const [debts, setDebts] = useState();
   const [allMoney, setAllMoney] = useState();
   const [productsMoney, setProductsMoney] = useState();
   const [dailyEarning, setDailyEarning] = useState();
@@ -17,7 +18,6 @@ const Shop = () => {
   const [monthlySales, setMonthlySales] = useState();
   const [yearlyEarning, setYearlyEarning] = useState();
   const [yearlySales, setYearlySales] = useState();
-
 
   const fetchData = useCallback(async () => {
     try {
@@ -28,13 +28,14 @@ const Shop = () => {
         );
         setAllMoney(shopResponse.data.data.allMoney);
         setProductsMoney(shopResponse.data.data.productsMoney);
+        setDebts(shopResponse.data.data.debts);
         const dailyResponse = await axios.get(
           `https://store-system-api.gleeze.com/api/sales/daily/thisDay`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setDailyEarning(dailyResponse.data.data.earnings);
         setDailySales(dailyResponse.data.data.sales);
- 
+
         const monthlyResponse = await axios.get(
           `https://store-system-api.gleeze.com/api/sales/monthly/thisMonth`,
           { headers: { Authorization: `Bearer ${token}` } }
@@ -73,11 +74,16 @@ const Shop = () => {
     fetchData();
   }, [fetchData]);
   const formatMoney = (value) => {
-    return value.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " $";
+    if (value != null) {
+      return (
+        value.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " $"
+      );
+    }
+    return "";
   };
 
   return (
-    <> 
+    <>
       <div
         className={`mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${
           language === "ar" ? "left-10" : "right-10"
@@ -100,6 +106,14 @@ const Shop = () => {
               rooms={formatMoney(productsMoney)}
             />
           </div>
+          <div className="flex justify-content-between align-center">
+            <Card
+              icon={<ChalkboardSimple size={60} />}
+              id="id"
+              name="Debts"
+              rooms={formatMoney(debts)}
+            />
+          </div>
         </div>
 
         <div className="d-flex justify-around items-center">
@@ -120,9 +134,7 @@ const Shop = () => {
                 rooms={formatMoney(dailyEarning)}
               />
             </div>
-            <div>
-          
-            </div>
+            <div></div>
           </div>
 
           <div className="d-flex justify-around items-center flex-col gap-4">
@@ -142,8 +154,7 @@ const Shop = () => {
                 rooms={formatMoney(monthlyEarning)}
               />
             </div>
-            <div>
-            </div>
+            <div></div>
           </div>
 
           <div className="d-flex justify-around items-center flex-col gap-4">
@@ -163,9 +174,7 @@ const Shop = () => {
                 rooms={formatMoney(yearlyEarning)}
               />
             </div>
-            <div>
-          
-            </div>
+            <div></div>
           </div>
         </div>
       </div>

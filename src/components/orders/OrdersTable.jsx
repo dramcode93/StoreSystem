@@ -28,6 +28,29 @@ const OrdersTable = ({ openEdit, openPreview }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchInput, setSearchInput] = useState("");
     const dropdownRefs = useRef({});
+    const [role, setRole] = useState("");
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            if (token) {
+                try {
+                    const response = await axios.get(
+                        "https://store-system-api.gleeze.com/api/Users/getMe",
+                        { headers: { Authorization: `Bearer ${token}` } }
+                    );
+                    setRole(response.data.data.role || "shop");
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                    if (error.response && error.response.data.message === "jwt malformed") {
+                        Cookies.remove('token');
+                    }
+                    setRole("shop");
+                    console.log(role)
+                }
+            }
+        };
+        fetchUserData();
+    }, [token]);
 
     const fetchData = useCallback(async () => {
         try {
@@ -90,11 +113,11 @@ const OrdersTable = ({ openEdit, openPreview }) => {
                         onClick={handleSearch}
                     />
                 </div>
-                <div>
+                {role !== "customer" && <div>
                     <button className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold">
                         {t("Products.Add")}
                     </button>
-                </div>
+                </div>}
             </div>
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
