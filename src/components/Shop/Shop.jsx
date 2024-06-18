@@ -28,14 +28,13 @@ const Shop = () => {
         );
         setAllMoney(shopResponse.data.data.allMoney);
         setProductsMoney(shopResponse.data.data.productsMoney);
-
         const dailyResponse = await axios.get(
           `https://store-system-api.gleeze.com/api/sales/daily/thisDay`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setDailyEarning(dailyResponse.data.data.earnings);
         setDailySales(dailyResponse.data.data.sales);
-
+ 
         const monthlyResponse = await axios.get(
           `https://store-system-api.gleeze.com/api/sales/monthly/thisMonth`,
           { headers: { Authorization: `Bearer ${token}` } }
@@ -54,8 +53,8 @@ const Shop = () => {
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        setAllMoney(0);
-        setProductsMoney(0);
+        // setAllMoney(0);
+        // setProductsMoney(0);
         setDailyEarning(0);
         setDailySales(0);
         setMonthlyEarning(0);
