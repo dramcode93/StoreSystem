@@ -142,7 +142,7 @@ const OrdersTable = ({ openEdit, openPreview }) => {
                                                 <td className="px-4 py-4">{product?.name}</td>
                                                 <td className="px-4 py-4">{item.productQuantity}</td>
                                                 <td className="px-4 py-4">{item.totalPrice}</td>
-                                                {index === 0 && role != "customer" && (
+                                                {index === 0 && role !== "customer" && (
                                                     <td rowSpan={order.cartItems.length} className="px-4 py-3 flex items-center justify-end">
                                                         <button
                                                             className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"

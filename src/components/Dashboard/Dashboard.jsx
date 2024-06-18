@@ -120,9 +120,8 @@ const roleRoutes = {
     ],
     customer: [
         { path: "/Home", name: "Home.Home", icon: <House /> },
-        { path: "/shops", name: "Home.shops", icon: <FaBagShopping /> },
         { path: "/cart", name: "Home.Cart", icon: <MdProductionQuantityLimits /> },
-        { name: "Home.Order", icon: <MdBorderColor /> },
+        { path: "/orders", name: "Home.Order", icon: <MdBorderColor /> },
         {
             name: "Home.Profile",
             icon: <CgProfile />,
@@ -131,78 +130,6 @@ const roleRoutes = {
                 { text: "Change Password", path: "/change-password" },
             ],
         },
-    ],
-    admin: [
-        { path: '/Home', name: "Home.Home", icon: <House /> },
-        { path: '/shop', name: "Home.shop", icon: <FiShoppingCart /> },
-        { path: "/SalesTable", name: "Home.Sales", icon: <MdProductionQuantityLimits /> },
-        { path: "/FinancialTransactions", name: "Home.FinancialTransactions", icon: <MdProductionQuantityLimits /> },
-        { path: '/category', name: "Home.Category", icon: <BiCategory /> },
-        { path: "/products", name: "Home.products", icon: <MdProductionQuantityLimits /> },
-        {
-            path: "/customers", name: "Home.Customer", icon: <BsFillPersonVcardFill />, dropdownItems: [
-                { text: 'Create', path: '/create' },
-                { text: 'Show bills', path: '/show-bills' },
-            ]
-        },
-        { path: "/bills", name: "Home.Bill", icon: <LiaMoneyBillSolid /> },
-        { path: "/order", name: "Home.orders", icon: <LiaMoneyBillSolid /> },
-        { path: "/coupons", name: "Home.coupons", icon: <LiaMoneyBillSolid /> },
-        {
-            name: "Home.Profile", icon: <CgProfile />, dropdownItems: [
-                { text: 'Information', path: '/information' },
-                { text: 'Change Password', path: '/change-password' },
-                { text: 'Users', path: '/users' }
-            ]
-        }
-    ],
-    manager: [
-        { path: '/Home', name: "Home.Home", icon: <House /> },
-        {
-            name: "Home.Profile", icon: <CgProfile />, dropdownItems: [
-                { text: 'Information', path: '/information' },
-                { text: 'Change Password', path: '/change-password' },
-                { text: 'Users', path: '/users' }
-            ]
-        }
-    ],
-    user: [
-        { path: '/Home', name: "Home.Home", icon: <House /> },
-        { path: '/category', name: "Home.Category", icon: <BiCategory /> },
-        { path: "/products", name: "Home.products", icon: <MdProductionQuantityLimits /> },
-        {
-            name: "Home.Bill", icon: <LiaMoneyBillSolid />, dropdownItems: [
-                { text: 'Create bills', path: '/create-bills' },
-            ]
-        },
-        {
-            name: "Home.Order", icon: <MdBorderColor />, dropdownItems: [
-                { text: 'Agree', path: '/agree' },
-                { text: 'Accept', path: '/accept' },
-            ]
-        },
-        {
-            path: "/customers", name: "Home.Customer", icon: <BsFillPersonVcardFill />, dropdownItems: [
-                { text: 'Create', path: '/create' },
-                { text: 'Show bills', path: '/show-bills' },
-            ]
-        },
-        {
-            name: "Home.Profile", icon: <CgProfile />, dropdownItems: [
-                { text: 'Information', path: '/information' },
-            ]
-        }
-    ],
-    customer: [
-        { path: '/Home', name: "Home.Home", icon: <House /> },
-        { path: "/cart", name: "Home.Cart", icon: <MdProductionQuantityLimits /> },
-        { path: "/orders", name: "Home.Order", icon: <MdBorderColor /> },
-        {
-            name: "Home.Profile", icon: <CgProfile />, dropdownItems: [
-                { text: 'Information', path: '/information' },
-                { text: 'Change Password', path: '/change-password' },
-            ]
-        }
     ],
 };
 
@@ -214,13 +141,6 @@ const Dashboard = ({ children }) => {
     const [isProfileActive, setIsProfileActive] = useState(false);
     const [isShopActive, setIsShopActive] = useState(false);
     const [isBranchesActive, setIsBranchesActive] = useState(false);
-    const [activeDropdownItem, setActiveDropdownItem] = useState(null);
-    const token = Cookies.get('token');
-    const { t, language } = useI18nContext();
-    const [role, setRole] = useState("");
-    const [activeLink, setActiveLink] = useState(null);
-    const [isProfileActive, setIsProfileActive] = useState(false);
-    const [isShopActive, setIsShopActive] = useState(false);
     const [activeDropdownItem, setActiveDropdownItem] = useState(null);
 
     useEffect(() => {
@@ -241,27 +161,6 @@ const Dashboard = ({ children }) => {
                         Cookies.remove("token"); // Remove the malformed token
                     }
                     setRole("Home.shop");
-                }
-            }
-        };
-        fetchUserData();
-    }, [token]);
-    useEffect(() => {
-        const fetchUserData = async () => {
-            if (token) {
-                try {
-                    const response = await axios.get(
-                        "https://store-system-api.gleeze.com/api/Users/getMe",
-                        { headers: { Authorization: `Bearer ${token}` } }
-                    );
-                    setRole(response.data.data.role || "shop");
-                } catch (error) {
-                    console.error("Error fetching user data:", error);
-                    if (error.response && error.response.data.message === "jwt malformed") {
-                        Cookies.remove('token');
-                    }
-                    setRole("shop");
-                    console.log(role)
                 }
             }
         };
@@ -330,7 +229,6 @@ const Dashboard = ({ children }) => {
     }, []);
 
     const routes = roleRoutes[role] || roleRoutes["Home.shop"];
-    const routes = roleRoutes[role] || roleRoutes['shop'];
 
     return (
         <div
@@ -415,46 +313,6 @@ const Dashboard = ({ children }) => {
                                         </div>
                                     </div>
                                 )}
-                        </div>
-                    ))}
-                </div>
-            )}
-            <main>{children}</main>
-        </div>
-    );
-    return (
-        <div className=" dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
-            {routes && (
-                <div style={{ marginTop: "6vw", boxShadow: language === "ar" ? "-4px 0px 2px rgba(0, 0, 0, 0.1)" : "4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.08)" }} className={module.sidebar}>
-                    {routes.map((item, index) => (
-                        <div key={index}>
-                            <NavLink to={item.path} className={module.link} onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#006edc", color: "white", borderRadius: "10px" } : {}}>
-                                <div className={module.icon}>{item.icon}</div>
-                                {item.name === "Home.Profile" ? (
-                                    <div className={`${module.link_text} flex`}>{t(item.name)} {activeLink === index && isShopActive && isProfileActive ? <FiChevronUp /> : <FiChevronDown />}</div>
-                                ) : (
-                                    <div className={module.link_text}>{t(item.name)}</div>
-                                )}
-                            </NavLink>
-                            {activeLink === index && isProfileActive && isShopActive && item.dropdownItems && (
-                                <div className='transition ease-in-out duration-75' dir={language === "ar" ? "rtl" : "ltr"}>
-                                    <div className='flex flex-col w-full mx-auto font-bold' >
-                                        {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
-                                            <NavLink
-                                                key={dropdownIndex}
-                                                to={dropdownItem.path}
-                                                className={module.dropDown}
-                                                onClick={() => handleDropdownItemClick(dropdownIndex)}
-                                                style={activeDropdownItem === dropdownIndex ? { backgroundColor: "#006edc", color: "white", borderRadius: "10px" } : {}}
-                                            >
-                                                <span>{dropdownItem.text}</span>
-                                            </NavLink>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-
                         </div>
                     ))}
                 </div>
