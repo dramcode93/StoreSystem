@@ -5,28 +5,28 @@ import { useI18nContext } from "../../context/i18n-context";
 import FormText from "../../../form/FormText";
 import { X } from "@phosphor-icons/react";
 
-function UpdateOrder({ closeModal, role, modal, categoryData }) {
+function UpdateOrder({ closeModal, role, modal, orderData = {} }) { 
     const token = Cookies.get("token");
-    const [newCategoryName, setNewCategoryName] = useState(
-        categoryData?.name || ""
-    );
+    const [orderStatus, setOrderStatus] = useState(orderData.status || "");
     const { language } = useI18nContext();
-    console.log("categoryData", categoryData);
-
+    console.log("orderData", orderData);
 
     useEffect(() => {
-        if (modal) {
-            setNewCategoryName(categoryData.name);
+        if ( orderData) {
+            setOrderStatus(orderData.status);
         }
-    }, [categoryData, modal]);
-    const handleUpdateCategory = (e) => {
-        e.preventDefault();
+    }, [orderData, modal]);
+
+    const handleUpdateOrderStatus = (status) => {
+        const endpoint =
+            status === "paid"
+                ? `/api/order/${orderData._id}/pay`
+                : `/api/order/${orderData._id}/deliver`;
+
         axios
             .put(
-                `https://store-system-api.gleeze.com/api/categories/${categoryData._id}`,
-                {
-                    name: newCategoryName,
-                },
+                `https://store-system-api.gleeze.com${endpoint}`,
+                {},
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -34,17 +34,19 @@ function UpdateOrder({ closeModal, role, modal, categoryData }) {
                 }
             )
             .then((response) => {
-                window.location.href = "/category";
+                window.location.href = "/orders"; 
             })
             .catch((error) => {
-                console.error("Error updating category:", error);
+                console.error(`Error updating order status to ${status}:`, error);
             });
     };
+
     const handleBackgroundClick = (e) => {
         if (e.target === e.currentTarget) {
             closeModal();
         }
     };
+
     return (
         <div>
             <div
@@ -66,7 +68,7 @@ function UpdateOrder({ closeModal, role, modal, categoryData }) {
                             className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
                         >
                             <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                                Edit Category
+                                Update Order Status
                             </h3>
                             <button
                                 type="button"
@@ -77,26 +79,30 @@ function UpdateOrder({ closeModal, role, modal, categoryData }) {
                                 <span className="sr-only">Close modal</span>
                             </button>
                         </div>
-                        <form
-                            onSubmit={handleUpdateCategory}
-                            className="fs-6 tracking-wider mt-4 p-0 gap-4 grid-cols-2"
-                            dir={language === "ar" ? "rtl" : "ltr"}
-                        >
+                        <form className="fs-6 tracking-wider mt-4 p-0 gap-4 grid-cols-2" dir={language === "ar" ? "rtl" : "ltr"}>
                             <FormText
-                                label="Name"
-                                name="name"
-                                value={newCategoryName}
+                                label="Status"
+                                name="status"
+                                value={orderStatus}
                                 onChange={(e) => {
-                                    setNewCategoryName(e.target.value);
+                                    setOrderStatus(e.target.value);
                                 }}
-                                placeholder="Name"
+                                placeholder="Order Status"
                             />
                             <div className="col-span-2 flex justify-center">
                                 <button
-                                    disabled={!newCategoryName}
-                                    className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
+                                    type="button"
+                                    onClick={() => handleUpdateOrderStatus("paid")}
+                                    className="bg-green-600 w-1/2 h-12 rounded-md hover:bg-green-500 fw-bold text-xl mx-2"
                                 >
-                                    Edit Category
+                                    Mark as Paid
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => handleUpdateOrderStatus("delivered")}
+                                    className="bg-blue-600 w-1/2 h-12 rounded-md hover:bg-blue-500 fw-bold text-xl mx-2"
+                                >
+                                    Mark as Delivered
                                 </button>
                             </div>
                         </form>

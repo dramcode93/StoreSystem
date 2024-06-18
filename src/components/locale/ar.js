@@ -32,12 +32,16 @@ const ar = {
     Describe: "الوصول إلى لوحة المعلومات باستخدام اسم المستخدم وكلمة المرور",
     Username: "اسم المستخدم",
     Password: "كلمه السر",
-    salesManagement: "إدارة المبيعات",
+    GleamGoods: "جليم جودز",
     ForgetPass: "نسيت كلمه المرور",
     Order: "اطلب",
     Customer: "العميل",
     ChangePassword: "تغيير كلمة السر",
     Information: "بياناتي",
+    Notifications: "إشعارات",
+    Translate: "ترجم",
+    LogOut: "تسجيل الخروج",
+    Mode: "تغيير الوضع",
   },
 
   Category: {
