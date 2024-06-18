@@ -11,7 +11,6 @@ const ShopInformation = () => {
   const token = Cookies.get("token");
   const { t, language } = useI18nContext();
   const [loading, setLoading] = useState(true);
-  const [debts, setDebts] = useState(0);
   const [shopName, setShopName] = useState("");
   const [type, setType] = useState([]);
   const [typeId, setTypeId] = useState();
@@ -28,8 +27,7 @@ const ShopInformation = () => {
           "https://store-system-api.gleeze.com/api/shops/myShop",
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        const { debts, name, type, image } = shopResponse.data.data;
-        setDebts(debts);
+        const { name, type, image } = shopResponse.data.data;
         setShopName(name);
         setType(type);
         setTypeId(type.map((t) => t._id));

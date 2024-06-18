@@ -9,6 +9,7 @@ const Shop = () => {
   const { language, t } = useI18nContext();
   const token = Cookies.get("token");
   const [loading, setLoading] = useState(true);
+  const [debts, setDebts] = useState();
   const [allMoney, setAllMoney] = useState();
   const [productsMoney, setProductsMoney] = useState();
   const [dailyEarning, setDailyEarning] = useState();
@@ -27,6 +28,7 @@ const Shop = () => {
         );
         setAllMoney(shopResponse.data.data.allMoney);
         setProductsMoney(shopResponse.data.data.productsMoney);
+        setDebts(shopResponse.data.data.debts);
         const dailyResponse = await axios.get(
           `https://store-system-api.gleeze.com/api/sales/daily/thisDay`,
           { headers: { Authorization: `Bearer ${token}` } }
@@ -102,6 +104,14 @@ const Shop = () => {
               id="id"
               name={t(`Shop.ProductsMoney`)}
               rooms={formatMoney(productsMoney)}
+            />
+          </div>
+          <div className="flex justify-content-between align-center">
+            <Card
+              icon={<ChalkboardSimple size={60} />}
+              id="id"
+              name="Debts"
+              rooms={formatMoney(debts)}
             />
           </div>
         </div>
