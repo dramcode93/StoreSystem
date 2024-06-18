@@ -82,7 +82,7 @@ export default function FinancialTransactions() {
     setOpenCreate(!openCreate);
   };
 
-  return (
+  return ( 
     <div>
       <Actions
         closeModal={toggleOpenCreateModal}

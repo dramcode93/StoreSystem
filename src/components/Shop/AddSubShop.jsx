@@ -1,30 +1,36 @@
 import { useEffect, useState } from "react";
-import {  X } from "@phosphor-icons/react";
-import FormInput from "../../form/FormInput";
+import { X } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
-import FormSelect from "../../form/FormSelect";
 import FormNumber from "../../form/FormNumber";
 import axios from "axios";
 import Cookies from "js-cookie";
+import FormText from "../../form/FormText";
+import FormSelect from "../../form/FormSelect";
+import FormInput from "../../form/FormInput";
 
-export default function AddCustomer({ closeModal, role, modal }) {
+export default function AddSubShop({ closeModal, modal }) {
   useEffect(() => {}, []);
+
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
   };
 
-  const {  language } = useI18nContext();
+  const { language } = useI18nContext();
   const token = Cookies.get("token");
+
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [shippingPriceInside, setShippingPriceInside] = useState();
+  const [shippingPriceOutside, setShippingPriceOutside] = useState();
   const [street, setStreet] = useState("");
   const [selectedGovernorate, setSelectedGovernorate] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [governorates, setGovernorates] = useState([]);
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deliveryService, setDeliveryService] = useState("");
 
   useEffect(() => {
     const fetchGovernorates = async () => {
@@ -54,6 +60,7 @@ export default function AddCustomer({ closeModal, role, modal }) {
       setLoading(false);
     }
   };
+
   const handleGovernorateChange = (e) => {
     const selectedGovernorateId = e.target.value;
     setSelectedGovernorate(selectedGovernorateId);
@@ -61,46 +68,61 @@ export default function AddCustomer({ closeModal, role, modal }) {
     fetchCities(selectedGovernorateId);
   };
 
-  
-  const handleAddCustomer = async (e) => {
+  const handleAddSubShop = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios
-        .post(
-          "https://store-system-api.gleeze.com/api/customers",
-          {
-            name:name,
-            phone:phone,
-            address: {
-              governorate: selectedGovernorate,
-              city: selectedCity,
-              street:street,
-            },
+      const response = await axios.post(
+        "https://store-system-api.gleeze.com/api/subShops",
+        {
+          name: name,
+          phone: phone,
+          address: {
+            governorate: selectedGovernorate,
+            city: selectedCity,
+            street: street,
           },
-          { headers: { Authorization: `Bearer ${token}` } }
-        )
-        .then((response) => {
-          // window.location.href = "/customers";
-        });
+          deliveryService: deliveryService,
+          shippingPriceInside: shippingPriceInside,
+          shippingPriceOutside: shippingPriceOutside,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       closeModal();
+      // Reset form fields after successful submission
+      setName("");
+      setPhone("");
+      setSelectedGovernorate("");
+      setSelectedCity("");
+      setStreet("");
+      setDeliveryService("");
+      setShippingPriceInside();
+      setShippingPriceOutside();
     } catch (error) {
-      console.error("Error adding customer:", error);
+      console.error("Error adding subShop:", error);
     }
   };
+
+  const deliveryOptions = [
+    { value: true, label: "True" },
+    { value: false, label: "False" },
+  ];
+
   return (
     <>
       <div
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
-        fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${modal ? "-right-1/2" : "-left-[100%]"}
-         bg-opacity-40 w-full h-full `}
+          fixed top-1/2 -translate-x-1/2 -translate-y-1/2
+          z-50 justify-center items-center ${
+            modal ? "-right-1/2" : "-left-[100%]"
+          }
+           bg-opacity-40 w-full h-full `}
       >
         <div
           className={`w-full max-w-min 
-           dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
-           ${language === 'ar' ? "absolute left-0" : "absolute right-0"}
-           h-screen overflow-auto`}
+             dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
+             ${language === "ar" ? "absolute left-0" : "absolute right-0"}
+             h-screen overflow-auto`}
         >
           <div className="relative p-4 dark:bg-gray-800 sm:p-5">
             <div
@@ -108,7 +130,7 @@ export default function AddCustomer({ closeModal, role, modal }) {
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
             >
               <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                Add Customer
+                Add Sub Shop
               </h3>
               <button
                 type="button"
@@ -120,7 +142,7 @@ export default function AddCustomer({ closeModal, role, modal }) {
               </button>
             </div>
             <form
-              onSubmit={handleAddCustomer}
+              onSubmit={handleAddSubShop}
               className="fs-6 tracking-wider mt-4 p-0 gap-4 grid-cols-2"
               dir={language === "ar" ? "rtl" : "ltr"}
             >
@@ -131,6 +153,35 @@ export default function AddCustomer({ closeModal, role, modal }) {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Name"
               />
+              <FormSelect
+                selectLabel="Delivery Service"
+                headOption="Select Delivery Service"
+                handleChange={(e) => setDeliveryService(e.target.value)}
+                options={deliveryOptions.map((option) => ({
+                  value: option.value,
+                  label: option.label,
+                }))}
+                value={deliveryService}
+                name="Delivery Service"
+              />
+              {deliveryService === "true" && (
+                <>
+                  <FormNumber
+                    label="Shipping Price Inside"
+                    name="Shipping Price Inside"
+                    value={shippingPriceInside}
+                    onChange={(e) => setShippingPriceInside(e.target.value)}
+                    placeholder="Shipping Price Inside"
+                  />
+                  <FormNumber
+                    label="Shipping Price Outside"
+                    name="Shipping Price Outside"
+                    value={shippingPriceOutside}
+                    onChange={(e) => setShippingPriceOutside(e.target.value)}
+                    placeholder="Shipping Price Outside"
+                  />
+                </>
+              )}
               <FormNumber
                 label="Phone Number"
                 name="Phone"
@@ -184,16 +235,19 @@ export default function AddCustomer({ closeModal, role, modal }) {
                     !phone ||
                     !selectedGovernorate ||
                     !selectedCity ||
-                    !street
+                    !street ||
+                    (!deliveryService && deliveryService !== false) ||
+                    (deliveryService === true &&
+                      (!shippingPriceInside || !shippingPriceOutside))
                   }
                   className="bg-yellow-900 w-96 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
                 >
-                  Add Customer +
+                  Add Sub Shop +
                 </button>
                 <div>&nbsp;</div>
               </div>
             </form>
-          </div> 
+          </div>
         </div>
       </div>
     </>
