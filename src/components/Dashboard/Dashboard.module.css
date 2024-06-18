@@ -1,8 +1,15 @@
  .sidebar {
      background: var(--back);
      transition: all 0.5s;
-     height: 100vh;
-     padding: 10px 0px;
+    position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 260px;
+        padding-top: 20px;
+        background-color: #f8f9fa;
+        overflow-y: auto;
+        border-right: 1px solid #ddd;
  }
 
  .logo {
@@ -17,16 +24,20 @@
      gap: 15px;
      transition: all 0.5s;
      align-items: center;
-    }
+     -webkit-transition: all 0.5s;
+     -moz-transition: all 0.5s;
+     -ms-transition: all 0.5s;
+     -o-transition: all 0.5s;
+}
     .dropDown {
+        margin: 1px 1vw 1px 2vw;
+        padding: 4px 5px ;
         color: var(--font);
-        margin: 5px 1vw 5px 2vw;
-        padding: 2px 5px 0;
  }
 
  .link:hover , .dropDown:hover {
      background: #006edc;
-     color: aliceblue;
+     color: white;
      border-radius: 10px;
      transition: all 0.5s;
      -webkit-border-radius: 10px;

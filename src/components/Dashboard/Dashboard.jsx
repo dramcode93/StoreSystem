@@ -28,7 +28,7 @@ const roleRoutes = {
             ]
         },
         { path: "/bills", name: "Home.Bill", icon: <LiaMoneyBillSolid /> },
-        { path: "/orders", name: "Home.orders", icon: <LiaMoneyBillSolid /> },
+        { path: "/order", name: "Home.orders", icon: <LiaMoneyBillSolid /> },
         { path: "/coupons", name: "Home.coupons", icon: <LiaMoneyBillSolid /> },
         {
             name: "Home.Profile", icon: <CgProfile />, dropdownItems: [
@@ -110,7 +110,7 @@ const Dashboard = ({ children }) => {
                 } catch (error) {
                     console.error("Error fetching user data:", error);
                     if (error.response && error.response.data.message === "jwt malformed") {
-                        Cookies.remove('token'); // Remove the malformed token
+                        Cookies.remove('token'); 
                     }
                     setRole("shop");
                     console.log(role)
@@ -160,9 +160,9 @@ const Dashboard = ({ children }) => {
     const routes = roleRoutes[role] || roleRoutes['shop']; 
 
     return (
-        <div className="fixed top-0  dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
+        <div className=" dark:text-gray-100" dir={language === "ar" ? "rtl" : "ltr"}>
             {routes && (
-                <div style={{ marginTop: "14vh", boxShadow: language === "ar" ? "-4px 0px 2px rgba(0, 0, 0, 0.1)" : "4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.08)" }} className={module.sidebar}>
+                <div style={{ marginTop: "6vw", boxShadow: language === "ar" ? "-4px 0px 2px rgba(0, 0, 0, 0.1)" : "4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.08)" }} className={module.sidebar}>
                     {routes.map((item, index) => (
                         <div key={index}>
                             <NavLink to={item.path} className={module.link} onClick={() => handleLinkClick(index)} style={activeLink === index ? { backgroundColor: "#006edc", color:"white", borderRadius: "10px" } : {}}>
@@ -182,9 +182,9 @@ const Dashboard = ({ children }) => {
                                                 to={dropdownItem.path}
                                                 className={module.dropDown}
                                                 onClick={() => handleDropdownItemClick(dropdownIndex)}
-                                                style={activeDropdownItem === dropdownIndex ? { backgroundColor: "#713f12", borderRadius: "10px" } : {}}
+                                                style={activeDropdownItem === dropdownIndex ? { backgroundColor: "#006edc", color: "white", borderRadius: "10px" } : {}}
                                             >
-                                                <p>{dropdownItem.text}</p>
+                                                <span>{dropdownItem.text}</span>
                                             </NavLink>
                                         ))}
                                     </div>
