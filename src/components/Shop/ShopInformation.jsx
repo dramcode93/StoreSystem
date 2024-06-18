@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 import { useI18nContext } from "../context/i18n-context";
 import TypeField from "./TypeField";
 import NameField from "./NameField";
+import AddSubShop from "./AddSubShop";
+import { Plus } from "@phosphor-icons/react";
 
 const ShopInformation = () => {
   const token = Cookies.get("token");
@@ -26,12 +28,12 @@ const ShopInformation = () => {
           "https://store-system-api.gleeze.com/api/shops/myShop",
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        const { debts, name, type,image } = shopResponse.data.data;
+        const { debts, name, type, image } = shopResponse.data.data;
         setDebts(debts);
         setShopName(name);
         setType(type);
         setTypeId(type.map((t) => t._id));
-        setImageUrl(image)
+        setImageUrl(image);
       } else {
         console.error("No token found.");
       }
@@ -84,41 +86,55 @@ const ShopInformation = () => {
   };
 
   const handleAddType = async () => {
-    console.log(typeId);
+    setLoading(true);
     try {
-      if (token) {
+      if (token && typeId) {
+        console.log(typeId);
         const response = await axios.put(
           "https://store-system-api.gleeze.com/api/shops/myShop/type",
-          typeId,
+          { type: typeId },
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setType(response.data.type);
         setTypeId("");
         setIsTypeEditing(false);
+        console.log("Type added successfully:", response.data);
+        fetchData();
+        setLoading(false);
       } else {
         console.error("No token found or input type is empty.");
       }
     } catch (error) {
       console.error("Error adding type:", error);
+      setLoading(false);
     }
   };
 
   const handleDeleteType = async (id) => {
     console.log(id);
+    console.log(token);
+    setLoading(true);
     try {
       if (token) {
         const response = await axios.delete(
           "https://store-system-api.gleeze.com/api/shops/myShop/type",
-          { id },
-          { headers: { Authorization: `Bearer ${token}` } }
+          { data: { type: id }, headers: { Authorization: `Bearer ${token}` } }
         );
         console.log("Type deleted successfully:", response.data);
+        fetchData();
+        setLoading(false);
       } else {
         console.error("No token found.");
       }
     } catch (error) {
       console.error("Error deleting type:", error);
+      setLoading(false);
     }
+  };
+
+  const [openCreate, setOpenCreate] = useState(false);
+  const toggleOpenCreateModal = () => {
+    setOpenCreate(!openCreate);
   };
 
   return (
@@ -127,12 +143,21 @@ const ShopInformation = () => {
         language === "ar" ? "left-10" : "right-10"
       }`}
     >
-      <img
+      <AddSubShop closeModal={toggleOpenCreateModal} modal={openCreate} />
+      <div>
+        <button
+          className="bg-yellow-900 w-40 rounded-md hover:bg-yellow-800 fw-bold mx-10 my-4"
+          onClick={toggleOpenCreateModal}
+        >
+          Add Sub Shop
+        </button>
+      </div>
+      {/* <img
         src={imageUrl}
         alt="shop"
         className="max-w-full h-20 rounded-md"
         crossOrigin="anonymous"
-      />
+      /> */}
       <NameField
         label={t("Information.Name")}
         value={shopName}
@@ -151,6 +176,7 @@ const ShopInformation = () => {
         handleDelType={handleDeleteType}
         handleAddType={handleAddType}
         handleAddToggle={handleAddToggle}
+        isLoading={loading}
       />
     </section>
   );

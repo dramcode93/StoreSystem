@@ -21,14 +21,14 @@ const NameField = ({
             value={inputValue}
             onChange={handleInputChange}
           />
-         <div className="mx-10">
-         <button
-            onClick={handleSaveChanges}
-            className="bg-yellow-900  rounded-full hover:bg-yellow-800 fw-bold"
-          >
-            Save Changes
-          </button>
-         </div>
+          <div className="mx-10">
+            <button
+              onClick={handleSaveChanges}
+              className="bg-yellow-900  rounded-full hover:bg-yellow-800 fw-bold"
+            >
+              Save Changes
+            </button>
+          </div>
         </div>
       ) : (
         <>
