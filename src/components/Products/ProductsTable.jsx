@@ -167,7 +167,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
               value={searchInput}
               placeholder={t("Products.Search")}
             />
-            <CiSearch
+            <CiSearch 
               className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
                 } cursor-pointer`}
               onClick={handleSearch}
