@@ -8,6 +8,7 @@ const ar = {
     shop: "المحل",
     coupons: "الكوبونات",
     orders: "الطلبات",
+    branches:"الفروع",
       Sales: "المبيعات",
       FinancialTransactions: "المعاملات المالية",
     Revenue: "الدخل",
