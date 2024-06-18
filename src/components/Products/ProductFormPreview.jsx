@@ -239,12 +239,7 @@ export default function ProductFormPreview({ details, t, headers }) {
                 <div className="d-grid grid-cols-5 m-0 gap-2 ">
                   {specificProduct.images?.map((imageUrl, index) => (
                     <div key={index} className="d-flex ">
-                      <img
-                        src={imageUrl}
-                        alt="Product"
-                        className="max-w-full h-20 rounded-md"
-                        crossOrigin="anonymous"
-                      />
+
                       <button
                         className=""
                         onClick={() => handleDelete(imageUrl)}

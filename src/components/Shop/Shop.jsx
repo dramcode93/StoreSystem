@@ -9,14 +9,14 @@ const Shop = () => {
   const {language,t} = useI18nContext();
   const token = Cookies.get("token");
   const [loading, setLoading] = useState(true);
-  const [allMoney, setAllMoney] = useState(0);
-  const [productsMoney, setProductsMoney] = useState(0);
-  const [dailyEarning, setDailyEarning] = useState(0);
-  const [dailySales, setDailySales] = useState(0);
-  const [monthlyEarning, setMonthlyEarning] = useState(0);
-  const [monthlySales, setMonthlySales] = useState(0);
-  const [yearlyEarning, setYearlyEarning] = useState(0);
-  const [yearlySales, setYearlySales] = useState(0);
+  const [allMoney, setAllMoney] = useState();
+  const [productsMoney, setProductsMoney] = useState();
+  const [dailyEarning, setDailyEarning] = useState();
+  const [dailySales, setDailySales] = useState();
+  const [monthlyEarning, setMonthlyEarning] = useState();
+  const [monthlySales, setMonthlySales] = useState();
+  const [yearlyEarning, setYearlyEarning] = useState();
+  const [yearlySales, setYearlySales] = useState();
 
 
   const fetchData = useCallback(async () => {
