@@ -23,7 +23,7 @@ const PreviewProduct = () => {
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setProduct(productsResponse.data.data);
-            setError(null); // Clear any previous errors
+            setError(null);
 
         } catch (error) {
             setError(error.response?.data?.message || "Error fetching data");
@@ -75,14 +75,9 @@ const PreviewProduct = () => {
                                 <h4 className='text-white font-bold'>{product.sellingPrice} <span className='text-yellow-400'>$</span></h4>
                                 <h4 className='text-white font-bold'>Quantity: {product.quantity}</h4>
                                 <h4 className='text-white font-bold'>Shop: {product.shop.name}</h4>
-                                <h4 className='text-white font-bold'>Shop address:</h4>
-                                {product.shop.address.map((address, index) => (
-                                    <div key={index} className='text-white font-bold mx-4 text-2xl'>
-                                        {`${address.street},  
-                                            ${language === "ar" ? address.city?.city_name_ar : address.city?.city_name_en},  
-                                            ${language === "ar" ? address.governorate?.governorate_name_ar : address.governorate?.governorate_name_en}`}
-                                    </div>
-                                ))}
+                                <h4 className='text-white font-bold'>Category: {product.category.name}</h4>
+                                <h4 className='text-white font-bold'>Sold: {product.sold}</h4>
+
 
                                 <div className='mt-3'>
                                     <button
