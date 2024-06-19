@@ -3,23 +3,22 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useI18nContext } from "../context/i18n-context";
 import Loading from "../Loading/Loading";
-import { DotsThree, Eye, NotePencil } from "@phosphor-icons/react";
+import { DotsThree, Eye } from "@phosphor-icons/react";
 import { CiSearch } from "react-icons/ci";
 import { MdPersonAddDisabled } from "react-icons/md";
 import { VscActivateBreakpoints } from "react-icons/vsc";
 
 const API_URL = "https://store-system-api.gleeze.com/api/order";
 
-// Function to format date to DD-MM-YYYY
 const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate();
-    const month = date.getMonth() + 1; // Months are zero-indexed
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
 };
 
-const OrdersTable = ({ openEdit, openPreview }) => {
+const OrdersTable = ({ openPreview }) => {
     const token = Cookies.get("token");
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -45,7 +44,6 @@ const OrdersTable = ({ openEdit, openPreview }) => {
                         Cookies.remove('token');
                     }
                     setRole("shop");
-                    console.log(role)
                 }
             }
         };
@@ -82,20 +80,33 @@ const OrdersTable = ({ openEdit, openPreview }) => {
         setSearchTerm(searchInput);
     };
 
-    const handleEditOrder = (order) => {
-        openEdit(order);
+    const handleUpdatePay = async (id, newActiveStatus) => {
+        try {
+            const response = await axios.put(`${API_URL}/${id}/pay`, { active: newActiveStatus }, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            fetchData();
+        } catch (error) {
+            console.error("Error updating order:", error);
+        }
     };
 
-    const handleUpdateActive = (id, newActiveStatus) => {
-        axios
-            .put(`${API_URL}/${id}/pay`, { active: newActiveStatus }, {
+    const handleUpdateDelivery = async (id, newActiveStatus) => {
+        try {
+            const response = await axios.put(`${API_URL}/${id}/deliver`, { active: newActiveStatus }, {
                 headers: { Authorization: `Bearer ${token}` },
-            })
-            .then(() => fetchData())
-            .catch((error) => console.error("Error updating order:", error));
+            });
+            fetchData();
+        } catch (error) {
+            console.error("Error updating order:", error);
+        }
     };
 
     const filteredOrders = orders.filter(order => order._id.includes(searchTerm));
+
+    const handleOrderPreview = (order) => {
+        openPreview(order);
+    };
 
     return (
         <section className={`bg-gray-400 bg-opacity-5 dark:bg-gray-700 dark:bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
@@ -169,26 +180,17 @@ const OrdersTable = ({ openEdit, openPreview }) => {
                                                 >
                                                     <DotsThree size={25} weight="bold" className="hover:bg-gray-700 w-10 rounded-lg" />
                                                 </button>
-                                                <div className="absolute z-10" dir={language === "ar" ? "rtl" : "ltr"}>
+                                                <div className="relative z-10" dir={language === "ar" ? "rtl" : "ltr"}>
                                                     <div
                                                         id={`order-dropdown-${order._id}`}
-                                                        className={`${selectedOrderId === order._id ? `absolute -top-3 ${language === "en" ? "right-full" : "left-full"} overflow-auto` : "hidden"} z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                                                        className={`${selectedOrderId === order._id ? `absolute -top-3 ${language === "en" ? "right-full" : "left-full"} overflow-auto` : "hidden"} z-10 w-56 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                                                     >
-                                                        <ul className="text-sm bg-transparent pl-0 mb-0">
-                                                            <li className="">
-                                                                <button
-                                                                    type="button"
-                                                                    className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                                                    onClick={() => handleEditOrder(order)}
-                                                                >
-                                                                    <NotePencil size={18} weight="bold" />
-                                                                    {t("Category.Edit")}
-                                                                </button>
-                                                            </li>
+                                                        <ul className="text-sm bg-transparent pl-0 mb-0 w-full">
                                                             <li>
                                                                 <button
                                                                     type="button"
-                                                                    className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                                                    className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                                                    onClick={() => handleOrderPreview(order)}
                                                                 >
                                                                     <Eye size={18} weight="bold" />
                                                                     {t("Category.Preview")}
@@ -197,18 +199,37 @@ const OrdersTable = ({ openEdit, openPreview }) => {
                                                             <li>
                                                                 <button
                                                                     type="button"
-                                                                    className="flex w-56 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                                                    onClick={() => handleUpdateActive(order._id, !order.active)}
+                                                                    className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                                                    onClick={() => handleUpdatePay(order._id, !order.isPaid)}
                                                                 >
-                                                                    {order.active === true ? (
+                                                                    {order.isPaid ? (
                                                                         <>
                                                                             <MdPersonAddDisabled size={18} weight="bold" />
-                                                                            {t("Users.Disable")}
+                                                                            {t("order.DisablePaid")}
                                                                         </>
                                                                     ) : (
                                                                         <>
                                                                             <VscActivateBreakpoints size={18} weight="bold" className="text-green-600" />
-                                                                            {t("Users.Enable")}
+                                                                            {t("order.EnablePaid")}
+                                                                        </>
+                                                                    )}
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <button
+                                                                    type="button"
+                                                                    className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                                                    onClick={() => handleUpdateDelivery(order._id, !order.isDelivered)}
+                                                                >
+                                                                    {order.isDelivered ? (
+                                                                        <>
+                                                                            <MdPersonAddDisabled size={18} weight="bold" />
+                                                                            {t("order.DisableDelivered")}
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <VscActivateBreakpoints size={18} weight="bold" className="text-green-600" />
+                                                                            {t("order.EnableDelivered")}
                                                                         </>
                                                                     )}
                                                                 </button>
