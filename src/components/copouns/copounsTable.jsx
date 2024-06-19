@@ -37,7 +37,13 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
                     `${API_Coupons}`,
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
-                setCoupons(couponsResponse.data.data);
+                const formattedCoupons = couponsResponse.data.data.map(coupon => ({
+                    ...coupon,
+                    createdAt: new Date(coupon.createdAt).toLocaleDateString('en-GB'),
+                    expire: new Date(coupon.expire).toLocaleDateString('en-GB'),
+                    updatedAt: new Date(coupon.updatedAt).toLocaleDateString('en-GB'),
+                }));
+                setCoupons(formattedCoupons);
                 setPagination({
                     currentPage: pagination.currentPage,
                     totalPages: couponsResponse.data.paginationResult.numberOfPages,
@@ -60,7 +66,7 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
         if (pagination.currentPage < pagination.totalPages) {
             axios
                 .get(
-                    `${API_Coupons}?sort=coupon name&search=${searchTerm}&page=${pagination.currentPage + 1}&limit=20`,
+                    `${API_Coupons}?sort=coupon name&search=${searchTerm}&page=${pagination.currentPage + 1}&limit=2`,
                     { headers: { Authorization: `Bearer ${token}` } }
                 )
                 .then((response) => {
@@ -210,20 +216,32 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
                 <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase ">
                     <tr className="text-center fs-6 bg-gray-500 bg-opacity-25 dark:bg-gray-500 tracking-wide dark:bg-opacity-25 transition ease-out duration-200">
                         <th scope="col" className="px-5 py-4">
-                            {t("Coupon.Code")}
+                            {t("Coupon.ID")}
                         </th>
                         <th scope="col" className="px-5 py-4">
                             {t("Coupon.Name")}
                         </th>
+                        <th scope="col" className="px-5 py-4">
+                            {t("Coupon.CreatedAt")}
+                        </th>
+                        <th scope="col" className="px-5 py-4">
+                            {t("Coupon.Discount")}
+                        </th>
+                        <th scope="col" className="px-5 py-4">
+                            {t("Coupon.Expire")}
+                        </th>
+                        <th scope="col" className="px-5 py-4">
+                            {t("Coupon.UpdatedAt")}
+                        </th>
                         <th scope="col" className="px-4 py-3">
-                            <span className="sr-only">Actions</span>
+                            <span className="sr-only">{t("Coupon.Actions")}</span>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     {loading ? (
                         <tr>
-                            <td colSpan="3" className="fs-4 text-center mb-5 pb-3">
+                            <td colSpan="7" className="fs-4 text-center mb-5 pb-3">
                                 <Loading />
                             </td>
                         </tr>
@@ -231,7 +249,7 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
                         <>
                             {coupons.length === 0 && (
                                 <tr className="text-xl text-center">
-                                    <td colSpan="3">No Coupons available</td>
+                                    <td colSpan="7">{t("Coupon.NoCoupons")}</td>
                                 </tr>
                             )}
                             {coupons.map((coupon) => (
@@ -239,13 +257,17 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
                                     key={coupon._id}
                                     className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
                                 >
-                                    <th
+                                    <td
                                         scope="row"
                                         className="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[5rem] truncate"
                                     >
                                         {coupon._id.slice(-4)}
-                                    </th>
+                                    </td>
                                     <td className="px-4 py-4">{coupon.name}</td>
+                                    <td className="px-4 py-4">{coupon.createdAt}</td>
+                                    <td className="px-4 py-4">{coupon.discount}</td>
+                                    <td className="px-4 py-4">{coupon.expire}</td>
+                                    <td className="px-4 py-4">{coupon.updatedAt}</td>
                                     <td className="px-4 py-3 flex items-center justify-end">
                                         <button
                                             className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
@@ -256,7 +278,7 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
                                             <DotsThree
                                                 size={25}
                                                 weight="bold"
-                                                className="  hover:bg-gray-700 w-10 rounded-lg"
+                                                className="hover:bg-gray-700 w-10 rounded-lg"
                                             />
                                         </button>
                                         <div
@@ -328,7 +350,7 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
                     {pageButtons.map((page) => (
                         <li key={page}>
                             <button
-                                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPage === page
+                                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
                                     ? "bg-gray-200 text-gray-800"
                                     : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                     }`}
