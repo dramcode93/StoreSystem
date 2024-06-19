@@ -23,8 +23,7 @@ import { UserInfo } from "./components/profile/UserInfo.jsx";
 import User from "./components/profile/Users.jsx";
 import UserBill from "./components/Bills/UserBill.jsx";
 import SignUp from "./components/Signup/Signup.jsx";
-import BestSeller from "./components/BestSeller/BestSeller.jsx";
-import PreviewProduct from "./components/BestSeller/PreviewProduct.jsx";
+ import PreviewProduct from "./components/BestSeller/PreviewProduct.jsx";
 import Cart from "./components/BestSeller/Cart.jsx";
 import Shops from "./components/BestSeller/Shops.jsx";
 import ShopProduct from "./components/BestSeller/ShopProduct.jsx";
@@ -34,6 +33,7 @@ import FinancialTransactions from "./components/deposit/Deposit.jsx";
 import ShopInformation from "./components/Shop/ShopInformation.jsx";
 import Order from "./components/orders/Order.jsx";
 import OrdersTable from "./components/orders/OrdersTable.jsx";
+import CouponsTable from "./components/copouns/copounsTable.jsx";
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -126,6 +126,7 @@ const App = () => {
                 <Route path="/shopInformation" element={<ShopInformation />} />
                 <Route path="/order" element={<Order />} />
                 <Route path="/orders" element={<OrdersTable />} />
+                <Route path="/coupons" element={<CouponsTable />} />
                 <Route path="/category" element={<Category />} />
                 <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
                 <Route path="/previewProduct/:id" element={<PreviewProduct />} />
