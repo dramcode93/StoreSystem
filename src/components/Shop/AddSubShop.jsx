@@ -120,9 +120,9 @@ export default function AddSubShop({ closeModal, modal }) {
       >
         <div
           className={`w-full max-w-min 
-             dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
+             dark:bg-gray-800 rounded-l-xl duration-200 ease-linear
              ${language === "ar" ? "absolute left-0" : "absolute right-0"}
-             h-screen overflow-auto`}
+             h-screen overflow-y-auto overflow-x-hidden`}
         >
           <div className="relative p-4 dark:bg-gray-800 sm:p-5">
             <div

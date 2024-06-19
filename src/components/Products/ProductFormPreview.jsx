@@ -93,6 +93,7 @@ export default function ProductFormPreview({ details, t, headers }) {
           formData.append("images", file);
         });
         setLoading(true);
+        
         const response = await axios.put(
           `https://store-system-api.gleeze.com/api/products/${details._id}/images`,
           formData,
