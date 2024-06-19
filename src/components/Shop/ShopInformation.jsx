@@ -174,8 +174,9 @@ const ShopInformation = () => {
   };
 
   return (
+    // bg-gray-700 bg-opacity-25
     <section
-      className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md py-4 absolute top-32 -z-3 w-3/4 ${
+      className={` mx-10 rounded-md py-4 absolute top-32 -z-3 w-3/4 ${
         language === "ar" ? "left-10" : "right-10"
       }`}
     >
@@ -219,6 +220,7 @@ const ShopInformation = () => {
         isLoading={loading}
       />
     </section>
+    
   );
 };
 
