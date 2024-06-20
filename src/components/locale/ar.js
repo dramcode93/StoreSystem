@@ -245,6 +245,12 @@ const ar = {
     ProductsMoney: "المال الكلي للمنتجات",
     Actions: " الإجراءات",
    },
+     order:{
+EnablePaid:"تمكين الدفع",
+DisablePaid:" تعطيل الدفع",
+DisableDelivered:" تعطيل التسليم",
+EnableDelivered:" تمكين التسليم",
+   },
 };
 
 export default ar;

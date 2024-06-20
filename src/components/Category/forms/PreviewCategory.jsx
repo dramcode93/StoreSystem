@@ -1,7 +1,6 @@
-import { TrashSimple, X } from "@phosphor-icons/react";
+import { X } from "@phosphor-icons/react";
 import { useI18nContext } from "../../context/i18n-context";
 import CategoryFormPreview from "./CategoryFormPreview";
-import CategoryProducts from "../specificProducs";
 import { useCallback, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
