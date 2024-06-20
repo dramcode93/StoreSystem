@@ -5,7 +5,8 @@ import { useI18nContext } from "../context/i18n-context";
 import TypeField from "./TypeField";
 import NameField from "./NameField";
 import AddSubShop from "./AddSubShop";
-import { Plus } from "@phosphor-icons/react";
+import ImageField from "./ImageField";
+import { MaxImgAlert } from "../../form/Alert";
 
 const ShopInformation = () => {
   const token = Cookies.get("token");
@@ -13,13 +14,17 @@ const ShopInformation = () => {
   const [loading, setLoading] = useState(true);
   const [shopName, setShopName] = useState("");
   const [type, setType] = useState([]);
-  const [typeId, setTypeId] = useState();
-  const [imageUrl, setImageUrl] = useState();
+  const [typeId, setTypeId] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [isNameEditing, setIsNameEditing] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isTypeEditing, setIsTypeEditing] = useState(false);
-  // const [inputType, setInputType] = useState("");
+  const [openCreate, setOpenCreate] = useState(false);
+  const [isImageEditing, setIsImageEditing] = useState(false);
+  const [inputImageValue, setInputImageValue] = useState("");
+  const [image, setImage] = useState(null); 
 
+  // Fetch shop data
   const fetchData = useCallback(async () => {
     try {
       if (token) {
@@ -30,7 +35,7 @@ const ShopInformation = () => {
         const { name, type, image } = shopResponse.data.data;
         setShopName(name);
         setType(type);
-        setTypeId(type.map((t) => t._id));
+        setTypeId(type.map((t) => t._id).join(","));
         setImageUrl(image);
       } else {
         console.error("No token found.");
@@ -50,6 +55,7 @@ const ShopInformation = () => {
     setIsNameEditing(!isNameEditing);
     setInputValue(shopName);
   };
+
   const handleAddToggle = () => {
     setIsTypeEditing(!isTypeEditing);
   };
@@ -59,6 +65,7 @@ const ShopInformation = () => {
       setInputValue(e.target.value);
     }
   };
+
   const handleTypeChange = (e) => {
     if (isTypeEditing) {
       setTypeId(e.target.value);
@@ -87,7 +94,6 @@ const ShopInformation = () => {
     setLoading(true);
     try {
       if (token && typeId) {
-        console.log(typeId);
         const response = await axios.put(
           "https://store-system-api.gleeze.com/api/shops/myShop/type",
           { type: typeId },
@@ -96,48 +102,81 @@ const ShopInformation = () => {
         setType(response.data.type);
         setTypeId("");
         setIsTypeEditing(false);
-        console.log("Type added successfully:", response.data);
-        fetchData();
-        setLoading(false);
+        fetchData(); 
       } else {
         console.error("No token found or input type is empty.");
       }
     } catch (error) {
       console.error("Error adding type:", error);
+    } finally {
       setLoading(false);
     }
   };
 
   const handleDeleteType = async (id) => {
-    console.log(id);
-    console.log(token);
     setLoading(true);
     try {
       if (token) {
-        const response = await axios.delete(
+        await axios.delete(
           "https://store-system-api.gleeze.com/api/shops/myShop/type",
           { data: { type: id }, headers: { Authorization: `Bearer ${token}` } }
         );
-        console.log("Type deleted successfully:", response.data);
         fetchData();
-        setLoading(false);
       } else {
         console.error("No token found.");
       }
     } catch (error) {
       console.error("Error deleting type:", error);
+    } finally {
       setLoading(false);
     }
   };
 
-  const [openCreate, setOpenCreate] = useState(false);
   const toggleOpenCreateModal = () => {
     setOpenCreate(!openCreate);
   };
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setInputImageValue(URL.createObjectURL(file)); 
+    }
+  };
+
+  const handleEditImage = () => {
+    setIsImageEditing(!isImageEditing);
+    setInputImageValue(imageUrl); 
+  };
+
+  const handleSaveImage = async () => {
+    setLoading(true);
+    try {
+      if (token && image) {
+        const formData = new FormData();
+        formData.append("image", image);
+        const response = await axios.put(
+          `https://store-system-api.gleeze.com/api/shops/myShop`,
+          formData,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setImageUrl(response.data.image);
+        setIsImageEditing(false);
+        fetchData();
+      } else {
+        console.error("No token found or no image uploaded.");
+      }
+    } catch (error) {
+      console.error("Error updating image:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
+    // bg-gray-700 bg-opacity-25
     <section
-      className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md py-4 absolute top-32 -z-3 w-3/4 ${
+      className={` mx-10 rounded-md py-4 absolute top-32 -z-3 w-3/4 ${
         language === "ar" ? "left-10" : "right-10"
       }`}
     >
@@ -150,12 +189,17 @@ const ShopInformation = () => {
           Add Sub Shop
         </button>
       </div>
-      {/* <img
-        src={imageUrl}
-        alt="shop"
-        className="max-w-full h-20 rounded-md"
-        crossOrigin="anonymous"
-      /> */}
+      <ImageField
+        label="Shop Image"
+        value={imageUrl}
+        isEditing={isImageEditing}
+        handleInputChange={handleImageUpload}
+        handleEditToggle={handleEditImage}
+        handleSaveChanges={handleSaveImage}
+        handleImageUpload={handleImageUpload}
+        uploadedImage={inputImageValue}
+        isLoading={loading}
+      />
       <NameField
         label={t("Information.Name")}
         value={shopName}
@@ -165,7 +209,6 @@ const ShopInformation = () => {
         handleEditToggle={handleEditToggle}
         handleSaveChanges={handleSaveName}
       />
-
       <TypeField
         label="Shop Type"
         value={type}
@@ -177,6 +220,7 @@ const ShopInformation = () => {
         isLoading={loading}
       />
     </section>
+    
   );
 };
 
