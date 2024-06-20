@@ -124,11 +124,7 @@ const OrdersTable = ({ openPreview }) => {
                         onClick={handleSearch}
                     />
                 </div>
-                {role !== "customer" && <div>
-                    <button className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold">
-                        {t("Products.Add")}
-                    </button>
-                </div>}
+               
             </div>
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">

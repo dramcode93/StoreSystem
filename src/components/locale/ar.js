@@ -251,6 +251,18 @@ DisablePaid:" تعطيل الدفع",
 DisableDelivered:" تعطيل التسليم",
 EnableDelivered:" تمكين التسليم",
    },
+      Coupon:{
+    Actions:"الإجراءات",
+    UpdatedAt:"تاريخ التحديث",
+    Expire:"تاريخ الانتهاء",
+    Discount:"الخصم",
+    CreatedAt:"تاريخ الإنشاء ",
+    Name:"الاسم",
+    ID:"الكود",
+   Edit: " تعديل",
+    Preview: " معاينة",
+    Delete: " حذف",
+   },
 };
 
 export default ar;
