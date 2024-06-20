@@ -7,25 +7,30 @@ import { X } from "@phosphor-icons/react";
 
 function UpdateCoupon({ closeModal, role, modal, couponData }) {
     const token = Cookies.get("token");
-    const [newCategoryName, setNewCategoryName] = useState(
-        couponData?.name || ""
-    );
+    const [newCouponName, setNewCouponName] = useState(couponData?.name || "");
+    const [newCouponExpire, setNewCouponExpire] = useState(couponData?.expire || "");
+    const [newCouponDiscount, setNewCouponDiscount] = useState(couponData?.discount || 0);
     const { language } = useI18nContext();
-    console.log("couponData", couponData);
-
 
     useEffect(() => {
         if (modal) {
-            setNewCategoryName(couponData.name);
+            setNewCouponName(couponData.name);
+            setNewCouponExpire(couponData.expire);
+            setNewCouponDiscount(couponData.discount);
         }
     }, [couponData, modal]);
-    const handleUpdateCategory = (e) => {
+
+    const handleUpdateCoupons = (e) => {
         e.preventDefault();
+        const formattedExpireDate = newCouponExpire.split('/').reverse().join('-');
+
         axios
             .put(
-                `https://store-system-api.gleeze.com/api/categories/${couponData._id}`,
+                `https://store-system-api.gleeze.com/api/coupon/${couponData._id}`,
                 {
-                    name: newCategoryName,
+                    name: newCouponName,
+                    expire: formattedExpireDate,
+                    discount: newCouponDiscount,
                 },
                 {
                     headers: {
@@ -34,17 +39,20 @@ function UpdateCoupon({ closeModal, role, modal, couponData }) {
                 }
             )
             .then((response) => {
-                window.location.href = "/category";
+                window.location.href = "/coupons"; 
             })
             .catch((error) => {
-                console.error("Error updating category:", error);
+                console.error("Error updating coupon:", error);
             });
     };
+
+
     const handleBackgroundClick = (e) => {
         if (e.target === e.currentTarget) {
             closeModal();
         }
     };
+
     return (
         <div>
             <div
@@ -66,7 +74,7 @@ function UpdateCoupon({ closeModal, role, modal, couponData }) {
                             className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
                         >
                             <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                                Edit Category
+                                Edit Coupon
                             </h3>
                             <button
                                 type="button"
@@ -78,25 +86,37 @@ function UpdateCoupon({ closeModal, role, modal, couponData }) {
                             </button>
                         </div>
                         <form
-                            onSubmit={handleUpdateCategory}
+                            onSubmit={handleUpdateCoupons}
                             className="fs-6 tracking-wider mt-4 p-0 gap-4 grid-cols-2"
                             dir={language === "ar" ? "rtl" : "ltr"}
                         >
                             <FormText
                                 label="Name"
                                 name="name"
-                                value={newCategoryName}
-                                onChange={(e) => {
-                                    setNewCategoryName(e.target.value);
-                                }}
-                                placeholder="Name"
+                                value={newCouponName}
+                                onChange={(e) => setNewCouponName(e.target.value)}
+                                placeholder="Coupon Name"
+                            />
+                            <FormText
+                                label="Expire Date"
+                                name="expire"
+                                value={newCouponExpire}
+                                onChange={(e) => setNewCouponExpire(e.target.value)}
+                                placeholder="YYYY-MM-DD"
+                            />
+                            <FormText
+                                label="Discount"
+                                name="discount"
+                                value={newCouponDiscount}
+                                onChange={(e) => setNewCouponDiscount(e.target.value)}
+                                placeholder="Discount Percentage"
                             />
                             <div className="col-span-2 flex justify-center">
                                 <button
-                                    disabled={!newCategoryName}
+                                    disabled={!newCouponName || !newCouponExpire || !newCouponDiscount}
                                     className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
                                 >
-                                    Edit Category
+                                    Edit Coupon
                                 </button>
                             </div>
                         </form>

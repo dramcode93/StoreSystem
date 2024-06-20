@@ -33,7 +33,7 @@ import FinancialTransactions from "./components/deposit/Deposit.jsx";
 import ShopInformation from "./components/Shop/ShopInformation.jsx";
 import Order from "./components/orders/Order.jsx";
 import OrdersTable from "./components/orders/OrdersTable.jsx";
-import CouponsTable from "./components/copouns/copounsTable.jsx";
+import Coupons from "./components/copouns/copouns.jsx";
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -126,7 +126,7 @@ const App = () => {
                 <Route path="/shopInformation" element={<ShopInformation />} />
                 <Route path="/order" element={<Order />} />
                 <Route path="/orders" element={<OrdersTable />} />
-                <Route path="/coupons" element={<CouponsTable />} />
+                <Route path="/coupons" element={<Coupons />} />
                 <Route path="/category" element={<Category />} />
                 <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
                 <Route path="/previewProduct/:id" element={<PreviewProduct />} />
