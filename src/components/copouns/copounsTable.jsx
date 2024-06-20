@@ -18,7 +18,7 @@ const API_Coupons = "https://store-system-api.gleeze.com/api/coupon";
 const CouponsTable = ({ openEdit, openPreview }) => {
     const token = Cookies.get("token");
     const [coupons, setCoupons] = useState([]);
-    const [searchInput, setSearchInput] = useState("");
+     const [searchInput, setSearchInput] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [selectedCouponId, setSelectedCouponId] = useState(null);
@@ -78,22 +78,29 @@ const CouponsTable = ({ openEdit, openPreview }) => {
     }, [pagination.currentPge, pagination.totalPages, searchTerm, token]);
 
     const handleDeleteCoupon = (couponId) => {
-        setSelectedCouponId(couponId);
-        setShowConfirmation(true);
+        setSelectedCouponId(couponId); 
+        setShowConfirmation(true);     
     };
 
+    
     const confirmDelete = useCallback(() => {
+        if (!selectedCouponId) {
+            console.error("No coupon ID selected for deletion.");
+            return;
+        }
+
         axios
             .delete(`${API_Coupons}/${selectedCouponId}`, {
                 headers: { Authorization: `Bearer ${token}` },
-            })
+             })
             .then(() => fetchData())
             .catch((error) => console.error("Error deleting coupon:", error))
             .finally(() => {
                 setShowConfirmation(false);
-                setSelectedCouponId(null);
+                setSelectedCouponId(null);  
             });
     }, [selectedCouponId, token, fetchData]);
+
 
     const cancelDelete = useCallback(() => {
         setShowConfirmation(false);
@@ -181,10 +188,13 @@ const CouponsTable = ({ openEdit, openPreview }) => {
                 show={showConfirmation}
                 onCancel={cancelDelete}
                 onConfirm={() => {
-                    confirmDelete();
+                    if (selectedCouponId) {
+                        confirmDelete();
+                    }
                     setShowConfirmation(false);
                 }}
             />
+
             <div className="flex justify-between">
                 <div className="relative w-96 m-3">
                     <input

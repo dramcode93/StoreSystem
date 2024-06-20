@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CouponsTable from "./copounsTable";
 import UpdateCoupon from "./forms/UpdateCopoun";
 
-export default function Category({ role }) {
+export default function Coupons({ role }) {
     const [openEdit, setOpenEdit] = useState(false);
     const [selectedCouponData, setSelectedCouponData] = useState({});
     const [selectedAssistantData, setSelectedAssistantData] = useState({});

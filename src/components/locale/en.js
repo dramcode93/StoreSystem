@@ -110,7 +110,8 @@ const en = {
     age: "age",
     role: "role",
     phone: "phone",
-    nationalId: "nationalId"
+    products: "products",
+    nationalId: "nationalId",
   },
   ExpensesForm: {
     createExpenses: "Create Expenses",
