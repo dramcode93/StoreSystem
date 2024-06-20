@@ -10,7 +10,6 @@ import { House } from "@phosphor-icons/react";
 import { FiChevronDown, FiChevronUp, FiShoppingCart } from "react-icons/fi";
 import Cookies from "js-cookie";
 import { BsFillPersonVcardFill } from "react-icons/bs";
-import { FaBagShopping } from "react-icons/fa6";
 import axios from "axios";
 
 const roleRoutes = {
@@ -139,6 +138,7 @@ const Dashboard = ({ children }) => {
   const [isShopActive, setIsShopActive] = useState(false);
   const [isBranchesActive, setIsBranchesActive] = useState(false);
   const [activeDropdownItem, setActiveDropdownItem] = useState(null);
+  const [activeBranch, setActiveBranch] = useState(null);
   const [branches, setBranches] = useState([]);
 
   useEffect(() => {
@@ -156,7 +156,7 @@ const Dashboard = ({ children }) => {
             error.response &&
             error.response.data.message === "jwt malformed"
           ) {
-            Cookies.remove("token"); // Remove the malformed token
+            Cookies.remove("token");
           }
           setRole("Home.shop");
         }
@@ -171,6 +171,7 @@ const Dashboard = ({ children }) => {
     const storedIsShopActive = localStorage.getItem("isShopActive");
     const storedIsBranchesActive = localStorage.getItem("isBranchesActive");
     const storedActiveDropdownItem = localStorage.getItem("activeDropdownItem");
+    const storedActiveBranch = localStorage.getItem("activeBranch");
 
     if (storedActiveLinkIndex !== null) {
       setActiveLink(parseInt(storedActiveLinkIndex));
@@ -185,11 +186,15 @@ const Dashboard = ({ children }) => {
     }
 
     if (storedIsBranchesActive !== null) {
-      setIsShopActive(storedIsBranchesActive === "true");
+      setIsBranchesActive(storedIsBranchesActive === "true");
     }
 
     if (storedActiveDropdownItem !== null) {
       setActiveDropdownItem(parseInt(storedActiveDropdownItem));
+    }
+
+    if (storedActiveBranch !== null) {
+      setActiveBranch(parseInt(storedActiveBranch));
     }
   }, []);
 
@@ -215,6 +220,7 @@ const Dashboard = ({ children }) => {
       }
       localStorage.setItem("activeLinkIndex", index);
       setActiveDropdownItem(null);
+      setActiveBranch(null);
     },
     [isProfileActive, isShopActive, isBranchesActive]
   );
@@ -224,9 +230,16 @@ const Dashboard = ({ children }) => {
     localStorage.setItem("activeDropdownItem", dropdownIndex);
   }, []);
 
+  const handleBranchClick = useCallback(
+    (index) => {
+      setActiveBranch(index === activeBranch ? null : index);
+      localStorage.setItem("activeBranch", index === activeBranch ? null : index);
+    },
+    [activeBranch]
+  );
+
   const routes = roleRoutes[role] || roleRoutes["Home.shop"];
 
-  // Fetch branch data and set the branches state
   useEffect(() => {
     const fetchBranches = async () => {
       if (token) {
@@ -237,34 +250,31 @@ const Dashboard = ({ children }) => {
           );
           const fetchedBranches = response.data.data;
 
-          // Update roleRoutes.admin with dynamically fetched branch data
-          const updatedRoutes = fetchedBranches.map((branch) => ({
-            name: branch.name,
-            icon: <FiShoppingCart />,
-            dropdownItems: [
-              {
-                text: branch.name,
-                path: `/{${branch.name}/${branch._id}`,
-                icon: <FiShoppingCart />,
-                dropdownItems: [
-                  {
-                    text: "Branch Information",
-                    path: `/branch/${branch._id}/information`,
-                  },
-                  {
-                    text: "Financial Dealings",
-                    path: `/branch/${branch._id}/financial`,
-                  },
-                ],
-              },
-            ],
-          }));
-          // Update roleRoutes.admin with updatedRoutes
-          roleRoutes.admin.find(
-            (item) => item.name === "Home.branches"
-          ).dropdownItems = updatedRoutes;
+          const updatedRoutes = roleRoutes.admin.map((route) => {
+            if (route.name === "Home.branches") {
+              return {
+                ...route,
+                dropdownItems: fetchedBranches.map((branch, branchIndex) => ({
+                  text: branch.name,
+                  path: `/shop/${branch._id}`,
+                  icon: <FiShoppingCart />,
+                  dropdownItems: [
+                    {
+                      text: "Branch Information",
+                      path: `/branch/${branch._id}/information`,
+                    },
+                    {
+                      text: "Financial Dealings",
+                      path: `/branch/${branch._id}/financial`,
+                    },
+                  ],
+                })),
+              };
+            }
+            return route;
+          });
 
-          // Set branches state for later use in rendering
+          roleRoutes.admin = updatedRoutes;
           setBranches(fetchedBranches);
         } catch (error) {
           console.error("Error fetching branches data:", error);
@@ -273,35 +283,10 @@ const Dashboard = ({ children }) => {
     };
     fetchBranches();
   }, [token]);
-  if (branches.length > 0 && roleRoutes.admin) {
-    const adminRoutes = roleRoutes.admin.map((route) => {
-      if (route.name === "Home.branches") {
-        return {
-          ...route,
-          dropdownItems: branches.map((branch) => ({
-            text: branch.name,
-            path: `/shop/${branch._id}`,
-            icon: <FiShoppingCart />,
-            dropdownItems: [
-              {
-                text: "Branch Information",
-                path: `/branch/${branch._id}/information`,
-              },
-              {
-                text: "Financial Dealings",
-                path: `/branch/${branch._id}/financial`,
-              },
-            ],
-          })),
-        };
-      }
-      return route;
-    });
-    roleRoutes.admin = adminRoutes;
-  }
+
   return (
     <div
-      className="fixed top-0  dark:text-gray-100"
+      className="fixed top-0 dark:text-gray-100"
       dir={language === "ar" ? "rtl" : "ltr"}
     >
       {routes && (
@@ -324,10 +309,10 @@ const Dashboard = ({ children }) => {
                 style={
                   activeLink === index
                     ? {
-                        backgroundColor: "#006edc",
-                        color: "white",
-                        borderRadius: "10px",
-                      }
+                      backgroundColor: "#006edc",
+                      color: "white",
+                      borderRadius: "10px",
+                    }
                     : {}
                 }
               >
@@ -337,9 +322,9 @@ const Dashboard = ({ children }) => {
                   {item.dropdownItems && (
                     <>
                       {activeLink === index &&
-                      ((item.name === "Home.Profile" && isProfileActive) ||
-                        (item.name === "Home.shop" && isShopActive) ||
-                        (item.name === "Home.branches" && isBranchesActive)) ? (
+                        ((item.name === "Home.Profile" && isProfileActive) ||
+                          (item.name === "Home.shop" && isShopActive) ||
+                          (item.name === "Home.branches" && isBranchesActive)) ? (
                         <FiChevronUp />
                       ) : (
                         <FiChevronDown />
@@ -358,24 +343,60 @@ const Dashboard = ({ children }) => {
                     dir={language === "ar" ? "rtl" : "ltr"}
                   >
                     <div className="flex flex-col w-full mx-auto font-bold ">
-                      {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
-                        <NavLink
-                          key={dropdownIndex}
-                          to={dropdownItem.path}
-                          className={module.dropDown}
-                          onClick={() => handleDropdownItemClick(dropdownIndex)}
-                          style={
-                            activeDropdownItem === dropdownIndex
-                              ? {
-                                  backgroundColor: "#006edc",
-                                  borderRadius: "10px",
-                                }
-                              : {}
-                          }
-                        >
-                          <p>{dropdownItem.text}</p>
-                        </NavLink>
-                      ))}
+                      {item.dropdownItems.map(
+                        (dropdownItem, dropdownIndex) => (
+                          <div key={dropdownIndex}>
+                            <NavLink
+                              to={dropdownItem.path}
+                              className={module.dropDown}
+                              onClick={() =>
+                                handleDropdownItemClick(dropdownIndex)
+                              }
+                              style={
+                                activeDropdownItem === dropdownIndex
+                                  ? {
+                                    backgroundColor: "#006edc",
+                                    borderRadius: "10px",
+                                  }
+                                  : {}
+                              }
+                            >
+                              <div className="flex justify-between items-center">
+                                <p>{dropdownItem.text}</p>
+                                {dropdownItem.dropdownItems && (
+                                  <>
+                                    {activeBranch === dropdownIndex ? (
+                                      <FiChevronUp />
+                                    ) : (
+                                      <FiChevronDown />
+                                    )}
+                                  </>
+                                )}
+                              </div>
+                            </NavLink>
+                            {activeDropdownItem === dropdownIndex &&
+                              dropdownItem.dropdownItems && (
+                                <div className="ml-4">
+                                  {dropdownItem.dropdownItems.map(
+                                    (subItem, subIndex) => (
+                                      <NavLink
+                                        key={subIndex}
+                                        to={subItem.path}
+                                        className={module.subDropDown}
+                                        style={{
+                                          marginLeft: "20px",
+                                          display: "block",
+                                        }}
+                                      >
+                                        {subItem.text}
+                                      </NavLink>
+                                    )
+                                  )}
+                                </div>
+                              )}
+                          </div>
+                        )
+                      )}
                     </div>
                   </div>
                 )}
