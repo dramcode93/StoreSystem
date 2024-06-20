@@ -38,6 +38,7 @@ const OrdersTable = ({ openPreview }) => {
                         { headers: { Authorization: `Bearer ${token}` } }
                     );
                     setRole(response.data.data.role || "shop");
+
                 } catch (error) {
                     console.error("Error fetching user data:", error);
                     if (error.response && error.response.data.message === "jwt malformed") {
@@ -57,6 +58,7 @@ const OrdersTable = ({ openPreview }) => {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setOrders(response.data.data);
+                console.log("bb",response.data.data)
             } else {
                 console.error("No token found.");
             }
@@ -72,19 +74,23 @@ const OrdersTable = ({ openPreview }) => {
     }, [fetchData]);
 
     const toggleEditDropdown = (orderId) => {
-        setSelectedOrderId((prevOrderId) => (prevOrderId === orderId ? null : orderId));
+        setSelectedOrderId((prevOrderId) => 
+            prevOrderId === orderId ? null : orderId
+    );
     };
 
+  
     const handleSearch = (e) => {
         e.preventDefault();
         setSearchTerm(searchInput);
     };
-
+    
     const handleUpdatePay = async (id, newActiveStatus) => {
         try {
             const response = await axios.put(`${API_URL}/${id}/pay`, { active: newActiveStatus }, {
                 headers: { Authorization: `Bearer ${token}` },
             });
+            console.log(response)
             fetchData();
         } catch (error) {
             console.error("Error updating order:", error);
@@ -97,6 +103,7 @@ const OrdersTable = ({ openPreview }) => {
                 headers: { Authorization: `Bearer ${token}` },
             });
             fetchData();
+            console.log(response)
         } catch (error) {
             console.error("Error updating order:", error);
         }
@@ -106,8 +113,9 @@ const OrdersTable = ({ openPreview }) => {
 
     const handleOrderPreview = (order) => {
         openPreview(order);
-    };
-
+        }
+        
+        
     return (
         <section className={`bg-gray-400 bg-opacity-5 dark:bg-gray-700 dark:bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
             <div className="flex justify-between">
@@ -122,13 +130,8 @@ const OrdersTable = ({ openPreview }) => {
                     <CiSearch
                         className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${language === "ar" ? "left-3" : "right-3"} cursor-pointer`}
                         onClick={handleSearch}
-                    />
+                        />
                 </div>
-                {role !== "customer" && <div>
-                    <button className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold">
-                        {t("Products.Add")}
-                    </button>
-                </div>}
             </div>
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
@@ -169,7 +172,7 @@ const OrdersTable = ({ openPreview }) => {
                                             <td className="px-5 py-4">{order.isPaid ? formatDate(order.paidAt) : '-'}</td>
                                             <td className="px-4 py-4">{order.isDelivered ? 'Yes' : 'No'}</td>
                                             <td className="px-4 py-4">{order.isDelivered ? formatDate(order.deliveredAt) : '-'}</td>
-                                            <td className="px-4 py-4">{order.paymentMethodType}</td>
+                                            <td className="px-4 py-4">{order.paymentMethod}</td>
                                             <td className="px-4 py-4">{order.receivingMethod}</td>
                                             <td className="px-4 py-3 flex items-center justify-end">
                                                 <button
@@ -178,12 +181,23 @@ const OrdersTable = ({ openPreview }) => {
                                                     onClick={() => toggleEditDropdown(order._id)}
                                                     ref={(el) => (dropdownRefs.current[order._id] = el)}
                                                 >
-                                                    <DotsThree size={25} weight="bold" className="hover:bg-gray-700 w-10 rounded-lg" />
+                                                    <DotsThree
+                                                        size={25}
+                                                        weight="bold"
+                                                        className="  hover:bg-gray-700 w-10 rounded-lg"
+                                                    />
                                                 </button>
-                                                <div className="relative z-10" dir={language === "ar" ? "rtl" : "ltr"}>
+                                                <div
+                                                    className="absolute z-10"
+                                                    dir={language === "ar" ? "rtl" : "ltr"}
+                                                >
                                                     <div
                                                         id={`order-dropdown-${order._id}`}
-                                                        className={`${selectedOrderId === order._id ? `absolute -top-3 ${language === "en" ? "right-full" : "left-full"} overflow-auto` : "hidden"} z-10 w-56 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                                                        className={`${selectedOrderId === order._id
+                                                            ? `absolute -top-3 ${language === "en" ? "right-full" : "left-full"
+                                                            } overflow-auto`
+                                                            : "hidden"
+                                                            } z-10 w-56 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
                                                     >
                                                         <ul className="text-sm bg-transparent pl-0 mb-0 w-full">
                                                             <li>

@@ -6,8 +6,7 @@ import {
     CaretLeft,
     CaretRight,
     DotsThree,
-    Eye,
-    NotePencil,
+     NotePencil,
     TrashSimple,
 } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
@@ -16,10 +15,10 @@ import ConfirmationModal from "../Category/ConfirmationModel";
 
 const API_Coupons = "https://store-system-api.gleeze.com/api/coupon";
 
-const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
+const CouponsTable = ({ openEdit, openPreview }) => {
     const token = Cookies.get("token");
     const [coupons, setCoupons] = useState([]);
-    const [searchInput, setSearchInput] = useState("");
+     const [searchInput, setSearchInput] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [selectedCouponId, setSelectedCouponId] = useState(null);
@@ -56,17 +55,17 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
         } finally {
             setLoading(false);
         }
-    }, [token, searchTerm, pagination.currentPage]);
+    }, [token, searchTerm, pagination.currentPge]);
 
     useEffect(() => {
         fetchData();
-    }, [searchTerm, pagination.currentPage, fetchData]);
+    }, [searchTerm, pagination.currentPge, fetchData]);
 
     useEffect(() => {
-        if (pagination.currentPage < pagination.totalPages) {
+        if (pagination.currentPge < pagination.totalPages) {
             axios
                 .get(
-                    `${API_Coupons}?sort=coupon name&search=${searchTerm}&page=${pagination.currentPage + 1}&limit=2`,
+                    `${API_Coupons}?sort=coupon name&search=${searchTerm}&page=${pagination.currentPge + 1}&limit=2`,
                     { headers: { Authorization: `Bearer ${token}` } }
                 )
                 .then((response) => {
@@ -76,25 +75,32 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
                     console.error("Error preloading next page:", error);
                 });
         }
-    }, [pagination.currentPage, pagination.totalPages, searchTerm, token]);
+    }, [pagination.currentPge, pagination.totalPages, searchTerm, token]);
 
     const handleDeleteCoupon = (couponId) => {
-        setSelectedCouponId(couponId);
-        setShowConfirmation(true);
+        setSelectedCouponId(couponId); 
+        setShowConfirmation(true);     
     };
 
+    
     const confirmDelete = useCallback(() => {
+        if (!selectedCouponId) {
+            console.error("No coupon ID selected for deletion.");
+            return;
+        }
+
         axios
             .delete(`${API_Coupons}/${selectedCouponId}`, {
                 headers: { Authorization: `Bearer ${token}` },
-            })
+             })
             .then(() => fetchData())
             .catch((error) => console.error("Error deleting coupon:", error))
             .finally(() => {
                 setShowConfirmation(false);
-                setSelectedCouponId(null);
+                setSelectedCouponId(null);  
             });
     }, [selectedCouponId, token, fetchData]);
+
 
     const cancelDelete = useCallback(() => {
         setShowConfirmation(false);
@@ -119,9 +125,7 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
         openEdit(coupon);
     };
 
-    const handlePreviewCoupon = (coupon) => {
-        openPreview(coupon);
-    };
+  
 
     const toggleEditDropdown = (couponId) => {
         setSelectedCouponId((prevCouponId) =>
@@ -184,10 +188,13 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
                 show={showConfirmation}
                 onCancel={cancelDelete}
                 onConfirm={() => {
-                    confirmDelete();
+                    if (selectedCouponId) {
+                        confirmDelete();
+                    }
                     setShowConfirmation(false);
                 }}
             />
+
             <div className="flex justify-between">
                 <div className="relative w-96 m-3">
                     <input
@@ -203,14 +210,7 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
                         onClick={handleSearch}
                     />
                 </div>
-                <div>
-                    <button
-                        className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
-                        onClick={openCreate}
-                    >
-                        {t("Products.Add")}
-                    </button>
-                </div>
+                
             </div>
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase ">
@@ -221,18 +221,14 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
                         <th scope="col" className="px-5 py-4">
                             {t("Coupon.Name")}
                         </th>
-                        <th scope="col" className="px-5 py-4">
-                            {t("Coupon.CreatedAt")}
-                        </th>
+                      
                         <th scope="col" className="px-5 py-4">
                             {t("Coupon.Discount")}
                         </th>
                         <th scope="col" className="px-5 py-4">
                             {t("Coupon.Expire")}
                         </th>
-                        <th scope="col" className="px-5 py-4">
-                            {t("Coupon.UpdatedAt")}
-                        </th>
+                       
                         <th scope="col" className="px-4 py-3">
                             <span className="sr-only">{t("Coupon.Actions")}</span>
                         </th>
@@ -264,11 +260,9 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
                                         {coupon._id.slice(-4)}
                                     </td>
                                     <td className="px-4 py-4">{coupon.name}</td>
-                                    <td className="px-4 py-4">{coupon.createdAt}</td>
-                                    <td className="px-4 py-4">{coupon.discount}</td>
+                                     <td className="px-4 py-4">{coupon.discount}</td>
                                     <td className="px-4 py-4">{coupon.expire}</td>
-                                    <td className="px-4 py-4">{coupon.updatedAt}</td>
-                                    <td className="px-4 py-3 flex items-center justify-end">
+                                     <td className="px-4 py-3 flex items-center justify-end">
                                         <button
                                             className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                                             type="button"
@@ -304,16 +298,7 @@ const CouponsTable = ({ openEdit, openCreate, openPreview }) => {
                                                             {t("Coupon.Edit")}
                                                         </button>
                                                     </li>
-                                                    <li>
-                                                        <button
-                                                            type="button"
-                                                            className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                                            onClick={() => handlePreviewCoupon(coupon)}
-                                                        >
-                                                            <Eye size={18} weight="bold" />
-                                                            {t("Coupon.Preview")}
-                                                        </button>
-                                                    </li>
+                                                
                                                     <li>
                                                         <button
                                                             type="button"

@@ -110,7 +110,8 @@ const en = {
     age: "age",
     role: "role",
     phone: "phone",
-    nationalId: "nationalId"
+    products: "products",
+    nationalId: "nationalId",
   },
   ExpensesForm: {
     createExpenses: "Create Expenses",
@@ -264,6 +265,18 @@ EnablePaid:"Enable Paid",
 DisablePaid:"Disable Paid",
 EnableDelivered:"Enable Delivered",
 DisableDelivered:"Disable Delivered",
+   },
+   Coupon:{
+    Actions:"Actions",
+    UpdatedAt:"Updated At",
+    Expire:"Expire",
+    Discount:"Discount",
+    CreatedAt:"Created At",
+    Name:"Name",
+    ID:"ID",
+    Delete:"Delete",
+    Preview:"Preview",
+    Edit:"Edit",
    },
 };
 

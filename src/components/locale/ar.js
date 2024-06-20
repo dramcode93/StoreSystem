@@ -98,6 +98,7 @@ const ar = {
     unDefind: "لم يتم التحديد",
     edit: "تعديل",
     delete: "حذف",
+    productName: "إسم المنتج",
   },
   ExpensesForm: {
     createExpenses: "إضافة مصروف",
@@ -250,6 +251,18 @@ EnablePaid:"تمكين الدفع",
 DisablePaid:" تعطيل الدفع",
 DisableDelivered:" تعطيل التسليم",
 EnableDelivered:" تمكين التسليم",
+   },
+      Coupon:{
+    Actions:"الإجراءات",
+    UpdatedAt:"تاريخ التحديث",
+    Expire:"تاريخ الانتهاء",
+    Discount:"الخصم",
+    CreatedAt:"تاريخ الإنشاء ",
+    Name:"الاسم",
+    ID:"الكود",
+   Edit: " تعديل",
+    Preview: " معاينة",
+    Delete: " حذف",
    },
 };
 

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import OrdersTable from "./OrdersTable";
-import OrderPreview from "./forms/orderPreview";
+import OrderPreview from "./forms/PreviewOrder";
 
 export default function Order({ role }) {
-      const [selectedAssistantData, setSelectedAssistantData] = useState({});
+    const [selectedAssistantData, setSelectedAssistantData] = useState({});
     const [openPreview, setOpenPreview] = useState(false);
- 
 
     const toggleOpenPreviewModal = (selectedAssistant) => {
         setSelectedAssistantData(selectedAssistant);
