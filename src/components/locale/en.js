@@ -259,6 +259,12 @@ const en = {
     ProductsMoney: "Products Money",
     Actions: "Actions",
    },
+   order:{
+EnablePaid:"Enable Paid",
+DisablePaid:"Disable Paid",
+EnableDelivered:"Enable Delivered",
+DisableDelivered:"Disable Delivered",
+   },
 };
 
 export default en;
