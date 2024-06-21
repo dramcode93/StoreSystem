@@ -302,7 +302,9 @@ const Dashboard = ({ children }) => {
                 ? "-4px 0px 2px rgba(0, 0, 0, 0.1)"
                 : "4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.08)",
           }}
-          className={module.sidebar}
+          className={`${module.sidebar}`}
+          dir={language === "ar" ? "rtl" : "ltr"}
+
         >
           {routes.map((item, index) => (
             <div key={index}>
