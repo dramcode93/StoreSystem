@@ -17,8 +17,7 @@ export default function FinancialTransactions() {
   const dropdownRefs = useRef({});
   const { t, language } = useI18nContext();
 
-  // Fetch subShops on component mount
-  useEffect(() => {
+   useEffect(() => {
     const fetchSubShops = async () => {
       try {
         const response = await axios.get("https://store-system-api.gleeze.com/api/subShops/list?sort=name&fields=name");
@@ -31,8 +30,7 @@ export default function FinancialTransactions() {
     fetchSubShops();
   }, []);
 
-  // Function to fetch transaction data based on selected options
-  const fetchTransactions = async (option, subShopId = "") => {
+   const fetchTransactions = async (option, subShopId = "") => {
     let url;
     if (option === "all") {
       url = "https://store-system-api.gleeze.com/api/financialTransactions";
@@ -62,24 +60,21 @@ export default function FinancialTransactions() {
     }
   };
 
-  // Handle selection change for transaction type
-  const handleSelectChange = async (event) => {
+   const handleSelectChange = async (event) => {
     const value = event.target.value;
     setSelectedOption(value);
 
     await fetchTransactions(value, selectedSubShop);
   };
 
-  // Handle selection change for subShop filter
-  const handleSubShopChange = async (event) => {
+   const handleSubShopChange = async (event) => {
     const value = event.target.value;
     setSelectedSubShop(value);
 
     await fetchTransactions(selectedOption, value);
   };
 
-  // Function to handle clicks outside dropdowns
-  const handleClickOutside = (event, SalesId) => {
+   const handleClickOutside = (event, SalesId) => {
     const dropdown = dropdownRefs.current[SalesId];
 
     if (
@@ -103,14 +98,12 @@ export default function FinancialTransactions() {
     };
   }, [selectedSalesId]);
 
-  // Function to format date
-  const formatDate = (dateString) => {
+   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString();
   };
 
-  // State and function to manage modal state
-  const [openCreate, setOpenCreate] = useState(false);
+   const [openCreate, setOpenCreate] = useState(false);
   const toggleOpenCreateModal = () => {
     setOpenCreate(!openCreate);
   };
