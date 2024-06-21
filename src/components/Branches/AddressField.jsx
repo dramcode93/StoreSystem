@@ -1,14 +1,14 @@
 import React from "react";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdEdit } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import Loading from "../Loading/Loading";
 import { useI18nContext } from "../context/i18n-context";
+import { FiEdit } from "react-icons/fi";
 
 const AddressField = ({
   label,
   values,
-  openAdd,
-  handleDelAddress,
+  openEdit,
   isLoading,
 }) => {
   const { language } = useI18nContext();
@@ -39,16 +39,15 @@ const AddressField = ({
                       : address.governorate?.governorate_name_en
                   }`}
                 </p>
-                <MdDelete
-                  className="text-2xl mb-3"
-                  onClick={() => handleDelAddress(index)}
-                />
               </div>
             ))
           ) : (
             <p>No addresses available</p>
           )}
-          <IoMdAdd className="text-white text-2xl" onClick={openAdd} />
+          <FiEdit
+          
+           className="text-white text-xl cursor-pointer"
+            onClick={openEdit} />
         </>
       )}
     </li>

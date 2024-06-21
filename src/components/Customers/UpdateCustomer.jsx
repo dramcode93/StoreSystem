@@ -40,6 +40,17 @@ function UpdateCustomer({ closeModal, role, modal, customerData }) {
           setNewSelectedGovernorate(customerData.address[0].governorate._id);
           setNewSelectedCity(customerData.address[0].city._id);
           fetchCities(customerData.address[0].governorate._id);
+          // if (customerData?.address?.length) {
+          //   customerData.address.forEach((address) => {
+          //     fetchCities(address.governorate._id);
+          //   });
+          //   setNewName(customerData.name);
+          //   setNewPhone(customerData.phone);
+          //   setNewStreet(customerData.address.map((address) => address.street));
+          //   setNewSelectedGovernorate(customerData.address.map((address) => address.governorate._id));
+          //   setNewSelectedCity(customerData.address.map((address) => address.city._id));
+          //   fetchCities(customerData.address.map((address) => address.governorate._id))
+          // }
         }
       } catch (error) {
         console.error("Error fetching governorates:", error);

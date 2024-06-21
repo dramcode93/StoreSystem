@@ -239,7 +239,6 @@ const Dashboard = ({ children }) => {
   );
 
   const routes = roleRoutes[role] || roleRoutes["Home.shop"];
-
   useEffect(() => {
     const fetchBranches = async () => {
       if (token) {
@@ -256,16 +255,16 @@ const Dashboard = ({ children }) => {
                 ...route,
                 dropdownItems: fetchedBranches.map((branch, branchIndex) => ({
                   text: branch.name,
-                  path: `/shop/${branch._id}`,
+                  path: `/branch/${branch._id}/information`,
                   icon: <FiShoppingCart />,
                   dropdownItems: [
                     {
-                      text: "Branch Information",
-                      path: `/branch/${branch._id}/information`,
-                    },
-                    {
                       text: "Financial Dealings",
                       path: `/branch/${branch._id}/financial`,
+                    },
+                    {
+                      text: "Branch Information",
+                      path: `/branch/${branch._id}/information`,
                     },
                   ],
                 })),
