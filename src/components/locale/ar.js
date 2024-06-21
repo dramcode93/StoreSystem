@@ -10,6 +10,7 @@ const ar = {
     orders: "الطلبات",
     branches:"الفروع",
       Sales: "المبيعات",
+      subSales: "مبيعات الفروع" ,
       FinancialTransactions: "المعاملات المالية",
     Revenue: "الدخل",
     Growth: "الزيادة",
@@ -220,6 +221,8 @@ const ar = {
     Earnings: "الأرباح",
     SelectAnOption: "إختر",
     Search: "بحث",
+        subShop: "الفرع",
+
    },
    Transactions: {
      Id: " الكود",
