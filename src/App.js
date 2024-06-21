@@ -33,6 +33,7 @@ import FinancialTransactions from "./components/deposit/Deposit.jsx";
 import ShopInformation from "./components/Shop/ShopInformation.jsx";
 import Order from "./components/orders/Order.jsx";
 import OrdersTable from "./components/orders/OrdersTable.jsx";
+import Coupons from "./components/copouns/copouns.jsx";
 import CouponsTable from "./components/copouns/copounsTable.jsx";
 import BranchInformation from "./components/Branches/BranchInfo.jsx";
 import FinancialDealings from "./components/Branches/FinancialDealings.jsx";
@@ -152,7 +153,7 @@ const App = () => {
                 />
                 <Route path="/order" element={<Order />} />
                 <Route path="/orders" element={<OrdersTable />} />
-                <Route path="/coupons" element={<CouponsTable />} />
+                <Route path="/coupons" element={<Coupons />} />
                 <Route path="/category" element={<Category />} />
                 <Route
                   path="/changeUserPassword/:id"

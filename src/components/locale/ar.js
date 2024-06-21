@@ -98,6 +98,7 @@ const ar = {
     unDefind: "لم يتم التحديد",
     edit: "تعديل",
     delete: "حذف",
+    productName: "إسم المنتج",
   },
   ExpensesForm: {
     createExpenses: "إضافة مصروف",
