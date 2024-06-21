@@ -6,11 +6,14 @@ import LogOut from "../LogOut/LogOut";
 import Cookies from 'js-cookie';
 import axios from "axios";
 import { MdProductionQuantityLimits } from "react-icons/md";
+import CartHover from "../BestSeller/CartHover";
 
 const MyComponent = () => {
   const { t, language, changeLanguage } = useI18nContext();
   const token = Cookies.get('token');
   const [role, setRole] = useState("");
+  const [isHovered, setIsHovered] = useState(false);
+
   useEffect(() => {
     const fetchUserData = async () => {
       if (token) {
@@ -26,7 +29,6 @@ const MyComponent = () => {
             Cookies.remove('token');
           }
           setRole("shop");
-          console.log(role)
         }
       }
     };
@@ -44,18 +46,27 @@ const MyComponent = () => {
           <SketchLogo /> {t(`Home.GleamGoods`)}
         </h3>
         <div className="w-25 flex items-center justify-content-center">
-
-          {role == "customer" && <button
-            type="button"
-            className="relative bg-transparent rounded-full p-1 ms-3 text-gray-500 dark:hover:text-white focus:outline-none hover:text-slate-500 w-fit"
-            onClick={() => {
-              changeLanguage(language === "en" ? "ar" : "en");
-            }}
-            title={t("Home.Cart")}
-          >
-            <span className="absolute -inset-1.5" />
-            <MdProductionQuantityLimits className="h-6 w-10" aria-hidden="true" />
-          </button>}
+          {role === "customer" && (
+            <div
+              className="relative"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
+              <button
+                type="button"
+                className="relative bg-transparent rounded-full p-1 ms-3 text-gray-500 dark:hover:text-white focus:outline-none hover:text-slate-500 w-fit"
+                title={t("Home.Cart")}
+              >
+                <span className="absolute -inset-1.5" />
+                <MdProductionQuantityLimits className="h-6 w-10" aria-hidden="true" />
+              </button>
+              {isHovered && (
+                <div className="absolute top-full left-0 mt-2 bg-white border w-64 border-gray-300 shadow-lg p-2 rounded">
+                  <CartHover />
+                </div>
+              )}
+            </div>
+          )}
 
           <LogOut />
 
