@@ -33,7 +33,6 @@ const Shop = () => {
         } catch (error) {
           console.error("Error fetching shop data:", error);
         }
-
         try {
           const dailyResponse = await axios.get(
             `https://store-system-api.gleeze.com/api/sales/daily/thisDay`,

@@ -19,7 +19,7 @@ const TypeField = ({
 }) => {
   const token = Cookies.get("token");
   const [types, setTypes] = useState([]);
-
+console.log(types)
   const fetchData = useCallback(async () => {
     try {
       if (token) {
@@ -39,6 +39,10 @@ const TypeField = ({
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+  const options = [
+    { value: '', label: 'Select Type' },
+    ...types.map((type) => ({ value: type._id, label: type.type_en })),
+  ];
   return (
     <li className="bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3 list-none">
       <div className="text-gray-200 font-bold text-xl">
@@ -65,10 +69,7 @@ const TypeField = ({
                 <FormSelect
                   headOption="Select Type"
                   handleChange={handleInputChange}
-                  options={types.map((type) => ({
-                    value: type._id,
-                    label: type.type_en,
-                  }))}
+                  options={options}
                   name="Type"
                 />
                 <FaRegSave onClick={handleAddType} className="text-2xl mt-2" />
