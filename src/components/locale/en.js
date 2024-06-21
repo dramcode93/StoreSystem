@@ -250,6 +250,7 @@ const en = {
     withdraw: "withdraw",
     deposit: "deposit",
     all: "all",
+    type: "type",
    },
       Shop: {
      TotalMoney: "Total Money",
