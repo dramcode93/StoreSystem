@@ -98,15 +98,13 @@ export default function SubSalesTable() {
         };
     }, [selectedSalesId]);
 
+    // Updated formatDate function for dd-mm-yyyy format
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        if (selectedOption === "day") {
-            return date.toLocaleDateString();
-        } else if (selectedOption === "month") {
-            return date.toLocaleString('default', { month: 'long', year: 'numeric' });
-        } else if (selectedOption === "year") {
-            return date.getFullYear();
-        }
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
     };
 
     return (
