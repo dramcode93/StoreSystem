@@ -34,6 +34,11 @@ const roleRoutes = {
       icon: <MdProductionQuantityLimits />,
     },
     {
+      path: "/SubSalesTable",
+      name: "Home.subSales",
+      icon: <MdProductionQuantityLimits />,
+    },
+    {
       path: "/FinancialTransactions",
       name: "Home.FinancialTransactions",
       icon: <MdProductionQuantityLimits />,
@@ -341,26 +346,26 @@ const Dashboard = ({ children }) => {
                     className="transition ease-in-out duration-75"
                     dir={language === "ar" ? "rtl" : "ltr"}
                   >
-                    <div className="flex flex-col w-full mx-auto font-bold ">
+                    <div className="flex flex-col w-full mx-auto font-bold">
                       {item.dropdownItems.map(
                         (dropdownItem, dropdownIndex) => (
                           <div key={dropdownIndex}>
                             <NavLink
                               to={dropdownItem.path}
-                              className={module.dropDown}
+                              className={`${module.branch}`}
                               onClick={() =>
                                 handleDropdownItemClick(dropdownIndex)
                               }
                               style={
                                 activeDropdownItem === dropdownIndex
                                   ? {
-                                    backgroundColor: "#006edc",
+                                    backgroundColor: "transparent",
                                     borderRadius: "10px",
                                   }
                                   : {}
                               }
                             >
-                              <div className="flex justify-between items-center">
+                              <div className="flex justify-between items-center hover:none">
                                 <p>{dropdownItem.text}</p>
                                 {dropdownItem.dropdownItems && (
                                   <>

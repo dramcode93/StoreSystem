@@ -2,10 +2,7 @@ import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useI18nContext } from "../context/i18n-context";
-import AddSubShop from "../Shop/AddSubShop";
-import ImageField from "../Shop/ImageField";
 import NameField from "../Shop/NameField";
-import TypeField from "../Shop/TypeField";
 import PhoneField from "../profile/PhoneField";
 import EditAddress from "./EditAddress";
 import ActiveField from "./ActiveField";
@@ -20,7 +17,6 @@ const BranchInformation = () => {
   const [shopName, setShopName] = useState("");
 
   const [isNameEditing, setIsNameEditing] = useState(false);
-  const [isTypeEditing, setIsTypeEditing] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
 
   const [isPhoneEditing, setIsPhoneEditing] = useState(false);

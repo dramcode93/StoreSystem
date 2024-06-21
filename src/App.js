@@ -37,6 +37,7 @@ import Coupons from "./components/copouns/copouns.jsx";
 import CouponsTable from "./components/copouns/copounsTable.jsx";
 import BranchInformation from "./components/Branches/BranchInfo.jsx";
 import FinancialDealings from "./components/Branches/FinancialDealings.jsx";
+import SubSalesTable from "./components/subSales/SubSalesTable.jsx";
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -167,6 +168,7 @@ const App = () => {
                 <Route path="/products" element={<Products />} />
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/SalesTable" element={<SalesTable />} />
+                <Route path="/SubSalesTable" element={<SubSalesTable />} />
                 <Route
                   path="/FinancialTransactions"
                   element={<FinancialTransactions />}
