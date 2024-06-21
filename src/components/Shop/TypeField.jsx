@@ -16,10 +16,11 @@ const TypeField = ({
   handleAddToggle,
   isEditing,
   isLoading,
+  inputValue
 }) => {
   const token = Cookies.get("token");
   const [types, setTypes] = useState([]);
-console.log(types)
+
   const fetchData = useCallback(async () => {
     try {
       if (token) {
@@ -39,10 +40,24 @@ console.log(types)
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-  const options = [
-    { value: '', label: 'Select Type' },
-    ...types.map((type) => ({ value: type._id, label: type.type_en })),
-  ];
+
+  // Convert types to an array
+  useEffect(() => {
+    if (typeof types === "string" && types.trim() !== "") {
+      try {
+        const parsedTypes = JSON.parse(types);
+        setTypes(parsedTypes);
+      } catch (error) {
+        console.error("Error parsing types JSON:", error);
+      }
+    }
+  }, [types]);
+
+  const options = types.map((type) => ({
+    value: type._id,
+    label: type.type_en,
+  }));
+
   return (
     <li className="bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3 list-none">
       <div className="text-gray-200 font-bold text-xl">
@@ -71,6 +86,7 @@ console.log(types)
                   handleChange={handleInputChange}
                   options={options}
                   name="Type"
+                  value={inputValue}
                 />
                 <FaRegSave onClick={handleAddType} className="text-2xl mt-2" />
               </div>

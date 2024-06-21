@@ -32,9 +32,14 @@ const BranchInformation = () => {
   const [addresses, setAddresses] = useState([]);
   const [addressData, setAddressData] = useState();
   const [active, setActive] = useState("");
+  const [activeInput, setActiveInput] = useState("");
+
   const [shippingPriceOutside, setShippingPriceOutside] = useState();
   const [shippingPriceInside, setShippingPriceInside] = useState();
+
   const [deliveryService, setDeliveryService] = useState();
+  const [deliveryServiceInput, setDeliveryServiceInput] = useState("");
+
   const [deliveryServiceFromAPI, setDeliveryServiceFromAPI] = useState();
 
   const [isShippingPriceOutsideEditing, setIsShippingPriceOutsideEditing] =
@@ -66,12 +71,12 @@ const BranchInformation = () => {
         setShopName(name);
         setPhones(phone);
         setAddresses(Array.isArray(address) ? address : [address]);
-        setAddressData(address)
+        setAddressData(address);
         setActive(active);
         setShippingPriceInside(shippingPriceInside);
         setShippingPriceOutside(shippingPriceOutside);
         setDeliveryService(deliveryService);
-        setDeliveryServiceFromAPI(deliveryService)
+        setDeliveryServiceFromAPI(deliveryService);
       } else {
         console.error("No token found.");
       }
@@ -80,7 +85,7 @@ const BranchInformation = () => {
     } finally {
       setLoading(false);
     }
-  }, [token,id]);
+  }, [token, id]);
 
   useEffect(() => {
     fetchData();
@@ -119,17 +124,20 @@ const BranchInformation = () => {
   };
 
   const handleDelPhone = async (delPhone) => {
-    console.log(delPhone)
+    console.log(delPhone);
     try {
       setIsDeletingPhone(true);
       if (token) {
         const response = await axios.delete(
-           `https://store-system-api.gleeze.com/api/subShops/${id}/phone`,
-          { data: { phone:delPhone }, headers: { Authorization: `Bearer ${token}` } }
+          `https://store-system-api.gleeze.com/api/subShops/${id}/phone`,
+          {
+            data: { phone: delPhone },
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
         setIsDeletingPhone(false);
         fetchData();
-        setIsPhoneEditing(false)
+        setIsPhoneEditing(false);
       } else {
         console.error("No token found.");
       }
@@ -139,28 +147,27 @@ const BranchInformation = () => {
     }
   };
 
-
   const handlePhoneChange = (e) => {
-    setPhone(e.target.value)
+    setPhone(e.target.value);
   };
-  
+
   const handlePhoneAddToggle = () => {
     setIsPhoneEditing(!isPhoneEditing);
   };
 
   const handleAddPhone = async () => {
-    console.log(phone)
+    console.log(phone);
     try {
       setIsAddingPhone(true);
       if (token) {
         const response = await axios.put(
           `https://store-system-api.gleeze.com/api/subShops/${id}/phone`,
-          { phone:phone },
+          { phone: phone },
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setIsAddingPhone(false);
         fetchData();
-        setIsPhoneEditing(false)
+        setIsPhoneEditing(false);
       } else {
         console.error("No token found.");
       }
@@ -224,6 +231,7 @@ const BranchInformation = () => {
 
   const handleActiveChange = (e) => {
     setActive(e.target.value);
+    setActiveInput(e.target.value)
   };
 
   const handleAddActiveToggle = () => {
@@ -257,6 +265,7 @@ const BranchInformation = () => {
   };
   const handleDeliveryServiceChange = (e) => {
     setDeliveryService(e.target.value);
+    setDeliveryServiceInput(e.target.value)
   };
 
   const handleAddDeliveryServiceToggle = () => {
@@ -285,13 +294,18 @@ const BranchInformation = () => {
     }
   };
 
+
   return (
     <section
       className={`mx-10 rounded-md py-4 absolute top-32 -z-3 w-3/4 ${
         language === "ar" ? "left-10" : "right-10"
       }`}
     >
-      <EditAddress closeModal={toggleOpenCreateModal} modal={openCreate} addressData={addressData} />
+      <EditAddress
+        closeModal={toggleOpenCreateModal}
+        modal={openCreate}
+        addressData={addressData}
+      />
 
       <NameField
         label={t("Information.Name")}
@@ -305,15 +319,12 @@ const BranchInformation = () => {
 
       <ActiveField
         label="Active State"
+        inputValue={activeInput}
         value={active}
         handleInputChange={(e) => handleActiveChange(e)}
         isEditing={isActiveEditing}
         handleEditToggle={handleAddActiveToggle}
         handleSaveChanges={handleSaveActiveChanges}
-        options={[
-          { value: true, label: "Active" },
-          { value: false, label: "Inactive" },
-        ]}
       />
       <PhoneField
         label={t("Information.Phone")}
@@ -324,7 +335,6 @@ const BranchInformation = () => {
         handleAddPhone={handleAddPhone}
         isLoading={isDeletingPhone || isAddingPhone}
         handleAddToggle={handlePhoneAddToggle}
-
       />
 
       <AddressField
@@ -335,21 +345,16 @@ const BranchInformation = () => {
 
       <ActiveField
         label="Delivery Service"
+        inputValue={deliveryServiceInput}
         value={deliveryService}
-        handleInputChange={(e) =>
-          handleDeliveryServiceChange(e)
-        }
+        handleInputChange={(e) => handleDeliveryServiceChange(e)}
         isEditing={isDeliveryServiceEditing}
         handleEditToggle={handleAddDeliveryServiceToggle}
         handleSaveChanges={handleSaveDeliveryServiceChanges}
-        options={[
-          { value: true, label: "True" },
-          { value: false, label: "False" },
-        ]}
       />
       {deliveryServiceFromAPI ? (
         <>
-        <NameField
+          <NameField
             label="Shipping Price Inside"
             value={shippingPriceInside}
             isEditing={isShippingPriceInsideEditing}
