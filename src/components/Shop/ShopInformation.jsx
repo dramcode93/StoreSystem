@@ -14,6 +14,7 @@ const ShopInformation = () => {
   const [loading, setLoading] = useState(true);
   const [shopName, setShopName] = useState("");
   const [type, setType] = useState([]);
+  const [typeInput, setTypeInput] = useState("");
   const [typeId, setTypeId] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [isNameEditing, setIsNameEditing] = useState(false);
@@ -69,6 +70,7 @@ const ShopInformation = () => {
   const handleTypeChange = (e) => {
     if (isTypeEditing) {
       setTypeId(e.target.value);
+      setTypeInput(e.target.value);
     }
   };
 
@@ -212,6 +214,7 @@ const ShopInformation = () => {
       <TypeField
         label="Shop Type"
         value={type}
+        inputValue={typeInput}
         handleInputChange={handleTypeChange}
         isEditing={isTypeEditing}
         handleDelType={handleDeleteType}
