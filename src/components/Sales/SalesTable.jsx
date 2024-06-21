@@ -17,8 +17,7 @@ export default function SalesTable() {
     const value = event.target.value;
     setSelectedOption(value);
 
-    // Fetch data based on the selected option
-    await handleShowTable(value);
+     await handleShowTable(value);
   };
 
   const handleShowTable = async (option) => {

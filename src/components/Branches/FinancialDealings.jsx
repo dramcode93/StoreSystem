@@ -4,9 +4,11 @@ import { ChalkboardSimple } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-const Shop = () => {
+const FinancialDealings = () => {
   const { language, t } = useI18nContext();
+  const { id } = useParams();
   const token = Cookies.get("token");
   const [loading, setLoading] = useState(true);
   const [debts, setDebts] = useState();
@@ -23,19 +25,20 @@ const Shop = () => {
     try {
       if (token) {
         try {
-          const shopResponse = await axios.get(
-            `https://store-system-api.gleeze.com/api/shops/myShop`,
+          const subShopResponse = await axios.get(
+            `https://store-system-api.gleeze.com/api/subShops/${id}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
-          setAllMoney(shopResponse.data.data.allMoney);
-          setProductsMoney(shopResponse.data.data.productsMoney);
-          setDebts(shopResponse.data.data.debts);
+          setAllMoney(subShopResponse.data.data.allMoney);
+          setProductsMoney(subShopResponse.data.data.productsMoney);
+          setDebts(subShopResponse.data.data.debts);
         } catch (error) {
-          console.error("Error fetching shop data:", error);
+          console.error("Error fetching sub shop data:", error);
         }
+  
         try {
           const dailyResponse = await axios.get(
-            `https://store-system-api.gleeze.com/api/sales/daily/thisDay`,
+            `https://store-system-api.gleeze.com/api/subSales/daily/thisDay?subShop=${id}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setDailyEarning(dailyResponse.data.data.earnings);
@@ -48,10 +51,10 @@ const Shop = () => {
             console.error("Error fetching daily sales data:", error);
           }
         }
-
+  
         try {
           const monthlyResponse = await axios.get(
-            `https://store-system-api.gleeze.com/api/sales/monthly/thisMonth`,
+            `https://store-system-api.gleeze.com/api/subSales/monthly/thisMonth?subShop=${id}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setMonthlyEarning(monthlyResponse.data.data.earnings);
@@ -64,10 +67,10 @@ const Shop = () => {
             console.error("Error fetching monthly sales data:", error);
           }
         }
-
+  
         try {
           const yearlyResponse = await axios.get(
-            `https://store-system-api.gleeze.com/api/sales/yearly/thisYear`,
+            `https://store-system-api.gleeze.com/api/subSales/yearly/thisYear?subShop=${id}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setYearlyEarning(yearlyResponse.data.data.earnings);
@@ -88,16 +91,19 @@ const Shop = () => {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, [token, id]);
+  
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
   const formatMoney = (value) => {
     if (value != null) {
       return (
         value.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " $"
       );
     }
+
     return "";
   };
 
@@ -201,4 +207,4 @@ const Shop = () => {
   );
 };
 
-export default Shop;
+export default FinancialDealings;

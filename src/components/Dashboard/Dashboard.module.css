@@ -3,7 +3,6 @@
      transition: all 0.5s;
     position: fixed;
         top: 0;
-        left: 0;
         bottom: 0;
         width: 260px;
         padding: 20px 0;
@@ -49,7 +48,9 @@
      -ms-transition: all 0.5s;
      -o-transition: all 0.5s;
     }
-
+.branch:hover{
+    background: transparent;
+}
  .icon,
  .link_text {
      font-size: 18px;

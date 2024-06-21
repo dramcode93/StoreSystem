@@ -8,21 +8,29 @@ import Actions from "./Actions";
 
 export default function FinancialTransactions() {
   const [selectedSalesId, setSelectedSalesId] = useState(null);
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState("all");
   const [transactionData, setTransactionData] = useState([]);
   const [error, setError] = useState(null);
+  const [selectedSubShop, setSelectedSubShop] = useState("");
+  const [subShops, setSubShops] = useState([]);
 
   const dropdownRefs = useRef({});
   const { t, language } = useI18nContext();
 
-  const handleSelectChange = async (event) => {
-    const value = event.target.value;
-    setSelectedOption(value);
+   useEffect(() => {
+    const fetchSubShops = async () => {
+      try {
+        const response = await axios.get("https://store-system-api.gleeze.com/api/subShops/list?sort=name&fields=name");
+        setSubShops(response.data.data);
+      } catch (error) {
+        console.error("Failed to fetch sub shops:", error);
+      }
+    };
 
-    await handleShowTable(value);
-  };
+    fetchSubShops();
+  }, []);
 
-  const handleShowTable = async (option) => {
+   const fetchTransactions = async (option, subShopId = "") => {
     let url;
     if (option === "all") {
       url = "https://store-system-api.gleeze.com/api/financialTransactions";
@@ -30,6 +38,10 @@ export default function FinancialTransactions() {
       url = "https://store-system-api.gleeze.com/api/financialTransactions?transaction=deposit";
     } else if (option === "withdraw") {
       url = "https://store-system-api.gleeze.com/api/financialTransactions?transaction=withdraw";
+    }
+
+    if (subShopId) {
+      url += `&subShopId=${subShopId}`;
     }
 
     try {
@@ -48,7 +60,21 @@ export default function FinancialTransactions() {
     }
   };
 
-  const handleClickOutside = (event, SalesId) => {
+   const handleSelectChange = async (event) => {
+    const value = event.target.value;
+    setSelectedOption(value);
+
+    await fetchTransactions(value, selectedSubShop);
+  };
+
+   const handleSubShopChange = async (event) => {
+    const value = event.target.value;
+    setSelectedSubShop(value);
+
+    await fetchTransactions(selectedOption, value);
+  };
+
+   const handleClickOutside = (event, SalesId) => {
     const dropdown = dropdownRefs.current[SalesId];
 
     if (
@@ -72,17 +98,17 @@ export default function FinancialTransactions() {
     };
   }, [selectedSalesId]);
 
-  const formatDate = (dateString) => {
+   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString();
   };
 
-  const [openCreate, setOpenCreate] = useState(false);
+   const [openCreate, setOpenCreate] = useState(false);
   const toggleOpenCreateModal = () => {
     setOpenCreate(!openCreate);
   };
 
-  return ( 
+  return (
     <div>
       <Actions
         closeModal={toggleOpenCreateModal}
@@ -95,18 +121,29 @@ export default function FinancialTransactions() {
               <div className="w-full md:w-1/2">
                 <form className="d-flex items-center">
                   <div className="w-full sm:grid-cols-3">
-                    <div>
-                      <FormSelect
-                        selectLabel={t("Transactions.type")}
-                        headOption={t("Transactions.SelectAnOption")}
-                        options={[
-                          { value: "all", label: t("Transactions.all") },
-                          { value: "deposit", label: t("Transactions.deposit") },
-                          { value: "withdraw", label: t("Transactions.withdraw") },
-                        ]}
-                        handleChange={handleSelectChange}
-                        value={selectedOption}
-                      />
+                    <div className="flex items-center justify-content-evenly gap-5 w-full sm:grid-cols-3">
+                      <div>
+                        <FormSelect
+                          selectLabel={t("Sales.subShop")}
+                          headOption={t("Sales.SelectAnOption")}
+                          options={subShops.map(shop => ({ value: shop._id, label: shop.name }))}
+                          handleChange={handleSubShopChange}
+                          value={selectedSubShop}
+                        />
+                      </div>
+                      <div>
+                        <FormSelect
+                          selectLabel={t("Transactions.type")}
+                          headOption={t("Transactions.SelectAnOption")}
+                          options={[
+                            { value: "all", label: t("Transactions.all") },
+                            { value: "deposit", label: t("Transactions.deposit") },
+                            { value: "withdraw", label: t("Transactions.withdraw") },
+                          ]}
+                          handleChange={handleSelectChange}
+                          value={selectedOption}
+                        />
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -122,7 +159,7 @@ export default function FinancialTransactions() {
                     dark:bg-orange-300 dark:hover:bg-orange-500 dark:text-orange-800
                     dark:hover:text-white
                     focus:outline-none dark:focus:ring-orange-800"
-                 >
+                >
                   {t(`Shop.Actions`)}
                   <Plus size={18} weight="bold" />
                 </button>

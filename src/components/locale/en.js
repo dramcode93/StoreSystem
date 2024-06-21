@@ -11,6 +11,7 @@ const en = {
     coupons: "coupons",
     orders: "orders",
     Sales: "Sales",
+    subSales: "Branches Sales",
     FinancialTransactions: "Financial Transactions",
     Revenue: "Revenue",
     Growth: "Growth",
@@ -233,6 +234,7 @@ const en = {
      Sales: "Sales",
      Earnings: "Earnings",
      Search: "Search",
+         subShop: "subShop",
      SelectAnOption: "Select An Option",
    },
      Transactions: {
@@ -248,6 +250,7 @@ const en = {
     withdraw: "withdraw",
     deposit: "deposit",
     all: "all",
+    type: "type",
    },
       Shop: {
      TotalMoney: "Total Money",

@@ -21,6 +21,8 @@ export default function Actions({ closeModal, modal }) {
   const [money, setMoney] = useState("");
   const [reason, setReason] = useState("");
   const [transaction, setTransaction] = useState("");
+  const [selectedSubShop, setSelectedSubShop] = useState("");
+  const [subShops, setSubShops] = useState([]);
 
   const transactionOptions = [
     { value: "withdraw", label: "Withdraw" },
@@ -46,8 +48,22 @@ export default function Actions({ closeModal, modal }) {
       console.error("Error adding transaction:", error);
     }
   };
+  const handleSubShopChange = async (event) => {
+    const value = event.target.value;
+    setSelectedSubShop(value);
+  };
+  useEffect(() => {
+    const fetchSubShops = async () => {
+      try {
+        const response = await axios.get("https://store-system-api.gleeze.com/api/subShops/list?sort=name&fields=name");
+        setSubShops(response.data.data);
+      } catch (error) {
+        console.error("Failed to fetch sub shops:", error);
+      }
+    };
 
-
+    fetchSubShops();
+  }, []);
   return (
     <>
       <div
@@ -113,7 +129,15 @@ export default function Actions({ closeModal, modal }) {
                 value={transaction}
                 name="transaction"
               />
-
+                <div>
+                  <FormSelect
+                    selectLabel={t("Sales.subShop")}
+                    headOption={t("Sales.SelectAnOption")}
+                    options={subShops.map(shop => ({ value: shop._id, label: shop.name }))}
+                    handleChange={handleSubShopChange}
+                    value={selectedSubShop}
+                  />
+                </div>
               <div className="col-span-2 flex justify-center">
                 <button
                   disabled={!money || !transaction || !reason}
