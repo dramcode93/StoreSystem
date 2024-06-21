@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { X } from "@phosphor-icons/react";
 import FormInput from "../../form/FormInput";
 import { useI18nContext } from "../context/i18n-context";
 import FormSelect from "../../form/FormSelect";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useParams } from "react-router-dom";
 
-export default function AddressLoggedUser({ closeModal, role, modal }) {
+export default function EditAddress({ closeModal, role, modal, addressData }) {
   useEffect(() => {}, []);
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -14,14 +15,45 @@ export default function AddressLoggedUser({ closeModal, role, modal }) {
     }
   };
 
+  console.log(addressData);
+  console.log("mod", modal);
+  const { id } = useParams();
+
   const { language } = useI18nContext();
   const token = Cookies.get("token");
-  const [street, setStreet] = useState("");
-  const [selectedGovernorate, setSelectedGovernorate] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
+  const [street, setStreet] = useState();
+  const [selectedGovernorate, setSelectedGovernorate] = useState();
+  const [selectedCity, setSelectedCity] = useState();
   const [governorates, setGovernorates] = useState([]);
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // const fetchData = useCallback(async () => {
+  //   try {
+  //     if (token) {
+  //       const shopResponse = await axios.get(
+  //         `https://store-system-api.gleeze.com/api/subShops/${id}`,
+  //         { headers: { Authorization: `Bearer ${token}` } }
+  //       );
+  //       const {
+  //         address,
+  //       } = shopResponse.data.data;
+  //       setStreet(address.street)
+  //       setSelectedCity(address.city)
+  //       setSelectedGovernorate(address.governorate)
+  //     } else {
+  //       console.error("No token found.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching sub shop address:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, [token,id]);
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, [fetchData]);
 
   useEffect(() => {
     const fetchGovernorates = async () => {
@@ -31,13 +63,29 @@ export default function AddressLoggedUser({ closeModal, role, modal }) {
         );
         setGovernorates(response.data.data);
         setLoading(false);
+
+        if (modal) {
+          if (addressData) {
+            // addressData.address.forEach((address) => {
+            //   fetchCities(address.governorate._id);
+            // });
+            const { governorate, city, street } = addressData;
+            setSelectedGovernorate(governorate?._id);
+            setSelectedCity(city?._id);
+            setStreet(street);
+            fetchCities(governorate?._id)
+            console.log(selectedCity)
+            console.log(selectedGovernorate)
+            console.log(street)
+          }
+        }
       } catch (error) {
         console.error("Error fetching governorates:", error);
         setLoading(false);
       }
     };
     fetchGovernorates();
-  }, []);
+  }, [addressData,modal]);
 
   const fetchCities = async (governorateId) => {
     try {
@@ -62,7 +110,7 @@ export default function AddressLoggedUser({ closeModal, role, modal }) {
     try {
       const response = await axios
         .put(
-          "https://store-system-api.gleeze.com/api/Users/addAddress",
+          `https://store-system-api.gleeze.com/api/subShops/${id}`,
           {
             address: {
               governorate: selectedGovernorate,
@@ -73,7 +121,7 @@ export default function AddressLoggedUser({ closeModal, role, modal }) {
           { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((response) => {
-          window.location.href = "/information";
+          window.location.href = `/branch/${id}/information`;
         });
       console.log("Customer added successfully:", response.data);
       closeModal();
@@ -104,7 +152,7 @@ export default function AddressLoggedUser({ closeModal, role, modal }) {
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
             >
               <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                Add New Address
+                Edit Address
               </h3>
               <button
                 type="button"
@@ -141,30 +189,30 @@ export default function AddressLoggedUser({ closeModal, role, modal }) {
                 value={selectedGovernorate}
                 name="governorate"
               />
-              {selectedGovernorate ? (
-                <FormSelect
-                  selectLabel="City"
-                  headOption="Select City"
-                  handleChange={(e) => {
-                    setSelectedCity(e.target.value);
-                  }}
-                  options={cities.map((city) => ({
-                    value: city._id,
-                    label:
-                      language === "ar" ? city.city_name_ar : city.city_name_en,
-                  }))}
-                  value={selectedCity}
-                  name="city"
-                />
-              ) : (
+              {/* {selectedGovernorate ? ( */}
+              <FormSelect
+                selectLabel="City"
+                headOption="Select City"
+                handleChange={(e) => {
+                  setSelectedCity(e.target.value);
+                }}
+                options={cities.map((city) => ({
+                  value: city._id,
+                  label:
+                    language === "ar" ? city.city_name_ar : city.city_name_en,
+                }))}
+                value={selectedCity}
+                name="city"
+              />
+              {/* ) : (
                 <div className="w-80"></div>
-              )}
+              )} */}
               <div className=" flex justify-center mt-9">
                 <button
                   disabled={!selectedGovernorate || !selectedCity || !street}
                   className="bg-yellow-900 w-96 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
                 >
-                  Add Address +
+                  Edit Address
                 </button>
                 <div>&nbsp;</div>
               </div>

@@ -4,7 +4,7 @@ import Home from "./components/Home/Home.jsx";
 import Products from "./components/Products/Products.jsx";
 import Login from "./components/Login/Login.jsx";
 import { jwtDecode } from "jwt-decode";
-import Dashboard from "./components/Dashboard/Dashboard.jsx"
+import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import ForgotPassword1 from "./components/ForgetPass/ForgetPass1.jsx";
 import ForgotPassword2 from "./components/ForgetPass/ForgetPass2.jsx";
 import ForgotPassword3 from "./components/ForgetPass/ForgetPass3.jsx";
@@ -23,7 +23,7 @@ import { UserInfo } from "./components/profile/UserInfo.jsx";
 import User from "./components/profile/Users.jsx";
 import UserBill from "./components/Bills/UserBill.jsx";
 import SignUp from "./components/Signup/Signup.jsx";
- import PreviewProduct from "./components/BestSeller/PreviewProduct.jsx";
+import PreviewProduct from "./components/BestSeller/PreviewProduct.jsx";
 import Cart from "./components/BestSeller/Cart.jsx";
 import Shops from "./components/BestSeller/Shops.jsx";
 import ShopProduct from "./components/BestSeller/ShopProduct.jsx";
@@ -34,13 +34,14 @@ import ShopInformation from "./components/Shop/ShopInformation.jsx";
 import Order from "./components/orders/Order.jsx";
 import OrdersTable from "./components/orders/OrdersTable.jsx";
 import CouponsTable from "./components/copouns/copounsTable.jsx";
+import BranchInformation from "./components/Branches/BranchInfo.jsx";
+import FinancialDealings from "./components/Branches/FinancialDealings.jsx";
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
   const [role, setRole] = useState("");
-  const token = Cookies.get('token');
-
+  const token = Cookies.get("token");
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -49,7 +50,7 @@ const App = () => {
           "https://store-system-api.gleeze.com/api/Users/getMe",
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setRole(response.data.data.role)
+        setRole(response.data.data.role);
       } catch (error) {
         console.error("Error fetching :", error);
       }
@@ -59,7 +60,7 @@ const App = () => {
 
   useEffect(() => {
     const checkToken = async () => {
-      const token = Cookies.get('token');
+      const token = Cookies.get("token");
 
       if (token) {
         try {
@@ -68,28 +69,37 @@ const App = () => {
 
           if (isExpired) {
             setTokenExpired(true);
-            Cookies.remove('token');
+            Cookies.remove("token");
             return 0;
           } else {
             setLoggedIn(true);
-            if (window.location.pathname === '/') {
-              window.location.href = '/home';
+            if (window.location.pathname === "/") {
+              window.location.href = "/home";
             }
           }
 
           const expirationThreshold = 24 * 60 * 60;
           if (decodedToken.exp - Date.now() / 1000 < expirationThreshold) {
             try {
-              const response = await axios.get('https://store-system-api.gleeze.com/api/auth/refreshToken', { headers: { Authorization: `Bearer ${token}` } });
+              const response = await axios.get(
+                "https://store-system-api.gleeze.com/api/auth/refreshToken",
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
               const newToken = response.data.token;
-              const tokenTime = 2
-              Cookies.set('token', newToken, { expires: tokenTime, secure: true, sameSite: 'strict' });
-            } catch (error) { console.error('Error refreshing token:', error); }
+              const tokenTime = 2;
+              Cookies.set("token", newToken, {
+                expires: tokenTime,
+                secure: true,
+                sameSite: "strict",
+              });
+            } catch (error) {
+              console.error("Error refreshing token:", error);
+            }
           }
         } catch (error) {
-          console.error('Error decoding token:', error);
+          console.error("Error decoding token:", error);
           setTokenExpired(true);
-          Cookies.remove('token');
+          Cookies.remove("token");
         }
       }
     };
@@ -106,8 +116,13 @@ const App = () => {
   return (
     <BrowserRouter>
       <MyComponent />
-      <div className="flex items-start justify-center" dir={language === "ar" ? "rtl" : "ltr"}>
-        {isLoggedIn && !isTokenExpired && <Dashboard dir={language === "ar" ? "rtl" : "ltr"} />}
+      <div
+        className="flex items-start justify-center"
+        dir={language === "ar" ? "rtl" : "ltr"}
+      >
+        {isLoggedIn && !isTokenExpired && (
+          <Dashboard dir={language === "ar" ? "rtl" : "ltr"} />
+        )}
         <div className="flex-grow">
           <Routes>
             <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
@@ -118,23 +133,43 @@ const App = () => {
 
             {isLoggedIn && !isTokenExpired && (
               <>
-                {role === "customer" ? <Route path="/home" element={<Shops />} />
-                  : <Route path="/home" element={<Home />} />}
+                {role === "customer" ? (
+                  <Route path="/home" element={<Shops />} />
+                ) : (
+                  <Route path="/home" element={<Home />} />
+                )}
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/shops" element={<Shops />} />
                 <Route path="/shopInformation" element={<ShopInformation />} />
+                <Route
+                  path="//branch/:id/information"
+                  element={<BranchInformation />}
+                />
+                <Route
+                  path="//branch/:id/financial"
+                  element={<FinancialDealings />}
+                />
                 <Route path="/order" element={<Order />} />
                 <Route path="/orders" element={<OrdersTable />} />
                 <Route path="/coupons" element={<CouponsTable />} />
                 <Route path="/category" element={<Category />} />
-                <Route path="/changeUserPassword/:id" element={<ChangeUserPassword />} />
-                <Route path="/previewProduct/:id" element={<PreviewProduct />} />
+                <Route
+                  path="/changeUserPassword/:id"
+                  element={<ChangeUserPassword />}
+                />
+                <Route
+                  path="/previewProduct/:id"
+                  element={<PreviewProduct />}
+                />
                 <Route path="/shopProduct/:id" element={<ShopProduct />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/SalesTable" element={<SalesTable />} />
-                <Route path="/FinancialTransactions" element={<FinancialTransactions />} />
+                <Route
+                  path="/FinancialTransactions"
+                  element={<FinancialTransactions />}
+                />
                 <Route path="/bills" element={<Bills />} />
                 <Route path="/information" element={<UserInfo />} />
                 <Route path="/change-password" element={<ChangPassword />} />

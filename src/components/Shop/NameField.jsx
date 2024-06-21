@@ -34,7 +34,7 @@ const NameField = ({
         <>
           {value}
           <FiEdit
-            className={`${label === "Username" ? "hidden" : "block"}`}
+            className={`${label === "Username" ? "hidden" : "block"} `}
             onClick={() => handleEditToggle(label.toLowerCase())}
           />
         </>
