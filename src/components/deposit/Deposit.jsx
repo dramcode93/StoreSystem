@@ -30,18 +30,22 @@ export default function FinancialTransactions() {
     fetchSubShops();
   }, []);
 
-  const fetchTransactions = async (option, subShops = "") => {
-    let url;
-    if (option === "all") {
-      url = "https://store-system-api.gleeze.com/api/financialTransactions";
-    } else if (option === "deposit") {
-      url = "https://store-system-api.gleeze.com/api/financialTransactions?transaction=deposit";
+  const fetchTransactions = async (option, subShopId = "") => {
+    let url = "https://store-system-api.gleeze.com/api/financialTransactions";
+
+    const params = [];
+    if (option === "deposit") {
+      params.push("transaction=deposit");
     } else if (option === "withdraw") {
-      url = "https://store-system-api.gleeze.com/api/financialTransactions?transaction=withdraw";
+      params.push("transaction=withdraw");
     }
 
-    if (subShops) {
-      url += `&subShop=${encodeURIComponent(subShops)}`;
+    if (subShopId && subShopId !== "all") {
+      params.push(`subShop=${encodeURIComponent(subShopId)}`);
+    }
+
+    if (params.length > 0) {
+      url += "?" + params.join("&");
     }
 
     try {
@@ -65,6 +69,7 @@ export default function FinancialTransactions() {
     }
   };
 
+
   const handleSelectChange = async (event) => {
     const value = event.target.value;
     setSelectedOption(value);
@@ -76,10 +81,7 @@ export default function FinancialTransactions() {
     const subShopId = event.target.value;
     setSelectedSubShop(subShopId);
 
-    const selectedSubShopObject = subShops.find((shop) => shop._id === subShopId);
-    const subShopName = selectedSubShopObject ? selectedSubShopObject.name : "";
-
-    await fetchTransactions(selectedOption, subShopName);
+    await fetchTransactions(selectedOption, subShopId);
   };
 
   const handleClickOutside = (event, SalesId) => {
@@ -130,11 +132,14 @@ export default function FinancialTransactions() {
                       <div>
                         <FormSelect
                           selectLabel={t("Sales.subShop")}
-                          headOption={t("Sales.SelectAnOption")} selectedOption
-                          options={subShops.map((shop) => ({
-                            value: shop._id,
-                            label: shop.name,
-                          }))}
+                          headOption={t("Sales.SelectAnOption")}
+                          options={[
+                            { value: "all", label: t("Transactions.AllSubShops") },
+                            ...subShops.map((shop) => ({
+                              value: shop._id,
+                              label: shop.name,
+                            })),
+                          ]}
                           handleChange={handleSubShopChange}
                           value={selectedSubShop}
                         />

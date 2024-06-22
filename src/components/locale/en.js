@@ -253,6 +253,7 @@ const en = {
     type: "type",
     subShop: "subShop",
     shop: "base shop",
+    AllSubShops: "All Sub Shops",
    },
       Shop: {
      TotalMoney: "Total Money",
