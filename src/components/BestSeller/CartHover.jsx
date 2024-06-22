@@ -53,8 +53,8 @@ const CartHover = () => {
                             {products.cartItems.map((cartItem, index) => (
                                 <div key={index} className='flex m-2 bg-gray-200 p-1 gap-2 bg-opacity-25 rounded-xl'>
                                     <img
-                                        src={cartItem.product.images[0]}
-                                        alt={cartItem.product.name}
+                                        src={cartItem.product?.images[0]}
+                                        alt={cartItem.product?.name}
                                         crossOrigin="anonymous"
                                         className='object-cover w-20 rounded-xl h-20 transition-transform duration-300 transform bg-white'
                                     />

@@ -67,15 +67,15 @@ const BestSeller = () => {
                         {products.map((product) => (
                             <div key={product._id} className='w-80 h-80 bg-gray-500 bg-opacity-25 m-3 rounded-xl overflow-hidden relative '>
                                 <img
-                                    src={product.images[0]}
-                                    alt={product.name}
+                                    src={product?.images[0]}
+                                    alt={product?.name}
                                     crossOrigin="anonymous"
                                     className='object-cover border-spacing-2 border-blue-500 rounded-lg w-1/2 mx-auto mt-2 h-1/3 bg-white transition-transform duration-300 transform hover:scale-110'
                                 />
                                 <div>
                                     <p className='text-center mt-2 text-white text-xl font-bold'>{product.name}</p>
-                                    <p className='text-white text-center text-xl font-bold'>{product.sellingPrice}$</p>
-                                    <p className='text-white text-center text-xl font-bold'>{product.shop.name}</p>
+                                    <p className='text-white text-center text-xl font-bold'>{product?.sellingPrice}$</p>
+                                    <p className='text-white text-center text-xl font-bold'>{product?.shop.name}</p>
                                 </div>
                                 <div className='flex justify-center mb-5 mx-2'>
                                     <button

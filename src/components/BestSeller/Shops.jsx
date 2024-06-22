@@ -73,18 +73,18 @@ const Shops = () => {
                             {shops.map((shop) => (
                                 <div key={shop._id} className='bg-gray-500 p-2 w-72 h-96 bg-opacity-25 rounded-xl overflow-hidden relative m-3'>
                                     <img
-                                        src={shop.image}
-                                        alt={shop.name}
+                                        src={shop?.image}
+                                        alt={shop?.name}
                                         crossOrigin="anonymous"
                                         className='object-cover border-spacing-2 border-blue-500 rounded-lg w-36 mx-auto mt-2 h-36 bg-white transition-transform duration-300 transform'
                                     />
                                     <div>
-                                        <h3 className='mt-2 text-white font-bold text-center'>{shop.name}</h3>
+                                        <h3 className='mt-2 text-white font-bold text-center'>{shop?.name}</h3>
                                         <h4 className='mt-2 text-white font-bold text-center'>
                                             Type:
                                         </h4>
                                         <h4 className='mt-2 text-white font-bold text-center'>
-                                            {shop.type.map((type) => language === "ar" ? type.type_ar : type.type_en).join(', ')}
+                                            {shop?.type.map((type) => language === "ar" ? type.type_ar : type.type_en).join(', ')}
                                         </h4>
                                     </div>
                                     <div className='flex justify-center mb-5 mx-2'>
