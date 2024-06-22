@@ -8,6 +8,7 @@ import EditAddress from "./EditAddress";
 import ActiveField from "./ActiveField";
 import { useParams } from "react-router-dom";
 import AddressField from "./AddressField";
+import PaymentField from "./PaymentField";
 
 const BranchInformation = () => {
   const token = Cookies.get("token");
@@ -23,8 +24,19 @@ const BranchInformation = () => {
   const [isDeletingPhone, setIsDeletingPhone] = useState(false);
   const [isAddingPhone, setIsAddingPhone] = useState(false);
 
+  const [isPaymentMethodEditing, setIsPaymentMethodEditing] = useState(false);
+  const [isDeletingPaymentMethod, setIsDeletingPaymentMethod] = useState(false);
+  const [isAddingPaymentMethod, setIsAddingPaymentMethod] = useState(false);
+
   const [phones, setPhones] = useState([]);
   const [phone, setPhone] = useState();
+
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [newPaymentMethod, setNewPaymentMethod] = useState({
+    name: "",
+    account: "",
+  });
+
   const [addresses, setAddresses] = useState([]);
   const [addressData, setAddressData] = useState();
   const [active, setActive] = useState("");
@@ -63,6 +75,7 @@ const BranchInformation = () => {
           shippingPriceInside,
           shippingPriceOutside,
           deliveryService,
+          onlinePaymentMethods,
         } = shopResponse.data.data;
         setShopName(name);
         setPhones(phone);
@@ -73,6 +86,7 @@ const BranchInformation = () => {
         setShippingPriceOutside(shippingPriceOutside);
         setDeliveryService(deliveryService);
         setDeliveryServiceFromAPI(deliveryService);
+        setPaymentMethods(onlinePaymentMethods);
       } else {
         console.error("No token found.");
       }
@@ -120,7 +134,6 @@ const BranchInformation = () => {
   };
 
   const handleDelPhone = async (delPhone) => {
-    console.log(delPhone);
     try {
       setIsDeletingPhone(true);
       if (token) {
@@ -152,7 +165,6 @@ const BranchInformation = () => {
   };
 
   const handleAddPhone = async () => {
-    console.log(phone);
     try {
       setIsAddingPhone(true);
       if (token) {
@@ -170,6 +182,66 @@ const BranchInformation = () => {
     } catch (error) {
       console.error("Error adding phone:", error.response);
       setIsAddingPhone(false);
+    }
+  };
+
+  const handleDelPaymentMethod = async (delMethod) => {
+    console.log(delMethod);
+    try {
+      setIsDeletingPaymentMethod(true);
+      if (token) {
+        const response = await axios.delete(
+          `https://store-system-api.gleeze.com/api/subShops/${id}/payment`,
+          {
+            data: { onlinePaymentMethods: delMethod },
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setIsDeletingPaymentMethod(false);
+        fetchData();
+        setIsPaymentMethodEditing(false);
+      } else {
+        console.error("No token found.");
+      }
+    } catch (error) {
+      console.error("Error deleting Payment Method:", error);
+      setIsDeletingPaymentMethod(false);
+    }
+  };
+
+  const handlePaymentMethodChange = (e) => {
+    const { name, value } = e.target;
+    setNewPaymentMethod((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handlePaymentMethodAddToggle = () => {
+    setIsPaymentMethodEditing(!isPaymentMethodEditing);
+  };
+
+  const handleAddPaymentMethod = async () => {
+    try {
+      console.log(newPaymentMethod)
+              // Vodafone Cash
+        // 01091548180
+      setIsAddingPaymentMethod(true);
+      if (token) {
+        const response = await axios.put(
+          `https://store-system-api.gleeze.com/api/subShops/${id}/payment`,
+          { onlinePaymentMethods: newPaymentMethod },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setIsAddingPaymentMethod(false);
+        fetchData();
+        setIsPaymentMethodEditing(false);
+      } else {
+        console.error("No token found.");
+      }
+    } catch (error) {
+      console.error("Error adding online Payment Method", error.response);
+      setIsAddingPaymentMethod(false);
     }
   };
 
@@ -227,7 +299,7 @@ const BranchInformation = () => {
 
   const handleActiveChange = (e) => {
     setActive(e.target.value);
-    setActiveInput(e.target.value)
+    setActiveInput(e.target.value);
   };
 
   const handleAddActiveToggle = () => {
@@ -261,7 +333,7 @@ const BranchInformation = () => {
   };
   const handleDeliveryServiceChange = (e) => {
     setDeliveryService(e.target.value);
-    setDeliveryServiceInput(e.target.value)
+    setDeliveryServiceInput(e.target.value);
   };
 
   const handleAddDeliveryServiceToggle = () => {
@@ -289,7 +361,6 @@ const BranchInformation = () => {
       setLoading(false);
     }
   };
-
 
   return (
     <section
@@ -332,7 +403,17 @@ const BranchInformation = () => {
         isLoading={isDeletingPhone || isAddingPhone}
         handleAddToggle={handlePhoneAddToggle}
       />
-
+      <PaymentField
+        label="Payment Method"
+        value={paymentMethods}
+        handleInputChange={handlePaymentMethodChange}
+        isEditing={isPaymentMethodEditing}
+        handleDelPaymentMethod={handleDelPaymentMethod}
+        handleAddPaymentMethod={handleAddPaymentMethod}
+        isLoading={isDeletingPaymentMethod || isAddingPaymentMethod}
+        handleAddToggle={handlePaymentMethodAddToggle}
+        newPaymentMethod={newPaymentMethod}
+      />
       <AddressField
         label={t("Information.Address")}
         values={addresses}

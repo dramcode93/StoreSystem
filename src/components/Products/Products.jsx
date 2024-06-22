@@ -4,10 +4,12 @@ import ProductsTable from "./ProductsTable";
 import UpdateProduct from "./updateProduct";
 import PreviewProduct from "./PreviewProduct";
 import TransportProduct from "./TransportProduct";
+import UpdateProductQuantity from "./EditQuantity";
 
 const Products = ({ role }) => {
   const [openCreate, setOpenCreate] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [openEditQuantity, setOpenEditQuantity] = useState(false);
   const [openTransport, setOpenTransport] = useState(false);
   const [selectedProductData, setSelectedProductData] = useState({});
   const [selectedAssistantData, setSelectedAssistantData] = useState({});
@@ -18,6 +20,10 @@ const Products = ({ role }) => {
   };
   const toggleOpenEditModal = (selectedProduct) => {
     setOpenEdit(!openEdit);
+    setSelectedProductData(selectedProduct);
+  };
+  const toggleOpenEditQuantityModal = (selectedProduct) => {
+    setOpenEditQuantity(!openEditQuantity);
     setSelectedProductData(selectedProduct);
   };
   const toggleOpenTransportModal = (selectedProduct) => {
@@ -47,6 +53,12 @@ const Products = ({ role }) => {
         role={role}
         productData={selectedProductData}
       />
+      <UpdateProductQuantity
+        closeModal={toggleOpenEditQuantityModal}
+        modal={openEditQuantity}
+        role={role}
+        productData={selectedProductData}
+      />
       <TransportProduct
         closeModal={toggleOpenTransportModal}
         modal={openTransport}
@@ -58,6 +70,7 @@ const Products = ({ role }) => {
         openCreate={toggleOpenCreateModal}
         openPreview={toggleOpenPreviewModal}
         openTransport={toggleOpenTransportModal}
+        openEditQuantity={toggleOpenEditQuantityModal}
       />
     </>
   );

@@ -15,8 +15,6 @@ export default function EditAddress({ closeModal, role, modal, addressData }) {
     }
   };
 
-  console.log(addressData);
-  console.log("mod", modal);
   const { id } = useParams();
 
   const { language } = useI18nContext();
@@ -74,9 +72,6 @@ export default function EditAddress({ closeModal, role, modal, addressData }) {
             setSelectedCity(city?._id);
             setStreet(street);
             fetchCities(governorate?._id)
-            console.log(selectedCity)
-            console.log(selectedGovernorate)
-            console.log(street)
           }
         }
       } catch (error) {
