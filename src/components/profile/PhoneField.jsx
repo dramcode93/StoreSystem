@@ -3,6 +3,7 @@ import { MdDelete } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { FaRegSave } from "react-icons/fa";
 import Loading from "../Loading/Loading";
+import FormNumber from "../../form/FormNumber";
 
 const PhoneField = ({
   label,
@@ -34,11 +35,17 @@ const PhoneField = ({
               ))}
             {isEditing ? (
               <div>
-                <input
+                {/* <input
                   name={label.toLowerCase()}
                   className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
                   onChange={handleInputChange}
-                />
+                /> */}
+                <div className="mr-52">
+                  <FormNumber
+                    placeholder={label}
+                    onChange={handleInputChange}
+                  />
+                </div>
                 <FaRegSave onClick={handleAddPhone} className="text-2xl mt-2" />
               </div>
             ) : (

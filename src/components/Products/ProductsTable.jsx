@@ -17,7 +17,7 @@ import { useI18nContext } from "../context/i18n-context";
 const API_URL = "https://store-system-api.gleeze.com/api/products";
 const API_category = "https://store-system-api.gleeze.com/api/categories/list";
 
-const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport }) => {
+const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport,openEditQuantity }) => {
   const token = Cookies.get("token");
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -111,13 +111,16 @@ const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport }) => {
   }, []);
 
   const dropdownRefs = useRef({});
+
   const handleEditProduct = (product) => {
     openEdit(product);
+  };
+  const handleEditQuantity = (product) => {
+    openEditQuantity(product);
   };
   const handleTransportProduct = (product) => {
     openTransport(product);
   };
-
   const handlePreviewCategory = (product) => {
     openPreview(product);
   };
@@ -280,6 +283,16 @@ const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport }) => {
                               >
                                 <NotePencil size={18} weight="bold" />
                                 {t("Category.Edit")}
+                              </button>
+                            </li>
+                            <li className="">
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3  fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                onClick={() => handleEditQuantity(product)}
+                              >
+                                <NotePencil size={18} weight="bold" />
+                                Edit Quantity
                               </button>
                             </li>
                             <li className="">

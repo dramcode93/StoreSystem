@@ -7,90 +7,116 @@ import FormNumber from "../../form/FormNumber";
 import FormText from "../../form/FormText";
 import { X } from "@phosphor-icons/react";
 import FormSelect from "../../form/FormSelect";
+import Loading from "../Loading/Loading";
 
-function TransportProduct({ closeModal, role, modal, productData }) {
-  //   const { id } = useParams();
+function UpdateProductQuantity({ closeModal, role, modal, productData }) {
+  const { id } = useParams();
 
-  const [transportQuantity, setTransportQuantity] = useState("");
+  const [selectedBranchQuantity, setSelectedBranchQuantity] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [token] = useState(Cookies.get("token"));
   const { t, language } = useI18nContext();
   const [branches, setBranches] = useState([]);
-  const [allBranches, setAllBranches] = useState([]);
-  const [fromBranch, setFromBranch] = useState("");
-  const [toBranch, setToBranch] = useState("");
+  const [selectedBranch, setSelectedBranch] = useState("");
   const [subShops, setSubShops] = useState([]);
 
   useEffect(() => {
     const fetchBranches = async () => {
+      
       if (token) {
         try {
+          setIsLoading(true)
           const response = await axios.get(
             "https://store-system-api.gleeze.com/api/subShops/list?sort=name&fields=name",
             { headers: { Authorization: `Bearer ${token}` } }
           );
           const fetchedBranches = response.data.data;
-          setAllBranches(fetchedBranches);
-          //   setBranches(fetchedBranches);
+          // setAllBranches(fetchedBranches);
+          setBranches(fetchedBranches);
+          setIsLoading(false)
         } catch (error) {
           console.error("Error fetching branches data:", error);
+          setIsLoading(false)
         }
       }
     };
     fetchBranches();
   }, [token]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
+
+        if(!productData){
+          setIsLoading(true)
+        }
         if (
           productData &&
           productData.subShops &&
           productData.subShops.length > 0
         ) {
           setSubShops(productData.subShops);
-          const branchesData = productData.subShops.map((shop) => ({
-            _id: shop.subShop,
-            name:
-              allBranches.find((branch) => branch._id === shop.subShop)?.name ||
-              "Unknown Branch",
-
-            quantity: shop.quantity,
-          }));
-          setBranches(branchesData);
+          setIsLoading(false)
         }
+        setIsLoading(false)
       } catch (error) {
         console.error("Error fetching product:", error);
+        setIsLoading(false)
+
       } finally {
         setIsLoading(false);
       }
     };
     fetchData();
-  }, [token, productData, modal, allBranches]);
+  }, [id, token, productData, modal]);
 
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
     try {
+      await updateSubShopQuantity();
+      closeModal();
+      window.location.href = "/products";
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
+  };
+
+  const handleBackgroundClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+
+    }
+  };
+
+  const handleBranchChange = (e) => {
+    const selectedBranchId = e.target.value;
+    setSelectedBranch(selectedBranchId);
+
+    if (subShops) {
+      const selectedBranchData = subShops.find(
+        (shop) => shop.subShop === selectedBranchId
+      );
+      setSelectedBranchQuantity(
+        selectedBranchData ? selectedBranchData.quantity : 0
+      );
+    }
+  };
+
+  const updateSubShopQuantity = async () => {
+    try {
       await axios.put(
-        `https://store-system-api.gleeze.com/api/products/${productData._id}/transportQuantity`,
+        `https://store-system-api.gleeze.com/api/products/${productData._id}/updateQuantity`,
         {
-          from: fromBranch,
-          to: toBranch,
-          quantity: transportQuantity,
+          subShops: {
+            subShop: selectedBranch,
+            quantity: selectedBranchQuantity,
+          },
         },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      closeModal();
-      window.location.href = "/products";
     } catch (error) {
-      console.error("Error transport quantity:", error);
-    }
-  };
-  const handleBackgroundClick = (e) => {
-    if (e.target === e.currentTarget) {
-      closeModal();
+      console.error("Error updating sub shop quantity:", error);
     }
   };
 
@@ -117,7 +143,7 @@ function TransportProduct({ closeModal, role, modal, productData }) {
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
             >
               <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                Transport Product
+                Edit Product Quantity
               </h3>
               <button
                 type="button"
@@ -128,60 +154,47 @@ function TransportProduct({ closeModal, role, modal, productData }) {
                 <span className="sr-only">Close modal</span>
               </button>
             </div>
-            <form
-              onSubmit={handleUpdateProduct}
-              className="fs-6 tracking-wider mt-4 p-0 gap-4 grid-cols-2"
-              dir={language === "ar" ? "rtl" : "ltr"}
-            >
-              <FormSelect
-                selectLabel="From Branch"
-                headOption="Select Branch"
-                handleChange={(e) => setFromBranch(e.target.value)}
-                options={branches.map((branch) => ({
-                  value: branch._id,
-                  label: (
-                    <span>
-                      {branch.name}{" "}
-                      <span style={{ color: "red" }}>
-                        Quantity: {branch.quantity}
-                      </span>
-                    </span>
-                  ),
-                }))}
-                value={fromBranch}
-                name="fromBranch"
-              />
-
-              <FormSelect
-                selectLabel="To Branch"
-                headOption="Select Branch"
-                handleChange={(e) => setToBranch(e.target.value)}
-                options={allBranches.map((branch) => ({
-                  value: branch._id,
-                  label: branch.name,
-                }))}
-                value={toBranch}
-                name="toBranch"
-              />
-              <FormNumber
-                label=" Quantity"
-                name="quantity"
-                value={transportQuantity}
-                onChange={(e) => {
-                  setTransportQuantity(e.target.value);
-                }}
-                placeholder="Quantity"
-              />
-
-              <div className="col-span-2 flex justify-center">
-                <button
-                  disabled={!toBranch || !fromBranch || !transportQuantity}
-                  className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
-                >
-                  Edit Product
-                </button>
-              </div>
-            </form>
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <form
+                onSubmit={handleUpdateProduct}
+                className="fs-6 tracking-wider mt-4 p-0 gap-4 grid-cols-2"
+                dir={language === "ar" ? "rtl" : "ltr"}
+              >
+                <FormSelect
+                  selectLabel="Branch"
+                  headOption="Select Branch"
+                  handleChange={handleBranchChange}
+                  options={branches.map((branch) => ({
+                    value: branch._id,
+                    label: branch.name,
+                  }))}
+                  value={selectedBranch}
+                  name="Branch"
+                />
+                <FormNumber
+                  label=" Selected Branch Quantity"
+                  name="quantity"
+                  value={selectedBranchQuantity}
+                  onChange={(e) => {
+                    setSelectedBranchQuantity(e.target.value);
+                  }}
+                  placeholder="Quantity"
+                />
+                <div className="col-span-2 flex justify-center">
+                  <button
+                    disabled={
+                      !selectedBranch ||
+                     ! selectedBranchQuantity
+                    }
+                    className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
+                  >
+                    Edit Product
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>
@@ -189,4 +202,4 @@ function TransportProduct({ closeModal, role, modal, productData }) {
   );
 }
 
-export default TransportProduct;
+export default UpdateProductQuantity;
