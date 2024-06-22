@@ -249,7 +249,7 @@ const Dashboard = ({ children }) => {
       if (token) {
         try {
           const response = await axios.get(
-            "https://store-system-api.gleeze.com/api/subShops",
+            "https://store-system-api.gleeze.com/api/subShops/list?sort=name&fields=name",
             { headers: { Authorization: `Bearer ${token}` } }
           );
           const fetchedBranches = response.data.data;
