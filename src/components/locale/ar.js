@@ -39,7 +39,7 @@ const ar = {
     Order: "اطلب",
     Customer: "العميل",
     ChangePassword: "تغيير كلمة السر",
-    Information: "بياناتي",
+    Informations: "بياناتي",
     Notifications: "إشعارات",
     Translate: "ترجم",
     LogOut: "تسجيل الخروج",
@@ -240,6 +240,7 @@ const ar = {
     all: "الكل",
     subShop: "الفرع",
     shop: "المحل الرئيسي",
+    AllSubShops: "الفروع الرئيسية",
    },
    Shop: {
      TotalMoney: " المال الكلي",
