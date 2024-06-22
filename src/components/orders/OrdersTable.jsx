@@ -58,7 +58,7 @@ const OrdersTable = ({ openPreview }) => {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setOrders(response.data.data);
-                console.log("bb",response.data.data)
+                console.log("bb", response.data.data)
             } else {
                 console.error("No token found.");
             }
@@ -74,17 +74,17 @@ const OrdersTable = ({ openPreview }) => {
     }, [fetchData]);
 
     const toggleEditDropdown = (orderId) => {
-        setSelectedOrderId((prevOrderId) => 
+        setSelectedOrderId((prevOrderId) =>
             prevOrderId === orderId ? null : orderId
-    );
+        );
     };
 
-  
+
     const handleSearch = (e) => {
         e.preventDefault();
         setSearchTerm(searchInput);
     };
-    
+
     const handleUpdatePay = async (id, newActiveStatus) => {
         try {
             const response = await axios.put(`${API_URL}/${id}/pay`, { active: newActiveStatus }, {
@@ -113,9 +113,9 @@ const OrdersTable = ({ openPreview }) => {
 
     const handleOrderPreview = (order) => {
         openPreview(order);
-        }
-        
-        
+    }
+
+
     return (
         <section className={`bg-gray-400 bg-opacity-5 dark:bg-gray-700 dark:bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
             <div className="flex justify-between">
@@ -130,7 +130,7 @@ const OrdersTable = ({ openPreview }) => {
                     <CiSearch
                         className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${language === "ar" ? "left-3" : "right-3"} cursor-pointer`}
                         onClick={handleSearch}
-                        />
+                    />
                 </div>
             </div>
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -174,7 +174,7 @@ const OrdersTable = ({ openPreview }) => {
                                             <td className="px-4 py-4">{order.isDelivered ? formatDate(order.deliveredAt) : '-'}</td>
                                             <td className="px-4 py-4">{order.paymentMethod}</td>
                                             <td className="px-4 py-4">{order.receivingMethod}</td>
-                                            <td className="px-4 py-3 flex items-center justify-end">
+                                            {role !== "customer" && <td className="px-4 py-3 flex items-center justify-end">
                                                 <button
                                                     className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                                                     type="button"
@@ -251,7 +251,7 @@ const OrdersTable = ({ openPreview }) => {
                                                         </ul>
                                                     </div>
                                                 </div>
-                                            </td>
+                                            </td>}
                                         </tr>
                                     </React.Fragment>
                                 ))
