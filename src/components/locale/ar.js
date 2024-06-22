@@ -238,6 +238,8 @@ const ar = {
     withdraw: "الايداع",
     deposit: "السحب",
     all: "الكل",
+    subShop: "الفرع",
+    shop: "المحل الرئيسي",
    },
    Shop: {
      TotalMoney: " المال الكلي",

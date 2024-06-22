@@ -8,7 +8,7 @@ import FormText from "../../form/FormText";
 import FormSelect from "../../form/FormSelect";
 
 export default function Actions({ closeModal, modal }) {
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -36,10 +36,11 @@ export default function Actions({ closeModal, modal }) {
       const response = await axios.post(
         "https://store-system-api.gleeze.com/api/financialTransactions",
         {
-        money:money,
-        transaction:transaction,
-        reason:reason
-          },
+          money: money,
+          transaction: transaction,
+          reason: reason,
+          subShop: selectedSubShop // Include the selected sub shop ID in the payload
+        },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       console.log("transaction successfully:", response.data);
@@ -48,10 +49,12 @@ export default function Actions({ closeModal, modal }) {
       console.error("Error adding transaction:", error);
     }
   };
+
   const handleSubShopChange = async (event) => {
     const value = event.target.value;
     setSelectedSubShop(value);
   };
+
   useEffect(() => {
     const fetchSubShops = async () => {
       try {
@@ -64,22 +67,22 @@ export default function Actions({ closeModal, modal }) {
 
     fetchSubShops();
   }, []);
+
   return (
     <>
       <div
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
-        fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center  items-center ${
-          modal ? "-right-1/2" : "-left-[100%]"
-        }
-         bg-opacity-40 w-full h-full `}
+                fixed top-1/2 -translate-x-1/2 -translate-y-1/2
+                z-50 justify-center  items-center ${modal ? "-right-1/2" : "-left-[100%]"
+          }
+                bg-opacity-40 w-full h-full `}
       >
         <div
           className={`w-full max-w-min 
-           bg-gray-800  rounded-r-xl duration-200 ease-linear
-           ${language === "ar" ? "absolute left-0" : "absolute right-0"}
-           h-screen overflow-auto`}
+                    bg-gray-800  rounded-r-xl duration-200 ease-linear
+                    ${language === "ar" ? "absolute left-0" : "absolute right-0"}
+                    h-screen overflow-auto`}
         >
           <div className="relative p-4 dark:bg-gray-800 sm:p-5">
             <div
@@ -87,8 +90,8 @@ export default function Actions({ closeModal, modal }) {
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
             >
               <h3 className="text-xl font-bold mr-3 text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                {t(`Shop.Actions`)}      
-                        </h3>
+                {t(`Shop.Actions`)}
+              </h3>
               <button
                 type="button"
                 onClick={closeModal}
@@ -129,18 +132,18 @@ export default function Actions({ closeModal, modal }) {
                 value={transaction}
                 name="transaction"
               />
-                <div>
-                  <FormSelect
-                    selectLabel={t("Sales.subShop")}
-                    headOption={t("Sales.SelectAnOption")}
-                    options={subShops.map(shop => ({ value: shop._id, label: shop.name }))}
-                    handleChange={handleSubShopChange}
-                    value={selectedSubShop}
-                  />
-                </div>
+              <div>
+                <FormSelect
+                  selectLabel={t("Sales.subShop")}
+                  headOption={t("Sales.SelectAnOption")}
+                  options={subShops.map(shop => ({ value: shop._id, label: shop.name }))}
+                  handleChange={handleSubShopChange}
+                  value={selectedSubShop}
+                />
+              </div>
               <div className="col-span-2 flex justify-center">
                 <button
-                  disabled={!money || !transaction || !reason}
+                  disabled={!money || !transaction || !reason || !selectedSubShop}
                   className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
                 >
                   Submit
