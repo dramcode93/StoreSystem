@@ -3,10 +3,12 @@ import AddProduct from "./AddProduct";
 import ProductsTable from "./ProductsTable";
 import UpdateProduct from "./updateProduct";
 import PreviewProduct from "./PreviewProduct";
+import TransportProduct from "./TransportProduct";
 
 const Products = ({ role }) => {
   const [openCreate, setOpenCreate] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [openTransport, setOpenTransport] = useState(false);
   const [selectedProductData, setSelectedProductData] = useState({});
   const [selectedAssistantData, setSelectedAssistantData] = useState({});
   const [openPreview, setOpenPreview] = useState(false);
@@ -16,6 +18,10 @@ const Products = ({ role }) => {
   };
   const toggleOpenEditModal = (selectedProduct) => {
     setOpenEdit(!openEdit);
+    setSelectedProductData(selectedProduct);
+  };
+  const toggleOpenTransportModal = (selectedProduct) => {
+    setOpenTransport(!openTransport)
     setSelectedProductData(selectedProduct);
   };
   const toggleOpenPreviewModal = (selectedAssistant) => {
@@ -41,10 +47,17 @@ const Products = ({ role }) => {
         role={role}
         productData={selectedProductData}
       />
+      <TransportProduct
+        closeModal={toggleOpenTransportModal}
+        modal={openTransport}
+        role={role}
+        productData={selectedProductData}
+      />
       <ProductsTable
         openEdit={toggleOpenEditModal}
         openCreate={toggleOpenCreateModal}
         openPreview={toggleOpenPreviewModal}
+        openTransport={toggleOpenTransportModal}
       />
     </>
   );

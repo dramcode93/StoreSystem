@@ -8,7 +8,7 @@ import Actions from "./Actions";
 
 export default function FinancialTransactions() {
   const [selectedSalesId, setSelectedSalesId] = useState(null);
-  const [selectedOption, setSelectedOption] = useState("all");
+  const [selectedOption, setSelectedOption] = useState("");
   const [transactionData, setTransactionData] = useState([]);
   const [error, setError] = useState(null);
   const [selectedSubShop, setSelectedSubShop] = useState("");
@@ -17,7 +17,7 @@ export default function FinancialTransactions() {
   const dropdownRefs = useRef({});
   const { t, language } = useI18nContext();
 
-   useEffect(() => {
+  useEffect(() => {
     const fetchSubShops = async () => {
       try {
         const response = await axios.get("https://store-system-api.gleeze.com/api/subShops/list?sort=name&fields=name");
@@ -30,7 +30,7 @@ export default function FinancialTransactions() {
     fetchSubShops();
   }, []);
 
-   const fetchTransactions = async (option, subShopId = "") => {
+  const fetchTransactions = async (option, subShops = "") => {
     let url;
     if (option === "all") {
       url = "https://store-system-api.gleeze.com/api/financialTransactions";
@@ -40,8 +40,8 @@ export default function FinancialTransactions() {
       url = "https://store-system-api.gleeze.com/api/financialTransactions?transaction=withdraw";
     }
 
-    if (subShopId) {
-      url += `&subShopId=${subShopId}`;
+    if (subShops) {
+      url += `&subShop=${encodeURIComponent(subShops)}`;
     }
 
     try {
@@ -51,30 +51,38 @@ export default function FinancialTransactions() {
           Authorization: `Bearer ${token}`,
         },
       });
-      setTransactionData(response.data.data);
-      setError(null);
-      document.getElementById("table").style.display = "table";
+
+      if (response.data && response.data.data) {
+        setTransactionData(response.data.data);
+        setError(null);
+        document.getElementById("table").style.display = "table";
+      } else {
+        setError("No data found");
+      }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
-      setError("You are not logged in! Please log in to get access.");
+      setError("Error fetching transactions. Please try again later.");
     }
   };
 
-   const handleSelectChange = async (event) => {
+  const handleSelectChange = async (event) => {
     const value = event.target.value;
     setSelectedOption(value);
 
     await fetchTransactions(value, selectedSubShop);
   };
 
-   const handleSubShopChange = async (event) => {
-    const value = event.target.value;
-    setSelectedSubShop(value);
+  const handleSubShopChange = async (event) => {
+    const subShopId = event.target.value;
+    setSelectedSubShop(subShopId);
 
-    await fetchTransactions(selectedOption, value);
+    const selectedSubShopObject = subShops.find((shop) => shop._id === subShopId);
+    const subShopName = selectedSubShopObject ? selectedSubShopObject.name : "";
+
+    await fetchTransactions(selectedOption, subShopName);
   };
 
-   const handleClickOutside = (event, SalesId) => {
+  const handleClickOutside = (event, SalesId) => {
     const dropdown = dropdownRefs.current[SalesId];
 
     if (
@@ -98,22 +106,19 @@ export default function FinancialTransactions() {
     };
   }, [selectedSalesId]);
 
-   const formatDate = (dateString) => {
+  const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString();
   };
 
-   const [openCreate, setOpenCreate] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
   const toggleOpenCreateModal = () => {
     setOpenCreate(!openCreate);
   };
 
   return (
     <div>
-      <Actions
-        closeModal={toggleOpenCreateModal}
-        modal={openCreate}
-      />
+      <Actions closeModal={toggleOpenCreateModal} modal={openCreate} />
       <section className={`mx-10 rounded-md py-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
         <div className="mx-auto max-w-screen-xl">
           <div>
@@ -125,8 +130,11 @@ export default function FinancialTransactions() {
                       <div>
                         <FormSelect
                           selectLabel={t("Sales.subShop")}
-                          headOption={t("Sales.SelectAnOption")}
-                          options={subShops.map(shop => ({ value: shop._id, label: shop.name }))}
+                          headOption={t("Sales.SelectAnOption")} selectedOption
+                          options={subShops.map((shop) => ({
+                            value: shop._id,
+                            label: shop.name,
+                          }))}
                           handleChange={handleSubShopChange}
                           value={selectedSubShop}
                         />
@@ -170,7 +178,11 @@ export default function FinancialTransactions() {
                 {error}
               </div>
             )}
-            <div className="overflow-x-auto w-100 mt-4 dark:bg-gray-800 relative shadow-md rounded-lg" id="table" style={{ display: "none" }}>
+            <div
+              className="overflow-x-auto w-100 mt-4 dark:bg-gray-800 relative shadow-md rounded-lg"
+              id="table"
+              style={{ display: "table" }}
+            >
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
                   <tr className="text-center fs-6 bg-gray-500 bg-opacity-25 dark:bg-gray-500 tracking-wide dark:bg-opacity-25 transition ease-out duration-200">
@@ -186,15 +198,26 @@ export default function FinancialTransactions() {
                     <th scope="col" className="px-5 py-3">
                       {t("Transactions.Reason")}
                     </th>
+                    <th scope="col" className="px-5 py-3">
+                      {t("Transactions.subShop")}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {transactionData.map((transaction, index) => (
-                    <tr key={index} className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200">
+                    <tr
+                      key={index}
+                      className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
+                    >
                       <td className="px-5 py-3">{transaction._id}</td>
-                      <td className="px-5 py-3">{formatDate(transaction.createdAt)}</td>
+                      <td className="px-5 py-3">
+                        {formatDate(transaction.createdAt)}
+                      </td>
                       <td className="px-5 py-3">{transaction.money}</td>
                       <td className="px-5 py-3">{transaction.reason}</td>
+                      <td className="px-5 py-3">
+                        {transaction.subShop ? transaction.subShop.name : t("Transactions.shop")}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

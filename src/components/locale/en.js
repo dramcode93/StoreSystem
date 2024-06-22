@@ -251,6 +251,8 @@ const en = {
     deposit: "deposit",
     all: "all",
     type: "type",
+    subShop: "subShop",
+    shop: "base shop",
    },
       Shop: {
      TotalMoney: "Total Money",

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
- import Cookies from "js-cookie";
+import Cookies from "js-cookie";
 import { useI18nContext } from "../context/i18n-context";
 import FormNumber from "../../form/FormNumber";
 import FormText from "../../form/FormText";
@@ -13,7 +13,8 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
 
   const [newProductName, setNewProductName] = useState("");
   const [newCategory, setNewCategory] = useState("");
-  const [newProductQuantity, setNewProductQuantity] = useState("");
+  // const [newProductQuantity, setNewProductQuantity] = useState("");
+  const [selectedBranchQuantity, setSelectedBranchQuantity] = useState("");
   const [newProductPrice, setNewProductPrice] = useState("");
   const [newSellingPrice, setNewSellingPrice] = useState("");
 
@@ -22,7 +23,29 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
   const [isLoading, setIsLoading] = useState(true);
   const [token] = useState(Cookies.get("token"));
   const { t, language } = useI18nContext();
-//  console.log(productData)
+  const [branches, setBranches] = useState([]);
+  const [allBranches, setAllBranches] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState("");
+  const [subShops, setSubShops] = useState([]);
+
+  useEffect(() => {
+    const fetchBranches = async () => {
+      if (token) {
+        try {
+          const response = await axios.get(
+            "https://store-system-api.gleeze.com/api/subShops/list?sort=name&fields=name",
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          const fetchedBranches = response.data.data;
+          setAllBranches(fetchedBranches);
+        } catch (error) {
+          console.error("Error fetching branches data:", error);
+        }
+      }
+    };
+    fetchBranches();
+  }, [token]);
+  //  console.log(productData)
   const API_category =
     "https://store-system-api.gleeze.com/api/categories/list";
 
@@ -47,13 +70,27 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
         // setSelectedCategoryId(productData.data.category._id); // Set category ID
         setCategories(categoriesData.data);
 
-        if (modal) {
+        if (modal && productData) {
           setNewProductName(productData.name);
           setNewCategory(productData.category?._id);
-          setNewProductQuantity(productData.quantity);
+          // setNewProductQuantity(productData.quantity);
           setNewProductPrice(productData.productPrice);
           setNewSellingPrice(productData.sellingPrice);
         }
+
+        if (
+          productData&&
+          productData.subShops &&
+          productData.subShops.length > 0 
+        ) {
+          setSubShops(productData.subShops);
+          const branchesData = productData.subShops.map((shop) => ({
+            _id: shop.subShop,
+            name: allBranches.find(branch => branch._id === shop.subShop)?.name || "Unknown Branch",
+          }));
+          setBranches(branchesData);
+        }
+
         // console.log('categoriesData',categoriesData.data)
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -62,43 +99,71 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
       }
     };
     fetchData();
-  }, [id, token, productData, modal]);
-  const handleUpdateProduct = (e) => {
+  }, [id, token, productData, modal,allBranches]);
+  const handleUpdateProduct = async (e) => {
     e.preventDefault();
-    axios
-      .put(
+    try {
+      await axios.put(
         `https://store-system-api.gleeze.com/api/products/${productData._id}`,
         {
           name: newProductName,
           productPrice: newProductPrice,
           sellingPrice: newSellingPrice,
-          quantity: newProductQuantity,
           category: newCategory,
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
-      )
-      .then((response) => {
-        window.location.href = "/products";
-      })
-      .catch((error) => {
-        console.error("Error updating products:", error);
-      });
+      );
+
+      await updateSubShopQuantity();
+      closeModal();
+
+      window.location.href = "/products";
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
   };
 
   if (isLoading) {
-    return (
-      <div>
-       Loading... {" "}
-      </div>
-    );
+    return <div>Loading... </div>;
   }
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
+    }
+  };
+
+  const handleBranchChange = (e) => {
+    const selectedBranchId = e.target.value;
+    setSelectedBranch(selectedBranchId);
+
+    if (subShops) {
+      const selectedBranchData = subShops.find(
+        (shop) => shop.subShop === selectedBranchId
+      );
+      setSelectedBranchQuantity(
+        selectedBranchData ? selectedBranchData.quantity : 0
+      );
+    }
+  };
+
+  const updateSubShopQuantity = async () => {
+    try {
+      await axios.put(
+        `https://store-system-api.gleeze.com/api/products/${productData._id}/updateQuantity`,
+        {
+          subShops: {
+            subShop: selectedBranch,
+            quantity: selectedBranchQuantity,
+          },
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+    } catch (error) {
+      console.error("Error updating sub shop quantity:", error);
     }
   };
   return (
@@ -107,13 +172,15 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
         fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${modal ? "-right-1/2" : "-left-[100%]"}
+        z-50 justify-center items-center ${
+          modal ? "-right-1/2" : "-left-[100%]"
+        }
          bg-opacity-40 w-full h-full `}
       >
         <div
           className={`w-full max-w-min 
            dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
-           ${language === 'ar' ? "absolute left-0" : "absolute right-0"}
+           ${language === "ar" ? "absolute left-0" : "absolute right-0"}
            h-screen overflow-auto`}
         >
           <div className="relative p-4 dark:bg-gray-800 sm:p-5">
@@ -159,15 +226,36 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
                 value={newCategory}
                 name="Category"
               />
-              <FormNumber
-                label="Quantity"
+              {/* <FormNumber
+                label=" Total Quantity"
                 name="quantity"
                 value={newProductQuantity}
                 onChange={(e) => {
                   setNewProductQuantity(e.target.value);
                 }}
                 placeholder="Quantity"
+              /> */}
+              <FormSelect
+                selectLabel="Branch"
+                headOption="Select Branch"
+                handleChange={handleBranchChange}
+                options={branches.map((branch) => ({
+                  value: branch._id,
+                  label: branch.name,
+                }))}
+                value={selectedBranch}
+                name="Branch"
               />
+              <FormNumber
+                label=" Selected Branch Quantity"
+                name="quantity"
+                value={selectedBranchQuantity}
+                onChange={(e) => {
+                  setSelectedBranchQuantity(e.target.value);
+                }}
+                placeholder="Quantity"
+              />
+
               <FormNumber
                 label="Product Price"
                 name="productPrice"
@@ -191,7 +279,7 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
                   disabled={
                     !newProductName ||
                     !newCategory ||
-                    !newProductQuantity ||
+                    // !newProductQuantity ||
                     !newProductPrice ||
                     !newSellingPrice
                   }

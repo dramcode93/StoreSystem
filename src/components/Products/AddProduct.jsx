@@ -31,25 +31,132 @@ export default function AddProduct({ closeModal, role, modal }) {
   const [images, setImages] = useState("");
   const [categories, setCategories] = useState([]);
   const [imageURLs, setImageURLs] = useState([]);
+  const [branches, setBranches] = useState([]);
+  const [branchQuantities, setBranchQuantities] = useState({});
 
+  // const handleAddProduct = async (e) => {
+  //   e.preventDefault();
+
+  // // Validate total branch quantity
+  // const quantitiesArray = Object.values(branchQuantities);
+  // const totalBranchQuantity = quantitiesArray.reduce((total, quantity) => total + parseInt(quantity, 10), 0);
+
+  // if (totalBranchQuantity !== parseInt(quantity, 10)) {
+  //   ErrorAlert({
+  //     title: "Quantity Mismatch",
+  //     text: "The sum of branch quantities must equal the total quantity.",
+  //   });
+  //   return; // Prevent form submission
+  // }
+
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("name", name);
+  //     formData.append("description", description);
+  //     formData.append("productPrice", productPrice);
+  //     formData.append("sellingPrice", sellingPrice);
+  //     formData.append("quantity", parseInt(quantity, 10)); // Ensure quantity is an integer
+  //     formData.append("category", category);
+  //     images.forEach((file) => {
+  //       formData.append("images", file);
+  //     });
+
+  //   // Map branchQuantities to subShops array
+  //   const subShops = Object.entries(branchQuantities).map(
+  //     ([branchId, branchQuantity]) => ({
+  //       subShop: branchId,
+  //       quantity: parseInt(branchQuantity, 10), // Ensure branch quantity is an integer
+  //     })
+  //   );
+
+  //   // Append subShops data to formData as JSON string
+  //   formData.append("subShops", JSON.stringify(subShops));
+
+  //   // Log FormData content (for debugging)
+  //   for (let [key, value] of formData.entries()) {
+  //     console.log(`${key}:`, value);
+  //   }
+  //     const response = await axios.post(
+  //       "https://store-system-api.gleeze.com/api/products",
+  //       formData,
+  //       { headers: { Authorization: `Bearer ${token}` } }
+  //     );
+
+  //     console.log("Product added successfully:", response.data);
+  //     if (response.data.images) {
+  //       const uploadedImageURLs = response.data.images.map(
+  //         (image) => image.url
+  //       );
+  //       setImageURLs(uploadedImageURLs);
+  //     }
+
+  //     closeModal();
+  //   } catch (error) {
+  //     console.error("Error adding product:", error);
+  //   }
+  // };
   const handleAddProduct = async (e) => {
     e.preventDefault();
 
-    try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("productPrice", productPrice);
-      formData.append("sellingPrice", sellingPrice);
-      formData.append("quantity", quantity);
-      formData.append("category", category);
-      images.forEach((file, index) => {
-        formData.append("images", file);
-      });
+    // Validate total branch quantity
+    // const quantitiesArray = Object.values(branchQuantities);
+    // const totalBranchQuantity = quantitiesArray.reduce((total, quantity) => total + parseInt(quantity, 10), 0);
 
+    // if (totalBranchQuantity !== parseInt(quantity, 10)) {
+    //   ErrorAlert({
+    //     title: "Quantity Mismatch",
+    //     text: "The sum of branch quantities must equal the total quantity.",
+    //   });
+    //   return; // Prevent form submission
+    // }
+
+    try {
+      // const formData = new FormData();
+      // formData.append("name", name);
+      // formData.append("description", description);
+      // formData.append("productPrice", productPrice);
+      // formData.append("sellingPrice", sellingPrice);
+      // formData.append("quantity", parseInt(quantity, 10)); // Ensure quantity is an integer
+      // formData.append("category", category);
+
+      // // Append images to formData
+      // if(images){
+      //   images.forEach((file) => {
+      //     formData.append("images", file);
+      //   });
+      // }
+
+      // Map branchQuantities to subShops array
+      const subShops = Object.entries(branchQuantities).map(
+        ([branchId, branchQuantity]) => ({
+          subShop: branchId,
+          quantity: parseInt(branchQuantity, 10), // Ensure branch quantity is an integer
+        })
+      );
+
+      // console.log(subShops);
+      // console.log(JSON.stringify(subShops));
+      // // Append subShops data to formData as JSON string
+      // formData.append("subShops", JSON.stringify(subShops));
+
+      // // Log FormData content (for debugging)
+      // for (let [key, value] of formData.entries()) {
+      //   console.log(`${key}:`, value);
+      // }
+      // console.log(formData);
+
+      // Make POST request to add product
       const response = await axios.post(
         "https://store-system-api.gleeze.com/api/products",
-        formData,
+        {
+          name: name,
+          description: description,
+          productPrice: parseInt(productPrice),
+          sellingPrice: parseInt(sellingPrice),
+          quantity: parseInt(quantity),
+          category: category,
+          subShops: subShops,
+        },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -61,9 +168,9 @@ export default function AddProduct({ closeModal, role, modal }) {
         setImageURLs(uploadedImageURLs);
       }
 
-      closeModal();
+      closeModal(); // Close modal after successful submission
     } catch (error) {
-      console.error("Error adding Product:", error);
+      console.error("Error adding product:", error);
     }
   };
 
@@ -81,7 +188,7 @@ export default function AddProduct({ closeModal, role, modal }) {
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  });
   // const handleImageChange = (e) => {
   //   const files = Array.from(e.target.files);
   //   setImages(files);
@@ -121,7 +228,6 @@ export default function AddProduct({ closeModal, role, modal }) {
   //   const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
   //   setImages(files);
   // };
-  
 
   <ProductFormPreview
     details={{
@@ -150,19 +256,46 @@ export default function AddProduct({ closeModal, role, modal }) {
     loading={false}
   />;
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (token) {
+        try {
+          const response = await axios.get(
+            "https://store-system-api.gleeze.com/api/subShops/list?sort=name&fields=name",
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          const fetchedBranches = response.data.data;
+          setBranches(fetchedBranches);
+        } catch (error) {
+          console.error("Error fetching branches data:", error);
+        }
+      }
+    };
+    fetchUserData();
+  }, [token]);
+
+  const handleBranchQuantityChange = (branchId, newQuantity) => {
+    setBranchQuantities((prevBranchQuantities) => ({
+      ...prevBranchQuantities,
+      [branchId]: newQuantity,
+    }));
+  };
+
   return (
     <>
       <div
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
         fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${modal ? "-right-1/2" : "-left-[100%]"}
+        z-50 justify-center items-center ${
+          modal ? "-right-1/2" : "-left-[100%]"
+        }
          bg-opacity-40 w-full h-full `}
       >
         <div
           className={`w-full max-w-min 
            dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
-           ${language === 'ar' ? "absolute left-0" : "absolute right-0"}
+           ${language === "ar" ? "absolute left-0" : "absolute right-0"}
            h-screen overflow-auto`}
         >
           <div className="relative p-4 dark:bg-gray-800 sm:p-5">
@@ -194,6 +327,7 @@ export default function AddProduct({ closeModal, role, modal }) {
                   setName(e.target.value);
                 }}
                 placeholder="Name"
+                value={name}
               />
               <FormSelect
                 selectLabel="Category"
@@ -206,14 +340,7 @@ export default function AddProduct({ closeModal, role, modal }) {
                 value={category}
                 name="Category"
               />
-              <FormNumber
-                label="Quantity"
-                name="quantity"
-                onChange={(e) => {
-                  setQuantity(e.target.value);
-                }}
-                placeholder="Quantity"
-              />
+
               <FormNumber
                 label="Product Price"
                 name="productPrice"
@@ -221,14 +348,7 @@ export default function AddProduct({ closeModal, role, modal }) {
                   setProductPrice(e.target.value);
                 }}
                 placeholder="Product Price"
-              />
-              <FormTextArea
-                label="Description"
-                name="description"
-                onChange={(e) => {
-                  setDescription(e.target.value);
-                }}
-                placeholder="Description..."
+                value={productPrice}
               />
               <FormNumber
                 label="Selling Price"
@@ -237,15 +357,47 @@ export default function AddProduct({ closeModal, role, modal }) {
                   setSellingPrice(e.target.value);
                 }}
                 placeholder="Selling Price"
+                value={sellingPrice}
               />
-              <FormPic
+              <FormNumber
+                label="Total Quantity"
+                name="Total quantity"
+                onChange={(e) => {
+                  setQuantity(e.target.value);
+                }}
+                placeholder="Total Quantity"
+                value={quantity}
+              />
+              {branches.map((branch) => (
+                <div key={branch._id} className="flex-1">
+                  <FormNumber
+                    label={`${branch.name} quantity`}
+                    name={`quantity-${branch._id}`}
+                    onChange={(e) =>
+                      handleBranchQuantityChange(branch._id, e.target.value)
+                    }
+                    placeholder="Quantity"
+                    value={branchQuantities[branch._id || ""]}
+                  />
+                </div>
+              ))}
+              <FormTextArea
+                label="Description"
+                name="description"
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+                placeholder="Description..."
+                value={description}
+              />
+              {/* <FormPic
                 label="Upload Picture"
                 name="Upload Picture"
                 onChange={handleImageChange}
                 placeholder="Product Picture"
                 fileList={images}
               />
-             
+
               {images.length > 0 && (
                 <div className="d-flex gap-2">
                   {images.map((file, index) => (
@@ -253,12 +405,12 @@ export default function AddProduct({ closeModal, role, modal }) {
                       <img
                         src={URL.createObjectURL(file)}
                         alt={`Uploaded ${index + 1}`}
-                       className="max-w-full h-10"
+                        className="max-w-full h-10"
                       />
                     </div>
                   ))}
                 </div>
-              )}
+              )} */}
               <div className="col-span-2 flex justify-center">
                 <button
                   disabled={
@@ -267,7 +419,8 @@ export default function AddProduct({ closeModal, role, modal }) {
                     !category ||
                     !quantity ||
                     !productPrice ||
-                    !sellingPrice
+                    !sellingPrice ||
+                    !branchQuantities
                   }
                   className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
                 >

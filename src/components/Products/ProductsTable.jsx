@@ -17,7 +17,7 @@ import { useI18nContext } from "../context/i18n-context";
 const API_URL = "https://store-system-api.gleeze.com/api/products";
 const API_category = "https://store-system-api.gleeze.com/api/categories/list";
 
-const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
+const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport }) => {
   const token = Cookies.get("token");
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -113,6 +113,9 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
   const dropdownRefs = useRef({});
   const handleEditProduct = (product) => {
     openEdit(product);
+  };
+  const handleTransportProduct = (product) => {
+    openTransport(product);
   };
 
   const handlePreviewCategory = (product) => {
@@ -239,7 +242,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
                       {/* {console.log(product._id)} */}
                     </th>
                     <td className="px-4 py-4">{product.name}</td>
-                    <td className="px-4 py-4">{product.category.name}</td>
+                    <td className="px-4 py-4">{product.category?.name}</td>
                     <td className="px-4 py-4">{product.quantity}</td>
                     <td className="px-4 py-4">{product.productPrice}</td>
                     <td className="px-4 py-4">{product.sellingPrice}</td>
@@ -277,6 +280,16 @@ const ProductsTable = ({ openEdit, openCreate, openPreview }) => {
                               >
                                 <NotePencil size={18} weight="bold" />
                                 {t("Category.Edit")}
+                              </button>
+                            </li>
+                            <li className="">
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                onClick={() => handleTransportProduct(product)}
+                              >
+                                <NotePencil size={18} weight="bold" />
+                                transport
                               </button>
                             </li>
                             <li>
