@@ -43,7 +43,6 @@ const PaymentField = ({
             ) : (
               <>
               <p className="text-white">No payment methods available yet.</p>
-              <p className="text-white">Add New:</p>
               </>
             )}
             {isEditing ? (

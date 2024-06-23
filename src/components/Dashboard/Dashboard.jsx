@@ -134,7 +134,7 @@ const roleRoutes = {
   ],
 };
 
-const Dashboard = ({ children }) => {
+const Dashboard = ({ children ,isSideBarOpen}) => {
   const token = Cookies.get("token");
   const { t, language } = useI18nContext();
   const [role, setRole] = useState("");
@@ -290,12 +290,13 @@ const Dashboard = ({ children }) => {
 
   return (
     <div
-      className="fixed top-0 dark:text-gray-100"
+      className="fixed top-0 dark:text-gray-100 z-50"
       dir={language === "ar" ? "rtl" : "ltr"}
     >
       {routes && (
         <div
           style={{
+            width:isSideBarOpen?"260px":"0px",
             marginTop: "14vh",
             boxShadow:
               language === "ar"
@@ -367,12 +368,12 @@ const Dashboard = ({ children }) => {
                                   : {}
                               }
                             >
-                              <div className="flex justify-between items-center hover:none">
-                                <p>{dropdownItem.text}</p>
+                              <div className="flex items-center hover:none">
+                                <p className=" m-2 w-32" >{dropdownItem.text}</p>
                                 {dropdownItem.dropdownItems && (
                                   <>
                                     {activeBranch === dropdownIndex ? (
-                                      <FiChevronUp />
+                                      <FiChevronUp  />
                                     ) : (
                                       <FiChevronDown />
                                     )}
@@ -390,7 +391,7 @@ const Dashboard = ({ children }) => {
                                         to={subItem.path}
                                         className={module.subDropDown}
                                         style={{
-                                          marginLeft: "20px",
+                                          marginLeft: "0",
                                           display: "block",
                                         }}
                                       >

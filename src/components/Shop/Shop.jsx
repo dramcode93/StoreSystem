@@ -103,10 +103,13 @@ const Shop = () => {
 
   return (
     <>
-      <div
-        className={`mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${
+    {/* w-3/4 ${
           language === "ar" ? "left-10" : "right-10"
-        }`}
+        } */}
+      <div
+        className={` rounded-md pt-2 absolute top-32 -z-3 
+       w-full 
+        ` }
       >
         <div className="d-flex justify-around items-center mb-4">
           <div className="flex justify-content-between align-center">

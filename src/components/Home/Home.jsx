@@ -9,7 +9,7 @@ import { FaShoppingCart, FaDollarSign, FaChartLine, FaMoneyBillWave } from 'reac
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const Home = ({ role, modal }) => {
+const Home = ({ role, modal,isSideBarOpen }) => {
   const { language, t } = useI18nContext();
   const productChartRef = useRef(null);
   const monthlyChartRef = useRef(null);
@@ -107,11 +107,12 @@ const Home = ({ role, modal }) => {
     setRefresh(prev => !prev);
   };
 
-
+console.log(isSideBarOpen)
+// console.log(language)
 
   return (
     <div>
-      <div className={`absolute top-28 dark:text-gray-900 -z-3 w-full ${language === "ar" ? "right-28" : "left-40"}`}>
+      <div className={`absolute top-28 dark:text-gray-900 -z-3 w-full ${language === "ar" && isSideBarOpen ? "right-28" : language === "en" && isSideBarOpen ? "left-40" : ""}`}>
         <div className="container mx-auto pt-4 px-4">
           <div className="d-flex items-center justify-evenly w-full">
             <div className="bg-gray-100 w-1/5 rounded flex items-center justify-between p-4">
