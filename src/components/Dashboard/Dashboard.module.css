@@ -1,64 +1,65 @@
- .sidebar {
-     background: var(--back);
-     transition: all 0.5s;
-    position: fixed;
-        top: 0;
-        bottom: 0;
-        width: 260px;
-        padding: 20px 0;
-        background-color: var(--back);
-        overflow-y: auto;
-        border-right: 1px solid #ddd;
- }
-
- .logo {
-     font-size: 30px;
- }
-
- .link {
-     display: flex;
-     color: var(--font);
-     padding: 10px 15px;
-     margin: 1vh 1vw 1vh 2vw;
-     gap: 15px;
-     transition: all 0.5s;
-     align-items: center;
-     -webkit-transition: all 0.5s;
-     -moz-transition: all 0.5s;
-     -ms-transition: all 0.5s;
-     -o-transition: all 0.5s;
+.sidebar {
+  background: var(--back);
+  transition: all 0.5s;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 260px;
+  padding: 20px 0;
+  background-color: var(--back);
+  overflow-y: auto;
+  border-right: 1px solid #ddd;
 }
-    .dropDown {
-        margin: 1px 1vw 1px 2vw;
-        padding: 4px 5px ;
-        color: var(--font);
- }
 
- .link:hover , .dropDown:hover {
-     background: #006edc;
-     color: white;
-     border-radius: 10px;
-     transition: all 0.5s;
-     -webkit-border-radius: 10px;
-     -moz-border-radius: 10px;
-     -ms-border-radius: 10px;
-     -o-border-radius: 10px;
-     -webkit-transition: all 0.5s;
-     -moz-transition: all 0.5s;
-     -ms-transition: all 0.5s;
-     -o-transition: all 0.5s;
-    }
-.branch:hover{
-    background: transparent;
+.logo {
+  font-size: 30px;
 }
- .icon,
- .link_text {
-     font-size: 18px;
- }
 
+.link {
+  display: flex;
+  color: var(--font);
+  padding: 10px 15px;
+  margin: 1vh 1vw 1vh 2vw;
+  gap: 15px;
+  transition: all 0.5s;
+  align-items: center;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+}
+.dropDown {
+  margin: 1px 1vw 1px 2vw;
+  padding: 4px 5px;
+  color: var(--font);
+}
+
+.link:hover,
+.dropDown:hover {
+  background: #006edc;
+  color: white;
+  border-radius: 10px;
+  transition: all 0.5s;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+}
+.branch:hover {
+  background: transparent;
+}
+.icon,
+.link_text {
+  font-size: 18px;
+}
+/* 
  @media (max-width: 1024px) {
     #menu-bar {
       display: initial;
     }
   
-  }
+  } */
