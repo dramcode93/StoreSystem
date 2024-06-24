@@ -245,7 +245,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
             </tr>
           ) : (
             <>
-              {customers.length === 0 && (
+              {customers?.length === 0 && (
                 <tr className="text-xl text-center">
                   <td colSpan="5">No Customers available</td>
                 </tr>
@@ -262,26 +262,26 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
                     {" "}
                     {customer._id.slice(-4)}
                   </th>
-                  <td className="px-4 py-4">{customer.name}</td>
+                  <td className="px-4 py-4">{customer?.name}</td>
                   <td className="px-4 py-4">
-                    {customer.address.map((address) => (
+                    {customer?.address.map((address) => (
                       <div key={address.id}>
-                        {`${address.street},
+                        {`${address?.street},
                         ${
                           language === "ar"
-                            ? address.city.city_name_ar
-                            : address.city.city_name_en
+                            ? address?.city?.city_name_ar
+                            : address?.city?.city_name_en
                         },
                         ${
                           language === "ar"
-                            ? address.governorate.governorate_name_ar
-                            : address.governorate.governorate_name_en
+                            ? address?.governorate?.governorate_name_ar
+                            : address?.governorate?.governorate_name_en
                         }`}
                       </div>
                     ))}
                   </td>
                   <td className="px-4 py-4">
-                    {customer.phone.map((phone, index) => (
+                    {customer?.phone.map((phone, index) => (
                       <div key={index}>{phone}</div>
                     ))}
                   </td>

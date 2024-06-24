@@ -9,7 +9,7 @@ import { MdProductionQuantityLimits } from "react-icons/md";
 import CartHover from "../BestSeller/CartHover";
 import { FiMenu, FiX } from "react-icons/fi";
 
-const MyComponent = ({ openSideBar,  isSideBarOpen }) => {
+const MyComponent = ({ openSideBar,  }) => {
   const { t, language, changeLanguage } = useI18nContext();
   const token = Cookies.get("token");
   const [role, setRole] = useState("");
@@ -49,8 +49,7 @@ const MyComponent = ({ openSideBar,  isSideBarOpen }) => {
     >
       <div className="d-flex justify-between">
         <div className="d-flex">
-
-          <button
+          {/* <button
             id="menu-bar"
             type="button"
             className=" bg-transparent rounded-full p-1 ms-0 text-gray-500 dark:hover:text-white focus:outline-none hover:text-slate-500"
@@ -62,7 +61,7 @@ const MyComponent = ({ openSideBar,  isSideBarOpen }) => {
             ) : (
               <FiMenu className="h-6 w-6" aria-hidden="true" />
             )}
-          </button>
+          </button> */}
           <h3
             className="text-gray-900 dark:text-gray-100 font flex justify-content-center gap-2 min-w-max"
             onClick={() => handleOpenSideBar}

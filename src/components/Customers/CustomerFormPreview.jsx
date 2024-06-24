@@ -125,8 +125,8 @@ export default function CustomerFormPreview({ details, headers }) {
                       <dd className="!text-base font-light text-gray-500 sm:mb-3 dark:text-gray-400">
                         {bill.products.map((product, index) => (
                           <span key={index}>
-                            {product.product.name}
-                            {index !== bill.products.length - 1 && ", "}
+                            {product.product?.name}
+                            {index !== bill.products?.length - 1 && ", "}
                           </span>
                         ))}
                       </dd>

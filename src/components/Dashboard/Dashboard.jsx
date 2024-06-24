@@ -134,7 +134,7 @@ const roleRoutes = {
   ],
 };
 
-const Dashboard = ({ children ,isSideBarOpen}) => {
+const Dashboard = ({ children }) => {
   const token = Cookies.get("token");
   const { t, language } = useI18nContext();
   const [role, setRole] = useState("");
@@ -296,7 +296,7 @@ const Dashboard = ({ children ,isSideBarOpen}) => {
       {routes && (
         <div
           style={{
-            width:isSideBarOpen?"260px":"0px",
+            // width:isSideBarOpen?"260px":"0px",
             marginTop: "14vh",
             boxShadow:
               language === "ar"

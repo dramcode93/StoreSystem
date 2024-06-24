@@ -115,22 +115,27 @@ const App = () => {
   }, []);
   const { language } = useI18nContext();
 
-  const [openSideBar, setOpenSideBar] = useState(false);
+  // const [openSideBar, setOpenSideBar] = useState(false);
 
-  const toggleOpenSideBar = () => {
-    setOpenSideBar(!openSideBar)
-  };
+  // const toggleOpenSideBar = () => {
+  //   setOpenSideBar(!openSideBar)
+  // };
 
-  console.log(openSideBar)
+  // console.log(openSideBar)
   return (
     <BrowserRouter>
-      <MyComponent openSideBar={toggleOpenSideBar}  isSideBarOpen={openSideBar}/>
+      <MyComponent/>
+      {/* <MyComponent openSideBar={toggleOpenSideBar}  isSideBarOpen={openSideBar}/> */}
       <div
         className="flex items-start justify-center"
         dir={language === "ar" ? "rtl" : "ltr"}
       >
-        {isLoggedIn && !isTokenExpired && (
-          <Dashboard isSideBarOpen={openSideBar} dir={language === "ar" ? "rtl" : "ltr"} />
+        {isLoggedIn && !isTokenExpired && (<>
+          {/* <Dashboard isSideBarOpen={openSideBar} dir={language === "ar" ? "rtl" : "ltr"} /> */}
+          <Dashboard  dir={language === "ar" ? "rtl" : "ltr"} />
+        </>
+         
+          
         )}
         <div className="flex-grow">
           <Routes>
