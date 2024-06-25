@@ -185,7 +185,8 @@ const ShopInformation = () => {
       <AddSubShop closeModal={toggleOpenCreateModal} modal={openCreate} />
       <div>
         <button
-          className="bg-yellow-900 w-40 rounded-md hover:bg-yellow-800 fw-bold mx-10 my-4"
+          // className="bg-yellow-900 w-40 rounded-md hover:bg-yellow-800 fw-bold mx-10 my-4"
+          className="secondaryBtn w-40 rounded-md fw-bold mx-10 my-4"
           onClick={toggleOpenCreateModal}
         >
           Add Sub Shop
@@ -210,6 +211,7 @@ const ShopInformation = () => {
         handleInputChange={handleNameChange}
         handleEditToggle={handleEditToggle}
         handleSaveChanges={handleSaveName}
+        isLoading={loading}
       />
       <TypeField
         label="Shop Type"

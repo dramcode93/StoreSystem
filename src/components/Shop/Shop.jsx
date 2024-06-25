@@ -103,12 +103,12 @@ const Shop = () => {
 
   return (
     <>
-    {/* w-3/4 ${
-          language === "ar" ? "left-10" : "right-10"
-        } */}
+    {/* */}
       <div
         className={` rounded-md pt-2 absolute top-32 -z-3 
-       w-full 
+        w-3/4 ${
+          language === "ar" ? "left-10" : "right-10"
+        }
         ` }
       >
         <div className="d-flex justify-around items-center mb-4">

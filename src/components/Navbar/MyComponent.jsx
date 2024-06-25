@@ -43,7 +43,7 @@ const MyComponent = ({ openSideBar,  }) => {
 
   return (
     <div
-      className="z-50 fixed w-100 box dark:bg-gray-900 p-6"
+      className="z-40 fixed w-100 box dark:bg-gray-900 p-6"
       dir={language === "ar" ? "rtl" : "ltr"}
       style={{ backgroundColor: "var(--back)" }}
     >

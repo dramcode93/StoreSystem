@@ -13,8 +13,9 @@ const AddressField = ({
 }) => {
   const { language } = useI18nContext();
   return (
-    <li className="bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3 list-none">
-      <p className="text-gray-200 font-bold text-xl">{label} :</p>
+    <li className="secondary mx-10 rounded-md py-4 px-4 mb-3 list-none">
+      <p className="secondaryF font-bold text-xl mb-0">
+      {label} :</p>
 
       {isLoading ? (
         <Loading />
@@ -24,9 +25,9 @@ const AddressField = ({
             values.map((address, index) => (
               <div
                 key={index}
-                className="text-white flex w-1/2 justify-between text-xl"
+                className=" flex w-1/2 justify-between text-xl"
               >
-                <p className="text-gray-200">
+                <p className="secondaryF">
                   {`${address.street},  
                   ${
                     language === "ar"
@@ -41,14 +42,15 @@ const AddressField = ({
                 </p>
                 <MdDelete
                   className="text-2xl mb-3"
+                  color="red"
                   onClick={() => handleDelAddress(index)}
                 />
               </div>
             ))
           ) : (
-            <p>No addresses available</p>
+            <p className="secondaryF">No addresses available</p>
           )}
-          <IoMdAdd className="text-white text-2xl" onClick={openAdd} />
+          <IoMdAdd className="secondaryF text-2xl" onClick={openAdd} />
         </>
       )}
     </li>

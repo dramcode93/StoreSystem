@@ -20,7 +20,7 @@ const CreateBills = ({ closeModal, modal }) => {
   const [paidAmount, setPaidAmount] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [products, setProducts] = useState([]);
-   const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [customers, setCustomers] = useState([]);
   const [customerId, setCustomerId] = useState("");
   const [productId, setProductId] = useState("");
@@ -172,17 +172,23 @@ const CreateBills = ({ closeModal, modal }) => {
       <div
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
-        fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${modal ? "-right-1/2" : "-left-[100%]"}
-         bg-opacity-40 w-full h-full `}
+          fixed top-1/2 -translate-x-1/2 -translate-y-1/2
+          z-50 justify-center items-center ${
+            modal ? "-right-1/2" : "-left-[100%]"
+          }
+           w-full h-full `}
       >
         <div
           className={`w-full max-w-min 
-           dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
-           ${language === 'ar' ? "absolute left-0" : "absolute right-0"}
-           h-screen overflow-auto`}
+             sideModal duration-200 ease-linear
+             ${
+               language === "ar"
+                 ? "absolute left-0 rounded-r-xl"
+                 : "absolute right-0 rounded-l-xl"
+             }
+             h-screen overflow-y-auto overflow-x-hidden`}
         >
-          <div className="relative p-4 dark:bg-gray-800 sm:p-5">
+          <div className="relative p-4 sideModal sm:p-5">
             <div
               dir="rtl"
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
@@ -265,22 +271,22 @@ const CreateBills = ({ closeModal, modal }) => {
                 <button
                   type="reset"
                   onClick={addProductToBill}
-                  className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl m-2"
+                  className="secondaryBtn h-12 rounded-md fw-bold text-xl m-2 "
                 >
                   Add Product +
                 </button>
                 <button
                   type="submit"
-                  className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl m-2"
+                  className="secondaryBtn h-12 rounded-md fw-bold text-xl m-2 "
                 >
                   Create Bill +
                 </button>
               </div>
             </form>
             {billItems.length > 0 && (
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-2 ">
-                <thead className="text-xm text-gray-200 uppercase">
-                  <tr className="text-center bg-gray-500 bg-opacity-25 transition ease-out duration-200">
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
+                  <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
                     <th scope="col" className="px-4 py-4">
                       Product
                     </th>
@@ -302,7 +308,7 @@ const CreateBills = ({ closeModal, modal }) => {
                   {billItems.map((item, index) => (
                     <tr
                       key={index}
-                      className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
+                      className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
                     >
                       <td className="px-4 py-4">{item.product?.name}</td>
                       <td className="px-4 py-4">{item.quantity}</td>
@@ -319,9 +325,10 @@ const CreateBills = ({ closeModal, modal }) => {
                           onClick={() => handleDeleteItem(index)}
                         >
                           <MdDelete
+                            color="red"
                             size={25}
                             weight="bold"
-                            className=" hover:bg-gray-700 w-10 rounded-lg"
+                            className="  w-10 rounded-lg"
                           />
                         </button>
                       </td>
@@ -329,7 +336,7 @@ const CreateBills = ({ closeModal, modal }) => {
                   ))}
                   <tr className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200">
                     <th
-                      className="px-4 py-4 text-white text-xl text-left"
+                      className="px-4 py-4 secondaryF text-xl text-left"
                       colSpan="3"
                     >
                       Total price

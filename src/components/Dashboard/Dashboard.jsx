@@ -290,14 +290,14 @@ const Dashboard = ({ children }) => {
 
   return (
     <div
-      className="fixed top-0 dark:text-gray-100 z-50"
+      className="fixed top-0 dark:text-gray-100 z-40"
       dir={language === "ar" ? "rtl" : "ltr"}
     >
       {routes && (
         <div
           style={{
             // width:isSideBarOpen?"260px":"0px",
-            marginTop: "14vh",
+            marginTop: "11.99vh",
             boxShadow:
               language === "ar"
                 ? "-4px 0px 2px rgba(0, 0, 0, 0.1)"
@@ -318,14 +318,14 @@ const Dashboard = ({ children }) => {
                     ? {
                       backgroundColor: "#006edc",
                       color: "white",
-                      borderRadius: "10px",
+                      borderRadius: "0px",
                     }
                     : {}
                 }
               >
                 <div className={module.icon}>{item.icon}</div>
                 <div className={`${module.link_text} flex`}>
-                  {t(item.name)}{" "}
+                  {t(item.name)}{"   "}
                   {item.dropdownItems && (
                     <>
                       {activeLink === index &&
@@ -363,7 +363,7 @@ const Dashboard = ({ children }) => {
                                 activeDropdownItem === dropdownIndex
                                   ? {
                                     backgroundColor: "transparent",
-                                    borderRadius: "10px",
+                                    borderRadius: "0px",
                                   }
                                   : {}
                               }

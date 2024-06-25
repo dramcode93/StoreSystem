@@ -49,6 +49,12 @@ li {
   --title: #000;
   --card: aliceblue;
   --icon: rgb(56, 74, 235);
+  
+  --secondary:rgb(255, 255, 255);
+  --secondaryBtn:rgb(56, 74, 235);
+  --sideModal: rgb(30, 37, 54);
+  --dots:rgb(30, 37, 54);
+
 }
 
 .dark {
@@ -60,6 +66,12 @@ li {
   --title: #000;
   --icon: rgb(56, 74, 235);
   --card: rgba(202, 190, 190, 0.221);
+
+  --secondary:rgba(107, 114, 128, 0.085);
+  --secondaryBtn:rgb(56, 74, 235);
+  --sideModal: rgb(30, 37, 54);
+  --dots:rgb(30, 37, 54);
+
 }
 
 .light {
@@ -71,6 +83,11 @@ li {
   --foot: rgba(0, 0, 0, 0.1);
   --title: #fff;
   --icon: rgb(241, 246, 247);
+
+  --secondary:#f0f4fb;
+  --secondaryBtn:rgb(56, 74, 235);
+  --sideModal: #f0f4fb;
+  --dots:rgba(202, 190, 190, 0.221);
 }
 
 *::selection {
@@ -137,4 +154,29 @@ a {
 } */
 ::placeholder{
   color: var(--back) ;
+}
+
+.secondary{
+  background-color: var(--secondary);
+}
+.secondaryF{
+  color: var(--font);
+}
+.secondaryBtn{
+  background-color: var(--secondaryBtn);
+  cursor: pointer;
+  border-radius: 0px !important;
+  -webkit-border-radius: 0px !important;
+  -moz-border-radius: 0px !important;
+  -ms-border-radius: 0px !important;
+  -o-border-radius: 0px !important;
+}
+.secondaryBtn:hover{
+  background-color: rgb(40, 60, 180);
+}
+.sideModal{
+ background-color:  var(--sideModal);
+}
+.dots{
+ background-color:  var(--dots);
 }

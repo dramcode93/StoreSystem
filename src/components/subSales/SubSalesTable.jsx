@@ -112,11 +112,11 @@ export default function SubSalesTable() {
             <section className={`mx-10 rounded-md py-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
                 <div className="mx-auto max-w-screen-xl">
                     <div>
-                        <div className="h-32 dark:bg-gray-800 relative shadow-md rounded-lg d-flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4 pb-0">
+                        <div className="h-36  secondary relative shadow-md d-flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4 pb-8">
                             <div className="w-full md:w-1/2">
-                                <form className="d-flex items-center">
+                                <form className="d-flex items-center ">
                                     <div className="flex items-center justify-content-evenly gap-5 w-full sm:grid-cols-3">
-                                        <div>
+                                        <div className="min-w-max">
                                             <FormSelect
                                                 selectLabel={t("Sales.subShop")}
                                                 headOption={t("Sales.SelectAnOption")}
@@ -125,7 +125,7 @@ export default function SubSalesTable() {
                                                 value={selectedSubShop}
                                             />
                                         </div>
-                                        <div>
+                                        <div className="min-w-max">
                                             <FormSelect
                                                 selectLabel={t("Sales.date")}
                                                 headOption={t("Sales.SelectAnOption")}
@@ -147,10 +147,10 @@ export default function SubSalesTable() {
                                 {error}
                             </div>
                         )}
-                        <div className="overflow-x-auto w-100 mt-4 dark:bg-gray-800 relative shadow-md rounded-lg" id="table" style={{ display: "none" }}>
+                        <div className="overflow-x-auto w-100 mt-4 secondary relative shadow-md " id="table" style={{ display: "none" }}>
                             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
-                                    <tr className="text-center fs-6 bg-gray-500 bg-opacity-25 dark:bg-gray-500 tracking-wide dark:bg-opacity-25 transition ease-out duration-200">
+                                    <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
                                         <th scope="col" className="px-5 py-4">
                                             {t("Sales.Id")}
                                         </th>
@@ -168,7 +168,7 @@ export default function SubSalesTable() {
                                 <tbody>
                                     {salesData.length > 0 ? (
                                         salesData.map((sale, index) => (
-                                            <tr key={index} className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200">
+                                            <tr key={index} className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200">
                                                 <td className="px-5 py-3">{sale._id}</td>
                                                 <td className="px-5 py-3">{formatDate(sale.createdAt)}</td>
                                                 <td className="px-5 py-3">{sale.earnings}</td>
@@ -176,7 +176,7 @@ export default function SubSalesTable() {
                                             </tr>
                                         ))
                                     ) : (
-                                        <tr className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200">
+                                        <tr className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200">
                                             <td className="px-5 py-3">-</td>
                                             <td className="px-5 py-3">-</td>
                                             <td className="px-5 py-3">0</td>

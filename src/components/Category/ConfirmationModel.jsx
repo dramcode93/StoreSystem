@@ -7,7 +7,7 @@ const ConfirmationModal = ({ show, onConfirm, onCancel, item }) => {
   }
 
   return (
-    <div className={styles.confirmationModal}>
+    <div className={`${styles.confirmationModal} z-50`}>
       <div className={styles.confirmationModalCon}>
         <p>
           Are you sure you want to delete this {item}?

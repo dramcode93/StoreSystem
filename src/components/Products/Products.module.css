@@ -10,18 +10,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 99999;
+  z-index: 99999999;
 }
 
 .confirmationModalCon {
-  background: #27385c;
+  background:  var(--sideModal);
   padding: 20px;
   border-radius: 8px;
   text-align: center;
 }
 
 .confirmationModalCon p {
-  color:#fff;
+  color: var(--font);;
   font-size: larger;
   margin-bottom: 20px;
   margin-top: 20px;

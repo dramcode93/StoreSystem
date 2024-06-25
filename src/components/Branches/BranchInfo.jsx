@@ -373,7 +373,6 @@ const BranchInformation = () => {
         modal={openCreate}
         addressData={addressData}
       />
-
       <NameField
         label={t("Information.Name")}
         value={shopName}

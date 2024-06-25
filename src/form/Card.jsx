@@ -14,7 +14,8 @@ export default function Card({
   return (
     <div
       onClick={click}
-      className={`cursor-pointer dark:bg-gray-800 bg-gray-100 rounded-md -z-3  ${
+      // dark:bg-gray-800 bg-gray-100
+      className={`cursor-pointer secondary  rounded-md -z-3  ${
         language === "ar" ? "left-10" : "right-10"
       }`}
     >
@@ -31,14 +32,15 @@ export default function Card({
           after:right-2 top-3 -right-[100%] after:border-t-4 absolute ${language === "ar" ? "left-20" : "right-0"}`}
         ></span>
         <div
+        // dark:hover:text-gray-900
           className={`px-10 pt-5 text-gray-700 
-          dark:text-orange-100 dark:hover:text-gray-900
+          dark:text-orange-100 
           ease-linear duration-100 flex flex-col gap-2 justify-between items-center`}
         >
           <div className="d-flex items-center justify-between py-5">
             <div className="absolute right-10">{icon}</div>
             <div className=" w-full">
-              <h1 className=" absolute left-10 bottom-24 fs-4 ">{name}</h1>
+              <h1 className=" absolute left-10 bottom-24 fs-5 ">{name}</h1>
             </div>
           </div>
           <div className="flex flex-col items-center w-2/6 text-center">
