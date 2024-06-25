@@ -174,8 +174,9 @@ const Information = ({ openAdd }) => {
   };
 
   return (
-    <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
-      <h3 className='font-bold text-white p-3'>{t(`Information.InformationPage`)}</h3>
+    // bg-gray-700 bg-opacity-25
+    <section className={` mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
+      {/* <h3 className='font-bold text-white p-3'>{t(`Information.InformationPage`)}</h3> */}
       {loading ? <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
         : (
           <ul>

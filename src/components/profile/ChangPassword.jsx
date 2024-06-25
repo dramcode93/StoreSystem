@@ -42,13 +42,11 @@ const ChangePassword = () => {
 
   return (
     <div
-      className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md absolute top-32 -z-3 w-3/4 p-4 ${
-        language === "ar" ? "left-10" : "right-10"
-      }`}
+      className={` mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}
     >
-      <h3 className="font-bold text-white">
+      {/* <h3 className="font-bold text-white">
         {t(`ChangePasswordPage.ChangePasswordPage`)}
-      </h3>
+      </h3> */}
       <form className="p-9">
         <FormInput
           label={t(`ChangePasswordPage.CurrentPassword`)}

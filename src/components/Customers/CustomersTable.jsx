@@ -13,14 +13,12 @@ import {
 import { useI18nContext } from "../context/i18n-context";
 import Loading from "../Loading/Loading";
 import axios from "axios";
-import ConfirmationDelete from "./ConfirmationDelete";
+import ConfirmationModal from "../Category/ConfirmationModel";
 
 const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
- 
-
   const token = Cookies.get("token");
   const [customers, setCustomers] = useState([]);
-   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedCustomerId, setSelectedCustomerId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [nextPageData, setNextPageData] = useState([]);
@@ -41,8 +39,8 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
         setPagination({
           currentPge: pagination.currentPge,
           totalPages: response.data.paginationResult.numberOfPages,
-        });  
-          } else {
+        });
+      } else {
         console.error("No token found.");
       }
     } catch (error) {
@@ -70,7 +68,13 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
           console.error("Error preloading next page:", error);
         });
     }
-  }, [pagination.currentPge, pagination.totalPages, searchTerm, token,searchInput]);
+  }, [
+    pagination.currentPge,
+    pagination.totalPages,
+    searchTerm,
+    token,
+    searchInput,
+  ]);
 
   const handleDeleteCustomer = (customerId) => {
     setSelectedCustomerId(customerId);
@@ -112,7 +116,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
 
   const { t, language } = useI18nContext();
   const lang = localStorage.getItem("language");
-  
+
   const toggleEditDropdown = (customerId) => {
     setSelectedCustomerId((prevCustomerId) =>
       prevCustomerId === customerId ? null : customerId
@@ -152,11 +156,11 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
       handlePageChange(pagination.currentPge + 1);
     }
   };
-  
+
   const handlePreviewCustomer = (customer) => {
     openPreview(customer);
   };
- 
+
   // useEffect(() => {
   //   const handleClickOutside = (event) => {
   //     const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
@@ -171,20 +175,27 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
   //   };
   // }, []);
   const handleClickOutside = (event) => {
-    const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => ref && !ref.contains(event.target));
+    const isOutsideDropdown = Object.values(dropdownRefs.current).every(
+      (ref) => ref && !ref.contains(event.target)
+    );
     if (isOutsideDropdown) {
       setSelectedCustomerId(null);
     }
   };
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
   return (
-    <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
-      <ConfirmationDelete
+    <section
+      className={`secondary mx-10 pt-2 absolute top-32 -z-50 w-3/4 ${
+        language === "ar" ? "left-10" : "right-10"
+      }`}
+    >
+      <ConfirmationModal
+        item="Customer"
         show={showConfirmation}
         onCancel={cancelDelete}
         onConfirm={() => {
@@ -193,32 +204,33 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
         }}
       />
       <div className="flex justify-between">
-         <div className="relative w-96 m-3">
-           <input
-            className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
+        <div className="relative w-96 m-3">
+          <input
+            className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 dark:bg-gray-500"
             type="text"
             onChange={(e) => setSearchInput(e.target.value)}
             value={searchInput}
             placeholder={t("Products.Search")}
           />
           <CiSearch
-            className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
-              } cursor-pointer`}
+            className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${
+              language === "ar" ? "left-3" : "right-3"
+            } cursor-pointer`}
             onClick={handleSearch}
-          /> 
+          />
         </div>
         <div>
           <button
-            className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
+            className="secondaryBtn w-28 rounded-md m-3 fw-bold"
             onClick={openCreate}
           >
             {t("Products.Add")}{" "}
           </button>
         </div>
       </div>
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
-        <thead className="text-xm text-gray-200 uppercase">
-          <tr className="text-center fs-6 bg-gray-500 tracking-wide  bg-opacity-25 transition ease-out duration-200">
+      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
+          <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
             <th scope="col" className="px-4 py-4">
               Id
             </th>
@@ -253,11 +265,11 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
               {customers.map((customer) => (
                 <tr
                   key={customer._id}
-                  className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
+                  className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
                 >
                   <th
                     scope="row"
-                    className="px-4 py-4 font-medium text-gray-900whitespace-nowrap dark:text-white max-w-[5rem] truncate"
+                    className="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[5rem] truncate"
                   >
                     {" "}
                     {customer._id.slice(-4)}
@@ -287,7 +299,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
                   </td>
                   <td className="px-4 py-3 flex items-center justify-end">
                     <button
-                      className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
+                      className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                       type="button"
                       onClick={() => toggleEditDropdown(customer._id)}
                       ref={(el) => (dropdownRefs.current[customer._id] = el)}
@@ -295,7 +307,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
                       <DotsThree
                         size={25}
                         weight="bold"
-                        className=" hover:bg-gray-700 w-10 rounded-lg"
+                        className="hover:bg-slate-300  dark:hover:bg-gray-600 w-10 rounded-lg"
                       />
                     </button>
                     <div
@@ -305,17 +317,17 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
                       <div
                         className={`${
                           selectedCustomerId === customer._id
-                          ? `absolute -top-3 me-5 -right-10 overflow-auto ${
+                            ? `absolute -top-3 me-5 -right-10 overflow-auto ${
                                 lang === "en" ? "right-full" : "left-full"
                               } overflow-auto`
                             : "hidden"
-                          } z-10 w-44 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                        } z-10 w-44  rounded divide-y divide-gray-100 shadow secondary `}
                       >
                         <ul className="text-sm bg-transparent pl-0 mb-0">
                           <li className="">
                             <button
                               type="button"
-                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
                               onClick={() => handleEditCustomer(customer)}
                             >
                               <NotePencil size={18} weight="bold" />
@@ -325,8 +337,8 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
                           <li>
                             <button
                               type="button"
-                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                            onClick={() => handlePreviewCustomer(customer)}
+                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                              onClick={() => handlePreviewCustomer(customer)}
                             >
                               <Eye size={18} weight="bold" />
                               {t("Category.Preview")}
@@ -335,7 +347,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
                           <li>
                             <button
                               type="button"
-                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
                               onClick={() => handleDeleteCustomer(customer._id)}
                             >
                               <TrashSimple size={18} weight="bold" />
@@ -353,13 +365,11 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
           )}
         </tbody>
       </table>
-      <nav
-        className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 "
-      >
+      <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 ">
         <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
           <li>
             <button
-              className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-gray-700 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               onClick={handlePreviousPage}
             >
               <span className="sr-only">Previous</span>
@@ -369,10 +379,11 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
           {pageButtons.map((page) => (
             <li key={page}>
               <button
-                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
+                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
+                  pagination.currentPge === page
                     ? "bg-gray-200 text-gray-800"
-                    : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  }`}
+                    : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                }`}
                 onClick={() => handlePageChange(page)}
               >
                 {page}
@@ -381,7 +392,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
           ))}
           <li>
             <button
-              className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               onClick={handleNextPage}
             >
               <span className="sr-only">Next</span>

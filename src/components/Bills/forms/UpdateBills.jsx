@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
- import Cookies from "js-cookie";
+import Cookies from "js-cookie";
 import FormNumber from "../../../form/FormNumber";
 import { X } from "@phosphor-icons/react";
 import { useI18nContext } from "../../context/i18n-context";
@@ -12,14 +12,14 @@ const API_CUSTOMERS_URL = "https://store-system-api.gleeze.com/api/customers";
 
 const UpdateBills = ({ closeModal, role, modal, billData }) => {
   const token = Cookies.get("token");
- 
-   const [products, setProducts] = useState([]);
+
+  const [products, setProducts] = useState([]);
   const [billProducts, setBillProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [customerAddress, setCustomerAddress] = useState("");
 
-  const {  language } = useI18nContext();
+  const { language } = useI18nContext();
   const [customerId, setCustomerId] = useState("");
   const [productId, setProductId] = useState("");
   const [newPaidAmount, setNewPaidAmount] = useState("");
@@ -38,14 +38,14 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setProducts(productsResponse.data.data);
-        
+
         const customersResponse = await axios.get(API_CUSTOMERS_URL, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCustomers(customersResponse.data.data);
-       
+
         if (billData) {
-           const customerId = billData.customer?._id;
+          const customerId = billData.customer?._id;
           setCustomerId(customerId);
           const formattedBillItems = billData.products?.map((productData) => ({
             product: {
@@ -54,14 +54,14 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
               sellingPrice: productData.product.sellingPrice,
               totalPrice: productData.totalPrice,
               productQuantity: productData.productQuantity,
-             },
+            },
             discount: billData.discount,
             paidAmount: billData.paidAmount,
           }));
           setBillItems(formattedBillItems);
           setNewDiscount(billData.discount);
           setNewPaidAmount(billData.paidAmount);
-         }
+        }
       } else {
         console.error("No token found.");
       }
@@ -86,10 +86,6 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
     );
   }, [billProducts]);
 
-   
-
-  
-
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
@@ -103,38 +99,38 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
 
   const addProductToBill = () => {
     if (selectedProduct && newQuantity) {
-       const existingItemIndex = billItems.findIndex(
+      const existingItemIndex = billItems.findIndex(
         (item) => item.product.id === selectedProduct._id
       );
 
       if (existingItemIndex !== -1) {
-         const updatedItems = [...billItems];
+        const updatedItems = [...billItems];
         updatedItems[existingItemIndex] = {
           ...updatedItems[existingItemIndex],
           product: {
             ...updatedItems[existingItemIndex].product,
             productQuantity: newQuantity,
-           },
+          },
           discount: newDiscount,
           paidAmount: newPaidAmount,
         };
         setBillItems(updatedItems);
       } else {
-         const newItem = {
+        const newItem = {
           product: {
             id: selectedProduct._id,
             name: selectedProduct.name,
             sellingPrice: selectedProduct.sellingPrice,
-            totalPrice: selectedProduct.totalPrice,   
+            totalPrice: selectedProduct.totalPrice,
             productQuantity: newQuantity,
-           },
+          },
           discount: newDiscount,
           paidAmount: newPaidAmount,
         };
         setBillItems([...billItems, newItem]);
       }
 
-       setNewQuantity("");
+      setNewQuantity("");
       setNewDiscount("");
       setNewPaidAmount("");
       setSelectedProduct("");
@@ -163,7 +159,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
     e.preventDefault();
     try {
       setLoading(true);
-       if (!customerId && !newPaidAmount && !newDiscount) {
+      if (!customerId && !newPaidAmount && !newDiscount) {
         console.error("information is incomplete");
         return;
       }
@@ -171,7 +167,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
         (total, item) => total + Number(item.paidAmount),
         0
       );
- 
+
       const formattedProducts = billItems.map((item) => ({
         product: item.product.id,
         productQuantity: item.product.productQuantity,
@@ -181,7 +177,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
         customer: customerId,
         products: formattedProducts,
         paidAmount: totalPaidAmount,
-       };
+      };
       const response = await axios.put(
         `https://store-system-api.gleeze.com/api/bills/${billData?._id}`,
         requestBody,
@@ -190,32 +186,34 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
         }
       );
       setCustomerId("");
-       setNewPaidAmount("");
+      setNewPaidAmount("");
       setCustomerAddress("");
-       window.location.href = "/bills"; // Redirect to bills page after successful submission
+      window.location.href = "/bills"; // Redirect to bills page after successful submission
     } catch (error) {
       console.error("Error updating bill:", error);
-     } finally {
+    } finally {
       setLoading(false);
     }
   };
   return (
- 
-
     <div
       onClick={handleBackgroundClick}
       className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
-        fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${modal ? "-right-1/2" : "-left-[100%]"}
-         bg-opacity-40 w-full h-full `}
+      fixed top-1/2 -translate-x-1/2 -translate-y-1/2
+      z-50 justify-center items-center ${modal ? "-right-1/2" : "-left-[100%]"}
+       w-full h-full `}
     >
       <div
         className={`w-full max-w-min 
-           dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
-           ${language === 'ar' ? "absolute left-0" : "absolute right-0"}
-           h-screen overflow-auto`}
+         sideModal duration-200 ease-linear
+         ${
+           language === "ar"
+             ? "absolute left-0 rounded-r-xl"
+             : "absolute right-0 rounded-l-xl"
+         }
+         h-screen overflow-y-auto overflow-x-hidden`}
       >
-        <div className="relative p-4 dark:bg-gray-800 sm:p-5">
+        <div className="relative p-4 sideModal sm:p-5">
           <div
             dir="rtl"
             className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
@@ -303,22 +301,22 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
               <button
                 type="reset"
                 onClick={addProductToBill}
-                className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl m-2"
+                className="secondaryBtn h-12 rounded-md fw-bold text-xl m-2 "
               >
                 Add Product +
               </button>
               <button
                 type="submit"
-                className="bg-yellow-900 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl m-2"
+                className="secondaryBtn h-12 rounded-md fw-bold text-xl m-2 "
               >
                 Edit Bill +
               </button>
             </div>
           </form>
           {billItems?.length > 0 && (
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-2 ">
-              <thead className="text-xm text-gray-200 uppercase">
-                <tr className="text-center bg-gray-500 bg-opacity-25 transition ease-out duration-200">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
+                <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
                   <th scope="col" className="px-4 py-4">
                     Product
                   </th>
@@ -340,7 +338,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
                 {billItems?.map((item, index) => (
                   <tr
                     key={index}
-                    className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
+                    className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
                   >
                     <td className="px-4 py-4">{item.product.name}</td>
                     <td className="px-4 py-4">
@@ -358,8 +356,9 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
                       >
                         <MdDelete
                           size={25}
+                          color="red"
                           weight="bold"
-                          className=" hover:bg-gray-700 w-10 rounded-lg"
+                          className="  w-10 rounded-lg"
                         />
                       </button>
                     </td>
@@ -367,7 +366,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
                 ))}
                 <tr className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200">
                   <th
-                    className="px-4 py-4 text-white text-xl text-left"
+                    className="px-4 py-4 secondaryF text-xl text-left"
                     colSpan="3"
                   >
                     Total price

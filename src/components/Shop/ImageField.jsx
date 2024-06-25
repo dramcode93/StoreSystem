@@ -1,5 +1,5 @@
 import React from "react";
-import { FiEdit } from "react-icons/fi";
+import { FiEdit, FiX } from "react-icons/fi";
 import FormPic from "../../form/FormPic";
 import Loading from "../Loading/Loading";
 
@@ -11,11 +11,21 @@ const ImageField = ({
   handleEditToggle,
   handleSaveChanges,
   uploadedImage,
-  isLoading, 
+  isLoading,
 }) => (
-  <li className="bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3 list-none">
+  <li className="secondary  mx-10 rounded-md py-4 px-4 mb-3 list-none">
     <p className="text-gray-200 font-bold text-xl">
-      {label} :
+      <p className="secondaryF flex">
+        {label} :
+        {isEditing ? (
+          <FiX
+            className="cursor-pointer text-2xl text-red-500"
+            onClick={() => handleEditToggle(label.toLowerCase())}
+          />
+        ) : (
+          ""
+        )}
+      </p>
       {isLoading ? (
         <Loading />
       ) : isEditing ? (
@@ -52,7 +62,11 @@ const ImageField = ({
             className="w-11/12 h-96 rounded-md mx-10"
             crossOrigin="anonymous"
           />
-          <FiEdit onClick={() => handleEditToggle(label.toLowerCase())} />
+
+          <FiEdit
+            className="secondaryF"
+            onClick={() => handleEditToggle(label.toLowerCase())}
+          />
         </>
       )}
     </p>

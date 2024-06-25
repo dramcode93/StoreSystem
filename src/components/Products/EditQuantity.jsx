@@ -22,10 +22,9 @@ function UpdateProductQuantity({ closeModal, role, modal, productData }) {
 
   useEffect(() => {
     const fetchBranches = async () => {
-      
       if (token) {
         try {
-          setIsLoading(true)
+          setIsLoading(true);
           const response = await axios.get(
             "https://store-system-api.gleeze.com/api/subShops/list?sort=name&fields=name",
             { headers: { Authorization: `Bearer ${token}` } }
@@ -33,10 +32,10 @@ function UpdateProductQuantity({ closeModal, role, modal, productData }) {
           const fetchedBranches = response.data.data;
           // setAllBranches(fetchedBranches);
           setBranches(fetchedBranches);
-          setIsLoading(false)
+          setIsLoading(false);
         } catch (error) {
           console.error("Error fetching branches data:", error);
-          setIsLoading(false)
+          setIsLoading(false);
         }
       }
     };
@@ -51,12 +50,11 @@ function UpdateProductQuantity({ closeModal, role, modal, productData }) {
           productData.subShops.length > 0
         ) {
           setSubShops(productData.subShops);
-          setIsLoading(false)
+          setIsLoading(false);
         }
       } catch (error) {
         console.error("Error fetching product:", error);
-        setIsLoading(false)
-
+        setIsLoading(false);
       } finally {
         setIsLoading(false);
       }
@@ -78,7 +76,6 @@ function UpdateProductQuantity({ closeModal, role, modal, productData }) {
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
-
     }
   };
 
@@ -120,19 +117,23 @@ function UpdateProductQuantity({ closeModal, role, modal, productData }) {
       <div
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
-        fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${
-          modal ? "-right-1/2" : "-left-[100%]"
-        }
-         bg-opacity-40 w-full h-full `}
+          fixed top-1/2 -translate-x-1/2 -translate-y-1/2
+          z-50 justify-center items-center ${
+            modal ? "-right-1/2" : "-left-[100%]"
+          }
+           w-full h-full `}
       >
         <div
           className={`w-full max-w-min 
-           dark:bg-gray-800 rounded-l-xl duration-200 ease-linear
-           ${language === "ar" ? "absolute left-0" : "absolute right-0"}
-           h-screen overflow-auto`}
+             sideModal duration-200 ease-linear
+             ${
+               language === "ar"
+                 ? "absolute left-0 rounded-r-xl"
+                 : "absolute right-0 rounded-l-xl"
+             }
+             h-screen overflow-y-auto overflow-x-hidden`}
         >
-          <div className="relative p-4 dark:bg-gray-800 sm:p-5">
+          <div className="relative p-4 sideModal sm:p-5">
             <div
               dir="rtl"
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
@@ -179,11 +180,9 @@ function UpdateProductQuantity({ closeModal, role, modal, productData }) {
                 />
                 <div className="col-span-2 flex justify-center">
                   <button
-                    disabled={
-                      !selectedBranch ||
-                     ! selectedBranchQuantity
-                    }
-                    className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
+                    disabled={!selectedBranch || !selectedBranchQuantity}
+                    className="secondaryBtn w-1/2 h-12 rounded-md  fw-bold text-xl "
+
                   >
                     Edit Product
                   </button>

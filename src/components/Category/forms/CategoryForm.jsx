@@ -41,17 +41,19 @@ export default function CreateCategory({ closeModal, role, modal }) {
       <div
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
-        fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${modal ? "-right-1/2" : "-left-[100%]"}
-         bg-opacity-40 w-full h-full `}
+          fixed top-1/2 -translate-x-1/2 -translate-y-1/2
+          z-50 justify-center items-center ${
+            modal ? "-right-1/2" : "-left-[100%]"
+          }
+           w-full h-full `}
       >
         <div
           className={`w-full max-w-min 
-           dark:bg-gray-800  rounded-r-xl duration-200 ease-linear
-           ${language === 'ar' ? "absolute left-0" : "absolute right-0"}
-           h-screen overflow-auto`}
+             sideModal duration-200 ease-linear
+             ${language === "ar" ? "absolute left-0 rounded-r-xl" : "absolute right-0 rounded-l-xl"}
+             h-screen overflow-y-auto overflow-x-hidden`}
         >
-          <div className="relative p-4 dark:bg-gray-800 sm:p-5">
+          <div className="relative p-4 sideModal sm:p-5">
             <div
               dir="rtl"
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
@@ -85,7 +87,8 @@ export default function CreateCategory({ closeModal, role, modal }) {
               <div className="col-span-2 flex justify-center">
                 <button
                   disabled={!name}
-                  className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
+                  // className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
+                     className="secondaryBtn w-1/2 h-12 rounded-md  fw-bold text-xl "
                 >
                   Add Category +
                 </button>

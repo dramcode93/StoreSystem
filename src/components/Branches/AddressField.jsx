@@ -13,8 +13,9 @@ const AddressField = ({
 }) => {
   const { language } = useI18nContext();
   return (
-    <li className="bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3 list-none">
-      <p className="text-gray-200 font-bold text-xl">{label} :</p>
+    <li className="secondary mx-10 rounded-md py-4 px-4 mb-3 list-none">
+      <p className="secondaryF font-bold text-xl mb-0">
+      {label} :</p>
 
       {isLoading ? (
         <Loading />
@@ -24,9 +25,9 @@ const AddressField = ({
             values.map((address, index) => (
               <div
                 key={index}
-                className="text-white flex w-1/2 justify-between text-xl"
+                className="secondaryF font-bold text-xl mb-0 flex w-1/2 justify-between"
               >
-                <p className="text-gray-200">
+                <p className="secondaryF">
                   {`${address.street},  
                   ${
                     language === "ar"
@@ -42,11 +43,11 @@ const AddressField = ({
               </div>
             ))
           ) : (
-            <p>No addresses available</p>
+            <p className="secondaryF font-bold text-xl mb-0" >No addresses available</p>
           )}
           <FiEdit
           
-           className="text-white text-xl cursor-pointer"
+           className="secondaryF text-xl cursor-pointer"
             onClick={openEdit} />
         </>
       )}

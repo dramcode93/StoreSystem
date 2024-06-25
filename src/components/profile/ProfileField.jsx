@@ -2,8 +2,8 @@ import React from 'react';
 import { FiEdit } from 'react-icons/fi';
 
 const ProfileField = ({ label, value, isEditing, inputValue, handleInputChange, handleEditToggle }) => (
-    <li className='bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3'>
-        <p className='text-gray-200 font-bold text-xl'>
+    <li className="secondary mx-10 rounded-md py-4 px-4 mb-3 list-none">
+      <p className="secondaryF font-bold text-xl mb-0">
             {label} : {isEditing ? (
                 <input
                     name={label.toLowerCase()}

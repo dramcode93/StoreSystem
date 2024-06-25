@@ -34,6 +34,8 @@ export default function CustomerFormPreview({ details, headers }) {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+  console.log("details",details)
+console.log("specificCustomer",specificCustomer)
   return (
     <dl className="">
       {loading ? (
@@ -116,16 +118,16 @@ export default function CustomerFormPreview({ details, headers }) {
                     </div>
                     <div>
                       <dd className="!text-base font-medium">Updated At:</dd>
-                      <dd className="!text-base font-light text-gray-500 sm:mb-3 dark:text-gray-400">
+                      <dd className="!text-base font-light text-gray-500 sm:mb-3 dark:text-gray-400 ">
                         {new Date(bill.updatedAt).toLocaleString()}
                       </dd>
                     </div>
                     <div>
-                      <dd className="!text-base font-medium">Products:</dd>
+                      <dd className="!text-base font-medium ">Products:</dd>
                       <dd className="!text-base font-light text-gray-500 sm:mb-3 dark:text-gray-400">
                         {bill.products.map((product, index) => (
-                          <span key={index}>
-                            {product.product?.name}
+                          <span key={index} className="d-flex flex-col">
+                          {product.product?.name || "Product not found"}
                             {index !== bill.products?.length - 1 && ", "}
                           </span>
                         ))}

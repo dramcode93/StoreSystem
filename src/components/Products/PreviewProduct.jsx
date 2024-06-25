@@ -14,7 +14,7 @@ export default function PreviewProduct({ closeModal, assistantData }) {
   //   "images",
   //   `${images.map((img) => img.replace(/\s/g, "%20")).join("\n")} \n`
   // );
-// console.log(assistantData)
+  // console.log(assistantData)
   const headers = {
     code: "Product Code",
     name: "Product Name",
@@ -36,17 +36,17 @@ export default function PreviewProduct({ closeModal, assistantData }) {
     <div
       onClick={handleBackgroundClick}
       className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
-    fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-    z-50 justify-center items-center left-1/2
-     bg-opacity-40 w-full h-full `}
+  fixed top-1/2 -translate-x-1/2 -translate-y-1/2
+  z-50 justify-center items-center left-1/2
+    w-full h-full `}
     >
       <div
         className={`PreviewUser max-w-2xl 
-       dark:bg-gray-800 rounded-2xl duration-200 ease-linear
-       absolute top-2/3 sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  w-full
-       min-h-screen overflow-auto`}
+      rounded-2xl duration-200 ease-linear
+     absolute top-2/3 sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  w-full
+     min-h-screen overflow-auto sideModal `}
       >
-        <div className="relative dark:bg-gray-800 sm:px-4">
+        <div className="relative sideModal sm:p-5">
           <div
             dir="rtl"
             className="flex justify-between items-center w-full my-2 rounded "

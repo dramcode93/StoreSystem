@@ -4,6 +4,7 @@ import { IoMdAdd } from "react-icons/io";
 import { FaRegSave } from "react-icons/fa";
 import Loading from "../Loading/Loading";
 import FormText from "../../form/FormText";
+import { FiX } from "react-icons/fi";
 
 const PaymentField = ({
   label,
@@ -17,9 +18,17 @@ const PaymentField = ({
   newPaymentMethod,
 }) => {
   return (
-    <li className="bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3 list-none">
-      <div className="text-gray-200 font-bold text-xl">
-        {label} :
+    <li className="secondary mx-10 rounded-md py-4 px-4 mb-3 list-none">
+      <div className="secondaryF font-bold text-xl mb-0">
+      <p className="secondaryF flex">
+          {label} :
+          {isEditing ? (
+            <FiX
+              className="cursor-pointer text-2xl text-red-500"
+              onClick={() => handleAddToggle(label.toLowerCase())}
+            />
+          ) : null}
+        </p>
         {isLoading ? (
           <Loading />
         ) : (
@@ -28,11 +37,11 @@ const PaymentField = ({
               value.map((method, index) => (
                 <div
                   key={index}
-                  className="text-white flex justify-between items-center w-4/5 gap-4"
+                  className="secondaryF flex justify-between items-center w-4/5 gap-4"
                 >
                   <div className="flex gap-4">
-                    <p className="text-white w-40">{`${method.name}`}</p>
-                    <p className="text-white">{`${method.account}`}</p>
+                    <p className=" w-40">{`${method.name}`}</p>
+                    <p className="">{`${method.account}`}</p>
                   </div>
                   <MdDelete
                     className="text-2xl mb-3 cursor-pointer"
@@ -42,7 +51,7 @@ const PaymentField = ({
               ))
             ) : (
               <>
-              <p className="text-white">No payment methods available yet.</p>
+              <p className="secondaryF">No payment methods available yet.</p>
               </>
             )}
             {isEditing ? (
