@@ -4,8 +4,7 @@ import { useI18nContext } from "../context/i18n-context";
 import FormNumber from "../../form/FormNumber";
 import axios from "axios";
 import Cookies from "js-cookie";
-import FormText from "../../form/FormText";
-import FormSelect from "../../form/FormSelect";
+ import FormSelect from "../../form/FormSelect";
 import FormInput from "../../form/FormInput";
 
 export default function AddSubShop({ closeModal, modal }) {

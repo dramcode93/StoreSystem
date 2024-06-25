@@ -4,9 +4,8 @@ import { ChalkboardSimple } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
 import Cookies from "js-cookie";
 import axios from "axios";
-
+import styles from "../Shop/css/AllShop.module.css"
 const Shop = () => {
-  const { language, t } = useI18nContext();
   const token = Cookies.get("token");
   const [loading, setLoading] = useState(true);
   const [debts, setDebts] = useState();
@@ -18,6 +17,7 @@ const Shop = () => {
   const [monthlySales, setMonthlySales] = useState();
   const [yearlyEarning, setYearlyEarning] = useState();
   const [yearlySales, setYearlySales] = useState();
+  const { t, language } = useI18nContext();
 
   const fetchData = useCallback(async () => {
     try {
@@ -176,7 +176,7 @@ const Shop = () => {
                 rooms={formatMoney(monthlyEarning)}
               />
             </div>
-            <div></div>
+            <div className={styles.dadd}></div>
           </div>
 
           <div className="d-flex justify-around items-center flex-col gap-4">
