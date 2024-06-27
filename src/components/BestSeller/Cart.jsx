@@ -29,7 +29,6 @@ const Cart = () => {
                 throw new Error('No token found.');
             }
         } catch (error) {
-            ErrorAlert({ text: error.response?.data?.message || 'Error fetching data' });
         } finally {
             setLoading(false);
         }
@@ -190,7 +189,7 @@ const Cart = () => {
                                 </div>
                                 <div>
                                     <button onClick={() => handleDeleteProduct(cartItem?._id)}>
-                                        <MdDelete className="text-white text-3xl font-bold" />
+                                        <MdDelete className=" text-3xl font-bold" color="red" />
                                     </button>
                                 </div>
                             </div>
