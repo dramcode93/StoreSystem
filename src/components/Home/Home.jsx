@@ -26,8 +26,8 @@ const Home = ({ role, modal }) => {
             Authorization: `Bearer ${token}`,
           },
           params: {
-            sort: '-sold', // Assuming '-sales' sorts by sales in descending order
-            limit: 5        // Limits the results to the top 5 products
+            sort: '-sold',
+            limit: 4       
           }
         });
         setBestSellingProducts(response.data.data);
@@ -107,8 +107,6 @@ const Home = ({ role, modal }) => {
     setRefresh(prev => !prev);
   };
 
-
-
   return (
     <div>
       <div className={`absolute top-28 dark:text-gray-900 -z-3 w-full ${language === "ar" ? "right-28" : "left-40"}`}>
@@ -147,7 +145,7 @@ const Home = ({ role, modal }) => {
         <div className="container-fluid pt-4 px-4 ">
           <div className="d-flex align-items-center justify-content-center gap-5">
             <div className="w-4/12">
-              <div className="bg-gray-100 text-center rounded p-4">
+              <div className="bg-gray-100 text-center rounded p-5">
                 <div className="d-flex align-items-center justify-content-between mb-4">
                   <h6 className="fw-bold mb-0">{t('Home.SalesByProductCategory')}</h6>
                   <Link to="#" onClick={handleRefresh}>{t('Home.ShowAll')}</Link>

@@ -13,7 +13,7 @@ const BestSeller = () => {
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const token = Cookies.get("token");
-    const { t, language } = useI18nContext();
+    const {t, language } = useI18nContext();
     const navigate = useNavigate();
 
     const fetchData = useCallback(async () => {
@@ -35,14 +35,13 @@ const BestSeller = () => {
         }
     }, [token, searchTerm]);
     console.log(token)
-    const handleAddtoCart = async (id) => {
+    const handleAddToCart = async (id) => {
         try {
             const response = await axios.post(
                 "https://store-system-api.gleeze.com/api/cart",
                 { productId: id },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            console.log("Product added successfully:", response.data);
             setError(null);
             SuccessAlert({ title: "Success", text: "Product added to cart!" });
         } catch (error) {
@@ -80,15 +79,15 @@ const BestSeller = () => {
                                 <div className='flex justify-center mb-5 mx-2'>
                                     <button
                                         className="bg-yellow-900 rounded-full hover:bg-yellow-800 w-36 fw-bold"
-                                        onClick={() => handleAddtoCart(product._id)}
+                                        onClick={() => handleAddToCart(product._id)}
                                     >
-                                        Add to Cart
+                                        {t(`BestSeller.AddToCart`)}
                                     </button>
                                     <button
                                         className="bg-pink-100 text-black rounded-full hover:bg-pink-300 w-36 fw-bold"
                                         onClick={() => { navigate(`/previewProduct/${product._id}`) }}
                                     >
-                                        Preview
+                                        {t(`BestSeller.Preview`)}
                                     </button>
                                 </div>
                             </div>
