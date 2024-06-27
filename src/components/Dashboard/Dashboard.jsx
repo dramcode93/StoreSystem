@@ -377,7 +377,7 @@ const Dashboard = ({ children }) => {
                                 {dropdownItem.dropdownItems && (
                                   <>
                                     {activeBranch === dropdownIndex ? (
-                                      <FiChevronUp  />
+                                      <FiChevronUp />
                                     ) : (
                                       <FiChevronDown />
                                     )}

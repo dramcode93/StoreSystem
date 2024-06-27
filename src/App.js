@@ -125,7 +125,7 @@ const App = () => {
   // console.log(openSideBar)
   return (
     <BrowserRouter>
-      <MyComponent/>
+      <MyComponent />
       {/* <MyComponent openSideBar={toggleOpenSideBar}  isSideBarOpen={openSideBar}/> */}
       <div
         className="flex items-start justify-center"
@@ -133,7 +133,7 @@ const App = () => {
       >
         {isLoggedIn && !isTokenExpired && (<>
           {/* <Dashboard isSideBarOpen={openSideBar} dir={language === "ar" ? "rtl" : "ltr"} /> */}
-          <Dashboard  dir={language === "ar" ? "rtl" : "ltr"} />
+          <Dashboard dir={language === "ar" ? "rtl" : "ltr"} />
         </>
           
         )}
