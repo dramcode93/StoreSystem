@@ -107,7 +107,7 @@ const PreviewProduct = () => {
           </div>
         </div>
       ) : (
-        <div className="text-white">Product not found</div>
+        <div className="secondaryF">Product not found</div>
       )}
     </section>
   );
