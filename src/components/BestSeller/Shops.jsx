@@ -5,7 +5,7 @@ import Loading from '../Loading/Loading';
 import { useI18nContext } from "../context/i18n-context";
 import { useNavigate } from 'react-router-dom';
 import { ErrorAlert } from '../../form/Alert';
-import { IoIosArrowDropleft } from "react-icons/io";
+import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io";
 import './styles.css';
 
 const Shops = () => {
@@ -69,9 +69,9 @@ const Shops = () => {
                     {loading ? (
                         <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
                     ) : (
-                        <div className='flex flex-wrap gap-x-4 gap-y-6'>
+                        <div className='d-flex flex-wrap'>
                             {shops.map((shop) => (
-                                <div key={shop._id} className='bg-gray-500 p-2 w-72 h-96 bg-opacity-25 rounded-xl overflow-hidden relative m-3'>
+                                <div key={shop._id} className='bg-gray-500 p-2 w-72 min-h-72  bg-opacity-25 rounded-xl overflow-hidden relative mx-10 my-3'>
                                     <img
                                         src={shop?.image}
                                         alt={shop?.name}
@@ -79,15 +79,15 @@ const Shops = () => {
                                         className='object-cover border-spacing-2 border-blue-500 rounded-lg w-36 mx-auto mt-2 h-36 bg-white transition-transform duration-300 transform'
                                     />
                                     <div>
-                                        <h3 className='mt-2 text-white font-bold text-center'>{shop?.name}</h3>
-                                        <h4 className='mt-2 text-white font-bold text-center'>
+                                        <h3 className='mt-1 text-white font-bold text-center'>{shop?.name}</h3>
+                                        <h4 className=' text-white font-bold text-center'>
                                             Type:
                                         </h4>
-                                        <h4 className='mt-2 text-white font-bold text-center'>
+                                        <h4 className=' text-white font-bold text-center'>
                                             {shop?.type.map((type) => language === "ar" ? type.type_ar : type.type_en).join(', ')}
                                         </h4>
                                     </div>
-                                    <div className='flex justify-center mb-5 mx-2'>
+                                    <div className='flex justify-center mb-1 mx-2'>
                                         <button
                                             className="bg-yellow-900 rounded-full mt-3 hover:bg-yellow-800 fw-bold"
                                             onClick={() => { navigate(`/shopProduct/${shop._id}`) }}
@@ -101,12 +101,16 @@ const Shops = () => {
                     )}
                 </div>
             </section>
-            <div className='filter-container bg-gray-700 bg-opacity-25 w-44 absolute top-32 p-3 '>
+            <div className={`filter-container bg-gray-700 bg-opacity-25 w-44 absolute top-32 p-3 ${language === "ar" ? "filter-left" : "filter-right"}`}>
                 <div className='flex w-full'>
-                    <IoIosArrowDropleft className='text-white text-3xl mr-2' />
+                    {language === "ar" ? (
+                        <IoIosArrowDropright className='text-white text-3xl ml-2' />
+                    ) : (
+                        <IoIosArrowDropleft className='text-white text-3xl mr-2' />
+                    )}
                     <div>
                         <h3 className="font-bold text-white text-xl mb-3">Filter by Type</h3>
-                        <div className="mb-2 pr-4 flex w-2/3">
+                        <div className="mb-2 pr-4 d-flex w-2/3">
                             <input
                                 type="radio"
                                 name="typeFilter"
@@ -119,7 +123,7 @@ const Shops = () => {
                             </label>
                         </div>
                         {shopTypes.map((type) => (
-                            <div key={type._id} className="mb-2 flex w-2/3">
+                            <div key={type._id} className="mb-2 d-flex w-2/3">
                                 <input
                                     type="radio"
                                     name="typeFilter"

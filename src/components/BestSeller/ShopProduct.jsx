@@ -4,7 +4,7 @@ import axios from 'axios';
 import Loading from '../Loading/Loading';
 import { useI18nContext } from "../context/i18n-context";
 import { useNavigate, useParams } from 'react-router-dom';
-import { SuccessAlert, ErrorAlert } from '../../form/Alert'; // Adjust the import path accordingly
+import { SuccessAlert, ErrorAlert } from '../../form/Alert';
 
 const ShopProduct = () => {
     const API_URL = "https://store-system-api.gleeze.com/api/shops";
@@ -25,7 +25,7 @@ const ShopProduct = () => {
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
                 setProducts(productsResponse.data.data);
-                setError(null); // Clear any previous errors
+                setError(null);
             } else {
                 throw new Error("No token found.");
             }
@@ -63,23 +63,21 @@ const ShopProduct = () => {
                 {loading ? (
                     <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
                 ) : (
-                    <div className='flex flex-wrap'>
+                    <div className='d-flex flex-wrap'>
                         {products.length > 0 ? (
                             products.map((product) => (
-                                <div key={product._id} className='w-1/5 h-96 bg-gray-500 bg-opacity-25 m-3 rounded-xl overflow-hidden relative '>
+                                <div key={product._id} className='w-72 h-96 bg-gray-500 bg-opacity-25 m-3 rounded-xl overflow-hidden relative '>
                                     <img
                                         src={product?.images[0]}
                                         alt={product?.name}
                                         crossOrigin="anonymous"
-                                        className='object-cover border-spacing-2 border-blue-500 rounded-lg w-1/2 mx-auto mt-2 h-1/3 bg-white transition-transform duration-300 transform hover:scale-110'
+                                        className='object-cover border-spacing-2 border-blue-500 rounded-lg w-1/2 mx-auto mt-2 h-1/3 bg-white transition-transform duration-300 transform'
                                     />
-                                    <div>
-                                        <p className='text-center mt-2 text-white text-xl font-bold'>{product?.name}</p>
-                                        <p className='text-white text-center text-xl font-bold'>{product?.sellingPrice}$</p>
-                                        <p className='text-white text-center text-xl font-bold'>Quantity: {product?.quantity}</p>
-                                        <p className='text-white text-center text-xl font-bold'>Sold: <del>{product?.sold}</del></p>
-                                    </div>
-                                    <div className='flex justify-center mb-5 mx-2'>
+                                    <p className='text-center mt-1 text-white text-xl font-bold'>{product?.name}</p>
+                                    <p className=' text-white text-center text-lg font-bold'>{product?.sellingPrice}$</p>
+                                    <p className=' text-white text-center text-lg font-bold'>Quantity: {product?.quantity}</p>
+                                    <p className=' text-white text-center text-lg font-bold'>Sold: {product?.sold}</p>
+                                    <div className='flex justify-center mb-2 mx-2'>
                                         <button
                                             className="bg-yellow-900 rounded-full hover:bg-yellow-800 w-32 fw-bold"
                                             onClick={() => handleAddtoCart(product._id)}
