@@ -38,6 +38,7 @@ import CouponsTable from "./components/copouns/copounsTable.jsx";
 import BranchInformation from "./components/Branches/BranchInfo.jsx";
 import FinancialDealings from "./components/Branches/FinancialDealings.jsx";
 import SubSalesTable from "./components/subSales/SubSalesTable.jsx";
+import ShopTypes from "./components/ShopTypes/ShopTypes.jsx";
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -134,8 +135,7 @@ const App = () => {
           {/* <Dashboard isSideBarOpen={openSideBar} dir={language === "ar" ? "rtl" : "ltr"} /> */}
           <Dashboard dir={language === "ar" ? "rtl" : "ltr"} />
         </>
-
-
+          
         )}
         <div className="flex-grow">
           <Routes>
@@ -153,6 +153,7 @@ const App = () => {
                   <Route path="/home" element={<Home />} />
                 )}
                 <Route path="/shop" element={<Shop />} />
+                <Route path="/shopTypes" element={<ShopTypes />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/shops" element={<Shops />} />
                 <Route path="/shopInformation" element={<ShopInformation />} />

@@ -6,6 +6,10 @@ import FormNumber from "../../form/FormNumber";
 import { X } from "@phosphor-icons/react";
 import FormSelect from "../../form/FormSelect";
 import FormInput from "../../form/FormInput";
+import { FaRegSave } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import { FiX } from "react-icons/fi";
+import { IoMdAdd } from "react-icons/io";
 
 function UpdateCustomer({ closeModal, role, modal, customerData }) {
   const handleBackgroundClick = (e) => {
@@ -24,6 +28,8 @@ function UpdateCustomer({ closeModal, role, modal, customerData }) {
   const [governorates, setGovernorates] = useState([]);
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isPhoneAdding, setIsPhoneAdding] = useState(false);
+  const [isAddressAdding, setIsAddressAdding] = useState(false);
 
   useEffect(() => {
     const fetchGovernorates = async () => {
@@ -86,12 +92,12 @@ function UpdateCustomer({ closeModal, role, modal, customerData }) {
         `https://store-system-api.gleeze.com/api/customers/${customerData._id}`,
         {
           name: newName,
-          phone: newPhone,
-          address: {
-            governorate: newSelectedGovernorate, //this should pass governorate id
-            city: newSelectedCity, //this should pass city id
-            street: newStreet,
-          },
+          // phone: newPhone,
+          // address: {
+          //   governorate: newSelectedGovernorate, //this should pass governorate id
+          //   city: newSelectedCity, //this should pass city id
+          //   street: newStreet,
+          // },
         },
         {
           headers: {
@@ -106,18 +112,112 @@ function UpdateCustomer({ closeModal, role, modal, customerData }) {
         console.error("Error updating customer:", error);
       });
   };
+
+  const handleAddPhoneToggle = (field) => {
+    setIsPhoneAdding(!isPhoneAdding);
+    setNewPhone("");
+  };
+  const handleAddAddressToggle = (field) => {
+    setIsAddressAdding(!isAddressAdding);
+    setNewStreet("");
+    setNewSelectedGovernorate("");
+    setNewSelectedCity("");
+  };
+
+  const handleAddPhone = async () => {
+    try {
+      if (token) {
+        const response = await axios.put(
+          `https://store-system-api.gleeze.com/api/customers/${customerData._id}/phone`,
+          { phone: newPhone },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setIsPhoneAdding(false);
+        window.location.href = "/customers";
+      } else {
+        console.error("No token found.");
+      }
+    } catch (error) {
+      console.error("Error adding phone:", error.response);
+    }
+  };
+
+  const handleDelPhone = async (index, e) => {
+    axios
+      .delete(
+        `https://store-system-api.gleeze.com/api/customers/${customerData._id}/phone`,
+
+        {
+          data: { phone: customerData.phone[index] },
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((response) => {
+        window.location.href = "/customers";
+      })
+      .catch((error) => {
+        console.error("Error deleting phone:", error);
+      });
+  };
+
+  const handleAddAddress = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios
+        .put(
+          `https://store-system-api.gleeze.com/api/customers/${customerData._id}/address`,
+          {
+            address: {
+              governorate: newSelectedGovernorate,
+              city: newSelectedCity,
+              street: newStreet,
+            },
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((response) => {
+          setIsAddressAdding(false);
+          window.location.href = "/customers";
+        });
+      console.log("Customer added successfully:", response.data);
+      closeModal();
+    } catch (error) {
+      console.error("Error adding customer:", error);
+    }
+  };
+  const handleDelAddress = async (index, e) => {
+    const addressToDelete = {
+      governorate: customerData.address[index].governorate._id,
+      city: customerData.address[index].city._id,
+      street: customerData.address[index].street,
+    };
+
+    console.log(addressToDelete)
+    axios
+      .delete(
+        `https://store-system-api.gleeze.com/api/customers/${customerData._id}/address`,
+        {
+          data: { address: addressToDelete },
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((response) => {
+        window.location.href = "/customers";
+      })
+      .catch((error) => {
+        console.error("Error deleting address:", error);
+      });
+  };
   return (
     <div
-    onClick={handleBackgroundClick}
-    className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
+      onClick={handleBackgroundClick}
+      className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
       fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-      z-50 justify-center items-center ${
-        modal ? "-right-1/2" : "-left-[100%]"
-      }
+      z-50 justify-center items-center ${modal ? "-right-1/2" : "-left-[100%]"}
        w-full h-full `}
-  >
-    <div
-      className={`w-full max-w-min 
+    >
+      <div
+        className={`w-full max-w-min 
          sideModal duration-200 ease-linear
          ${
            language === "ar"
@@ -125,8 +225,8 @@ function UpdateCustomer({ closeModal, role, modal, customerData }) {
              : "absolute right-0 rounded-l-xl"
          }
          h-screen overflow-y-auto overflow-x-hidden`}
-    >
-      <div className="relative p-4 sideModal sm:p-5">
+      >
+        <div className="relative p-4 sideModal sm:p-5">
           <div
             dir="rtl"
             className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
@@ -155,66 +255,179 @@ function UpdateCustomer({ closeModal, role, modal, customerData }) {
               onChange={(e) => setNewName(e.target.value)}
               placeholder="Name"
             />
-            <FormNumber
-              label="Phone Number"
-              name="Phone"
-              value={newPhone}
-              onChange={(e) => setNewPhone(e.target.value)}
-              placeholder="Phone Number"
-            />
-            <FormInput
-              label="Street"
-              name="Street"
-              value={newStreet}
-              onChange={(e) => setNewStreet(e.target.value)}
-              placeholder="Street"
-            />
-            <FormSelect
-              selectLabel="Governorate"
-              headOption="Select Governorate"
-              handleChange={handleGovernorateChange}
-              options={governorates.map((governorate) => ({
-                value: governorate._id,
-                label:
-                  language === "ar"
-                    ? governorate.governorate_name_ar
-                    : governorate.governorate_name_en,
-              }))}
-              value={newSelectedGovernorate}
-              name="governorate"
-            />
-            <FormSelect
-              selectLabel="City"
-              headOption="Select City"
-              handleChange={(e) => {
-                setNewSelectedCity(e.target.value);
-              }}
-              options={cities.map((city) => ({
-                value: city._id,
-                label:
-                  language === "ar" ? city.city_name_ar : city.city_name_en,
-              }))}
-              value={newSelectedCity}
-              name="city"
-            />
-
             <div className=" flex justify-center mt-9">
               <button
-                disabled={
-                  !newName ||
-                  !newPhone ||
-                  !newSelectedGovernorate ||
-                  !newSelectedCity ||
-                  !newStreet
-                }
-                className="secondaryBtn w-1/2 h-12 rounded-md  fw-bold text-xl "
-
+                disabled={!newName}
+                className="secondaryBtn w-96 h-12 rounded-md  fw-bold text-xl "
               >
-                Edit Customer
+                Update Customer Name
               </button>
               <div>&nbsp;</div>
             </div>
           </form>
+          {modal && customerData.phone ? (
+            <div className="secondaryF font-bold text-2xl mt-5">
+              <p className="secondaryF flex">
+                Phone Number :
+                {isPhoneAdding ? (
+                  <FiX
+                    className="cursor-pointer text-2xl text-red-500"
+                    onClick={() => setIsPhoneAdding(!isPhoneAdding)}
+                  />
+                ) : null}
+              </p>
+              <div>
+                {customerData.phone.length >= 1 ? (
+                  <div>
+                    {customerData.phone &&
+                      customerData.phone.map((phone, index) => (
+                        <div
+                          key={index}
+                          className="secondaryF flex w-1/2 text-xl"
+                        >
+                          <p className="secondaryF">{phone}</p>
+                          <MdDelete
+                            className="text-2xl mb-3 cursor-pointer"
+                            color="red"
+                            onClick={() => {
+                              handleDelPhone(index);
+                            }}
+                          />
+                        </div>
+                      ))}
+                  </div>
+                ) : (
+                  <div className="text-xl secondaryF">No phones Added</div>
+                )}
+                {isPhoneAdding ? (
+                  <div>
+                    {/* <input
+                      name="Phone"
+                      className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
+                      onChange={(e) => setNewPhone(e.target.value)}
+                    /> */}
+                    <FormNumber
+                      placeholder="Phone"
+                      onChange={(e) => setNewPhone(e.target.value)}
+                    />
+                    <FaRegSave
+                      onClick={handleAddPhone}
+                      className="text-2xl mt-2 cursor-pointer"
+                    />
+                  </div>
+                ) : (
+                  <IoMdAdd
+                    onClick={handleAddPhoneToggle}
+                    className="text-2xl cursor-pointer"
+                  />
+                )}
+              </div>
+            </div>
+          ) : (
+            <div></div>
+          )}
+
+          {modal && customerData.address ? (
+            <div className="secondaryF font-bold text-2xl mt-5">
+              <p className="secondaryF flex">
+                Address :
+                {isAddressAdding ? (
+                  <FiX
+                    className="cursor-pointer text-2xl text-red-500"
+                    onClick={() => setIsAddressAdding(!isAddressAdding)}
+                  />
+                ) : null}
+              </p>
+              <div>
+                {customerData.address.length >= 1 ? (
+                  <div>
+                    {customerData.address &&
+                      customerData.address.map((address, index) => (
+                        <div
+                          key={index}
+                          className="secondaryF d-flex  gap-1 text-xl"
+                        >
+                          <p className="secondaryF">
+                            {`${address.street},  
+            ${
+              language === "ar"
+                ? address.city?.city_name_ar
+                : address.city?.city_name_en
+            },  
+            ${
+              language === "ar"
+                ? address.governorate?.governorate_name_ar
+                : address.governorate?.governorate_name_en
+            }`}
+                          </p>
+                          <MdDelete
+                            className="text-2xl mb-3 cursor-pointer"
+                            color="red"
+                            onClick={() => handleDelAddress(index)}
+                          />
+                        </div>
+                      ))}
+                  </div>
+                ) : (
+                  <div className="text-xl text-gray-500">
+                    No Addresses Aadded
+                  </div>
+                )}
+                {isAddressAdding ? (
+                  <div>
+                    <FormInput
+                      label="Street"
+                      name="Street"
+                      value={newStreet}
+                      onChange={(e) => setNewStreet(e.target.value)}
+                      placeholder="Street"
+                    />
+                    <FormSelect
+                      selectLabel="Governorate"
+                      headOption="Select Governorate"
+                      handleChange={handleGovernorateChange}
+                      options={governorates.map((governorate) => ({
+                        value: governorate._id,
+                        label:
+                          language === "ar"
+                            ? governorate.governorate_name_ar
+                            : governorate.governorate_name_en,
+                      }))}
+                      value={newSelectedGovernorate}
+                      name="governorate"
+                    />
+                    <FormSelect
+                      selectLabel="City"
+                      headOption="Select City"
+                      handleChange={(e) => {
+                        setNewSelectedCity(e.target.value);
+                      }}
+                      options={cities.map((city) => ({
+                        value: city._id,
+                        label:
+                          language === "ar"
+                            ? city.city_name_ar
+                            : city.city_name_en,
+                      }))}
+                      value={newSelectedCity}
+                      name="city"
+                    />
+                    <FaRegSave
+                      onClick={handleAddAddress}
+                      className="text-2xl mt-2 cursor-pointer"
+                    />
+                  </div>
+                ) : (
+                  <IoMdAdd
+                    onClick={handleAddAddressToggle}
+                    className="text-2xl cursor-pointer"
+                  />
+                )}
+              </div>
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
     </div>

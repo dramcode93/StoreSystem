@@ -9,6 +9,7 @@ export default function BillsFormPreview({ details, t, headers }) {
       setLoading(false);
     }
   }, [details]);
+  console.log(details)
   return (
     <dl>
       {loading ? (
@@ -31,6 +32,47 @@ export default function BillsFormPreview({ details, t, headers }) {
               {details?.name}
             </dd>
           </div>
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.userName} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {details?.userName}
+            </dd>
+          </div>
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.totalAmount} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {details?.totalAmount}
+            </dd>
+          </div>
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.discount} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {details?.discount}
+            </dd>
+          </div>
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.paidAmount} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {details?.paidAmount}
+            </dd>
+          </div>
+          <div className="d-flex gap-2 items-center">
+            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+              {headers?.remainingAmount} :
+            </dt>
+            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+              {details?.remainingAmount}
+            </dd>
+          </div>
+
           <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor">
             {headers?.products} :
           </dt>

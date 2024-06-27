@@ -11,7 +11,7 @@ import { FaRegSave } from "react-icons/fa";
 import PhoneField from "./PhoneField";
 import FormNumber from "../../form/FormNumber";
 import { FiX } from "react-icons/fi";
-
+ 
 function UpdateUser({ closeModal, role, modal, userData }) {
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -110,6 +110,7 @@ function UpdateUser({ closeModal, role, modal, userData }) {
   };
   const handleAddAddressToggle = (field) => {
     setIsAddressAdding(!isAddressAdding);
+    
   };
 
   const handleAddPhone = async () => {

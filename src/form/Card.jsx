@@ -38,7 +38,7 @@ export default function Card({
           ease-linear duration-100 flex flex-col gap-2 justify-between items-center`}
         >
           <div className="d-flex items-center justify-between py-5">
-            <div className="absolute right-10">{icon}</div>
+            <div className="absolute right-10 ">{icon}</div>
             <div className=" w-full">
               <h1 className=" absolute left-10 bottom-24 fs-5 ">{name}</h1>
             </div>

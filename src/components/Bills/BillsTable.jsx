@@ -178,62 +178,68 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
   const handlePreviewBill = (bill) => {
     openPreview(bill);
   };
+
+  console.log(bills);
   return (
     <div>
       <section
-           className={`secondary mx-10 pt-2 absolute top-32 -z-50 w-3/4 ${
-        language === "ar" ? "left-10" : "right-10"
-      }`}
+        className={`secondary mx-10 pt-2 absolute top-32 -z-50 w-3/4 ${
+          language === "ar" ? "left-10" : "right-10"
+        }`}
       >
-           <ConfirmationModal
-        item="Bill"
-        show={showConfirmation}
-        onCancel={cancelDelete}
-        onConfirm={() => {
-          confirmDelete();
-          setShowConfirmation(false);
-        }}
-      />
+        <ConfirmationModal
+          item="Bill"
+          show={showConfirmation}
+          onCancel={cancelDelete}
+          onConfirm={() => {
+            confirmDelete();
+            setShowConfirmation(false);
+          }}
+        />
         <div className="flex justify-between">
-        <div className="relative w-96 m-3">
-          <input
-            className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 dark:bg-gray-500"
-            type="text"
-            onChange={(e) => setSearchInput(e.target.value)}
-            value={searchInput}
-            placeholder={t("Products.Search")}
-          />
-          <CiSearch
-            className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${
-              language === "ar" ? "left-3" : "right-3"
-            } cursor-pointer`}
-            onClick={handleSearch}
-          />
-        </div>
+          <div className="relative w-96 m-3">
+            <input
+              className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 dark:bg-gray-500"
+              type="text"
+              onChange={(e) => setSearchInput(e.target.value)}
+              value={searchInput}
+              placeholder={t("Products.Search")}
+            />
+            <CiSearch
+              className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${
+                language === "ar" ? "left-3" : "right-3"
+              } cursor-pointer`}
+              onClick={handleSearch}
+            />
+          </div>
           <div>
             <button
-            className="secondaryBtn w-28 rounded-md m-3 fw-bold"
-            onClick={openCreate}
+              className="secondaryBtn w-28 rounded-md m-3 fw-bold"
+              onClick={openCreate}
             >
               {t("Products.Add")}
             </button>
           </div>
         </div>
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
-          <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
-             <th scope="col" className="px-4 py-4">
+          <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
+            <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
+              <th scope="col" className="px-4 py-4">
                 Code
               </th>
               <th scope="col" className="px-4 py-4">
                 Customer
               </th>
               <th scope="col" className="px-4 py-4">
-                Phone
-              </th>
-              <th scope="col" className="px-4 py-4">
                 Created At
               </th>
+              <th scope="col" className="px-4 py-4">
+                Paid Amount
+              </th>
+              <th scope="col" className="px-4 py-4">
+                Total Amount
+              </th>
+
               <th scope="col" className="px-4 py-4">
                 <span className="sr-only">Actions</span>
               </th>
@@ -257,7 +263,7 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                   <tr
                     key={bill._id}
                     className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
-                    >
+                  >
                     <th
                       scope="row"
                       className="px-4 py-4 font-medium text-gray-900whitespace-nowrap dark:text-white max-w-[5rem] truncate"
@@ -265,11 +271,11 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                       {bill._id.slice(-4)}
                     </th>
                     <td className="px-4 py-4">{bill.customer?.name}</td>
-                    <td className="px-4 py-4">
+                    {/* <td className="px-4 py-4">
                       {bill.customer?.phone.map((phone, index) => (
                         <div key={index}>{phone}</div>
                       ))}
-                    </td>
+                    </td> */}
                     <td className="px-4 py-4">
                       <div>
                         {new Date(bill.createdAt).toLocaleTimeString("en-US", {
@@ -285,6 +291,10 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                         })}
                       </div>
                     </td>
+                    <td className="px-4 py-4">{bill.paidAmount}</td>
+                    <td className="px-4 py-4">
+                      {bill.totalAmountAfterDiscount}
+                    </td>
                     <td className="px-4 py-3 flex items-center justify-end">
                       <button
                         className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
@@ -296,7 +306,7 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                           size={25}
                           weight="bold"
                           className="hover:bg-slate-300  dark:hover:bg-gray-600 w-10 rounded-lg"
-                          />
+                        />
                       </button>
                       <div
                         className="absolute z-10"
@@ -308,7 +318,7 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                             selectedBillId === bill._id
                               ? "absolute -top-3 me-5 -right-10 overflow-auto"
                               : "hidden"
-                        } z-10 w-44  rounded divide-y divide-gray-100 shadow secondary `}
+                          } z-10 w-44  rounded divide-y divide-gray-100 shadow secondary `}
                         >
                           <ul className="text-sm bg-transparent pl-0 mb-0">
                             <li className="">
@@ -368,8 +378,8 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
           <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
             <li>
               <button
-              className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              onClick={handlePreviousPage}
+                className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={handlePreviousPage}
               >
                 <span className="sr-only">Previous</span>
                 <CaretLeft size={18} weight="bold" />
@@ -378,11 +388,11 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
             {pageButtons.map((page) => (
               <li key={page}>
                 <button
-                   className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
-                  pagination.currentPge === page
-                    ? "bg-gray-200 text-gray-800"
-                    : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                }`}
+                  className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
+                    pagination.currentPge === page
+                      ? "bg-gray-200 text-gray-800"
+                      : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  }`}
                   onClick={() => handlePageChange(page)}
                 >
                   {page}
@@ -391,8 +401,8 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
             ))}
             <li>
               <button
-              className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              onClick={handleNextPage}
+                className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={handleNextPage}
               >
                 <span className="sr-only">Next</span>
                 <CaretRight size={18} weight="bold" />

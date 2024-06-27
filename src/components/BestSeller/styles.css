@@ -7,18 +7,6 @@
     -o-transition: all 0.3s ease-in-out;
 }
 
-.filter-right {
-    right: -8rem;
-}
-
-.filter-right:hover {
+/* .filter-container:hover {
     right: 0;
-}
-
-.filter-left {
-    left: -8rem;
-}
-
-.filter-left:hover {
-    left: 0;
-}
+}  */

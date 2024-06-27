@@ -163,10 +163,10 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
         console.error("information is incomplete");
         return;
       }
-      const totalPaidAmount = billItems.reduce(
-        (total, item) => total + Number(item.paidAmount),
-        0
-      );
+      // const totalPaidAmount = billItems.reduce(
+      //   (total, item) => total + Number(item.paidAmount),
+      //   0
+      // );
 
       const formattedProducts = billItems.map((item) => ({
         product: item.product.id,
@@ -176,8 +176,11 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
       const requestBody = {
         customer: customerId,
         products: formattedProducts,
-        paidAmount: totalPaidAmount,
+        paidAmount: newPaidAmount,
       };
+      console.log(requestBody)
+      console.log(billData._id)
+      console.log(token)
       const response = await axios.put(
         `https://store-system-api.gleeze.com/api/bills/${billData?._id}`,
         requestBody,
@@ -185,10 +188,11 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      console.log(response)
       setCustomerId("");
       setNewPaidAmount("");
       setCustomerAddress("");
-      window.location.href = "/bills"; // Redirect to bills page after successful submission
+      window.location.href = "/bills";
     } catch (error) {
       console.error("Error updating bill:", error);
     } finally {
@@ -307,6 +311,7 @@ const UpdateBills = ({ closeModal, role, modal, billData }) => {
               </button>
               <button
                 type="submit"
+                // disabled={!newPaidAmount||!newDiscount}
                 className="secondaryBtn h-12 rounded-md fw-bold text-xl m-2 "
               >
                 Edit Bill +

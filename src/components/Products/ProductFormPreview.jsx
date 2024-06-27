@@ -135,7 +135,7 @@ export default function ProductFormPreview({ details, t, headers }) {
             }}
           /> */}
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor">
+            <dt className="mb-4 font-semibold leading-none secondaryF">
               {headers?.code} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
@@ -144,7 +144,7 @@ export default function ProductFormPreview({ details, t, headers }) {
           </div>
 
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+            <dt className="mb-4 font-semibold leading-none secondaryF d-flex">
               {headers?.name} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
@@ -153,7 +153,7 @@ export default function ProductFormPreview({ details, t, headers }) {
           </div>
 
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+            <dt className="mb-4 font-semibold leading-none secondaryF d-flex">
               {headers?.description} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
@@ -162,7 +162,7 @@ export default function ProductFormPreview({ details, t, headers }) {
           </div>
 
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+            <dt className="mb-4 font-semibold leading-none secondaryF d-flex">
               {headers?.category} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
@@ -171,7 +171,7 @@ export default function ProductFormPreview({ details, t, headers }) {
           </div>
 
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+            <dt className="mb-4 font-semibold leading-none secondaryF d-flex">
               {headers?.quantity} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
@@ -180,7 +180,7 @@ export default function ProductFormPreview({ details, t, headers }) {
           </div>
 
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+            <dt className="mb-4 font-semibold leading-none secondaryF d-flex">
               {headers?.productPrice} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
@@ -189,7 +189,7 @@ export default function ProductFormPreview({ details, t, headers }) {
           </div>
 
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+            <dt className="mb-4 font-semibold leading-none secondaryF d-flex">
               {headers?.sellingPrice} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
@@ -198,7 +198,7 @@ export default function ProductFormPreview({ details, t, headers }) {
           </div>
 
           <div className="d-flex gap-2 items-center">
-            <dt className="mb-3 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+            <dt className="mb-3 font-semibold leading-none secondaryF d-flex">
               {headers?.sold} :
             </dt>
             <dd className="mb-3 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
@@ -232,7 +232,7 @@ export default function ProductFormPreview({ details, t, headers }) {
             </div> */}
 
           <div className="d-flex gap-2 items-center">
-            <dt className=" font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
+            <dt className=" font-semibold leading-none secondaryF d-flex">
               {headers?.images}:
             </dt>
             <dd className="mb-0 font-light text-gray-500 sm:mb-5 dark:text-gray-400 d-flex gap-2 items-center">
@@ -297,7 +297,7 @@ export default function ProductFormPreview({ details, t, headers }) {
             <button
               type="button"
               onClick={addImages}
-              className=" h-min rounded-md bg-orange-400 font-medium text-xl max-w-60"
+              className=" h-min rounded-md secondaryBtn font-medium text-xl max-w-60"
             >
               Add Images
             </button>

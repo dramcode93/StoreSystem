@@ -123,14 +123,14 @@ const CreateBills = ({ closeModal, modal }) => {
         console.error("information is incomplete");
         return;
       }
-      const totalPaidAmount = billItems.reduce(
-        (total, item) => total + Number(item.paidAmount),
-        0
-      );
-      const totalDiscount = billItems.reduce(
-        (total, item) => total + Number(item.discount),
-        0
-      );
+      // const totalPaidAmount = billItems.reduce(
+      //   (total, item) => total + Number(item.paidAmount),
+      //   0
+      // );
+      // const totalDiscount = billItems.reduce(
+      //   (total, item) => total + Number(item.discount),
+      //   0
+      // );
 
       const formattedProducts = billItems.map((item) => ({
         product: item.product._id,
@@ -140,10 +140,10 @@ const CreateBills = ({ closeModal, modal }) => {
       const requestBody = {
         customer: customerId,
         products: formattedProducts,
-        paidAmount: totalPaidAmount,
-        discount: totalDiscount,
+        paidAmount: parseInt(paidAmount),
+        discount: parseInt(discount),
       };
-      // console.log(requestBody)
+      console.log(requestBody)
       const response = await axios.post(API_BILLS_URL, requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -276,6 +276,7 @@ const CreateBills = ({ closeModal, modal }) => {
                   Add Product +
                 </button>
                 <button
+                 disabled={!paidAmount||!discount}
                   type="submit"
                   className="secondaryBtn h-12 rounded-md fw-bold text-xl m-2 "
                 >

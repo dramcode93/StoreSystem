@@ -8,6 +8,7 @@ import FormText from "../../form/FormText";
 import { X } from "@phosphor-icons/react";
 import FormSelect from "../../form/FormSelect";
 import Loading from "../Loading/Loading";
+import FormTextArea from "../../form/FormTextArea";
 
 function UpdateProduct({ closeModal, role, modal, productData }) {
   const { id } = useParams();
@@ -17,6 +18,7 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
   // const [newProductQuantity, setNewProductQuantity] = useState("");
   const [newProductPrice, setNewProductPrice] = useState("");
   const [newSellingPrice, setNewSellingPrice] = useState("");
+  const [newDescription, setNewDescription] = useState("");
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [token] = useState(Cookies.get("token"));
@@ -53,6 +55,7 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
           // setNewProductQuantity(productData.quantity);
           setNewProductPrice(productData.productPrice);
           setNewSellingPrice(productData.sellingPrice);
+          setNewDescription(productData.description);
           setIsLoading(false);
         }
         setIsLoading(false);
@@ -77,6 +80,7 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
           productPrice: newProductPrice,
           sellingPrice: newSellingPrice,
           category: newCategory,
+          description:newDescription
         },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -191,12 +195,20 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
                   }}
                   placeholder="Selling Price"
                 />
+                <FormTextArea
+                  label="Description"
+                  name="description"
+                  onChange={(e) => {
+                    setNewDescription(e.target.value);
+                  }}
+                  placeholder="Description..."
+                  value={newDescription}
+                />
                 <div className="col-span-2 flex justify-center">
                   <button
                     disabled={
                       !newProductName ||
                       !newCategory ||
-                      // !newProductQuantity ||
                       !newProductPrice ||
                       !newSellingPrice
                     }

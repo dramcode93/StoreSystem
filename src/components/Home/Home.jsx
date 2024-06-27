@@ -156,7 +156,7 @@ const Home = ({ role, modal }) => {
               </div>
             </div>
             <div className="w-4/12">
-              <div className="bg-gray-100 text-center rounded p-4 h-80">
+              <div className="bg-gray-100 text-center rounded p-4 pt-1 h-80">
                 <div className="d-flex align-items-center justify-content-between my-4">
                   <h6 className="fw-bold mb-0">{t('Home.MonthlySales')}</h6>
                   <Link to="#" onClick={handleRefresh}>{t('Home.ShowAll')}</Link>

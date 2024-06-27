@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import FormInput from "../../form/FormInput";
 import { useI18nContext } from "../context/i18n-context";
+import Loading from "../Loading/Loading";
 
 const ChangeUserPassword = () => {
   const [password, setPassword] = useState("");
@@ -36,14 +37,16 @@ const ChangeUserPassword = () => {
             setError("User not found");
           }
         }
-        console.log(users);
+        // console.log(users);
       }
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
-      setLoading(false);
+      if(userName){
+        setLoading(false);
+      }
     }
-  }, [token, users]);
+  }, [token, users,id]);
 
   useEffect(() => {
     fetchData();
@@ -84,58 +87,54 @@ const ChangeUserPassword = () => {
     }
   };
 
-  return (
+
+return (
     <div
       className={` mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${
         language === "ar" ? "left-10" : "right-10"
       }`}
     >
-      <h3 className="font-bold secondaryF  text-center">Change <span className="font-bold text-blue-600 uppercase">{userName }</span> Password</h3>
-      <form className="px-2">
-        <FormInput
-          label="New Password :"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="confirm Password"
-          type="password"
-        />
-        <FormInput
-          label="Confirm New Password :"
-          name="passwordConfirmation"
-          value={passwordConfirmation}
-          onChange={(e) => setPasswordConfirmation(e.target.value)}
-          placeholder="confirm Password"
-          type="password"
-        />
-        {/* <label htmlFor="newPassword">New Password :</label>
-        <input
-          id="newPassword"
-          type="password"
-          name="password"
-          className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <label htmlFor="confirmPassword">Confirm New Password :</label>
-        <input
-          type="password"
-          id="confirmPassword"
-          name="passwordConfirmation"
-          className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
-          value={passwordConfirmation}
-          onChange={(e) => setPasswordConfirmation(e.target.value)}
-        /> */}
-        <button
-          onClick={handleEditPassword}
-          className="bg-yellow-900  rounded-lg hover:bg-yellow-800 fw-bold"
-        >
-          Change Password
-        </button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {userName && (
+            <h3 className="font-bold secondaryF text-center">
+              Change{" "}
+              <span className="font-bold text-blue-600 uppercase">{userName}</span>{" "}
+              Password
+            </h3>
+          )}
+          <form className="px-2">
+            <FormInput
+              label="New Password :"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="confirm Password"
+              type="password"
+            />
+            <FormInput
+              label="Confirm New Password :"
+              name="passwordConfirmation"
+              value={passwordConfirmation}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
+              placeholder="confirm Password"
+              type="password"
+            />
+            <button
+              onClick={handleEditPassword}
+              className="secondaryBtn h-12 fw-bold text-xl rounded-lg"
+            >
+              Change Password
+            </button>
+          </form>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+        </>
+      )}
     </div>
   );
 };
+
 
 export default ChangeUserPassword;

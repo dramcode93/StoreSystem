@@ -39,12 +39,13 @@ const PaymentField = ({
                   key={index}
                   className="secondaryF flex justify-between items-center w-4/5 gap-4"
                 >
-                  <div className="flex gap-4">
-                    <p className=" w-40">{`${method.name}`}</p>
-                    <p className="">{`${method.account}`}</p>
+                  <div className="flex gap-4 ">
+                    <p className=" w-40 secondaryF">{`${method.name}`}</p>
+                    <p className="secondaryF">{`${method.account}`}</p>
                   </div>
                   <MdDelete
                     className="text-2xl mb-3 cursor-pointer"
+                    color="red"
                     onClick={() => handleDelPaymentMethod(method)}
                   />
                 </div>

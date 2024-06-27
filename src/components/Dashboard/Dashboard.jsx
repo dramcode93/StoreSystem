@@ -11,124 +11,128 @@ import { FiChevronDown, FiChevronUp, FiShoppingCart } from "react-icons/fi";
 import Cookies from "js-cookie";
 import { BsFillPersonVcardFill } from "react-icons/bs";
 import axios from "axios";
-
+import { FaHome, FaStore, FaSitemap, FaChartBar, FaReceipt, FaUsers, FaTag, FaClipboardList, FaShoppingBag, FaUserCircle, FaFileInvoice, FaFileInvoiceDollar, FaPercentage, FaLock, FaChartPie, FaChartLine } from "react-icons/fa";
+import { MdCategory, MdShoppingCart, MdAccountCircle, MdOutlineInventory } from "react-icons/md";
+import { HiOutlineDocumentReport, HiUserGroup } from "react-icons/hi";
+import { IoMdPricetags } from "react-icons/io";
 const roleRoutes = {
   admin: [
-    { path: "/Home", name: "Home.Home", icon: <House /> },
+    { path: "/Home", name: "Home.Home", icon: <FaHome /> },
     {
       name: "Home.shop",
-      icon: <FiShoppingCart />,
+      icon: <FaStore />,
       dropdownItems: [
-        { text: "Main Shop", path: "/shop" },
-        { text: "Information", path: "/shopInformation" },
+        { text: "Main Shop", path: "/shop", icon: <FaStore /> },
+        { text: "Information", path: "/shopInformation", icon: <HiOutlineDocumentReport /> },
       ],
     },
     {
       name: "Home.branches",
-      icon: <FiShoppingCart />,
+      icon: <FaSitemap />,
       dropdownItems: [],
     },
     {
       path: "/SalesTable",
       name: "Home.Sales",
-      icon: <MdProductionQuantityLimits />,
+      icon: <FaChartLine />,
     },
     {
       path: "/SubSalesTable",
       name: "Home.subSales",
-      icon: <MdProductionQuantityLimits />,
+      icon: <FaChartPie />,
     },
     {
       path: "/FinancialTransactions",
       name: "Home.FinancialTransactions",
-      icon: <MdProductionQuantityLimits />,
+      icon: <FaFileInvoiceDollar />,
     },
-    { path: "/category", name: "Home.Category", icon: <BiCategory /> },
+    { path: "/category", name: "Home.Category", icon: <MdCategory /> },
     {
       path: "/products",
       name: "Home.products",
-      icon: <MdProductionQuantityLimits />,
+      icon: <MdOutlineInventory />,
     },
     {
       path: "/customers",
       name: "Home.Customer",
-      icon: <BsFillPersonVcardFill />,
-      dropdownItems: [
-        { text: "Create", path: "/create" },
-        { text: "Show bills", path: "/show-bills" },
-      ],
+      icon: <FaUsers />,
+      // dropdownItems: [
+      //   { text: "Create", path: "/create", icon: <MdAccountCircle /> },
+      //   { text: "Show bills", path: "/show-bills", icon: <FaFileInvoice /> },
+      // ],
     },
-    { path: "/bills", name: "Home.Bill", icon: <LiaMoneyBillSolid /> },
-    { path: "/order", name: "Home.orders", icon: <LiaMoneyBillSolid /> },
-    { path: "/coupons", name: "Home.coupons", icon: <LiaMoneyBillSolid /> },
+    { path: "/bills", name: "Home.Bill", icon: <FaFileInvoice /> },
+    { path: "/order", name: "Home.orders", icon: <FaShoppingBag /> },
+    { path: "/coupons", name: "Home.coupons", icon: <IoMdPricetags /> },
     {
       name: "Home.Profile",
-      icon: <CgProfile />,
+      icon: <FaUserCircle />,
       dropdownItems: [
-        { text: "Information", path: "/information" },
-        { text: "Change Password", path: "/change-password" },
-        { text: "Users", path: "/users" },
+        { text: "Information", path: "/information", icon: <FaUserCircle /> },
+        { text: "Change Password", path: "/change-password", icon: <FaLock /> },
+        { text: "Users", path: "/users", icon: <HiUserGroup /> },
       ],
     },
   ],
   manager: [
-    { path: "/Home", name: "Home.Home", icon: <House /> },
+    { path: "/Home", name: "Home.Home", icon: <FaHome /> },
+    { path: "/shopTypes", name: "Home.shopTypes", icon: <FaStore /> },
     {
       name: "Home.Profile",
-      icon: <CgProfile />,
+      icon: <FaUserCircle />,
       dropdownItems: [
-        { text: "Information", path: "/information" },
-        { text: "Change Password", path: "/change-password" },
-        { text: "Users", path: "/users" },
+        { text: "Information", path: "/information", icon: <FaUserCircle /> },
+        { text: "Change Password", path: "/change-password", icon: <FaLock /> },
+        { text: "Users", path: "/users", icon: <HiUserGroup /> },
       ],
     },
   ],
   user: [
-    { path: "/Home", name: "Home.Home", icon: <House /> },
-    { path: "/category", name: "Home.Category", icon: <BiCategory /> },
+    { path: "/Home", name: "Home.Home", icon: <FaHome /> },
+    { path: "/category", name: "Home.Category", icon: <MdCategory /> },
     {
       path: "/products",
       name: "Home.products",
-      icon: <MdProductionQuantityLimits />,
+      icon: <MdOutlineInventory />,
     },
     {
       name: "Home.Bill",
-      icon: <LiaMoneyBillSolid />,
-      dropdownItems: [{ text: "Create bills", path: "/create-bills" }],
+      icon: <FaFileInvoice />,
+      dropdownItems: [{ text: "Create bills", path: "/create-bills", icon: <FaFileInvoiceDollar /> }],
     },
     {
       name: "Home.Order",
-      icon: <MdBorderColor />,
+      icon: <FaShoppingBag />,
       dropdownItems: [
-        { text: "Agree", path: "/agree" },
-        { text: "Accept", path: "/accept" },
+        { text: "Agree", path: "/agree", icon: <FaClipboardList /> },
+        { text: "Accept", path: "/accept", icon: <FaClipboardList /> },
       ],
     },
     {
       path: "/customers",
       name: "Home.Customer",
-      icon: <BsFillPersonVcardFill />,
-      dropdownItems: [
-        { text: "Create", path: "/create" },
-        { text: "Show bills", path: "/show-bills" },
-      ],
+      icon: <FaUsers />,
+      // dropdownItems: [
+      //   { text: "Create", path: "/create", icon: <MdAccountCircle /> },
+      //   { text: "Show bills", path: "/show-bills", icon: <FaFileInvoice /> },
+      // ],
     },
     {
       name: "Home.Profile",
-      icon: <CgProfile />,
-      dropdownItems: [{ text: "Information", path: "/information" }],
+      icon: <FaUserCircle />,
+      dropdownItems: [{ text: "Information", path: "/information", icon: <FaUserCircle /> }],
     },
   ],
   customer: [
-    { path: "/Home", name: "Home.Home", icon: <House /> },
-    { path: "/cart", name: "Home.Cart", icon: <MdProductionQuantityLimits /> },
-    { path: "/orders", name: "Home.Order", icon: <MdBorderColor /> },
+    { path: "/Home", name: "Home.Home", icon: <FaHome /> },
+    { path: "/cart", name: "Home.Cart", icon: <MdShoppingCart /> },
+    { path: "/orders", name: "Home.Order", icon: <FaShoppingBag /> },
     {
       name: "Home.Profile",
-      icon: <CgProfile />,
+      icon: <FaUserCircle />,
       dropdownItems: [
-        { text: "Information", path: "/information" },
-        { text: "Change Password", path: "/change-password" },
+        { text: "Information", path: "/information", icon: <FaUserCircle /> },
+        { text: "Change Password", path: "/change-password", icon: <FaLock /> },
       ],
     },
   ],
@@ -297,7 +301,7 @@ const Dashboard = ({ children }) => {
         <div
           style={{
             // width:isSideBarOpen?"260px":"0px",
-            marginTop: "11.99vh",
+            marginTop: "12.3vh",
             boxShadow:
               language === "ar"
                 ? "-4px 0px 2px rgba(0, 0, 0, 0.1)"

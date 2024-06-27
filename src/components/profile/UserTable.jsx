@@ -23,6 +23,7 @@ const UserTable = ({ openCreate, openEdit }) => {
   const [users, setUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const [nextPageData, setNextPageData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -50,7 +51,7 @@ const UserTable = ({ openCreate, openEdit }) => {
     } finally {
       setLoading(false);
     }
-  }, [token, pagination.currentPge,searchTerm,]);
+  }, [token, pagination.currentPge, searchTerm]);
 
   useEffect(() => {
     fetchData();
@@ -104,24 +105,6 @@ const UserTable = ({ openCreate, openEdit }) => {
   const handleEditUser = (user) => {
     openEdit(user);
   };
-  const MAX_DISPLAY_PAGES = 5;
-
-  const startPage = Math.max(
-    1,
-    Math.min(
-      pagination.currentPge - Math.floor(MAX_DISPLAY_PAGES / 2),
-      pagination.totalPages - MAX_DISPLAY_PAGES + 1
-    )
-  );
-  const endPage = Math.min(
-    startPage + MAX_DISPLAY_PAGES - 1,
-    pagination.totalPages
-  );
-
-  const pageButtons = Array.from(
-    { length: endPage - startPage + 1 },
-    (_, index) => startPage + index
-  );
   useEffect(() => {
     if (pagination.currentPge < pagination.totalPages) {
       axios
@@ -140,6 +123,26 @@ const UserTable = ({ openCreate, openEdit }) => {
     }
   }, [pagination.currentPge, pagination.totalPages, searchTerm, token]);
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchTerm(searchInput);
+  };
+
+  const handleClickOutside = (event) => {
+    const isOutsideDropdown = Object.values(dropdownRefs.current).every(
+      (ref) => ref && !ref.contains(event.target)
+    );
+    if (isOutsideDropdown) {
+      setSelectedUserId(null);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   const handlePageChange = (newPage) => {
     setPagination({
       ...pagination,
@@ -147,6 +150,24 @@ const UserTable = ({ openCreate, openEdit }) => {
     });
   };
 
+  const MAX_DISPLAY_PAGES = 5;
+
+  const startPage = Math.max(
+    1,
+    Math.min(
+      pagination.currentPge - Math.floor(MAX_DISPLAY_PAGES / 2),
+      pagination.totalPages - MAX_DISPLAY_PAGES + 1
+    )
+  );
+  const endPage = Math.min(
+    startPage + MAX_DISPLAY_PAGES - 1,
+    pagination.totalPages
+  );
+
+  const pageButtons = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, index) => startPage + index
+  );
   const handlePreviousPage = () => {
     if (pagination.currentPge > 1) {
       handlePageChange(pagination.currentPge - 1);
@@ -158,26 +179,6 @@ const UserTable = ({ openCreate, openEdit }) => {
       handlePageChange(pagination.currentPge + 1);
     }
   };
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setSearchTerm(searchInput);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      const isOutsideDropdown = Object.values(dropdownRefs.current).every(
-        (ref) => !ref.contains(event.target)
-      );
-      if (isOutsideDropdown) {
-        setSelectedUserId(null);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
   return (
     <div>
       <section
@@ -186,21 +187,21 @@ const UserTable = ({ openCreate, openEdit }) => {
         }`}
       >
         <div className="flex justify-between">
-          <div className="relative w-96 m-3">
-            <input
-              className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 dark:bg-gray-500"
-              type="text"
-              onChange={(e) => setSearchInput(e.target.value)}
-              value={searchInput}
-              placeholder={t("Products.Search")}
-            />
-            <CiSearch
-              className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${
-                language === "ar" ? "left-3" : "right-3"
-              } cursor-pointer`}
-              onClick={handleSearch}
-            />
-          </div>
+        <div className="relative w-96 m-3">
+          <input
+            className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 dark:bg-gray-500"
+            type="text"
+            onChange={(e) => setSearchInput(e.target.value)}
+            value={searchInput}
+            placeholder={t("Products.Search")}
+          />
+          <CiSearch
+            className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${
+              language === "ar" ? "left-3" : "right-3"
+            } cursor-pointer`}
+            onClick={handleSearch}
+          />
+        </div>
           <div>
             <button
               className="secondaryBtn w-28 rounded-md m-3 fw-bold"
@@ -324,7 +325,7 @@ const UserTable = ({ openCreate, openEdit }) => {
                           size={25}
                           weight="bold"
                           className="hover:bg-slate-300  dark:hover:bg-gray-600 w-10 rounded-lg"
-                          />
+                        />
                       </button>
                       <div
                         className="absolute z-50"
@@ -337,7 +338,7 @@ const UserTable = ({ openCreate, openEdit }) => {
                                   language === "en" ? "right-full" : "left-full"
                                 } overflow-auto`
                               : "hidden"
-                        } z-10 w-56  rounded divide-y divide-gray-100 shadow secondary `}
+                          } z-10 w-56  rounded divide-y divide-gray-100 shadow secondary `}
                         >
                           <div>
                             <ul className="text-sm bg-transparent pl-0 mb-0">
@@ -415,12 +416,12 @@ const UserTable = ({ openCreate, openEdit }) => {
           )}
         </table>
 
-        <nav className="md:flex-row items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 ">
+        <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 ">
           <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
             <li>
               <button
-              className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              onClick={handlePreviousPage}
+                className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={handlePreviousPage}
               >
                 <span className="sr-only">Previous</span>
                 <CaretLeft size={18} weight="bold" />
@@ -429,11 +430,11 @@ const UserTable = ({ openCreate, openEdit }) => {
             {pageButtons.map((page) => (
               <li key={page}>
                 <button
-                   className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
-                  pagination.currentPge === page
-                    ? "bg-gray-200 text-gray-800"
-                    : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                }`}
+                  className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
+                    pagination.currentPge === page
+                      ? "bg-gray-200 text-gray-800"
+                      : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  }`}
                   onClick={() => handlePageChange(page)}
                 >
                   {page}
@@ -442,8 +443,8 @@ const UserTable = ({ openCreate, openEdit }) => {
             ))}
             <li>
               <button
-              className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              onClick={handleNextPage}
+                className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={handleNextPage}
               >
                 <span className="sr-only">Next</span>
                 <CaretRight size={18} weight="bold" />

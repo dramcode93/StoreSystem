@@ -26,7 +26,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({
     currentPge: 1,
-    totalPages: 1,
+    totalPages: 1, 
   });
   const fetchData = useCallback(async () => {
     try {
@@ -58,7 +58,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
     if (pagination.currentPge < pagination.totalPages) {
       axios
         .get(
-          `https://store-system-api.gleeze.com/api/customers?sort=name&search=${searchInput}&page=${pagination.currentPge}&limit=5`,
+          `https://store-system-api.gleeze.com/api/customers?sort=name&search=${searchTerm}&page=${pagination.currentPge}&limit=5`,
           { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((response) => {
