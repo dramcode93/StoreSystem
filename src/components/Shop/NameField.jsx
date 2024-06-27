@@ -17,7 +17,6 @@ const NameField = ({
     <p className="secondaryF font-bold text-xl mb-0">
     <div className={`d-flex items-center ${isEditing ? "justify-between" : ""}`}>
         <p className="secondaryF font-bold text-xl mb-0 ">{label} : </p>
-
         {isEditing && (
           <span>
             <FiX
@@ -27,7 +26,7 @@ const NameField = ({
           </span>
         )}
         {!isEditing && (
-          <span className="ml-2 inline-block secondaryF">{value}</span>
+          <span className="mx-2 inline-block secondaryF">{value}</span>
         )}
       </div>
       {isLoading ? (

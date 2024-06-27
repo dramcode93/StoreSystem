@@ -372,19 +372,6 @@ export default function AddProduct({ closeModal, role, modal }) {
                 placeholder="Total Quantity"
                 value={quantity}
               />
-              {branches.map((branch) => (
-                <div key={branch._id} className="flex-1">
-                  <FormNumber
-                    label={`${branch.name} quantity`}
-                    name={`quantity-${branch._id}`}
-                    onChange={(e) =>
-                      handleBranchQuantityChange(branch._id, e.target.value)
-                    }
-                    placeholder="Quantity"
-                    value={branchQuantities[branch._id || ""]}
-                  />
-                </div>
-              ))}
               <FormTextArea
                 label="Description"
                 name="description"
@@ -394,6 +381,28 @@ export default function AddProduct({ closeModal, role, modal }) {
                 placeholder="Description..."
                 value={description}
               />
+              {branches.length>0&& (
+                <>
+                  <hr className="my-1 border-gray-300 w-full col-span-2" />
+                  <p className="secondaryF text-xl col-span-2">
+                    Branches quantities
+                  </p>
+                  {branches.map((branch) => (
+                    <div key={branch._id} className="flex-1">
+                      <FormNumber
+                        label={`${branch.name} quantity`}
+                        name={`quantity-${branch._id}`}
+                        onChange={(e) =>
+                          handleBranchQuantityChange(branch._id, e.target.value)
+                        }
+                        placeholder="Quantity"
+                        value={branchQuantities[branch._id || ""]}
+                      />
+                    </div>
+                  ))}
+                </>
+              )}
+
               {/* <FormPic
                 label="Upload Picture"
                 name="Upload Picture"
@@ -427,7 +436,6 @@ export default function AddProduct({ closeModal, role, modal }) {
                     !branchQuantities
                   }
                   className="secondaryBtn w-1/2 h-12 rounded-md  fw-bold text-xl "
-
                 >
                   {t("Products.AddProduct")}
                 </button>

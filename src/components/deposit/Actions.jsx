@@ -8,7 +8,7 @@ import FormText from "../../form/FormText";
 import FormSelect from "../../form/FormSelect";
 
 export default function Actions({ closeModal, modal }) {
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -39,7 +39,7 @@ export default function Actions({ closeModal, modal }) {
           money: money,
           transaction: transaction,
           reason: reason,
-          subShop: selectedSubShop // Include the selected sub shop ID in the payload
+          subShop: selectedSubShop, // Include the selected sub shop ID in the payload
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -58,7 +58,10 @@ export default function Actions({ closeModal, modal }) {
   useEffect(() => {
     const fetchSubShops = async () => {
       try {
-        const response = await axios.get("https://store-system-api.gleeze.com/api/subShops/list?sort=name&fields=name");
+        const response = await axios.get(
+          "https://store-system-api.gleeze.com/api/subShops/list?sort=name&fields=name",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
         setSubShops(response.data.data);
       } catch (error) {
         console.error("Failed to fetch sub shops:", error);
@@ -82,7 +85,11 @@ export default function Actions({ closeModal, modal }) {
         <div
           className={`w-full max-w-min 
              sideModal duration-200 ease-linear
-             ${language === "ar" ? "absolute left-0 rounded-r-xl" : "absolute right-0 rounded-l-xl"}
+             ${
+               language === "ar"
+                 ? "absolute left-0 rounded-r-xl"
+                 : "absolute right-0 rounded-l-xl"
+             }
              h-screen overflow-y-auto overflow-x-hidden`}
         >
           <div className="relative p-4 sideModal sm:p-5">
@@ -137,15 +144,19 @@ export default function Actions({ closeModal, modal }) {
                 <FormSelect
                   selectLabel={t("Sales.subShop")}
                   headOption={t("Sales.SelectAnOption")}
-                  options={subShops.map(shop => ({ value: shop._id, label: shop.name }))}
+                  options={subShops.map((shop) => ({
+                    value: shop._id,
+                    label: shop.name,
+                  }))}
                   handleChange={handleSubShopChange}
                   value={selectedSubShop}
                 />
               </div>
               <div className="col-span-2 flex justify-center">
                 <button
-                  disabled={!money || !transaction || !reason || !selectedSubShop}
-                  
+                  disabled={
+                    !money || !transaction || !reason || !selectedSubShop
+                  }
                   className="secondaryBtn w-96 h-12 rounded-md  fw-bold text-xl "
                 >
                   Submit

@@ -52,7 +52,20 @@ const ActiveField = ({
     <li className="secondary mx-10 rounded-md py-4 px-4 mb-3 list-none">
       <p className="secondaryF font-bold text-xl mb-0">
         <p className="secondaryF flex">
-          {label} :
+        <diV className='d-flex'>
+        {label} :
+          {!isEditing && (
+            <span style={{ color: value ? "green" : "red" }} className="mx-2">
+              {label === "Delivery Service"
+                ? value
+                  ? "True"
+                  : "False"
+                : value
+                ? "Active"
+                : "Inactive"}
+            </span>
+          )}
+        </diV>
           {isEditing ? (
             <FiX
               className="cursor-pointer text-2xl text-red-500"
@@ -84,15 +97,6 @@ const ActiveField = ({
           </>
         ) : (
           <>
-            <span style={{ color: value ? "green" : "red" }}>
-              {label === "Delivery Service"
-                ? value
-                  ? "True"
-                  : "False"
-                : value
-                ? "Active"
-                : "Inactive"}
-            </span>
             <FiEdit
               className="cursor-pointer mt-3"
               onClick={() => handleEditToggle(label.toLowerCase())}

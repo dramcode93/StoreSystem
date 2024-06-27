@@ -192,7 +192,7 @@ export default function AddCustomer({ closeModal, role, modal }) {
                     !street
                   }
                   // className="bg-yellow-900 w-96 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
-                  className="secondaryBtn w-1/2 h-12 rounded-md  fw-bold text-xl "
+                  className="secondaryBtn w-96 h-12 rounded-md  fw-bold text-xl "
 
                 >
                   Add Customer +

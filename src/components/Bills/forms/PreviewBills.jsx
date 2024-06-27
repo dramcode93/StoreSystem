@@ -11,14 +11,26 @@ export default function PreviewBill({ closeModal, assistantData }) {
 // console.log("assistantData",assistantData)
   const detailsData = {
     code: assistantData._id.slice(-4),
-    name: assistantData.customer.name || "لم يتم تحديده",
+    name: assistantData.customer.name ,
+    userName: assistantData.user.name,
     products: assistantData.products,
+    totalAmount: assistantData.totalAmountAfterDiscount,
+    paidAmount: assistantData.paidAmount,
+    remainingAmount: assistantData.remainingAmount,
+    discount: assistantData.discount,
   };
   const headers = {
     code: "Bill Code",
     name: "Customer Name",
+    userName: "User Name",
     products: "Products",
+    totalAmount: "Total Amount",
+    paidAmount: "Paid Amount",
+    remainingAmount: "Remaining Amount",
+    discount:"Discount",
   };
+
+  console.log(assistantData)
   
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {

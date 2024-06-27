@@ -162,10 +162,13 @@ const UserBillsTable = ({ openEdit, openCreate, openPreview, id }) => {
                 Customer
               </th>
               <th scope="col" className="px-4 py-4">
-                Phone
+                Created At
               </th>
               <th scope="col" className="px-4 py-4">
-                Created At
+                Paid Amount
+              </th>
+              <th scope="col" className="px-4 py-4">
+                Total Amount
               </th>
               <th scope="col" className="px-4 py-4">
                 <span className="sr-only">Actions</span>
@@ -197,12 +200,12 @@ const UserBillsTable = ({ openEdit, openCreate, openPreview, id }) => {
                     >
                       {bill._id.slice(-4)}
                     </th>
-                    <td className="px-4 py-4">{bill.customer.name}</td>
-                    <td className="px-4 py-4">
-                      {bill.customer.phone.map((phone, index) => (
+                    <td className="px-4 py-4">{bill.customer?.name}</td>
+                    {/* <td className="px-4 py-4">
+                      {bill.customer?.phone.map((phone, index) => (
                         <div key={index}>{phone}</div>
                       ))}
-                    </td>
+                    </td> */}
                     <td className="px-4 py-4">
                       <div>
                         {new Date(bill.createdAt).toLocaleTimeString("en-US", {
@@ -218,6 +221,11 @@ const UserBillsTable = ({ openEdit, openCreate, openPreview, id }) => {
                         })}
                       </div>
                     </td>
+                    <td className="px-4 py-4">{bill.paidAmount}</td>
+                    <td className="px-4 py-4">
+                      {bill.totalAmountAfterDiscount}
+                    </td>
+
                     <td className="px-4 py-3 flex items-center justify-end">
                       <button
                         className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"

@@ -95,14 +95,14 @@ export default function OrderPreview({ closeModal, assistantData }) {
               <Loading />
             ) : (
               <>
-                <h4 className="font-semibold">
+                <h4 className="font-semibold secondaryF">
                   {t("previewForm.products")} :{" "}
                 </h4>
                 {assistantData?.cartItems?.length > 0 ? (
                   assistantData.cartItems.map((item) => (
                     <div className="d-flex gap-1" key={item.product?._id}>
-                      <dd className="!text-base font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-                        <h4 className="font-semibold">
+                      <dd className="!text-base font-light text-gray-500 sm:mb-5">
+                        <h4 className="font-semibold text-xl">
                           {" "}
                           {item.product?.name} - {item.product?.sellingPrice}$
                         </h4>
@@ -111,7 +111,7 @@ export default function OrderPreview({ closeModal, assistantData }) {
                   ))
                 ) : (
                   <div className="d-flex gap-1">
-                    <dd className="!text-base font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+                    <dd className="!text-base font-light  sm:mb-5 secondaryF">
                       No products yet
                     </dd>
                   </div>

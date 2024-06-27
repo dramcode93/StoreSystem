@@ -54,7 +54,7 @@ const CouponsTable = ({ openEdit, openPreview }) => {
     } finally {
       setLoading(false);
     }
-  }, [token, searchTerm, pagination.currentPge]);
+  }, [token,pagination.currentPage,]);
 
   useEffect(() => {
     fetchData();

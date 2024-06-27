@@ -74,7 +74,7 @@ export default function SalesTable() {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     if (selectedOption === "day") {
-      return date.toLocaleDateString();
+      return date.toLocaleDateString('en-GB'); 
     } else if (selectedOption === "month") {
       return date.toLocaleString("default", { month: "long", year: "numeric" });
     } else if (selectedOption === "year") {

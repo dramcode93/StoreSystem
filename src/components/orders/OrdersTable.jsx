@@ -60,7 +60,7 @@ const OrdersTable = ({ openPreview }) => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setOrders(response.data.data);
-        console.log("bb", response.data.data);
+        // console.log("bb", response.data.data);
       } else {
         console.error("No token found.");
       }
@@ -125,6 +125,7 @@ const OrdersTable = ({ openPreview }) => {
   const handleOrderPreview = (order) => {
     openPreview(order);
   };
+  console.log(orders);
 
   return (
     <section
@@ -176,7 +177,7 @@ const OrdersTable = ({ openPreview }) => {
             <th scope="col" className="px-4 py-4">
               Receiving Method
             </th>
-            <th scope="col" className="px-4 py-3">
+            <th scope="col" className="px-2 py-4">
               <span className="sr-only">Actions</span>
             </th>
           </tr>
@@ -191,15 +192,13 @@ const OrdersTable = ({ openPreview }) => {
           ) : (
             <>
               {filteredOrders.length === 0 ? (
-                <tr className="text-xl text-center">
+                <tr className="text-xl text-center py-4">
                   <td colSpan="9">No orders available</td>
                 </tr>
               ) : (
                 filteredOrders.map((order) => (
                   <React.Fragment key={order._id}>
-                    <tr 
-                  className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
-                  >
+                    <tr className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200">
                       <td className="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[5rem] truncate">
                         {order._id.slice(-4)}
                       </td>
@@ -207,7 +206,7 @@ const OrdersTable = ({ openPreview }) => {
                       <td className="px-4 py-4">
                         {order.isPaid ? "Yes" : "No"}
                       </td>
-                      <td className="px-5 py-4">
+                      <td className="px-2 py-4 ">
                         {order.isPaid ? formatDate(order.paidAt) : "-"}
                       </td>
                       <td className="px-4 py-4">
@@ -218,10 +217,10 @@ const OrdersTable = ({ openPreview }) => {
                           ? formatDate(order.deliveredAt)
                           : "-"}
                       </td>
-                      <td className="px-4 py-4">{order.paymentMethod}</td>
+                      <td className="px-4 py-4">{order.paymentMethodType}</td>
                       <td className="px-4 py-4">{order.receivingMethod}</td>
                       {role !== "customer" && (
-                        <td className="px-4 py-3 flex items-center justify-end">
+                        <td className="px-3 py-3 flex items-center justify-end">
                           <button
                             className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                             type="button"
@@ -232,7 +231,7 @@ const OrdersTable = ({ openPreview }) => {
                               size={25}
                               weight="bold"
                               className="hover:bg-slate-300  dark:hover:bg-gray-600 w-10 rounded-lg"
-                              />
+                            />
                           </button>
                           <div
                             className="absolute z-10"
@@ -248,7 +247,7 @@ const OrdersTable = ({ openPreview }) => {
                                         : "left-full"
                                     } overflow-auto`
                                   : "hidden"
-                        } z-10 w-56  rounded divide-y divide-gray-100 shadow secondary `}
+                              } z-10 w-56  rounded divide-y divide-gray-100 shadow secondary `}
                             >
                               <ul className="text-sm bg-transparent pl-0 mb-0 w-full">
                                 <li>

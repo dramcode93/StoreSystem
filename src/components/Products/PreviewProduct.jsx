@@ -36,18 +36,18 @@ export default function PreviewProduct({ closeModal, assistantData }) {
     <div
       onClick={handleBackgroundClick}
       className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
-  fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-  z-50 justify-center items-center left-1/2
-    w-full h-full `}
+    fixed top-1/2 -translate-x-1/2 -translate-y-1/2
+    z-50 justify-center items-center left-1/2
+      w-full h-full `}
     >
       <div
-        className={`PreviewUser max-w-2xl 
-      rounded-2xl duration-200 ease-linear
-     absolute top-2/3 sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  w-full
-     min-h-screen overflow-auto sideModal `}
+        className={`w-full max-w-2xl 
+        rounded-2xl duration-200 ease-linear
+       absolute top-2/3 sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+       h-screen overflow-y-auto sideModal overflow-x-hidden `}
       >
         <div className="relative sideModal sm:p-5">
-          <div
+        <div
             dir="rtl"
             className="flex justify-between items-center w-full my-2 rounded "
           >
@@ -62,8 +62,8 @@ export default function PreviewProduct({ closeModal, assistantData }) {
             </button>
           </div>
           <div
-            className={`text-lg text-white bg-themeColor md:text-xl mx-auto text-center
-               dark:text-white dark:bg-themeColor p-1 mb-4  rounded-md `}
+             className={`text-lg md:text-xl mx-auto text-center
+              secondaryBtn p-1 mb-4 rounded-md `}
           >
             <h3 className="font-semibold ">{t("previewForm.title")}</h3>
           </div>
