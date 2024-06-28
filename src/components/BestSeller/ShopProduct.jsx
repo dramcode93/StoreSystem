@@ -63,8 +63,8 @@ const ShopProduct = () => {
   return (
     <section
       className={` mx-10 p-10 absolute top-32 -z-50 w-3/4  ${
-          language === "ar" ? "left-10" : "right-10"
-        }`}
+        language === "ar" ? "left-10" : "right-10"
+      }`}
     >
       <div>
         {loading ? (
@@ -84,18 +84,23 @@ const ShopProduct = () => {
                   }}
                 >
                   <img
-                    src={product?.images[0]||BlackLogo}
+                    src={product?.images[0] || BlackLogo}
                     alt={product?.name}
                     crossOrigin="anonymous"
-                    className="h-60 w-full object-cover bg-black" 
-
-                    />
+                    className="h-60 w-full object-cover bg-black"
+                  />
                   <div>
                     <p className="secondaryF text-lg capitalize mt-2">
-                      {product?.name} <span className="text-gray-600"> {product?.sellingPrice}$</span>
+                      {product?.name}{" "}
+                      <span className="text-gray-600">
+                        {" "}
+                        {product?.sellingPrice}$
+                      </span>
                     </p>
                     <p className="secondaryF text-lg capitalize ">
-                      Quantity: <span className="text-gray-600">{product?.quantity}</span> Sold: <del className="text-gray-600">{product?.sold}</del>
+                      Quantity:{" "}
+                      <span className="text-gray-600">{product?.quantity}</span>{" "}
+                      Sold: <del className="text-gray-600">{product?.sold}</del>
                     </p>
                   </div>
                   <div className="flex justify-center mb-3 mx-2">
@@ -117,8 +122,8 @@ const ShopProduct = () => {
                 </div>
               ))
             ) : (
-              <div className="text-white m-3 text-center text-2xl font-bold">
-                {t("No products available in this shop.")}
+              <div className="secondaryF m-3 text-center text-2xl font-bold mx-auto">
+                No products available in this shop.
               </div>
             )}
           </div>
