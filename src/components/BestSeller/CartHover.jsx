@@ -55,7 +55,7 @@ const CartHover = () => {
                             {products.cartItems.map((cartItem, index) => (
                                 <div key={index} className='flex m-2 secondary  p-1 gap-2 bg-opacity-25'>
                                     <img
-                                        src={cartItem.product?.images[0]||BlackLogo}
+                                        src={cartItem.product?.images[0] || BlackLogo}
                                         alt={cartItem.product?.name}
                                         crossOrigin="anonymous"
                                         className='object-cover bg-black w-20 secondary h-20 transition-transform duration-300 transform '
@@ -71,7 +71,7 @@ const CartHover = () => {
 
                         </div>
                     ) : (
-                        <div className='secondaryF m-3 text-center text-lg font-bold'>No products available</div>
+                        <div className=' m-3 text-center text-lg font-bold'>No products available</div>
                     )
                 )}
             </div>

@@ -9,19 +9,24 @@ import { FaCheck } from "react-icons/fa";
 import { DeleteAlert, ErrorAlert } from "../../form/Alert";
 import BlackLogo from "../Navbar/logo/Black-and-Gold-Sophisticated-Traditional-Fashion-Logo-(1).svg";
 import FormSelect from "../../form/FormSelect";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
     const { t, language } = useI18nContext();
     const API_URL = "https://store-system-api.gleeze.com/api/cart";
     const [products, setProducts] = useState([]);
     const [branches, setBranches] = useState([]);
+    const [coupon, setCoupon] = useState("");
     const [onlinePayment, setOnlinePayment] = useState([]);
     const [selectedBranch, setSelectedBranch] = useState("");
     const [shop, setShop] = useState(null);
     const [editingProducts, setEditingProducts] = useState({});
     const [selectedType, setSelectedType] = useState(null);
+    const [selectedReceive, setSelectedReceive] = useState(null);
     const [loading, setLoading] = useState(false);
     const [quantity, setQuantity] = useState(1);
+    const [showCouponInput, setShowCouponInput] = useState(false);
+    const [discount, setDiscount] = useState(false);
     const token = Cookies.get("token");
 
     const fetchData = useCallback(async () => {
@@ -37,6 +42,12 @@ const Cart = () => {
                 if (cartData.cartItems.length > 0) {
                     setShop(cartData.cartItems[0].product.shop._id);
                 }
+
+                // Retrieve discount state from local storage
+                const discountApplied = localStorage.getItem('discountApplied');
+                if (discountApplied) {
+                    setDiscount(true);
+                }
             } else {
                 throw new Error("No token found.");
             }
@@ -47,6 +58,37 @@ const Cart = () => {
         }
     }, [token]);
 
+
+    const orderNow = useCallback(async () => {
+        setLoading(true);
+        try {
+            console.log("Selected Branch:", selectedBranch); // Log the selected branch value
+            if (selectedBranch === "") {
+                ErrorAlert({ text: "You should choose a branch first!" });
+            } else if (token) {
+                await axios.post("https://store-system-api.gleeze.com/api/order", {
+                    receivingMethod: selectedReceive,
+                    subShop: selectedBranch,
+                }, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (selectedBranch === "") {
+                    ErrorAlert({ text: "You should choose a branch first!" });
+                }
+
+                localStorage.removeItem('discountApplied'); // Clear discount state
+            } else {
+                throw new Error("No token found.");
+            }
+        } catch (error) {
+            ErrorAlert({
+                text: error.response?.data?.message || "Error deleting product",
+            });
+        } finally {
+            setLoading(false);
+        }
+    }, [token, selectedBranch, selectedReceive]);
     useEffect(() => {
         fetchData();
     }, [fetchData]);
@@ -78,7 +120,6 @@ const Cart = () => {
         }
     };
 
-
     const handleDeleteProduct = (productId) => {
         DeleteAlert({
             title: "Are you sure you want to delete this product?",
@@ -105,6 +146,13 @@ const Cart = () => {
         [token, fetchData]
     );
 
+    if (selectedType === "onlinePayment" && onlinePayment.length === 0) {
+        ErrorAlert({
+            text: selectedBranch === "" ? "You should choose a branch first!" : "This branch does not have available online methods",
+        });
+        setSelectedType("onDelivery");
+    }
+
     const deleteAll = useCallback(() => {
         DeleteAlert({
             title: "Are you sure you want to delete all products?",
@@ -117,6 +165,7 @@ const Cart = () => {
                     .then(() => {
                         fetchData();
                         setProducts([]);
+                        localStorage.removeItem('discountApplied'); // Clear discount state
                     })
                     .catch((error) => {
                         ErrorAlert({
@@ -164,17 +213,44 @@ const Cart = () => {
             setOnlinePayment(selectedBranchObj.onlinePaymentMethods);
         }
     };
-    console.log("payment: ", onlinePayment)
+    const handleCoupon = (e) => {
+        e.preventDefault();
+        axios
+            .put(
+                "https://store-system-api.gleeze.com/api/cart/applyCoupon",
+                {
+                    coupon: coupon,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+            .then((response) => {
+                fetchData();
+                setDiscount(true);
+                setShowCouponInput(false);
+                localStorage.setItem('discountApplied', true); // Save discount state
+            })
+            .catch((error) => {
+                ErrorAlert({
+                    text: error.response?.data?.message || "This is invalid coupon",
+                });
+                setShowCouponInput(false);
+            });
+    };
+
     return (
         <div>
             <section className={`mx-10 p-10 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
                 <div className="flex justify-between">
                     <div className="w-96 m-3">
-                        <h2 className="secondaryF font-bold">Shopping Cart</h2>
+                        <h2 className="secondaryF font-bold">{t('Cart.ShoppingCart')}</h2>
                     </div>
                     <div>
                         <button className="secondaryBtn w-28 m-3 fw-bold" onClick={deleteAll}>
-                            Clear All
+                            {t('Cart.ClearAll')}
                         </button>
                     </div>
                 </div>
@@ -202,11 +278,11 @@ const Cart = () => {
                                         {cartItem.product?.name}
                                     </p>
                                     <p className="text-gray-500 dark:text-gray-400 text-xl font-bold">
-                                        Category: {cartItem.product?.category.name}
+                                        {t('Cart.Category')} {cartItem.product?.category.name}
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="secondaryF text-2xl font-bold">Quantity</p>
+                                    <p className="secondaryF text-2xl font-bold">{t('Cart.Quantity')}</p>
                                     {editingProducts[cartItem.product?._id] ? (
                                         <div className="flex">
                                             <input
@@ -238,13 +314,13 @@ const Cart = () => {
                                 </div>
 
                                 <div>
-                                    <p className="secondaryF text-2xl font-bold">Price</p>
+                                    <p className="secondaryF text-2xl font-bold">{t('Cart.Price')}</p>
                                     <p className="secondaryF text-center font-bold">
                                         {cartItem.product?.sellingPrice} $
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="secondaryF text-2xl font-bold">Total Price</p>
+                                    <p className="secondaryF text-2xl font-bold">{t('Cart.TotallPrice')}</p>
                                     <p className="secondaryF text-center font-bold">
                                         {cartItem?.totalPrice} $
                                     </p>
@@ -256,14 +332,21 @@ const Cart = () => {
                                 </div>
                             </div>
                         ))}
-                        <div className="flex m-3 secondary p-4 ">
-                            <p className="secondaryF text-2xl font-bold">Total Cart Price:</p>
-                            <p className="secondaryF text-2xl font-bold">{products?.totalCartPrice} $</p>
+                        <div className=" secondary m-3 p-4">
+                            <div className="flex  ">
+                                <p className="secondaryF text-2xl font-bold">{t('Cart.TotalPrice')}</p>
+                                <p className="secondaryF text-2xl font-bold">{products?.totalCartPrice} $</p>
+                            </div>
+                            {discount && <div className="flex  ">
+                                <p className="secondaryF text-2xl font-bold">{t('Cart.TotalDiscount')}</p>
+                                <p className="secondaryF text-2xl font-bold">{products?.totalPriceAfterDiscount} $</p>
+                            </div>}
+
                         </div>
                         <div className="m-3 secondary p-4 ">
-                            <p className="secondaryF text-3xl font-bold">Complete Order Information</p>
+                            <p className="secondaryF text-3xl font-bold">{t('Cart.orderInfo')}</p>
                             <div className="mx-2 d-flex">
-                                <p className="secondaryF mt-4 mr-2 text-2xl font-bold">Select the branch you want order from:</p>
+                                <p className="secondaryF mt-4 mx-2 text-2xl font-bold">{t('Cart.selectBranch')}</p>
                                 <FormSelect
                                     headOption="Select branch"
                                     handleChange={handleBranchChange}
@@ -276,7 +359,7 @@ const Cart = () => {
                                 />
                             </div>
                             <div className="mx-2">
-                                <p className="secondaryF mt-3 mr-2 text-2xl font-bold">Payment Method:</p>
+                                <p className="secondaryF mt-3 mr-2 text-2xl font-bold">{t('Cart.PaymentMethod')}</p>
                                 <div className="flex w-1/2">
                                     <div className="d-flex w-1/2">
                                         <input
@@ -287,8 +370,8 @@ const Cart = () => {
                                             checked={selectedType === 'onDelivery'}
                                             onChange={() => setSelectedType('onDelivery')}
                                         />
-                                        <label className="secondaryF text-xl ml-2" htmlFor="onDelivery">
-                                            On Delivery
+                                        <label className="secondaryF mr-2 text-xl ml-2" htmlFor="onDelivery">
+                                            {t('Cart.Delivery')}
                                         </label>
                                     </div>
                                     <div className="d-flex w-1/2">
@@ -300,18 +383,85 @@ const Cart = () => {
                                             checked={selectedType === 'onlinePayment'}
                                             onChange={() => setSelectedType('onlinePayment')}
                                         />
-                                        <label className="secondaryF text-xl ml-2" htmlFor="onlinePayment">
-                                            Online Payment
+                                        <label className="secondaryF mr-2 text-xl ml-2" htmlFor="onlinePayment">
+                                            {t('Cart.OnlinePayment')}
                                         </label>
                                     </div>
                                 </div>
-
                             </div>
+                            <div className="mx-4 my-3">
+                                {selectedType === "onlinePayment" && onlinePayment.length > 0 &&
+                                    <div>
+                                        <div className="d-flex">
+                                            {onlinePayment.map((payment, index) => (
+                                                <li key={index} className="secondaryF m-3 text-2xl">{payment.name}</li>
+                                            ))}
+                                        </div>
+
+                                        <input type="text" className="border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"></input>
+                                        <input type="file" className="secondaryF" />
+                                    </div>
+                                }
+                            </div>
+                            <div className="mx-2">
+                                <p className="secondaryF mt-3 mr-2 text-2xl font-bold">{t('Cart.receiveOrder')}</p>
+                                <div className="flex w-1/2">
+                                    <div className="d-flex w-1/2">
+                                        <input
+                                            type="radio"
+                                            name="receiveType"
+                                            className="secondaryF w-6"
+                                            id="delivery"
+                                            checked={selectedReceive === 'delivery'}
+                                            onChange={() => setSelectedReceive('delivery')}
+                                        />
+                                        <label className="secondaryF text-xl mr-2 ml-2" htmlFor="delivery">
+                                            {t('Cart.Delivery')}
+                                        </label>
+                                    </div>
+                                    <div className="d-flex w-1/2">
+                                        <input
+                                            type="radio"
+                                            className="secondaryF w-6 "
+                                            name="receiveType"
+                                            id="shop"
+                                            checked={selectedReceive === 'shop'}
+                                            onChange={() => setSelectedReceive('shop')}
+                                        />
+                                        <label className="secondaryF mr-2 text-xl ml-2" htmlFor="shop">
+                                            {t('Cart.Frombranch')}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="mx-2 mt-3">
+                                {!showCouponInput ? (
+                                    <Link className="text-2xl secondaryF" onClick={() => setShowCouponInput(true)}>
+                                        {t('Cart.haveCopun')}
+                                    </Link>
+                                ) : (
+                                    <div>
+                                        <p className="secondaryF mt-3 mr-2 text-2xl font-bold">{t('Cart.Entercoupon')}</p>
+                                        <div className="d-flex h-20">
+                                            <input
+                                                value={coupon}
+                                                onChange={(e) => setCoupon(e.target.value)}
+                                                className="border border-transparent w-1/3  m-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                            <button className="secondaryBtn cursor-pointer m-3 w-36  fw-bold" onClick={handleCoupon}>
+                                                {t('Cart.Submit')}
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                            <button className="secondaryBtn cursor-pointer w-36 m-3 fw-bold" onClick={orderNow}>
+                                {t('Cart.OrderNow')}
+                            </button>
                         </div>
                     </div>
                 ) : (
                     <div className="secondary secondaryF m-3 p-8 text-center text-2xl font-bold">
-                        No products available
+                        {t('Cart.noProduct')}
                     </div>
                 )}
             </section>
