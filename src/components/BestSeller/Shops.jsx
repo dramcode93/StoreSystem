@@ -65,13 +65,12 @@ const Shops = () => {
     setSelectedType(typeId);
   };
 
-  console.log(shopTypes);
+
   return (
     <div>
       <section
-        className={` mx-10 p-10 absolute top-32 -z-50 w-3/4  ${
-          language === "ar" ? "left-10" : "right-10"
-        }`}
+        className={` mx-10 p-10 absolute top-32 -z-50 w-3/4  ${language === "ar" ? "left-10" : "right-10"
+          }`}
       >
         <div>
           <h3 className="font-bold secondaryF text-5xl m-3">Shops</h3>
@@ -108,10 +107,10 @@ const Shops = () => {
                       <p className="text-gray-600 text-lg mb-2">
                         {shop.type.length > 0
                           ? shop.type
-                              .map((type) =>
-                                language === "ar" ? type.type_ar : type.type_en
-                              )
-                              .join(" , ")
+                            .map((type) =>
+                              language === "ar" ? type.type_ar : type.type_en
+                            )
+                            .join(" , ")
                           : "Doesn't have type"}
                       </p>
                       <button
@@ -131,11 +130,10 @@ const Shops = () => {
         </div>
       </section>
       <div
-        className={`filter-container myColor w-52 absolute top-32 p-3 ${
-          language === "ar"
+        className={`filter-container myColor w-52 absolute top-32 p-3 ${language === "ar"
             ? "-left-40 hover:left-0"
             : "-right-40 hover:right-0"
-        }`}
+          }`}
       >
         <div className="flex w-full">
           {language === "ar" ? (
