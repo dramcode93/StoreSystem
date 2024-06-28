@@ -44,7 +44,7 @@ const en = {
     Translate: "Translate",
     LogOut: "Log Out",
     Mode: "Change Mode",
-    shopTypes:"Shop Types"
+    shopTypes: "Shop Types"
   },
   Category: {
     createCategory: "create Category",
@@ -282,6 +282,31 @@ const en = {
     Delete: "Delete",
     Preview: "Preview",
     Edit: "Edit",
+  },
+  Cart: {
+    noProduct: "No products available",
+    ShoppingCart: "Shopping Cart",
+    ClearAll: "Clear All",
+    OrderNow: "Order Now",
+    OnlinePayment: "Online Payment",
+    receiveOrder: "I'd like to receive my order:",
+    Delivery: "Delivery",
+    Frombranch: "From the branch",
+    PaymentMethod: "Payment Method:",
+    selectBranch: "Select the branch you want order from:",
+    orderInfo: "Complete Order Information",
+    TotalPrice: "Total Cart Price:",
+    TotalDiscount: "Total Price After discount:",
+    Category: "Category:",
+    Quantity: "Quantity",
+    Price: "Price",
+    TotallPrice: "Total Price",
+    haveCopun: "I have a coupon?",
+    Submit: "Submit",
+    Entercoupon: "Enter your coupon:",
+
+
+
   },
 };
 

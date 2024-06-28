@@ -271,6 +271,30 @@ const ar = {
     Preview: " معاينة",
     Delete: " حذف",
   },
+  Cart: {
+    noProduct: "لا توجد منتجات في عربتك",
+    ShoppingCart: "عربة التسوق",
+    ClearAll: "حذف الكل",
+    OrderNow: "اطلب الآن",
+    OnlinePayment: "الدفع عبر الإنترنت",
+    receiveOrder: "أُفضّل استلام طلبي عن طريق:",
+    Delivery: "الشحن",
+    Frombranch: "من الفرع",
+    PaymentMethod: "طرق الدفع:",
+    selectBranch: "اختر الفرع الذي تريد الطلب منه:",
+    orderInfo: "اكمل معلومات الطلب",
+    TotalPrice: "إجمالي فاتورة عربتك:",
+    TotalDiscount: "إجمالي الفاتورة بعد الخصم:",
+    Category: "الفئة:",
+    Quantity: "الكمية",
+    Price: "السعر",
+    TotallPrice: "إجمالي السعر",
+    haveCopun: "لديّ كوبون خصم؟",
+    Submit: "تأكيد",
+    Entercoupon: "ادخِل كوبونك:",
+
+
+  },
 };
 
 export default ar;

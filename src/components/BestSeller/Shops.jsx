@@ -34,7 +34,7 @@ const Shops = () => {
       setError(null);
     } catch (error) {
       setError(error.response?.data?.message || "Error fetching data");
-      ErrorAlert({
+      console.log({
         text: error.response?.data?.message || "Error fetching data",
       });
     } finally {
@@ -131,8 +131,8 @@ const Shops = () => {
       </section>
       <div
         className={`filter-container myColor w-52 absolute top-32 p-3 ${language === "ar"
-            ? "-left-40 hover:left-0"
-            : "-right-40 hover:right-0"
+          ? "-left-40 hover:left-0"
+          : "-right-40 hover:right-0"
           }`}
       >
         <div className="flex w-full">
