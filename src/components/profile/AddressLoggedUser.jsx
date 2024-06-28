@@ -7,7 +7,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 export default function AddressLoggedUser({ closeModal, role, modal }) {
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
@@ -87,19 +87,17 @@ export default function AddressLoggedUser({ closeModal, role, modal }) {
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
           fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-          z-50 justify-center items-center ${
-            modal ? "-right-1/2" : "-left-[100%]"
+          z-50 justify-center items-center ${modal ? "-right-1/2" : "-left-[100%]"
           }
            w-full h-full `}
       >
         <div
           className={`w-full max-w-min 
              sideModal duration-200 ease-linear
-             ${
-               language === "ar"
-                 ? "absolute left-0 rounded-r-xl"
-                 : "absolute right-0 rounded-l-xl"
-             }
+             ${language === "ar"
+              ? "absolute left-0 rounded-r-xl"
+              : "absolute right-0 rounded-l-xl"
+            }
              h-screen overflow-y-auto overflow-x-hidden`}
         >
           <div className="relative p-4 sideModal sm:p-5">
@@ -166,7 +164,7 @@ export default function AddressLoggedUser({ closeModal, role, modal }) {
               <div className=" flex justify-center mt-9">
                 <button
                   disabled={!selectedGovernorate || !selectedCity || !street}
-                  className="bg-yellow-900 w-96 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
+                  className="secondaryBtn w-96 h-12 rounded-md  fw-bold text-xl"
                 >
                   Add Address +
                 </button>

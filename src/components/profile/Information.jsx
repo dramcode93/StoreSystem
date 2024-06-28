@@ -25,7 +25,7 @@ const Information = ({ openAdd }) => {
   const [isDeletingPhone, setIsDeletingPhone] = useState(false); // Add state for phone deletion loading
   const [isDeletingAddress, setIsDeletingAddress] = useState(false); // Add state for phone deletion loading
   const [isAddingPhone, setIsAddingPhone] = useState(false); // Add state for phone addition loading
-  const {t,language} = useI18nContext();
+  const { t, language } = useI18nContext();
   const decodedToken = jwtDecode(token);
 
   const fetchData = useCallback(async () => {
@@ -226,7 +226,7 @@ const Information = ({ openAdd }) => {
             {decodedToken.role !== 'user' &&
               <div className='mx-10'>
                 {(isNameEditing || isEmailEditing) && (
-                  <button onClick={handleSaveChanges} className="bg-yellow-900  rounded-full hover:bg-yellow-800 fw-bold">Save Changes</button>
+                  <button onClick={handleSaveChanges} className="secondaryBtn  rounded-full  fw-bold">Save Changes</button>
                 )}
               </div>
             }
