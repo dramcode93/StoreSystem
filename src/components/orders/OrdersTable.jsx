@@ -129,9 +129,8 @@ const OrdersTable = ({ openPreview }) => {
 
   return (
     <section
-      className={`secondary mx-10 pt-2 absolute top-32 -z-50 w-3/4 ${
-        language === "ar" ? "left-10" : "right-10"
-      }`}
+      className={`secondary mx-10 pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"
+        }`}
     >
       <div className="flex justify-between">
         <div className="relative w-96 m-3">
@@ -143,9 +142,8 @@ const OrdersTable = ({ openPreview }) => {
             placeholder={t("Products.Search")}
           />
           <CiSearch
-            className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${
-              language === "ar" ? "left-3" : "right-3"
-            } cursor-pointer`}
+            className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${language === "ar" ? "left-3" : "right-3"
+              } cursor-pointer`}
             onClick={handleSearch}
           />
         </div>
@@ -219,47 +217,45 @@ const OrdersTable = ({ openPreview }) => {
                       </td>
                       <td className="px-4 py-4">{order.paymentMethodType}</td>
                       <td className="px-4 py-4">{order.receivingMethod}</td>
-                      {role !== "customer" && (
-                        <td className="px-3 py-3 flex items-center justify-end">
-                          <button
-                            className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
-                            type="button"
-                            onClick={() => toggleEditDropdown(order._id)}
-                            ref={(el) => (dropdownRefs.current[order._id] = el)}
-                          >
-                            <DotsThree
-                              size={25}
-                              weight="bold"
-                              className="hover:bg-slate-300  dark:hover:bg-gray-600 w-10 rounded-lg"
-                            />
-                          </button>
+                      <td className="px-3 py-3 flex items-center justify-end">
+                        <button
+                          className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
+                          type="button"
+                          onClick={() => toggleEditDropdown(order._id)}
+                          ref={(el) => (dropdownRefs.current[order._id] = el)}
+                        >
+                          <DotsThree
+                            size={25}
+                            weight="bold"
+                            className="hover:bg-slate-300  dark:hover:bg-gray-600 w-10 rounded-lg"
+                          />
+                        </button>
+                        <div
+                          className="absolute z-10"
+                          dir={language === "ar" ? "rtl" : "ltr"}
+                        >
                           <div
-                            className="absolute z-10"
-                            dir={language === "ar" ? "rtl" : "ltr"}
-                          >
-                            <div
-                              id={`order-dropdown-${order._id}`}
-                              className={`${
-                                selectedOrderId === order._id
-                                  ? `absolute -top-3 ${
-                                      language === "en"
-                                        ? "right-full"
-                                        : "left-full"
-                                    } overflow-auto`
-                                  : "hidden"
+                            id={`order-dropdown-${order._id}`}
+                            className={`${selectedOrderId === order._id
+                              ? `absolute -top-3 ${language === "en"
+                                ? "right-full"
+                                : "left-full"
+                              } overflow-auto`
+                              : "hidden"
                               } z-10 w-56  rounded divide-y divide-gray-100 shadow secondary `}
-                            >
-                              <ul className="text-sm bg-transparent pl-0 mb-0 w-full">
-                                <li>
-                                  <button
-                                    type="button"
-                                    className="flex w-56 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
-                                    onClick={() => handleOrderPreview(order)}
-                                  >
-                                    <Eye size={18} weight="bold" />
-                                    {t("Category.Preview")}
-                                  </button>
-                                </li>
+                          >
+                            <ul className="text-sm bg-transparent pl-0 mb-0 w-full">
+                              <li>
+                                <button
+                                  type="button"
+                                  className="flex w-56 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                  onClick={() => handleOrderPreview(order)}
+                                >
+                                  <Eye size={18} weight="bold" />
+                                  {t("Category.Preview")}
+                                </button>
+                              </li>
+                              {role !== "customer" && <div>
                                 <li>
                                   <button
                                     type="button"
@@ -319,11 +315,11 @@ const OrdersTable = ({ openPreview }) => {
                                     )}
                                   </button>
                                 </li>
-                              </ul>
-                            </div>
+                              </div>}
+                            </ul>
                           </div>
-                        </td>
-                      )}
+                        </div>
+                      </td>
                     </tr>
                   </React.Fragment>
                 ))
