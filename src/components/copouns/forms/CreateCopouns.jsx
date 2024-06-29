@@ -5,25 +5,24 @@ import { useI18nContext } from "../../context/i18n-context";
 import FormText from "../../../form/FormText";
 import { X } from "@phosphor-icons/react";
 
-function UpdateCategory({ closeModal, role, modal, categoryData }) {
+function CreateCoupon({ closeModal, role, modal }) {
   const token = Cookies.get("token");
-  const [newCategoryName, setNewCategoryName] = useState(
-    categoryData?.name || ""
-  );
+  const [couponName, setCouponName] = useState("");
+  const [couponExpire, setCouponExpire] = useState("");
+  const [couponDiscount, setCouponDiscount] = useState();
   const { language } = useI18nContext();
 
-  useEffect(() => {
-    if (modal) {
-      setNewCategoryName(categoryData.name);
-    }
-  }, [categoryData, modal]);
-  const handleUpdateCategory = (e) => {
+  const handleAddCoupons = (e) => {
     e.preventDefault();
+    const formattedExpireDate = couponExpire.split("/").reverse().join("-");
+    console.log(couponName, formattedExpireDate, couponDiscount);
     axios
-      .put(
-        `https://store-system-api.gleeze.com/api/categories/${categoryData._id}`,
+      .post(
+        `https://store-system-api.gleeze.com/api/coupon`,
         {
-          name: newCategoryName,
+          name: couponName,
+          expire: formattedExpireDate,
+          discount: couponDiscount,
         },
         {
           headers: {
@@ -32,17 +31,19 @@ function UpdateCategory({ closeModal, role, modal, categoryData }) {
         }
       )
       .then((response) => {
-        window.location.href = "/category";
+        window.location.href = "/coupons";
       })
       .catch((error) => {
-        console.error("Error updating category:", error);
+        console.error("Error updating coupon:", error);
       });
   };
+
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
   };
+
   return (
     <div>
       <div
@@ -70,7 +71,7 @@ function UpdateCategory({ closeModal, role, modal, categoryData }) {
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
             >
               <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                Edit Category
+                Add Coupon
               </h3>
               <button
                 type="button"
@@ -82,27 +83,39 @@ function UpdateCategory({ closeModal, role, modal, categoryData }) {
               </button>
             </div>
             <form
-              onSubmit={handleUpdateCategory}
+              onSubmit={handleAddCoupons}
               className="fs-6 tracking-wider mt-4 p-0 gap-4 grid-cols-2"
               dir={language === "ar" ? "rtl" : "ltr"}
             >
               <FormText
                 label="Name"
                 name="name"
-                value={newCategoryName}
-                onChange={(e) => {
-                  setNewCategoryName(e.target.value);
-                }}
-                placeholder="Name"
+                value={couponName}
+                onChange={(e) => setCouponName(e.target.value)}
+                placeholder="Coupon Name"
+              />
+              <FormText
+                label="Expire Date"
+                name="expire"
+                value={couponExpire}
+                onChange={(e) => setCouponExpire(e.target.value)}
+                placeholder="YYYY-MM-DD"
+                type='date'
+              />
+              <FormText
+                label="Discount"
+                name="discount"
+                value={couponDiscount}
+                onChange={(e) => setCouponDiscount(e.target.value)}
+                placeholder="Discount"
               />
               <div className="col-span-2 flex justify-center">
                 <button
-                  disabled={!newCategoryName}
+                  disabled={!couponName || !couponExpire || !couponDiscount}
                   // className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
                   className="secondaryBtn w-1/2 h-12 rounded-md  fw-bold text-xl "
-
                 >
-                  Edit Category
+                  Add Coupon
                 </button>
               </div>
             </form>
@@ -113,4 +126,4 @@ function UpdateCategory({ closeModal, role, modal, categoryData }) {
   );
 }
 
-export default UpdateCategory;
+export default CreateCoupon;

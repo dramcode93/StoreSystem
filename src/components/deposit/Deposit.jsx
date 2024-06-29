@@ -5,6 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { Plus } from "@phosphor-icons/react";
 import Actions from "./Actions";
+import Loading from "../Loading/Loading";
 
 export default function FinancialTransactions() {
   const [selectedSalesId, setSelectedSalesId] = useState(null);
@@ -13,6 +14,8 @@ export default function FinancialTransactions() {
   const [error, setError] = useState(null);
   const [selectedSubShop, setSelectedSubShop] = useState("");
   const [subShops, setSubShops] = useState([]);
+  const token = Cookies.get("token");
+  const [loading, setLoading] = useState(false);
 
   const dropdownRefs = useRef({});
   const { t, language } = useI18nContext();
@@ -20,7 +23,10 @@ export default function FinancialTransactions() {
   useEffect(() => {
     const fetchSubShops = async () => {
       try {
-        const response = await axios.get("https://store-system-api.gleeze.com/api/subShops/list?sort=name&fields=name");
+        const response = await axios.get(
+          "https://store-system-api.gleeze.com/api/subShops/list?sort=name&fields=name",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
         setSubShops(response.data.data);
       } catch (error) {
         console.error("Failed to fetch sub shops:", error);
@@ -28,9 +34,10 @@ export default function FinancialTransactions() {
     };
 
     fetchSubShops();
-  }, []);
+  }, [token]);
 
   const fetchTransactions = async (option, subShopId = "") => {
+    setLoading(true);
     let url = "https://store-system-api.gleeze.com/api/financialTransactions";
 
     const params = [];
@@ -66,9 +73,10 @@ export default function FinancialTransactions() {
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       setError("Error fetching transactions. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
-
 
   const handleSelectChange = async (event) => {
     const value = event.target.value;
@@ -110,31 +118,39 @@ export default function FinancialTransactions() {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString();
+    return date.toLocaleDateString("en-GB");
   };
 
   const [openCreate, setOpenCreate] = useState(false);
   const toggleOpenCreateModal = () => {
     setOpenCreate(!openCreate);
   };
+  console.log("transactionData",transactionData)
 
   return (
     <div>
       <Actions closeModal={toggleOpenCreateModal} modal={openCreate} />
-      <section className={`mx-10 rounded-md py-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
+      <section
+        className={`mx-10  py-2 absolute top-32 -z-50 w-3/4  ${
+          language === "ar" ? "left-10" : "right-10" 
+        }`}
+      >
         <div className="mx-auto max-w-screen-xl">
           <div>
-            <div className="h-32 dark:bg-gray-800 relative shadow-md rounded-lg d-flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4 pb-0">
+            <div className="h-36 w-full  secondary relative shadow-md d-flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4 pb-8">
               <div className="w-full md:w-1/2">
                 <form className="d-flex items-center">
                   <div className="w-full sm:grid-cols-3">
                     <div className="flex items-center justify-content-evenly gap-5 w-full sm:grid-cols-3">
-                      <div>
+                      <div className="min-w-60">
                         <FormSelect
                           selectLabel={t("Sales.subShop")}
                           headOption={t("Sales.SelectAnOption")}
                           options={[
-                            { value: "all", label: t("Transactions.AllSubShops") },
+                            {
+                              value: "all",
+                              label: t("Transactions.AllSubShops"),
+                            },
                             ...subShops.map((shop) => ({
                               value: shop._id,
                               label: shop.name,
@@ -144,14 +160,20 @@ export default function FinancialTransactions() {
                           value={selectedSubShop}
                         />
                       </div>
-                      <div>
+                      <div className="min-w-60">
                         <FormSelect
                           selectLabel={t("Transactions.type")}
                           headOption={t("Transactions.SelectAnOption")}
                           options={[
                             { value: "all", label: t("Transactions.all") },
-                            { value: "deposit", label: t("Transactions.deposit") },
-                            { value: "withdraw", label: t("Transactions.withdraw") },
+                            {
+                              value: "deposit",
+                              label: t("Transactions.deposit"),
+                            },
+                            {
+                              value: "withdraw",
+                              label: t("Transactions.withdraw"),
+                            },
                           ]}
                           handleChange={handleSelectChange}
                           value={selectedOption}
@@ -165,13 +187,14 @@ export default function FinancialTransactions() {
                 <button
                   type="button"
                   onClick={toggleOpenCreateModal}
-                  className="d-flex items-center fw-bold fs-6 justify-center duration-150 ease-linear
-                    text-white bg-orange-500 hover:bg-orange-700 
-                    focus:ring-4 focus:ring-orange-300 
-                    font-medium rounded-lg text-sm px-4 py-2 
-                    dark:bg-orange-300 dark:hover:bg-orange-500 dark:text-orange-800
-                    dark:hover:text-white
-                    focus:outline-none dark:focus:ring-orange-800"
+                  // className="d-flex items-center fw-bold fs-6 justify-center duration-150 ease-linear
+                  //   text-white bg-orange-500 hover:bg-orange-700
+                  //   focus:ring-4 focus:ring-orange-300
+                  //   font-medium rounded-lg text-sm px-4 py-2
+                  //   dark:bg-orange-300 dark:hover:bg-orange-500 dark:text-orange-800
+                  //   dark:hover:text-white
+                  //   focus:outline-none dark:focus:ring-orange-800"
+                  className="secondaryBtn rounded-md fw-bold d-flex items-center gap-2 "
                 >
                   {t(`Shop.Actions`)}
                   <Plus size={18} weight="bold" />
@@ -184,47 +207,73 @@ export default function FinancialTransactions() {
               </div>
             )}
             <div
-              className="overflow-x-auto w-100 mt-4 dark:bg-gray-800 relative shadow-md rounded-lg"
+              className="overflow-x-auto w-full mt-4 secondary relative shadow-md "
               id="table"
               style={{ display: "table" }}
             >
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
-                  <tr className="text-center fs-6 bg-gray-500 bg-opacity-25 dark:bg-gray-500 tracking-wide dark:bg-opacity-25 transition ease-out duration-200">
-                    <th scope="col" className="px-5 py-4">
-                      {t("Transactions.Id")}
-                    </th>
-                    <th scope="col" className="px-5 py-4">
-                      {t("Transactions.date")}
-                    </th>
-                    <th scope="col" className="px-5 py-3">
-                      {t("Transactions.Money")}
-                    </th>
-                    <th scope="col" className="px-5 py-3">
-                      {t("Transactions.Reason")}
-                    </th>
-                    <th scope="col" className="px-5 py-3">
-                      {t("Transactions.subShop")}
-                    </th>
-                  </tr>
-                </thead>
+                {((selectedSubShop && selectedOption) ||
+                  (!selectedSubShop && selectedOption) ||
+                  (selectedSubShop === "all" && !selectedOption)) && (
+                  <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
+                    <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
+                      {" "}
+                      <th scope="col" className="px-4 py-4">
+                        {t("Transactions.Id")}
+                      </th>
+                      <th scope="col" className="px-4 py-4">
+                        {t("Transactions.date")}
+                      </th>
+                      <th scope="col" className="px-4 py-3">
+                        {t("Transactions.Money")}
+                      </th>
+                      <th scope="col" className="px-4 py-3">
+                      Transaction
+                      </th>
+                      <th scope="col" className="px-4 py-3">
+                        {t("Transactions.Reason")}
+                      </th>
+                      <th scope="col" className="px-4 py-3">
+                        {t("Transactions.subShop")}
+                      </th>
+                    </tr>
+                  </thead>
+                )}
                 <tbody>
-                  {transactionData.map((transaction, index) => (
-                    <tr
-                      key={index}
-                      className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
-                    >
-                      <td className="px-5 py-3">{transaction._id}</td>
-                      <td className="px-5 py-3">
-                        {formatDate(transaction.createdAt)}
-                      </td>
-                      <td className="px-5 py-3">{transaction.money}</td>
-                      <td className="px-5 py-3">{transaction.reason}</td>
-                      <td className="px-5 py-3">
-                        {transaction.subShop ? transaction.subShop.name : t("Transactions.shop")}
+                  {loading ? (
+                    <tr>
+                      <td colSpan="5" className="fs-4 text-center mb-5 pb-3">
+                        <Loading />
                       </td>
                     </tr>
-                  ))}
+                  ) : transactionData.length === 0 &&
+                    (selectedSubShop || selectedOption) ? (
+                    <tr>
+                      <td colSpan="5" className="text-center py-4 text-xl">
+                        No Transactions yet
+                      </td>
+                    </tr>
+                  ) : (
+                    transactionData.map((transaction, index) => (
+                      <tr
+                        key={index}
+                        className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
+                      >
+                        <td className="px-4 py-3">{transaction._id}</td>
+                        <td className="px-4 py-3">
+                          {formatDate(transaction.createdAt)}
+                        </td>
+                        <td className="px-4 py-3">{transaction.money}</td>
+                        <td className="px-4 py-3">{transaction.transaction}</td>
+                        <td className="px-4 py-3">{transaction.reason}</td>
+                        <td className="px-4 py-3">
+                          {transaction.subShop
+                            ? transaction.subShop.name
+                            : t("Transactions.shop")}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>

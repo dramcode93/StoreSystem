@@ -4,9 +4,8 @@ import { ChalkboardSimple } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
 import Cookies from "js-cookie";
 import axios from "axios";
-import styles from "../Shop/css/AllShop.module.css"
+import { FaBoxOpen, FaCalendarAlt, FaCalendarDay, FaFileInvoiceDollar, FaMoneyBillWave, FaShoppingCart } from "react-icons/fa";
 const Shop = () => {
-  const { t } = useI18nContext();
   const token = Cookies.get("token");
   const [loading, setLoading] = useState(true);
   const [debts, setDebts] = useState();
@@ -18,6 +17,7 @@ const Shop = () => {
   const [monthlySales, setMonthlySales] = useState();
   const [yearlyEarning, setYearlyEarning] = useState();
   const [yearlySales, setYearlySales] = useState();
+  const { t, language } = useI18nContext();
 
   const fetchData = useCallback(async () => {
     try {
@@ -103,18 +103,14 @@ const Shop = () => {
 
   return (
     <>
-      {/* w-3/4 ${
-          language === "ar" ? "left-10" : "right-10"
-        } */}
       <div
-        className={` rounded-md pt-2 absolute top-32 -z-3 
-       w-full
-        ` }
+        className={`rounded-md pt-2 absolute top-32 -z-3 
+        w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}
       >
         <div className="d-flex justify-around items-center mb-4">
           <div className="flex justify-content-between align-center">
             <Card
-              icon={<ChalkboardSimple size={60} />}
+              icon={<FaMoneyBillWave  size={40} />}
               id="id"
               name={t(`Shop.TotalMoney`)}
               rooms={formatMoney(allMoney)}
@@ -122,7 +118,7 @@ const Shop = () => {
           </div>
           <div className="flex justify-content-between align-center">
             <Card
-              icon={<ChalkboardSimple size={60} />}
+              icon={<FaBoxOpen size={40} />}
               id="id"
               name={t(`Shop.ProductsMoney`)}
               rooms={formatMoney(productsMoney)}
@@ -130,7 +126,7 @@ const Shop = () => {
           </div>
           <div className="flex justify-content-between align-center">
             <Card
-              icon={<ChalkboardSimple size={60} />}
+              icon={<FaFileInvoiceDollar size={40} />}
               id="id"
               name="Debts"
               rooms={formatMoney(debts)}
@@ -142,7 +138,7 @@ const Shop = () => {
           <div className="d-flex justify-around items-center flex-col gap-4">
             <div className="flex justify-content-between align-center">
               <Card
-                icon={<ChalkboardSimple size={60} />}
+                icon={<FaShoppingCart size={40} />}
                 id="id"
                 name={t(`Shop.DailySales`)}
                 rooms={formatMoney(dailySales)}
@@ -150,7 +146,7 @@ const Shop = () => {
             </div>
             <div className="flex justify-content-between align-center">
               <Card
-                icon={<ChalkboardSimple size={60} />}
+                icon={<FaMoneyBillWave size={40} />}
                 id="id"
                 name={t(`Shop.DailyEarnings`)}
                 rooms={formatMoney(dailyEarning)}
@@ -162,7 +158,7 @@ const Shop = () => {
           <div className="d-flex justify-around items-center flex-col gap-4">
             <div className="flex justify-content-between align-center ">
               <Card
-                icon={<ChalkboardSimple size={60} />}
+                icon={<FaCalendarDay size={40} />}
                 id="id"
                 name={t(`Shop.MonthlySales`)}
                 rooms={formatMoney(monthlySales)}
@@ -170,19 +166,18 @@ const Shop = () => {
             </div>
             <div className="flex justify-content-between align-center">
               <Card
-                icon={<ChalkboardSimple size={60} />}
+                icon={<FaCalendarDay size={40} />}
                 id="id"
                 name={t(`Shop.MonthlyEarnings`)}
                 rooms={formatMoney(monthlyEarning)}
               />
             </div>
-            <div className={styles.dadd}></div>
           </div>
 
           <div className="d-flex justify-around items-center flex-col gap-4">
             <div className="flex justify-content-between align-center">
               <Card
-                icon={<ChalkboardSimple size={60} />}
+                icon={<FaCalendarAlt size={40} />}
                 id="id"
                 name={t(`Shop.YearlySales`)}
                 rooms={formatMoney(yearlySales)}
@@ -190,7 +185,7 @@ const Shop = () => {
             </div>
             <div className="flex justify-content-between align-center">
               <Card
-                icon={<ChalkboardSimple size={60} />}
+                icon={<FaCalendarAlt size={40} />}
                 id="id"
                 name={t(`Shop.YearlyEarnings`)}
                 rooms={formatMoney(yearlyEarning)}

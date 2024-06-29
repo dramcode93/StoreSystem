@@ -31,7 +31,6 @@ export default function PreviewCategory({ closeModal, assistantData }) {
         );
 
         setSpecificProducts(product.data.data);
-        console.log("specific", product.data.data);
       } else {
         console.error("No token found.");
       }
@@ -56,15 +55,15 @@ export default function PreviewCategory({ closeModal, assistantData }) {
       className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
     fixed top-1/2 -translate-x-1/2 -translate-y-1/2
     z-50 justify-center items-center left-1/2
-     bg-opacity-40 w-full h-full `}
+      w-full h-full `}
     >
       <div
         className={`PreviewUser max-w-2xl 
-       dark:bg-gray-800 rounded-2xl duration-200 ease-linear
+        rounded-2xl duration-200 ease-linear
        absolute top-2/3 sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  w-full
-       min-h-screen overflow-auto `}
+       min-h-screen overflow-auto sideModal `}
       >
-        <div className="relative dark:bg-gray-800 sm:p-5">
+        <div className="relative sideModal sm:p-5">
           <div
             dir="rtl"
             className="flex justify-between items-center w-full mb-3 rounded "
@@ -86,8 +85,10 @@ export default function PreviewCategory({ closeModal, assistantData }) {
         >
         </form> */}
           <div
-            className={`text-lg text-white bg-themeColor md:text-xl mx-auto text-center
-               dark:text-white dark:bg-themeColor p-1 mb-4 rounded-md `}
+            className={`text-lg md:text-xl mx-auto text-center
+               secondaryBtn p-1 mb-4 rounded-md `}
+            // className={`text-lg text-white bg-themeColor md:text-xl mx-auto text-center
+            //    dark:text-white dark:bg-themeColor p-1 mb-4 rounded-md `}
           >
             <h3 className="font-semibold ">{t("previewForm.title")}</h3>
           </div>

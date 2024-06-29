@@ -23,6 +23,7 @@ export default function Category({ role }) {
     setSelectedAssistantData(selectedAssistant);
     setOpenPreview(!openPreview);
   };
+  
   return (
     <div className="text-white">
       {openPreview && (
@@ -46,6 +47,7 @@ export default function Category({ role }) {
         openCreate={toggleOpenCreateModal}
         openEdit={toggleOpenEditModal}
         openPreview={toggleOpenPreviewModal}
+        role={role}
       />
     </div>
   );

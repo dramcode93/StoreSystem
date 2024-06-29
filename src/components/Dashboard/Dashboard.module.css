@@ -38,16 +38,16 @@
 .dropDown:hover {
   background: #006edc;
   color: white;
-  border-radius: 10px;
+  border-radius: 0px;
   transition: all 0.5s;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
   -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
   -ms-transition: all 0.5s;
   -o-transition: all 0.5s;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  -o-border-radius: 0px;
 }
 .branch:hover {
   background: transparent;
@@ -57,9 +57,45 @@
   font-size: 18px;
 }
 /* 
- @media (max-width: 1024px) {
-    #menu-bar {
-      display: initial;
-    }
+.card{
+  perspective: 1500px;
+  background-color: #006edc;
+}
+.chk{
+  display: none;
+}
+.animatedContent{
   
-  } */
+  transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(0.075, 0, 0.85, 1);
+  -webkit-transition: transform 1s cubic-bezier(0.075, 0, 0.85, 1);
+  -moz-transition: transform 1s cubic-bezier(0.075, 0, 0.85, 1);
+  -ms-transition: transform 1s cubic-bezier(0.075, 0, 0.85, 1);
+  -o-transition: transform 1s cubic-bezier(0.075, 0, 0.85, 1);
+}
+.chk:checked ~ .animatedContent{
+  animation: 2s animate;
+  transform: rotateY(180deg);
+  -webkit-animation: 2s animate;
+}
+@keyframes animate {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+.front, .back{
+  position: absolute;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  perspective: 1500px;
+}
+.back{
+  transform: rotateY(180deg);
+} */

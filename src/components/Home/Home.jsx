@@ -26,8 +26,8 @@ const Home = ({ role, modal }) => {
             Authorization: `Bearer ${token}`,
           },
           params: {
-            sort: '-sold',
-            limit: 4       
+            sort: '-sold', // Assuming '-sales' sorts by sales in descending order
+            limit: 5        // Limits the results to the top 5 products
           }
         });
         setBestSellingProducts(response.data.data);
@@ -107,6 +107,8 @@ const Home = ({ role, modal }) => {
     setRefresh(prev => !prev);
   };
 
+
+
   return (
     <div>
       <div className={`absolute top-28 dark:text-gray-900 -z-3 w-full ${language === "ar" ? "right-28" : "left-40"}`}>
@@ -133,8 +135,8 @@ const Home = ({ role, modal }) => {
               </div>
               <FaChartLine className="fs-3 text-blue-500" />
             </div>
-            <div className="bg-gray-100 w-1/5 rounded flex items-center justify-between p-4">
-              <div className="ml-3">
+            <div className={`bg-gray-100 w-1/5 rounded flex items-center justify-between p-4 ${language === "en" ? "mr-20" : ""}`}>
+            <div className="ml-3">
                 <p className="mb-2">{t('Home.Profit')}</p>
                 <h6 className="mb-0">$10,000</h6>
               </div>
@@ -144,8 +146,8 @@ const Home = ({ role, modal }) => {
         </div>
         <div className="container-fluid pt-4 px-4 ">
           <div className="d-flex align-items-center justify-content-center gap-5">
-            <div className="w-4/12">
-              <div className="bg-gray-100 text-center rounded p-5">
+            <div className="w-4/12 ">
+              <div className="bg-gray-100 text-center rounded p-4 h-80">
                 <div className="d-flex align-items-center justify-content-between mb-4">
                   <h6 className="fw-bold mb-0">{t('Home.SalesByProductCategory')}</h6>
                   <Link to="#" onClick={handleRefresh}>{t('Home.ShowAll')}</Link>
@@ -154,7 +156,7 @@ const Home = ({ role, modal }) => {
               </div>
             </div>
             <div className="w-4/12">
-              <div className="bg-gray-100 text-center rounded p-4">
+              <div className="bg-gray-100 text-center rounded p-4 pt-1 h-80">
                 <div className="d-flex align-items-center justify-content-between my-4">
                   <h6 className="fw-bold mb-0">{t('Home.MonthlySales')}</h6>
                   <Link to="#" onClick={handleRefresh}>{t('Home.ShowAll')}</Link>
@@ -165,7 +167,7 @@ const Home = ({ role, modal }) => {
           </div>
           <div className="d-flex align-items-center justify-content-center gap-5 my-4">
             <div className="w-4/12">
-              <div className="bg-gray-100 text-center rounded p-2">
+              <div className="bg-gray-100 text-center rounded p-4 h-80">
                 <div className="d-flex align-items-center justify-content-between">
                   <h6 className="mb-0 fw-bold">{t('Home.Calendar')}</h6>
                 </div>
@@ -183,7 +185,7 @@ const Home = ({ role, modal }) => {
               </div>
             </div>
             <div className="w-4/12 ">
-              <div className="bg-gray-100 text-center rounded p-4">
+              <div className="bg-gray-100 text-center rounded p-4 h-80">
                 <h6 className="mb-4 fw-bold">{t('Home.BestSellingProducts')}</h6>
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead className='text-xm text-gray-900 uppercase'>
@@ -195,8 +197,8 @@ const Home = ({ role, modal }) => {
                   <tbody className='text-center fs-6'>
                     {bestSellingProducts.map((product, index) => (
                       <tr key={index}>
-                        <td className='py-2'>{product.name}</td>
-                        <td>{product.sold}</td>
+                      <td className={`py-2 ${language === "en" ? "text-left pl-16" : ""}`}>{product.name}</td>
+                      <td>{product.sold}</td>
                       </tr>
                     ))}
                   </tbody>

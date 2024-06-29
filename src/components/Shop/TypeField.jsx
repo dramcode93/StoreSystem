@@ -6,6 +6,7 @@ import { IoMdAdd } from "react-icons/io";
 import { FaRegSave } from "react-icons/fa";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { FiX } from "react-icons/fi";
 
 const TypeField = ({
   label,
@@ -59,20 +60,31 @@ const TypeField = ({
   }));
 
   return (
-    <li className="bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3 list-none">
-      <div className="text-gray-200 font-bold text-xl">
+    <li className="secondary mx-10 rounded-md py-4 px-4 mb-3 list-none">
+      <div className="secondaryF font-bold text-xl mb-0">
+      <p className="secondaryF flex">
         {label} :
+        {isEditing ? (
+          <FiX
+            className="cursor-pointer text-2xl text-red-500"
+            onClick={() => handleAddToggle(label.toLowerCase())}
+          />
+        ) : (
+          ""
+        )}
+      </p>
         {isLoading ? (
           <Loading />
         ) : (
           <>
             {value && Array.isArray(value) && value.length > 0 ? (
               value.map((type, index) => (
-                <div key={index} className="text-white flex w-1/2">
-                  <p className="text-white">{type.type_en}</p>
+                <div key={index} className=" flex w-1/2">
+                  <p className="secondaryF">{type.type_en}</p>
                   <MdDelete
-                    className="text-2xl mb-3"
+                    className="text-2xl mb-3 "
                     onClick={() => handleDelType(type._id)}
+                    color="red"
                   />
                 </div>
               ))
@@ -88,10 +100,10 @@ const TypeField = ({
                   name="Type"
                   value={inputValue}
                 />
-                <FaRegSave onClick={handleAddType} className="text-2xl mt-2" />
+                <FaRegSave onClick={handleAddType} className="text-2xl mt-3 secondaryF " />
               </div>
             ) : (
-              <IoMdAdd onClick={handleAddToggle} className="text-2xl" />
+              <IoMdAdd onClick={handleAddToggle} className="text-2xl secondaryF" />
             )}
           </>
         )}

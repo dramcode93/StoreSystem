@@ -1,24 +1,53 @@
-import React from 'react';
-import { FiEdit } from 'react-icons/fi';
+import React from "react";
+import { FiEdit } from "react-icons/fi";
+import FormText from "../../form/FormText";
 
-const ProfileField = ({ label, value, isEditing, inputValue, handleInputChange, handleEditToggle }) => (
-    <li className='bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3'>
-        <p className='text-gray-200 font-bold text-xl'>
-            {label} : {isEditing ? (
-                <input
-                    name={label.toLowerCase()}
-                    value={inputValue}
-                    className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
-                    onChange={handleInputChange}
-                />
-            ) : (
-                <>
-                    {value}
-                    <FiEdit className={`${label === "Username" ? "hidden" : "block"}`} onClick={() => handleEditToggle(label.toLowerCase())} />
-                </>
-            )}
-        </p>
-    </li>
+const ProfileField = ({
+  label,
+  value,
+  isEditing,
+  inputValue,
+  handleInputChange,
+  handleEditToggle,
+  handleSaveChanges,
+  role,
+}) => (
+  <li className="secondary mx-10 rounded-md py-4 px-4 mb-3 list-none">
+    <p className="secondaryF font-bold text-xl mb-0">
+      {label} :{" "}
+      {isEditing ? (
+  
+        <div className="flex">
+        
+         <FormText
+            name={label.toLowerCase()}
+            value={inputValue}
+            onChange={handleInputChange}
+          />
+        <div className="mx-10">
+            <button
+              onClick={handleSaveChanges}
+              className="secondaryBtn px-4 py-1 fw-bold"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      ) : (
+        <>
+          {value}
+          {role === "user" ? (
+            ""
+          ) : (
+            <FiEdit
+              className={`${label === "Username" ? "hidden" : "block"}`}
+              onClick={() => handleEditToggle(label.toLowerCase())}
+            />
+          )}
+        </>
+      )}
+    </p>
+  </li>
 );
 
 export default ProfileField;

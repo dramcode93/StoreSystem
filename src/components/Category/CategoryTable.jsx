@@ -13,10 +13,11 @@ import {
 import { useI18nContext } from "../context/i18n-context";
 import Loading from "../Loading/Loading";
 import ConfirmationModal from "./ConfirmationModel";
+import UpdateCategory from "./forms/Update";
 
 const API_category = "https://store-system-api.gleeze.com/api/categories";
 
-const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
+const CategoryTable = ({ openEdit, openCreate, openPreview, role }) => {
   const token = Cookies.get("token");
   const [categories, setCategories] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -29,7 +30,6 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     currentPge: 1,
     totalPages: 1,
   });
-
 
   const fetchData = useCallback(async () => {
     try {
@@ -61,7 +61,9 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     if (pagination.currentPge < pagination.totalPages) {
       axios
         .get(
-          `${API_category}?sort=category name&search=${searchTerm}&page=${pagination.currentPge + 1}&limit=20`,
+          `${API_category}?sort=category name&search=${searchTerm}&page=${
+            pagination.currentPge + 1
+          }&limit=20`,
           { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((response) => {
@@ -158,7 +160,6 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
     }
   };
 
-
   // useEffect(() => {
   //   const handleClickOutside = (event) => {
   //     const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
@@ -172,20 +173,27 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   //     document.removeEventListener('click', handleClickOutside);
   //   };
   // }, []);
-  const handleClickOutside = (event) => {
-    const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => ref && !ref.contains(event.target));
-    if (isOutsideDropdown) {
-      setSelectedCategoryId(null);
-    }
-  };
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
+  // const handleClickOutside = (event) => {
+  //   const isOutsideDropdown = Object.values(dropdownRefs.current).every(
+  //     (ref) => ref && !ref.contains(event.target)
+  //   );
+  //   if (isOutsideDropdown) {
+  //     setSelectedCategoryId(null);
+  //   }
+  // };
+  // useEffect(() => {
+  //   document.addEventListener("click", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("click", handleClickOutside);
+  //   };
+  // }, []);
+
   return (
-    <section className={`bg-gray-400 bg-opacity-5 dark:bg-gray-700 dark:bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`} >
+    <section
+      className={`secondary mx-10 pt-2 absolute top-32 -z-50 w-3/4 ${
+        language === "ar" ? "left-10" : "right-10"
+      }`}
+    >
       <ConfirmationModal
         item="category"
         show={showConfirmation}
@@ -195,7 +203,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           setShowConfirmation(false);
         }}
       />
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <div className="relative w-96 m-3">
           <input
             className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 dark:bg-gray-500"
@@ -205,23 +213,27 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
             placeholder={t("Products.Search")}
           />
           <CiSearch
-            className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${language === "ar" ? "left-3" : "right-3"
-              } cursor-pointer`}
+            className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${
+              language === "ar" ? "left-3" : "right-3"
+            } cursor-pointer`}
             onClick={handleSearch}
           />
         </div>
         <div>
-          <button
-            className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
-            onClick={openCreate}
-          >
-            {t("Products.Add")}
-          </button>
+          {/* hover:bg-yellow-800  bg-yellow-900 */}
+          {role === "admin" && (
+            <button
+              className="secondaryBtn w-28 rounded-md m-3 fw-bold"
+              onClick={openCreate}
+            >
+              {t("Products.Add")}
+            </button>
+          )}
         </div>
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase ">
-          <tr className="text-center fs-6 bg-gray-500 bg-opacity-25 dark:bg-gray-500 tracking-wide dark:bg-opacity-25 transition ease-out duration-200">
+        <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
+          <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
             <th scope="col" className="px-5 py-4">
               {t("Category.Code")}
             </th>
@@ -250,7 +262,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
               {categories.map((category) => (
                 <tr
                   key={category._id}
-                  className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
+                  className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
                 >
                   <th
                     scope="row"
@@ -269,7 +281,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                       <DotsThree
                         size={25}
                         weight="bold"
-                        className="  hover:bg-gray-700 w-10 rounded-lg"
+                        className="hover:bg-slate-300  dark:hover:bg-gray-600 w-10 rounded-lg"
                       />
                     </button>
                     <div
@@ -278,43 +290,51 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                     >
                       <div
                         id={`category-dropdown-${category._id}`}
-                        className={`${selectedCategoryId === category._id
-                          ? `absolute -top-3 ${language === "en" ? "right-full" : "left-full"
-                          } overflow-auto`
-                          : "hidden"
-                          } z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                        className={`${
+                          selectedCategoryId === category._id
+                            ? `absolute -top-3 ${
+                                language === "en" ? "right-full" : "left-full"
+                              } overflow-auto`
+                            : "hidden"
+                        } z-10 w-44  rounded divide-y divide-gray-100 shadow secondary `}
                       >
                         <ul className="text-sm bg-transparent pl-0 mb-0">
-                          <li className="">
-                            <button
-                              type="button"
-                              className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
-                              onClick={() => handleEditCategory(category)}
-                            >
-                              <NotePencil size={18} weight="bold" />
-                              {t("Category.Edit")}
-                            </button>
-                          </li>
+                          {role === "admin" && (
+                            <li className="">
+                              <button
+                                type="button"
+                                className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                onClick={() => handleEditCategory(category)}
+                              >
+                                <NotePencil size={18} weight="bold" />
+                                {t("Category.Edit")}
+                              </button>
+                            </li>
+                          )}
                           <li>
                             <button
                               type="button"
-                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
+                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
                               onClick={() => handlePreviewCategory(category)}
                             >
                               <Eye size={18} weight="bold" />
                               {t("Category.Preview")}
                             </button>
                           </li>
-                          <li>
-                            <button
-                              type="button"
-                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
-                              onClick={() => handleDeleteCategory(category._id)}
-                            >
-                              <TrashSimple size={18} weight="bold" />
-                              {t("Category.Delete")}
-                            </button>
-                          </li>
+                          {role === "admin" && (
+                            <li>
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                onClick={() =>
+                                  handleDeleteCategory(category._id)
+                                }
+                              >
+                                <TrashSimple size={18} weight="bold" />
+                                {t("Category.Delete")}
+                              </button>
+                            </li>
+                          )}
                         </ul>
                       </div>
                     </div>
@@ -325,9 +345,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           )}
         </tbody>
       </table>
-      <nav
-        className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8"
-      >
+      <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8">
         <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
           <li>
             <button
@@ -341,10 +359,11 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           {pageButtons.map((page) => (
             <li key={page}>
               <button
-                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
-                  ? "bg-gray-200 text-gray-800"
-                  : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  }`}
+                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
+                  pagination.currentPge === page
+                    ? "bg-gray-200 text-gray-800"
+                    : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                }`}
                 onClick={() => handlePageChange(page)}
               >
                 {page}

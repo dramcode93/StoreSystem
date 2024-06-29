@@ -10,11 +10,12 @@ const AddressField = ({
   openAdd,
   handleDelAddress,
   isLoading,
+  role,
 }) => {
   const { language } = useI18nContext();
   return (
-    <li className="bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3 list-none">
-      <p className="text-gray-200 font-bold text-xl">{label} :</p>
+    <li className="secondary mx-10 rounded-md py-4 px-4 list-none">
+      <p className="secondaryF font-bold text-xl mb-0">{label} :</p>
 
       {isLoading ? (
         <Loading />
@@ -22,11 +23,8 @@ const AddressField = ({
         <>
           {Array.isArray(values) && values.length > 0 ? (
             values.map((address, index) => (
-              <div
-                key={index}
-                className="text-white flex w-1/2 justify-between text-xl"
-              >
-                <p className="text-gray-200">
+              <div key={index} className=" flex w-1/2 justify-between text-xl">
+                <p className="secondaryF mb-0">
                   {`${address.street},  
                   ${
                     language === "ar"
@@ -39,16 +37,22 @@ const AddressField = ({
                       : address.governorate?.governorate_name_en
                   }`}
                 </p>
-                <MdDelete
-                  className="text-2xl mb-3"
-                  onClick={() => handleDelAddress(index)}
-                />
+                {role === "user" ? (
+                  ""
+                ) : (
+                  <MdDelete
+                    className="text-2xl mb-3"
+                    color="red"
+                    onClick={() => handleDelAddress(index)}
+                  />
+                )}
               </div>
             ))
           ) : (
-            <p>No addresses available</p>
+            <p className="secondaryF">No addresses available</p>
           )}
-          <IoMdAdd className="text-white text-2xl" onClick={openAdd} />
+          {role === "user" ?"": (<IoMdAdd className="secondaryF text-2xl" onClick={openAdd} />)}
+          
         </>
       )}
     </li>

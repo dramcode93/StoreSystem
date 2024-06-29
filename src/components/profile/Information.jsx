@@ -1,31 +1,38 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useCallback, useEffect, useState } from "react";
+import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import Cookies from 'js-cookie';
-import ProfileField from './ProfileField';
-import Loading from '../Loading/Loading';
-import AddressField from './AddressField';
-import PhoneField from './PhoneField';
-import { useI18nContext } from '../context/i18n-context';
+import Cookies from "js-cookie";
+import ProfileField from "./ProfileField";
+import Loading from "../Loading/Loading";
+import AddressField from "./AddressField";
+import PhoneField from "./PhoneField";
+import { useI18nContext } from "../context/i18n-context";
 
-const API_info = 'https://store-system-api.gleeze.com/api/users/getMe';
-const API_update = 'https://store-system-api.gleeze.com/api/users/updateMe';
-const DEL_phone = 'https://store-system-api.gleeze.com/api/Users/deletePhone';
-const DEL_address = 'https://store-system-api.gleeze.com/api/Users/deleteAddress';
-const ADD_phone = 'https://store-system-api.gleeze.com/api/Users/addPhone';
+const API_info = "https://store-system-api.gleeze.com/api/users/getMe";
+const API_update = "https://store-system-api.gleeze.com/api/users/updateMe";
+const DEL_phone = "https://store-system-api.gleeze.com/api/Users/deletePhone";
+const DEL_address =
+  "https://store-system-api.gleeze.com/api/Users/deleteAddress";
+const ADD_phone = "https://store-system-api.gleeze.com/api/Users/addPhone";
 
-const Information = ({ openAdd }) => {
+const Information = ({ openAdd, role }) => {
   const [loading, setLoading] = useState(true);
-  const token = Cookies.get('token');
-  const [info, setInfo] = useState({ name: '', email: '', username: '', phone: [], address: [{}] });
-  const [inputValues, setInputValues] = useState({ name: '', email: '' });
+  const token = Cookies.get("token");
+  const [info, setInfo] = useState({
+    name: "",
+    email: "",
+    username: "",
+    phone: [],
+    address: [{}],
+  });
+  const [inputValues, setInputValues] = useState({ name: "", email: "" });
   const [isNameEditing, setIsNameEditing] = useState(false);
   const [isEmailEditing, setIsEmailEditing] = useState(false);
   const [isPhoneAdding, setIsPhoneAdding] = useState(false);
   const [isDeletingPhone, setIsDeletingPhone] = useState(false); // Add state for phone deletion loading
   const [isDeletingAddress, setIsDeletingAddress] = useState(false); // Add state for phone deletion loading
   const [isAddingPhone, setIsAddingPhone] = useState(false); // Add state for phone addition loading
-  const {t,language} = useI18nContext();
+  const { t, language } = useI18nContext();
   const decodedToken = jwtDecode(token);
 
   const fetchData = useCallback(async () => {
@@ -33,23 +40,26 @@ const Information = ({ openAdd }) => {
     while (retries > 0) {
       try {
         if (token) {
-          const response = await axios.get(`${API_info}?fields=username name email phone address`, { headers: { Authorization: `Bearer ${token}` } });
+          const response = await axios.get(
+            `${API_info}?fields=username name email phone address`,
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
           const userData = response.data.data;
           setInfo(userData);
           setInputValues(userData);
           setLoading(false);
           return;
         } else {
-          console.error('No token found.');
+          console.error("No token found.");
         }
       } catch (error) {
-        console.error('Error fetching user information:', error);
+        console.error("Error fetching user information:", error);
         retries--;
         if (retries === 0) {
-          console.error('Maximum retries reached.');
+          console.error("Maximum retries reached.");
           break;
         }
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
     }
     setLoading(false);
@@ -61,7 +71,7 @@ const Information = ({ openAdd }) => {
 
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
-    setInputValues(prevInputValues => ({
+    setInputValues((prevInputValues) => ({
       ...prevInputValues,
       [name]: value,
     }));
@@ -71,17 +81,17 @@ const Information = ({ openAdd }) => {
     try {
       setIsDeletingPhone(true); // Set isDeletingPhone to true before making the request
       if (token) {
-        const response = await axios.delete(
-          `${DEL_phone}`,
-          { data: { phone: info.phone[index] }, headers: { Authorization: `Bearer ${token}` } }
-        );
+        const response = await axios.delete(`${DEL_phone}`, {
+          data: { phone: info.phone[index] },
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setIsDeletingPhone(false);
         fetchData();
       } else {
-        console.error('No token found.');
+        console.error("No token found.");
       }
     } catch (error) {
-      console.error('Error deleting phone:', error);
+      console.error("Error deleting phone:", error);
       setIsDeletingPhone(false);
     }
   };
@@ -90,21 +100,20 @@ const Information = ({ openAdd }) => {
     try {
       setIsDeletingAddress(true); // Set isDeletingAddress to true before making the request
       if (token) {
-        const response = await axios.delete(
-          `${DEL_address}`,
-          { data: { address: info.address[index] }, headers: { Authorization: `Bearer ${token}` } }
-        );
+        const response = await axios.delete(`${DEL_address}`, {
+          data: { address: info.address[index] },
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setIsDeletingAddress(false); // Set isDeletingAddress to false after the request completes
         fetchData();
       } else {
-        console.error('No token found.');
+        console.error("No token found.");
       }
     } catch (error) {
-      console.error('Error deleting address:', error);
+      console.error("Error deleting address:", error);
       setIsDeletingAddress(false);
     }
   };
-
 
   const handleAddToggle = (field) => {
     setIsPhoneAdding(!isPhoneAdding);
@@ -122,24 +131,23 @@ const Information = ({ openAdd }) => {
 
         setIsPhoneAdding(false);
       } else {
-        console.error('No token found.');
+        console.error("No token found.");
       }
       setIsAddingPhone(false);
       fetchData();
     } catch (error) {
-      console.error('Error adding phone:', error.response);
+      console.error("Error adding phone:", error.response);
       setIsAddingPhone(false);
     }
   };
 
   const handleEditToggle = (field) => {
-    if (field === 'name') {
+    if (field === "name") {
       setIsNameEditing(!isNameEditing);
     }
-    if (field === 'email') {
+    if (field === "email") {
       setIsEmailEditing(!isEmailEditing);
     }
-
   };
 
   const handleSaveChanges = async () => {
@@ -154,10 +162,14 @@ const Information = ({ openAdd }) => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const newToken = response.data.token;
-        const tokenTime = 2
-        Cookies.set('token', newToken, { expires: tokenTime, secure: true, sameSite: 'strict' })
+        const tokenTime = 2;
+        Cookies.set("token", newToken, {
+          expires: tokenTime,
+          secure: true,
+          sameSite: "strict",
+        });
 
-        setInfo(prevInfo => ({
+        setInfo((prevInfo) => ({
           ...prevInfo,
           name: isNameEditing ? inputValues.name : prevInfo.name,
           email: isEmailEditing ? inputValues.email : prevInfo.email,
@@ -166,24 +178,33 @@ const Information = ({ openAdd }) => {
         setIsNameEditing(false);
         setIsEmailEditing(false);
       } else {
-        console.error('No token found.');
+        console.error("No token found.");
       }
     } catch (error) {
-      console.error('Error updating user information:', error);
+      console.error("Error updating user information:", error);
     }
   };
 
   return (
-    <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
-      <h3 className='font-bold text-white p-3'>{t(`Information.InformationPage`)}</h3>
-      {loading ? <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
-        : (
+    // bg-gray-700 bg-opacity-25
+    <section
+      className={` mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${
+        language === "ar" ? "left-10" : "right-10"
+      }`}
+    >
+      {/* <h3 className='font-bold text-white p-3'>{t(`Information.InformationPage`)}</h3> */}
+      {loading ? (
+        <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400">
+          <Loading />
+        </div>
+      ) : (
+        <>
           <ul>
             <ProfileField
               label={t(`Information.Username`)}
               value={info.username}
+              role={role}
             />
-
             <ProfileField
               label={t(`Information.Name`)}
               value={info.name}
@@ -191,8 +212,9 @@ const Information = ({ openAdd }) => {
               inputValue={inputValues.name}
               handleInputChange={handleInputChange}
               handleEditToggle={handleEditToggle}
+              role={role}
+              handleSaveChanges={handleSaveChanges}
             />
-
             <ProfileField
               label={t(`Information.Email`)}
               value={info.email}
@@ -200,8 +222,9 @@ const Information = ({ openAdd }) => {
               inputValue={inputValues.email}
               handleInputChange={handleInputChange}
               handleEditToggle={handleEditToggle}
+              role={role}
+              handleSaveChanges={handleSaveChanges}
             />
-
             <PhoneField
               label={t(`Information.Phone`)}
               value={info.phone}
@@ -211,6 +234,7 @@ const Information = ({ openAdd }) => {
               handleAddPhone={handleAddPhone}
               handleAddToggle={handleAddToggle}
               isLoading={isDeletingPhone || isAddingPhone}
+              role={role}
             />
 
             <AddressField
@@ -219,18 +243,23 @@ const Information = ({ openAdd }) => {
               openAdd={openAdd}
               handleDelAddress={handleDelAddress}
               isLoading={isDeletingAddress}
+              role={role}
             />
-
-
-            {decodedToken.role !== 'user' &&
-              <div className='mx-10'>
+            {/* {decodedToken.role !== "user" && (
+              <div className="mx-10">
                 {(isNameEditing || isEmailEditing) && (
-                  <button onClick={handleSaveChanges} className="bg-yellow-900  rounded-full hover:bg-yellow-800 fw-bold">Save Changes</button>
+                  <button
+                    onClick={handleSaveChanges}
+                    className="secondaryBtn  rounded-full  fw-bold"
+                  >
+                    Save Changes
+                  </button> 
                 )}
               </div>
-            }
+            )} */}
           </ul>
-        )}
+        </>
+      )}
     </section>
   );
 };

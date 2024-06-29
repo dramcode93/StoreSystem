@@ -6,21 +6,29 @@
   text-align: center;
 }
 
+
+
 .flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+
+
 .font2 {
   font-family: 'Fjalla One', sans-serif;
 }
+
+
+
 
 @media (max-width: 1200px) {
   .grid {
     grid-template-columns: auto auto auto;
     gap: 2vw;
   }
+
 }
 
 @media (max-width: 768px) {

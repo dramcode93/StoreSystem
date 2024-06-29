@@ -4,6 +4,7 @@ import { IoMdAdd } from "react-icons/io";
 import { FaRegSave } from "react-icons/fa";
 import Loading from "../Loading/Loading";
 import FormNumber from "../../form/FormNumber";
+import { FiX } from "react-icons/fi";
 
 const PhoneField = ({
   label,
@@ -14,23 +15,37 @@ const PhoneField = ({
   handleAddToggle,
   isEditing,
   isLoading,
+  role,
 }) => {
   return (
-    <li className="bg-gray-500 mx-10 rounded-md py-4 px-4 bg-opacity-25 mb-3 list-none">
-      <div className="text-gray-200 font-bold text-xl">
-        {label} :
+    <li className="secondary mx-10 rounded-md py-4 px-4 mb-3 list-none">
+      <div className="secondaryF font-bold text-xl mb-0">
+        <p className="secondaryF flex mb-0">
+          {label} :
+          {isEditing ? (
+            <FiX
+              className="cursor-pointer text-2xl text-red-500"
+              onClick={() => handleAddToggle(label.toLowerCase())}
+            />
+          ) : null}
+        </p>
         {isLoading ? (
           <Loading />
         ) : (
           <>
             {value &&
               value.map((phone, index) => (
-                <div key={index} className="text-white flex w-1/2">
-                  <p className="text-white">{phone}</p>
-                  <MdDelete
-                    className="text-2xl mb-3"
-                    onClick={() => handleDelPhone(phone)}
-                  />
+                <div key={index} className="secondaryF flex w-1/2">
+                  <p className="secondaryF mb-0">{phone}</p>
+                  {role === "user" ? (
+                    ""
+                  ) : (
+                    <MdDelete
+                      className="text-2xl mb-3"
+                      color="red"
+                      onClick={() => handleDelPhone(phone)}
+                    />
+                  )}
                 </div>
               ))}
             {isEditing ? (
@@ -49,7 +64,13 @@ const PhoneField = ({
                 <FaRegSave onClick={handleAddPhone} className="text-2xl mt-2" />
               </div>
             ) : (
-              <IoMdAdd onClick={handleAddToggle} className="text-2xl" />
+              <>
+                {role === "user" ? (
+                  ""
+                ) : (
+                  <IoMdAdd onClick={handleAddToggle} className="text-2xl" />
+                )}
+              </>
             )}
           </>
         )}

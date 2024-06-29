@@ -8,7 +8,7 @@ import axios from "axios";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import CartHover from "../BestSeller/CartHover";
 import { FiMenu, FiX } from "react-icons/fi";
-
+import Logo from "./logo/Black-and-Gold-Sophisticated-Traditional-Fashion-Logo-(1).svg";
 const MyComponent = ({ openSideBar,  }) => {
   const { t, language, changeLanguage } = useI18nContext();
   const token = Cookies.get("token");
@@ -43,7 +43,7 @@ const MyComponent = ({ openSideBar,  }) => {
 
   return (
     <div
-      className="z-50 fixed w-100 box dark:bg-gray-900 p-6"
+      className="z-40 fixed w-100 box dark:bg-gray-900 px-6 pt-2"
       dir={language === "ar" ? "rtl" : "ltr"}
       style={{ backgroundColor: "var(--back)" }}
     >
@@ -66,7 +66,8 @@ const MyComponent = ({ openSideBar,  }) => {
             className="text-gray-900 dark:text-gray-100 font flex justify-content-center gap-2 min-w-max"
             onClick={() => handleOpenSideBar}
           >
-            <SketchLogo /> {t(`Home.GleamGoods`)}
+            {/* <SketchLogo /> {t(`Home.GleamGoods`)} */}
+            <img src={Logo} alt="Logo" className="h-20 w-20 object-cover" />
           </h3>
         </div>
         
@@ -111,7 +112,7 @@ const MyComponent = ({ openSideBar,  }) => {
               <Translate className="h-6 w-10" aria-hidden="true" />
             </button>
             <Header />
-            <button
+            {/* <button
               type="button"
               className="relative bg-transparent rounded-full p-1 text-gray-500 dark:hover:text-white focus:outline-none hover:text-slate-500 w-fit"
               title={t("Home.Notifications")}
@@ -119,7 +120,7 @@ const MyComponent = ({ openSideBar,  }) => {
               <span className="absolute -inset-1.5" />
               <span className="sr-only">View notifications</span>
               <Bell className="h-6 w-10" aria-hidden="true" />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

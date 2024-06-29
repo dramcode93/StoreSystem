@@ -1,116 +1,143 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import Loading from "../Loading/Loading";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useI18nContext } from "../context/i18n-context";
 import { CiSearch } from "react-icons/ci";
-import { handlePrint } from "./handlePrint";
+import Loading from "../Loading/Loading";
 import {
   CaretLeft,
   CaretRight,
   DotsThree,
   Eye,
   NotePencil,
-  Printer,
   TrashSimple,
 } from "@phosphor-icons/react";
 import ConfirmationModal from "../Category/ConfirmationModel";
+import { useI18nContext } from "../context/i18n-context";
 
-const UserBillsTable = ({ openCreate, openPreview, id }) => {
+const API_URL = "https://store-system-api.gleeze.com/api/shopTypes";
+
+const TypesTable = ({ openEdit, openCreate }) => {
   const token = Cookies.get("token");
-  const [bills, setBills] = useState([]);
-  const [pagination, setPagination] = useState({ currentPage: 1 });
-  const [loading, setLoading] = useState(true);
-  const [selectedBillId, setSelectedBillId] = useState(null);
+  const [types, setTypes] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTypeId, setSelectedTypeId] = useState();
+  const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
-  const API_Bills = `https://store-system-api.gleeze.com/api/bills/${id}/userBills`;
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const [pagination, setPagination] = useState({
+    currentPge: 1,
+    totalPages: 1,
+  });
+  const { t, language } = useI18nContext();
   const fetchData = useCallback(async () => {
     try {
       if (token) {
-        setLoading(true);
-        const response = await axios.get(
-          `${API_Bills}?search=${searchInput}&page=${pagination.currentPage}&limit=20`, // Corrected currentPage
+        const productsResponse = await axios.get(
+          `${API_URL}?sort=category name&search=${searchTerm}&page=${pagination.currentPge}&limit=15`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setBills(response.data.data);
-        setPagination(response.data.paginationResult);
+        setTypes(productsResponse.data.data);
+        setPagination((prevPagination) => ({
+          ...prevPagination,
+          totalPages: productsResponse.data.paginationResult.numberOfPages,
+        }));
+      } else {
+        console.error("No token found.");
       }
     } catch (error) {
-      console.error("Error fetching bills:", error);
+      console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
     }
-  }, [token, searchInput, pagination.currentPage]); // Corrected currentPage
+  }, [token, searchTerm, pagination.currentPge]);
 
   useEffect(() => {
     fetchData();
-  }, [fetchData, searchInput, pagination.currentPage]); // Corrected currentPage
+  }, [searchTerm, pagination.currentPge, fetchData]);
 
-  const handleDeleteBill = useCallback((billId) => {
-    setSelectedBillId(billId);
+  const handlePageChange = (newPage) => {
+    setPagination((prevPagination) => ({
+      ...prevPagination,
+      currentPge: newPage,
+    }));
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchTerm(searchInput);
+  };
+
+  const toggleEditDropdown = (typeId) => {
+    setSelectedTypeId((prevTypeId) => (prevTypeId === typeId ? null : typeId));
+  };
+
+  const pageButtons = Array.from(
+    { length: pagination.totalPages },
+    (_, index) => index + 1
+  );
+
+  const handleDeleteType = (typeId) => {
     setShowConfirmation(true);
-  }, []);
+    setSelectedTypeId(typeId);
+  };
+
   const confirmDelete = useCallback(() => {
+    console.log("object", selectedTypeId);
+
     axios
-      .delete(`${API_Bills}/${selectedBillId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .delete(
+        `https://store-system-api.gleeze.com/api/shopTypes/${selectedTypeId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
       .then(() => fetchData())
-      .catch((error) => console.error("Error deleting bill:", error))
+      .catch((error) => console.error("Error deleting type:", error))
       .finally(() => {
         setShowConfirmation(false);
-        setSelectedBillId(null);
+        setSelectedTypeId(null);
       });
-  }, [selectedBillId, token, fetchData]);
+  }, [selectedTypeId, token, fetchData]);
 
+  // Cancel deletion
   const cancelDelete = useCallback(() => {
     setShowConfirmation(false);
-    setSelectedBillId(null);
+    setSelectedTypeId(null);
   }, []);
 
-  const handlePageChange = useCallback((newPage) => {
-    setPagination((prevState) => ({
-      ...prevState,
-      currentPage: newPage, // Corrected currentPage
-    }));
-  }, []);
-
-  const handleSearch = () => {
-    setPagination((prevState) => ({
-      ...prevState,
-      currentPage: 1, // Reset currentPage to 1 on search
-    }));
-    setSearchInput(searchTerm);
-  };
-
-  const { t, language } = useI18nContext();
-  const toggleEditDropdown = (billId) => {
-    setSelectedBillId((prevBillId) => (prevBillId === billId ? null : billId));
-  };
   const dropdownRefs = useRef({});
-  // const handleEditBill = (bill) => {
-  //   openEdit(bill);
-  // };
 
-  const lang = localStorage.getItem("language");
+  const handleEditType = (type) => {
+    openEdit(type);
+  };
+  const handleClickOutside = (event) => {
+    const isOutsideDropdown = Object.values(dropdownRefs.current).every(
+      (ref) => ref && !ref.contains(event.target)
+    );
+    // if (isOutsideDropdown) {
+    //   setSelectedTypeId(null);
+    // }
+  };
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      const isOutsideDropdown = Object.values(dropdownRefs.current).every(
-        (ref) => !ref.contains(event.target)
-      );
-      if (isOutsideDropdown) {
-        setSelectedBillId(null);
-      }
-    };
-
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    // const seconds = date.getSeconds().toString().padStart(2, '0');
+
+    return `${day}-${month}-${year}<br>${hours}:${minutes}`;
+    // return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+  };
   return (
     <div>
       <section
@@ -118,8 +145,9 @@ const UserBillsTable = ({ openCreate, openPreview, id }) => {
           language === "ar" ? "left-10" : "right-10"
         }`}
       >
+        {" "}
         <ConfirmationModal
-          item="Bill"
+          item="Type"
           show={showConfirmation}
           onCancel={cancelDelete}
           onConfirm={() => {
@@ -148,7 +176,7 @@ const UserBillsTable = ({ openCreate, openPreview, id }) => {
               className="secondaryBtn w-28 rounded-md m-3 fw-bold"
               onClick={openCreate}
             >
-              {t("Products.Add")}
+              {t("Products.Add")}{" "}
             </button>
           </div>
         </div>
@@ -159,16 +187,16 @@ const UserBillsTable = ({ openCreate, openPreview, id }) => {
                 Code
               </th>
               <th scope="col" className="px-4 py-4">
-                Customer
+                Type AR
+              </th>
+              <th scope="col" className="px-4 py-4">
+                Type EN
               </th>
               <th scope="col" className="px-4 py-4">
                 Created At
               </th>
               <th scope="col" className="px-4 py-4">
-                Paid Amount
-              </th>
-              <th scope="col" className="px-4 py-4">
-                Total Amount
+                Updated At
               </th>
               <th scope="col" className="px-4 py-4">
                 <span className="sr-only">Actions</span>
@@ -178,60 +206,51 @@ const UserBillsTable = ({ openCreate, openPreview, id }) => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="7" className="fs-4 text-center mb-5 pb-3">
+                <td colSpan="8" className=" fs-4 text-center mb-5 pb-3">
                   <Loading />
                 </td>
               </tr>
             ) : (
               <>
-                {bills.length === 0 && (
+                {types.length === 0 && (
                   <tr className="text-xl text-center">
-                    <td colSpan="7" style={{lineHeight: 3}}>No Bills available</td>
+                    <td colSpan="8" style={{ lineHeight: 3 }}>
+                      No Types available
+                    </td>
                   </tr>
                 )}
-                {bills.map((bill) => (
+                {types.map((type) => (
                   <tr
-                    key={bill._id}
+                    key={type._id}
                     className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
                   >
                     <th
                       scope="row"
                       className="px-4 py-4 font-medium text-gray-900whitespace-nowrap dark:text-white max-w-[5rem] truncate"
                     >
-                      {bill._id.slice(-4)}
+                      {" "}
+                      {type._id.slice(-4)}
                     </th>
-                    <td className="px-4 py-4">{bill.customer?.name}</td>
-                    {/* <td className="px-4 py-4">
-                      {bill.customer?.phone.map((phone, index) => (
-                        <div key={index}>{phone}</div>
-                      ))}
-                    </td> */}
-                    <td className="px-4 py-4">
-                      <div>
-                        {new Date(bill.createdAt).toLocaleTimeString("en-US", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </div>
-                      <div>
-                        {new Date(bill.createdAt).toLocaleDateString("en-GB", {
-                          day: "numeric",
-                          month: "numeric",
-                          year: "numeric",
-                        })}
-                      </div>
-                    </td>
-                    <td className="px-4 py-4">{bill.paidAmount}</td>
-                    <td className="px-4 py-4">
-                      {bill.totalAmountAfterDiscount}
-                    </td>
-
+                    <td className="px-4 py-4">{type.type_ar}</td>
+                    <td className="px-4 py-4">{type.type_en}</td>
+                    <td
+                      className="px-4 py-4"
+                      dangerouslySetInnerHTML={{
+                        __html: formatDate(type.createdAt),
+                      }}
+                    ></td>
+                    <td
+                      className="px-4 py-4"
+                      dangerouslySetInnerHTML={{
+                        __html: formatDate(type.updatedAt),
+                      }}
+                    ></td>
                     <td className="px-4 py-3 flex items-center justify-end">
                       <button
                         className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                         type="button"
-                        onClick={() => toggleEditDropdown(bill._id)}
-                        ref={(el) => (dropdownRefs.current[bill._id] = el)}
+                        onClick={() => toggleEditDropdown(type._id)}
+                        ref={(el) => (dropdownRefs.current[type._id] = el)}
                       >
                         <DotsThree
                           size={25}
@@ -240,125 +259,81 @@ const UserBillsTable = ({ openCreate, openPreview, id }) => {
                         />
                       </button>
                       <div
-                        className="absolute z-50"
+                        className="absolute z-10"
                         dir={language === "ar" ? "rtl" : "ltr"}
                       >
                         <div
                           className={`${
-                            selectedBillId === bill._id
+                            selectedTypeId === type._id
                               ? `absolute -top-3 ${
-                                  lang === "en" ? "right-full" : "left-full"
+                                  language === "en" ? "right-full" : "left-full"
                                 } overflow-auto`
                               : "hidden"
                           } z-10 w-44  rounded divide-y divide-gray-100 shadow secondary `}
                         >
                           <ul className="text-sm bg-transparent pl-0 mb-0">
-                            {/* <li className="">
+                            <li className="">
                               <button
                                 type="button"
                                 className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
-                                onClick={() => handleEditBill(bill)}
+                                onClick={() => handleEditType(type)}
                               >
                                 <NotePencil size={18} weight="bold" />
                                 {t("Category.Edit")}
-                              </button>
-                            </li> */}
-                            <li>
-                              <button
-                                type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
-                              >
-                                <Eye size={18} weight="bold" />
-                                {t("Category.Preview")}
                               </button>
                             </li>
                             <li>
                               <button
                                 type="button"
                                 className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
-                                onClick={() => handleDeleteBill(bill._id)}
+                                onClick={() => handleDeleteType(type._id)}
                               >
                                 <TrashSimple size={18} weight="bold" />
 
                                 {t("Category.Delete")}
                               </button>
                             </li>
-                            <li>
-                              <button
-                                type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
-                                onClick={() => handlePrint(bills, bill._id)}
-                              >
-                                <Printer size={18} weight="bold" />A Print
-                              </button>
-                            </li>
                           </ul>
                         </div>
                       </div>
                     </td>
-                    {/* <td className="px-4 py-4">
-                      <PrintButton />
-                    </td> */}
                   </tr>
-                ))}
+                ))}   
               </>
             )}
           </tbody>
         </table>
-        <nav
-          className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 "
-          dir="rtl"
-        >
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ">
-            {"      "} {t("Products.appear")}
-            {"   "}
-            <span
-              className="font-semibold text-gray-900 dark:text-white m-2"
-              dir="ltr"
-            >
-              {"     "} 1-10 {"      "}
-            </span>{" "}
-            {"  "}
-            {"   "}
-            {t("Products.from")}
-            <span className="font-semibold text-gray-900 dark:text-white m-2">
-              {"   "}1000 {"   "}
-            </span>
-          </span>
+        <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 ">
           <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
             <li>
               <button
                 className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => {
-                  /* Handle previous page */
-                }}
+                onClick={() => handlePageChange(pagination.currentPge - 1)}
+                disabled={pagination.currentPge === 1}
               >
-                <span className="sr-only">Previous</span>
                 <CaretLeft size={18} weight="bold" />
               </button>
             </li>
-            {/* Pagination links */}
-            {/* Update with appropriate URLs or onClick handlers */}
-            {/* Example: */}
-            <li>
-              <button
-                className="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => {
-                  /* Handle page click */
-                }}
-              >
-                1
-              </button>
-            </li>
-            {/* End of pagination links */}
+            {pageButtons.map((page) => (
+              <li key={page}>
+                <button
+                  className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
+                    pagination.currentPge === page
+                      ? "bg-gray-200 text-gray-800"
+                      : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  }`}
+                  onClick={() => handlePageChange(page)}
+                >
+                  {page}
+                </button>
+              </li>
+            ))}
             <li>
               <button
                 className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => {
-                  /* Handle next page */
-                }}
+                onClick={() => handlePageChange(pagination.currentPge + 1)}
+                disabled={pagination.currentPge === pagination.totalPages}
               >
-                <span className="sr-only">Next</span>
                 <CaretRight size={18} weight="bold" />
               </button>
             </li>
@@ -369,4 +344,4 @@ const UserBillsTable = ({ openCreate, openPreview, id }) => {
   );
 };
 
-export default UserBillsTable;
+export default TypesTable;

@@ -17,7 +17,14 @@ import { useI18nContext } from "../context/i18n-context";
 const API_URL = "https://store-system-api.gleeze.com/api/products";
 const API_category = "https://store-system-api.gleeze.com/api/categories/list";
 
-const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport,openEditQuantity }) => {
+const ProductsTable = ({
+  openEdit,
+  openCreate,
+  openPreview,
+  openTransport,
+  openEditQuantity,
+  role,
+}) => {
   const token = Cookies.get("token");
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -60,9 +67,6 @@ const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport,openEdi
   useEffect(() => {
     fetchData();
   }, [searchTerm, pagination.currentPage, fetchData]);
-
-
-
 
   const handlePageChange = (newPage) => {
     setPagination((prevPagination) => ({
@@ -139,20 +143,27 @@ const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport,openEdi
   //   };
   // }, []);
   const handleClickOutside = (event) => {
-    const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => ref && !ref.contains(event.target));
+    const isOutsideDropdown = Object.values(dropdownRefs.current).every(
+      (ref) => ref && !ref.contains(event.target)
+    );
     if (isOutsideDropdown) {
       setSelectedProductId(null);
     }
   };
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
   return (
     <div>
-      <section className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
+      <section
+        className={`secondary mx-10 pt-2 absolute top-32 -z-50 w-3/4 ${
+          language === "ar" ? "left-10" : "right-10"
+        }`}
+      >
+        {" "}
         <ConfirmationModal
           item="product"
           show={showConfirmation}
@@ -163,34 +174,35 @@ const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport,openEdi
           }}
         />
         <div className="flex justify-between">
-          {" "}
           <div className="relative w-96 m-3">
-            {" "}
             <input
-              className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-gray-500"
+              className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 dark:bg-gray-500"
               type="text"
               onChange={(e) => setSearchInput(e.target.value)}
               value={searchInput}
               placeholder={t("Products.Search")}
             />
-            <CiSearch 
-              className={`absolute top-2 text-white text-xl ${language === "ar" ? "left-3" : "right-3"
-                } cursor-pointer`}
+            <CiSearch
+              className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${
+                language === "ar" ? "left-3" : "right-3"
+              } cursor-pointer`}
               onClick={handleSearch}
             />
           </div>
           <div>
-            <button
-              className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
-              onClick={openCreate}
-            >
-              {t("Products.Add")}{" "}
-            </button>
+            {role === "admin" && (
+              <button
+                className="secondaryBtn w-28 rounded-md m-3 fw-bold"
+                onClick={openCreate}
+              >
+                {t("Products.Add")}{" "}
+              </button>
+            )}
           </div>
         </div>
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
-          <thead className="text-xm text-gray-200 uppercase">
-            <tr className="text-center bg-gray-500 bg-opacity-25 transition ease-out duration-200">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
+            <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
               <th scope="col" className="px-4 py-4">
                 {t("Products.Code")}
               </th>
@@ -228,13 +240,13 @@ const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport,openEdi
               <>
                 {products.length === 0 && (
                   <tr className="text-xl text-center">
-                    <td colSpan="8">No Products available</td>
+                    <td colSpan="8" style={{lineHeight: 3}}>No Products available</td>
                   </tr>
                 )}
                 {products.map((product) => (
                   <tr
                     key={product._id}
-                    className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
+                    className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
                   >
                     <th
                       scope="row"
@@ -260,7 +272,7 @@ const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport,openEdi
                         <DotsThree
                           size={25}
                           weight="bold"
-                          className=" hover:bg-gray-700 w-10 rounded-lg"
+                          className="hover:bg-slate-300  dark:hover:bg-gray-600 w-10 rounded-lg"
                         />
                       </button>
                       <div
@@ -268,64 +280,76 @@ const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport,openEdi
                         dir={language === "ar" ? "rtl" : "ltr"}
                       >
                         <div
-                          className={`${selectedProductId === product._id
-                            ? `absolute -top-3 ${language === "en" ? "right-full" : "left-full"
-                            } overflow-auto`
-                            : "hidden"
-                            } z-10 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                          className={`${
+                            selectedProductId === product._id
+                              ? `absolute -top-3 ${
+                                  language === "en" ? "right-full" : "left-full"
+                                } overflow-auto`
+                              : "hidden"
+                          } z-10 w-44  rounded divide-y divide-gray-100 shadow secondary `}
                         >
                           <ul className="text-sm bg-transparent pl-0 mb-0">
-                            <li className="">
-                              <button
-                                type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                onClick={() => handleEditProduct(product)}
-                              >
-                                <NotePencil size={18} weight="bold" />
-                                {t("Category.Edit")}
-                              </button>
-                            </li>
-                            <li className="">
-                              <button
-                                type="button"
-                                className="flex w-44 items-center gap-3  fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                onClick={() => handleEditQuantity(product)}
-                              >
-                                <NotePencil size={18} weight="bold" />
-                                Edit Quantity
-                              </button>
-                            </li>
-                            <li className="">
-                              <button
-                                type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                onClick={() => handleTransportProduct(product)}
-                              >
-                                <NotePencil size={18} weight="bold" />
-                                transport
-                              </button>
-                            </li>
+                            {role === "admin" && (
+                              <>
+                                <li className="">
+                                  <button
+                                    type="button"
+                                    className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                    onClick={() => handleEditProduct(product)}
+                                  >
+                                    <NotePencil size={18} weight="bold" />
+                                    {t("Category.Edit")}
+                                  </button>
+                                </li>
+                                <li className="">
+                                  <button
+                                    type="button"
+                                    className="flex w-44 items-center gap-3  fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700"
+                                    onClick={() => handleEditQuantity(product)}
+                                  >
+                                    <NotePencil size={18} weight="bold" />
+                                    Edit Quantity
+                                  </button>
+                                </li>
+                                <li className="">
+                                  <button
+                                    type="button"
+                                    className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                    onClick={() =>
+                                      handleTransportProduct(product)
+                                    }
+                                  >
+                                    <NotePencil size={18} weight="bold" />
+                                    transport
+                                  </button>
+                                </li>
+                              </>
+                            )}
                             <li>
                               <button
                                 type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
                                 onClick={() => handlePreviewCategory(product)}
                               >
                                 <Eye size={18} weight="bold" />
                                 {t("Category.Preview")}
                               </button>
                             </li>
-                            <li>
-                              <button
-                                type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                onClick={() => handleDeleteProduct(product._id)}
-                              >
-                                <TrashSimple size={18} weight="bold" />
+                            {role === "admin" && (
+                              <li>
+                                <button
+                                  type="button"
+                                  className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                  onClick={() =>
+                                    handleDeleteProduct(product._id)
+                                  }
+                                >
+                                  <TrashSimple size={18} weight="bold" />
 
-                                {t("Category.Delete")}
-                              </button>
-                            </li>
+                                  {t("Category.Delete")}
+                                </button>
+                              </li>
+                            )}
                           </ul>
                         </div>
                       </div>
@@ -336,14 +360,12 @@ const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport,openEdi
             )}
           </tbody>
         </table>
-        <nav
-          className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 "
-        >
+        <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 ">
           <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
             <li>
               <button
-                className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-gray-700 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => handlePageChange(pagination.currentPage - 1)}
+              className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={() => handlePageChange(pagination.currentPage - 1)}
                 disabled={pagination.currentPage === 1}
               >
                 <CaretLeft size={18} weight="bold" />
@@ -352,10 +374,11 @@ const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport,openEdi
             {pageButtons.map((page) => (
               <li key={page}>
                 <button
-                  className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPage === page
+                  className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
+                  pagination.currentPge === page
                     ? "bg-gray-200 text-gray-800"
-                    : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    }`}
+                    : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                }`}
                   onClick={() => handlePageChange(page)}
                 >
                   {page}
@@ -364,8 +387,8 @@ const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport,openEdi
             ))}
             <li>
               <button
-                className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => handlePageChange(pagination.currentPage + 1)}
+              className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={() => handlePageChange(pagination.currentPage + 1)}
                 disabled={pagination.currentPage === pagination.totalPages}
               >
                 <CaretRight size={18} weight="bold" />
@@ -379,3 +402,4 @@ const ProductsTable = ({ openEdit, openCreate, openPreview,openTransport,openEdi
 };
 
 export default ProductsTable;
+ 

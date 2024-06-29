@@ -8,6 +8,7 @@ import FormText from "../../form/FormText";
 import { X } from "@phosphor-icons/react";
 import FormSelect from "../../form/FormSelect";
 import Loading from "../Loading/Loading";
+import FormTextArea from "../../form/FormTextArea";
 
 function UpdateProduct({ closeModal, role, modal, productData }) {
   const { id } = useParams();
@@ -17,6 +18,7 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
   // const [newProductQuantity, setNewProductQuantity] = useState("");
   const [newProductPrice, setNewProductPrice] = useState("");
   const [newSellingPrice, setNewSellingPrice] = useState("");
+  const [newDescription, setNewDescription] = useState("");
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [token] = useState(Cookies.get("token"));
@@ -36,7 +38,7 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
         //     },
         //   }
         // );
-        
+
         const { data: categoriesData } = await axios.get(API_category, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -53,14 +55,14 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
           // setNewProductQuantity(productData.quantity);
           setNewProductPrice(productData.productPrice);
           setNewSellingPrice(productData.sellingPrice);
-          setIsLoading(false)
+          setNewDescription(productData.description);
+          setIsLoading(false);
         }
-        setIsLoading(false)
+        setIsLoading(false);
         // console.log('categoriesData',categoriesData.data)
       } catch (error) {
         console.error("Error fetching product:", error);
-        setIsLoading(false)
-
+        setIsLoading(false);
       } finally {
         setIsLoading(false);
       }
@@ -78,6 +80,7 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
           productPrice: newProductPrice,
           sellingPrice: newSellingPrice,
           category: newCategory,
+          description:newDescription
         },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -94,7 +97,6 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
-
     }
   };
 
@@ -103,19 +105,24 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
       <div
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
-        fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${
-          modal ? "-right-1/2" : "-left-[100%]"
-        }
-         bg-opacity-40 w-full h-full `}
+          fixed top-1/2 -translate-x-1/2 -translate-y-1/2
+          z-50 justify-center items-center ${
+            modal ? "-right-1/2" : "-left-[100%]"
+          }
+           w-full h-full `}
       >
         <div
           className={`w-full max-w-min 
-           dark:bg-gray-800 rounded-l-xl duration-200 ease-linear
-           ${language === "ar" ? "absolute left-0" : "absolute right-0"}
-           h-screen overflow-auto`}
+          
+             sideModal duration-200 ease-linear
+             ${
+               language === "ar"
+                 ? "absolute left-0 rounded-r-xl"
+                 : "absolute right-0 rounded-l-xl"
+             }
+             h-screen overflow-y-auto overflow-x-hidden`}
         >
-          <div className="relative p-4 dark:bg-gray-800 sm:p-5">
+          <div className="relative p-4 sideModal sm:p-5">
             <div
               dir="rtl"
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
@@ -188,16 +195,24 @@ function UpdateProduct({ closeModal, role, modal, productData }) {
                   }}
                   placeholder="Selling Price"
                 />
+                <FormTextArea
+                  label="Description"
+                  name="description"
+                  onChange={(e) => {
+                    setNewDescription(e.target.value);
+                  }}
+                  placeholder="Description..."
+                  value={newDescription}
+                />
                 <div className="col-span-2 flex justify-center">
                   <button
                     disabled={
                       !newProductName ||
                       !newCategory ||
-                      // !newProductQuantity ||
                       !newProductPrice ||
                       !newSellingPrice
                     }
-                    className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
+                    className="secondaryBtn w-1/2 h-12 rounded-md  fw-bold text-xl "
                   >
                     Edit Product
                   </button>

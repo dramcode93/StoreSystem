@@ -9,16 +9,15 @@ import {
     CaretRight,
     DotsThree,
     Eye,
-    NotePencil,
     Printer,
     TrashSimple,
 } from "@phosphor-icons/react";
-import ConfirmationDelete from "./ConfirmationDelete";
 import {handlePrint} from "./handlePrint";
+import ConfirmationModal from "../Category/ConfirmationModel";
 
 const API_Bills = "https://store-system-api.gleeze.com/api/Bills";
 
-const BillsTable = ({openEdit, openCreate, openPreview}) => {
+const BillsTable = ({openCreate, openPreview, role}) => {
     const token = Cookies.get("token");
     const [bills, setBills] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -55,7 +54,7 @@ const BillsTable = ({openEdit, openCreate, openPreview}) => {
 
     useEffect(() => {
         fetchData();
-    }, [fetchData, searchInput, pagination.currentPge]); // Corrected currentPge
+    }, [fetchData, searchTerm, pagination.currentPge]); // Corrected currentPge
 
     useEffect(() => {
         if (pagination.currentPge < pagination.totalPages) {
@@ -102,20 +101,19 @@ const BillsTable = ({openEdit, openCreate, openPreview}) => {
         }));
     }, []);
 
-
-    const handleSearch = (e) => {
-        e.preventDefault();
+    const handleSearch = () => {
+        setPagination((prevState) => ({
+            ...prevState,
+            currentPge: 1, // Reset currentPge to 1 on search
+        }));
         setSearchTerm(searchInput);
     };
+
     const {t, language} = useI18nContext();
     const toggleEditDropdown = (billId) => {
         setSelectedBillId((prevBillId) => (prevBillId === billId ? null : billId));
     };
     const dropdownRefs = useRef({});
-    const handleEditBill = (bill) => {
-        openEdit(bill);
-    };
-
 
     const MAX_DISPLAY_PAGES = 5;
 
@@ -146,40 +144,35 @@ const BillsTable = ({openEdit, openCreate, openPreview}) => {
             handlePageChange(pagination.currentPge + 1);
         }
     };
-    // useEffect(() => {
-    //   const handleClickOutside = (event) => {
-    //     const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
-    //     if (isOutsideDropdown) {
-    //       setSelectedBillId(null);
-    //     }
-    //   };
 
-    //   document.addEventListener('click', handleClickOutside);
-    //   return () => {
-    //     document.removeEventListener('click', handleClickOutside);
-    //   };
-    // }, []);
     const handleClickOutside = (event) => {
-        const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => ref && !ref.contains(event.target));
+        const isOutsideDropdown = Object.values(dropdownRefs.current).every(
+            (ref) => ref && !ref.contains(event.target)
+        );
         if (isOutsideDropdown) {
             setSelectedBillId(null);
         }
     };
     useEffect(() => {
-        document.addEventListener('click', handleClickOutside);
+        document.addEventListener("click", handleClickOutside);
         return () => {
-            document.removeEventListener('click', handleClickOutside);
+            document.removeEventListener("click", handleClickOutside);
         };
     }, []);
 
     const handlePreviewBill = (bill) => {
         openPreview(bill);
     };
+
     return (
         <div>
             <section
-                className={`bg-gray-700 bg-opacity-25 mx-10 rounded-md pt-2 absolute top-32 -z-3 w-3/4 ${language === "ar" ? "left-10" : "right-10"}`}>
-                <ConfirmationDelete
+                className={`secondary mx-10 pt-2 absolute top-32 -z-50 w-3/4 ${
+                    language === "ar" ? "left-10" : "right-10"
+                }`}
+            >
+                <ConfirmationModal
+                    item="Bill"
                     show={showConfirmation}
                     onCancel={cancelDelete}
                     onConfirm={() => {
@@ -197,14 +190,15 @@ const BillsTable = ({openEdit, openCreate, openPreview}) => {
                             placeholder={t("Products.Search")}
                         />
                         <CiSearch
-                            className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${language === "ar" ? "left-3" : "right-3"
+                            className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${
+                                language === "ar" ? "left-3" : "right-3"
                             } cursor-pointer`}
                             onClick={handleSearch}
                         />
                     </div>
                     <div>
                         <button
-                            className="bg-yellow-900 w-28 rounded-md m-3 hover:bg-yellow-800 fw-bold"
+                            className="secondaryBtn w-28 rounded-md m-3 fw-bold"
                             onClick={openCreate}
                         >
                             {t("Products.Add")}
@@ -212,8 +206,8 @@ const BillsTable = ({openEdit, openCreate, openPreview}) => {
                     </div>
                 </div>
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead className="text-xm text-gray-200 uppercase">
-                    <tr className="text-center bg-gray-500 bg-opacity-25 transition ease-out duration-200">
+                    <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
+                    <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
                         <th scope="col" className="px-4 py-4">
                             Code
                         </th>
@@ -221,11 +215,15 @@ const BillsTable = ({openEdit, openCreate, openPreview}) => {
                             Customer
                         </th>
                         <th scope="col" className="px-4 py-4">
-                            Phone
-                        </th>
-                        <th scope="col" className="px-4 py-4">
                             Created At
                         </th>
+                        <th scope="col" className="px-4 py-4">
+                            Paid Amount
+                        </th>
+                        <th scope="col" className="px-4 py-4">
+                            Total Amount
+                        </th>
+
                         <th scope="col" className="px-4 py-4">
                             <span className="sr-only">Actions</span>
                         </th>
@@ -242,13 +240,13 @@ const BillsTable = ({openEdit, openCreate, openPreview}) => {
                         <>
                             {bills.length === 0 && (
                                 <tr className="text-xl text-center">
-                                    <td colSpan="7">No Bills available</td>
+                                    <td colSpan="7" style={{lineHeight: 3}}>No Bills available</td>
                                 </tr>
                             )}
                             {bills.map((bill) => (
                                 <tr
                                     key={bill._id}
-                                    className="border-b dark:border-gray-700 text-center hover:bg-gray-500 hover:bg-opacity-25 transition ease-out duration-200"
+                                    className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
                                 >
                                     <th
                                         scope="row"
@@ -257,140 +255,153 @@ const BillsTable = ({openEdit, openCreate, openPreview}) => {
                                         {bill._id.slice(-4)}
                                     </th>
                                     <td className="px-4 py-4">{bill.customer?.name}</td>
-                                    <td className="px-4 py-4">
-                                        {bill.customer?.phone.map((phone, index) => (
-                                            <div key={index}>{phone}</div>
-                                        ))}
-                                    </td>
-                                    <td className="px-4 py-4">
-                                        <div>
-                                            {new Date(bill.createdAt).toLocaleTimeString("en-US", {
-                                                hour: "2-digit",
-                                                minute: "2-digit",
-                                            })}
-                                        </div>
-                                        <div>
-                                            {new Date(bill.createdAt).toLocaleDateString("en-GB", {
-                                                day: "numeric",
-                                                month: "numeric",
-                                                year: "numeric",
-                                            })}
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-3 flex items-center justify-end">
-                                        <button
-                                            className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
-                                            type="button"
-                                            onClick={() => toggleEditDropdown(bill._id)}
-                                            ref={(el) => (dropdownRefs.current[bill._id] = el)}
-                                        >
-                                            <DotsThree
-                                                size={25}
-                                                weight="bold"
-                                                className="hover:bg-gray-700 w-10 rounded-lg"
-                                            />
-                                        </button>
-                                        <div
-                                            className="absolute z-10"
-                                            dir={language === "ar" ? "rtl" : "ltr"}
-                                        >
-                                            <div
-                                                id={`category-dropdown-${bill._id}`}
-                                                className={`${selectedBillId === bill._id
-                                                    ? "absolute -top-3 me-5 -right-10 overflow-auto"
-                                                    : "hidden"
-                                                } z-10 w-44 bg-gray-900 rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                                    <td className="px-4 py-4">{new Date(bill.createdAt).toLocaleDateString()}</td>
+                                    <td className="px-4 py-4">{bill.paidAmount}</td>
+                                    <td className="px-4 py-4">{bill.totalAmount}</td>
+                                  <td className="px-4 py-3 flex items-center justify-end">
+                                    <button
+                                        className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
+                                        type="button"
+                                        onClick={() => toggleEditDropdown(bill._id)}
+                                        ref={(el) => (dropdownRefs.current[bill._id] = el)}
+                                    >
+                                      <DotsThree
+                                          size={25}
+                                          weight="bold"
+                                          className="hover:bg-slate-300  dark:hover:bg-gray-600 w-10 rounded-lg"
+                                      />
+                                    </button>
+                                    <div
+                                        className="absolute z-10"
+                                        dir={language === "ar" ? "rtl" : "ltr"}
+                                    >
+                                      <div
+                                          id={category-dropdown-${bill._id}}
+                                          className={${
+                            selectedBillId === bill._id
+                              ? "absolute -top-3 me-5 -right-10 overflow-auto"
+                              : "hidden"
+                          } z - 10 w-44  rounded divide-y divide-gray-100 shadow secondary}
+                                      >
+                                        <ul className="text-sm bg-transparent pl-0 mb-0">
+                                          {/* <li className="">
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                onClick={() => handleEditBill(bill)}
+                              >
+                                <NotePencil size={18} weight="bold" />
+                                {t("Category.Edit")}
+                              </button>
+                            </li> */}
+                                          <li>
+                                            <button
+                                                type="button"
+                                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                                onClick={() => handlePreviewBill(bill)}
                                             >
-                                                <ul className="text-sm bg-transparent pl-0 mb-0">
-                                                    <li className="">
-                                                        <button
-                                                            type="button"
-                                                            className="-z-3 flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                                            onClick={() => handleEditBill(bill)}
-                                                        >
-                                                            <NotePencil size={18} weight="bold"/>
-                                                            {t("Category.Edit")}
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button
-                                                            type="button"
-                                                            className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                                            onClick={() => handlePreviewBill(bill)}
-                                                        >
-                                                            <Eye size={18} weight="bold"/>
-                                                            {t("Category.Preview")}
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button
-                                                            type="button"
-                                                            className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                                            onClick={() => handleDeleteBill(bill._id)}
-                                                        >
-                                                            <TrashSimple size={18} weight="bold"/>
+                                              <Eye size={18} weight="bold"/>
+                                              {t("Category.Preview")}
+                                            </button>
+                                          </li>
+                                          {/* <li>
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                onClick={() => handleDeleteBill(bill._id)}
+                              >
+                                <TrashSimple size={18} weight="bold" />
 
-                                                            {t("Category.Delete")}
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button
-                                                            type="button"
-                                                            className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 bg-gray-700 hover:bg-gray-600  dark:hover:text-white text-gray-700 dark:text-gray-200"
-                                                            onClick={() => handlePrint(bills, bill._id, language)}
-                                                        >
-                                                            <Printer size={18} weight="bold"/>
-                                                            {t('Global.print')}
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                </tr>
+                                {t("Category.Delete")}
+                              </button>
+                            </li> */}
+                                          <li>
+                                            <button
+                                                type="button"
+                                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                                onClick={() =>
+                                                    handlePrint(bills, bill._id, language)
+                                                }
+                                            >
+                                              <Printer size={18} weight="bold" />
+                                              {t("Global.print")}
+                                            </button>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </td>                                </tr>
                             ))}
                         </>
                     )}
                     </tbody>
                 </table>
-                <nav
-                    className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 "
-                >
-                    <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
-                        <li>
-                            <button
-                                className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-gray-700 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                onClick={handlePreviousPage}
-                            >
+                <div className="mt-4 flex justify-between items-center">
+                    <div className="flex-1 flex justify-between sm:hidden">
+                        <button
+                            onClick={handlePreviousPage}
+                            disabled={pagination.currentPge === 1}
+                            className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                        >
+                            Previous
+                        </button>
+                        <button
+                            onClick={handleNextPage}
+                            disabled={pagination.currentPge === pagination.totalPages}
+                            className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                        >
+                            Next
+                        </button>
+                    </div>
+                    <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <div>
+                            <p className="text-sm text-gray-700">
+                                Showing <span className="font-medium">{pagination.currentPge}</span> to <span
+                                className="font-medium">{pagination.totalPages}</span> of <span
+                                className="font-medium">{pagination.totalPages}</span> results
+                            </p>
+                        </div>
+                      <div>
+                        <nav
+                            className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8 ">
+                          <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
+                            <li>
+                              <button
+                                  className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                  onClick={handlePreviousPage}
+                              >
                                 <span className="sr-only">Previous</span>
                                 <CaretLeft size={18} weight="bold"/>
-                            </button>
-                        </li>
-                        {pageButtons.map((page) => (
-                            <li key={page}>
-                                <button
-                                    className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
-                                        ? "bg-gray-200 text-gray-800"
-                                        : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                    }`}
-                                    onClick={() => handlePageChange(page)}
-                                >
-                                    {page}
-                                </button>
+                              </button>
                             </li>
-                        ))}
-                        <li>
-                            <button
-                                className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-gray-700 rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                onClick={handleNextPage}
-                            >
+                            {pageButtons.map((page) => (
+                                <li key={page}>
+                                  <button
+                                      className={flex items-center justify-center text-sm py-2 px-3 leading-tight ${
+                    pagination.currentPge === page
+                      ? "bg-gray-200 text-gray-800"
+                      : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  }}
+                                      onClick={() => handlePageChange(page)}
+                                  >
+                                    {page}
+                                  </button>
+                                </li>
+                            ))}
+                            <li>
+                              <button
+                                  className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                  onClick={handleNextPage}
+                              >
                                 <span className="sr-only">Next</span>
                                 <CaretRight size={18} weight="bold"/>
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
+                              </button>
+                            </li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
+                </div>
             </section>
         </div>
     );

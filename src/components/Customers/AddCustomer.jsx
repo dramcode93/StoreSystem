@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {  X } from "@phosphor-icons/react";
+import { X } from "@phosphor-icons/react";
 import FormInput from "../../form/FormInput";
 import { useI18nContext } from "../context/i18n-context";
 import FormSelect from "../../form/FormSelect";
@@ -8,14 +8,14 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 export default function AddCustomer({ closeModal, role, modal }) {
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
   };
 
-  const {  language } = useI18nContext();
+  const { language } = useI18nContext();
   const token = Cookies.get("token");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -61,7 +61,6 @@ export default function AddCustomer({ closeModal, role, modal }) {
     fetchCities(selectedGovernorateId);
   };
 
-  
   const handleAddCustomer = async (e) => {
     e.preventDefault();
     try {
@@ -69,12 +68,12 @@ export default function AddCustomer({ closeModal, role, modal }) {
         .post(
           "https://store-system-api.gleeze.com/api/customers",
           {
-            name:name,
-            phone:phone,
+            name: name,
+            phone: phone,
             address: {
               governorate: selectedGovernorate,
               city: selectedCity,
-              street:street,
+              street: street,
             },
           },
           { headers: { Authorization: `Bearer ${token}` } }
@@ -92,17 +91,21 @@ export default function AddCustomer({ closeModal, role, modal }) {
       <div
         onClick={handleBackgroundClick}
         className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
-        fixed top-1/2 -translate-x-1/2 -translate-y-1/2
-        z-50 justify-center items-center ${modal ? "-right-1/2" : "-left-[100%]"}
-         bg-opacity-40 w-full h-full `}
+          fixed top-1/2 -translate-x-1/2 -translate-y-1/2
+          z-50 justify-center items-center ${modal ? "-right-1/2" : "-left-[100%]"
+          }
+           w-full h-full `}
       >
         <div
           className={`w-full max-w-min 
-           dark:bg-gray-800 rounded-r-xl duration-200 ease-linear
-           ${language === 'ar' ? "absolute left-0" : "absolute right-0"}
-           h-screen overflow-auto`}
+             sideModal duration-200 ease-linear
+             ${language === "ar"
+              ? "absolute left-0 rounded-r-xl"
+              : "absolute right-0 rounded-l-xl"
+            }
+             h-screen overflow-y-auto overflow-x-hidden`}
         >
-          <div className="relative p-4 dark:bg-gray-800 sm:p-5">
+          <div className="relative p-4 sideModal sm:p-5">
             <div
               dir="rtl"
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
@@ -171,6 +174,7 @@ export default function AddCustomer({ closeModal, role, modal }) {
                     label:
                       language === "ar" ? city.city_name_ar : city.city_name_en,
                   }))}
+
                   value={selectedCity}
                   name="city"
                 />
@@ -186,14 +190,16 @@ export default function AddCustomer({ closeModal, role, modal }) {
                     !selectedCity ||
                     !street
                   }
-                  className="bg-yellow-900 w-96 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
+                  // className="bg-yellow-900 w-96 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
+                  className="secondaryBtn w-96 h-12 rounded-md  fw-bold text-xl "
+
                 >
                   Add Customer +
                 </button>
                 <div>&nbsp;</div>
               </div>
             </form>
-          </div> 
+          </div>
         </div>
       </div>
     </>

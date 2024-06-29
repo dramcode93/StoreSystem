@@ -11,14 +11,25 @@ export default function PreviewBill({ closeModal, assistantData }) {
 // console.log("assistantData",assistantData)
   const detailsData = {
     code: assistantData._id.slice(-4),
-    name: assistantData.customer.name || "لم يتم تحديده",
+    name: assistantData.customer.name ,
+    userName: assistantData.user.name,
     products: assistantData.products,
+    totalAmount: assistantData.totalAmountAfterDiscount,
+    paidAmount: assistantData.paidAmount,
+    remainingAmount: assistantData.remainingAmount,
+    discount: assistantData.discount,
   };
   const headers = {
     code: "Bill Code",
     name: "Customer Name",
+    userName: "User Name",
     products: "Products",
+    totalAmount: "Total Amount",
+    paidAmount: "Paid Amount",
+    remainingAmount: "Remaining Amount",
+    discount:"Discount",
   };
+
   
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -31,15 +42,15 @@ export default function PreviewBill({ closeModal, assistantData }) {
       className={`overflow-y-auto overflow-x-hidden duration-200 ease-linear
     fixed top-1/2 -translate-x-1/2 -translate-y-1/2
     z-50 justify-center items-center left-1/2
-     bg-opacity-40 w-full h-full `}
+      w-full h-full `}
     >
       <div
         className={`PreviewUser max-w-2xl 
-       dark:bg-gray-800 rounded-2xl duration-200 ease-linear
+        rounded-2xl duration-200 ease-linear
        absolute top-2/3 sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  w-full
-       min-h-screen overflow-auto `}
+       min-h-screen overflow-auto sideModal `}
       >
-        <div className="relative dark:bg-gray-800 sm:p-5">
+        <div className="relative sideModal sm:p-5">
           <div
             dir="rtl"
             className="flex justify-between items-center w-full mb-3 rounded "
@@ -55,8 +66,8 @@ export default function PreviewBill({ closeModal, assistantData }) {
             </button>
           </div>
           <div
-            className={`text-lg text-white bg-themeColor md:text-xl mx-auto text-center
-               dark:text-white dark:bg-themeColor p-1 mb-4 rounded-md `}
+             className={`text-lg md:text-xl mx-auto text-center
+              secondaryBtn p-1 mb-4 rounded-md `}
           >
             <h3 className="font-semibold ">{t("previewForm.title")}</h3>
           </div>
