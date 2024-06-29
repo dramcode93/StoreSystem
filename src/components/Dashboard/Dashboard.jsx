@@ -356,9 +356,9 @@ const Dashboard = ({ children }) => {
                       ((item.name === "Home.Profile" && isProfileActive) ||
                         (item.name === "Home.shop" && isShopActive) ||
                         (item.name === "Home.branches" && isBranchesActive)) ? (
-                        <FiChevronUp />
+                        <FiChevronUp className="mx-2 mt-1"  />
                       ) : (
-                        <FiChevronDown />
+                        <FiChevronDown className="mx-2 mt-1"  />
                       )}
                     </>
                   )}
