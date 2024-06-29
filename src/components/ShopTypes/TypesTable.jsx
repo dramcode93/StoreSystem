@@ -16,10 +16,7 @@ import { useI18nContext } from "../context/i18n-context";
 
 const API_URL = "https://store-system-api.gleeze.com/api/shopTypes";
 
-const TypesTable = ({
-  openEdit,
-  openCreate,
-}) => {
+const TypesTable = ({ openEdit, openCreate }) => {
   const token = Cookies.get("token");
   const [types, setTypes] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -71,11 +68,8 @@ const TypesTable = ({
   };
 
   const toggleEditDropdown = (typeId) => {
-    setSelectedTypeId((prevTypeId) => 
-      prevTypeId === typeId ? null : typeId
-  );
+    setSelectedTypeId((prevTypeId) => (prevTypeId === typeId ? null : typeId));
   };
-
 
   const pageButtons = Array.from(
     { length: pagination.totalPages },
@@ -87,14 +81,16 @@ const TypesTable = ({
     setSelectedTypeId(typeId);
   };
 
-  
   const confirmDelete = useCallback(() => {
-    console.log("object",selectedTypeId)
+    console.log("object", selectedTypeId);
 
     axios
-      .delete(`https://store-system-api.gleeze.com/api/shopTypes/${selectedTypeId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .delete(
+        `https://store-system-api.gleeze.com/api/shopTypes/${selectedTypeId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
       .then(() => fetchData())
       .catch((error) => console.error("Error deleting type:", error))
       .finally(() => {
@@ -157,7 +153,7 @@ const TypesTable = ({
           onConfirm={() => {
             confirmDelete();
             setShowConfirmation(false);
-          }} 
+          }}
         />
         <div className="flex justify-between">
           <div className="relative w-96 m-3">
@@ -218,7 +214,9 @@ const TypesTable = ({
               <>
                 {types.length === 0 && (
                   <tr className="text-xl text-center">
-                    <td colSpan="8" style={{lineHeight: 3}}>No Types available</td>
+                    <td colSpan="8" style={{ lineHeight: 3 }}>
+                      No Types available
+                    </td>
                   </tr>
                 )}
                 {types.map((type) => (
@@ -309,21 +307,21 @@ const TypesTable = ({
           <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
             <li>
               <button
-              className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              onClick={() => handlePageChange(pagination.currentPge - 1)}
+                className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={() => handlePageChange(pagination.currentPge - 1)}
                 disabled={pagination.currentPge === 1}
-              >  
+              >
                 <CaretLeft size={18} weight="bold" />
               </button>
             </li>
             {pageButtons.map((page) => (
               <li key={page}>
                 <button
-              className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
-                  pagination.currentPge === page
-                    ? "bg-gray-200 text-gray-800"
-                    : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                }`} 
+                  className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
+                    pagination.currentPge === page
+                      ? "bg-gray-200 text-gray-800"
+                      : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  }`}
                   onClick={() => handlePageChange(page)}
                 >
                   {page}
@@ -332,8 +330,8 @@ const TypesTable = ({
             ))}
             <li>
               <button
-              className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              onClick={() => handlePageChange(pagination.currentPge + 1)}
+                className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={() => handlePageChange(pagination.currentPge + 1)}
                 disabled={pagination.currentPge === pagination.totalPages}
               >
                 <CaretRight size={18} weight="bold" />
