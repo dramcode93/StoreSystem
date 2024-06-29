@@ -189,10 +189,10 @@ a {
 }
 .sideModal {
   background-color: var(--sideModal) !important;
-}
+}  
 .dots {
   background-color: var(--dots);
-} 
+}   
 .myColor {
   background-color: var(--myColor);
 } 

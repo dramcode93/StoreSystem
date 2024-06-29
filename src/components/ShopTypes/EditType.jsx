@@ -36,7 +36,7 @@ export default function EditType({ closeModal, role, modal, typeData }) {
       console.error("Error updating type:", error);
     }
   };
-
+     
   useEffect(() => {
     if (modal && typeData) {
         setTypeAr(typeData.type_ar);

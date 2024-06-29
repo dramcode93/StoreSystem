@@ -29,7 +29,7 @@ export default function AddType({ closeModal, role, modal }) {
           type_en: typeEn,
         },
         { headers: { Authorization: `Bearer ${token}` } }
-      );
+      );  
       window.location.href = "/shopTypes";
       console.log("Type added successfully:", response.data);
       closeModal(); 

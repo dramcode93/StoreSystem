@@ -298,7 +298,7 @@ const TypesTable = ({ openEdit, openCreate }) => {
                       </div>
                     </td>
                   </tr>
-                ))}
+                ))}   
               </>
             )}
           </tbody>
