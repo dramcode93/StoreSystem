@@ -68,12 +68,11 @@ const Shops = () => {
   return (
     <div className="flex">
       <section
-        className={` mx-10 p-10 absolute top-32 -z-50 w-3/4  ${
-          language === "ar" ? "left-10" : "right-10"
-        }`}
+        className={` mx-10 p-10 absolute top-32 -z-50 w-3/4  ${language === "ar" ? "left-10" : "right-10"
+          }`}
       >
         <div>
-          <h3 className="font-bold secondaryF text-5xl m-3">Shops</h3>
+          <h3 className="font-bold secondaryF text-5xl m-3">{t("Cart.Shops")}</h3>
           {loading ? (
             <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400">
               <Loading />
@@ -107,10 +106,10 @@ const Shops = () => {
                       <p className="text-gray-600 text-lg mb-2">
                         {shop.type.length > 0
                           ? shop.type
-                              .map((type) =>
-                                language === "ar" ? type.type_ar : type.type_en
-                              )
-                              .join(" , ")
+                            .map((type) =>
+                              language === "ar" ? type.type_ar : type.type_en
+                            )
+                            .join(" , ")
                           : "Doesn't have type"}
                       </p>
                       <button
@@ -119,7 +118,7 @@ const Shops = () => {
                         }}
                         className="secondaryBtn"
                       >
-                        Visit this shop
+                        {t("Cart.VisitShop")}
                       </button>
                     </div>
                   ))}
@@ -130,22 +129,20 @@ const Shops = () => {
         </div>
       </section>
       <div
-        className={`filter-container myColor w-52 absolute top-32 p-3  max-h-72 ${
-          language === "ar"
-            ? "-left-40 hover:left-0"
-            : "-right-40 hover:right-0"
-        }`}
+        className={`filter-container myColor w-60 absolute top-32 p-3  max-h-72 ${language === "ar"
+          ? "-left-48 hover:left-0"
+          : "-right-48 hover:right-0"
+          }`}
         style={{
           height: "calc(100vh - 120px)",
           overflowY: "auto",
         }}
       >
         <div
-          className={`flex w-full  ${
-            language === "ar"
-              ? "pr-10"
-              : "pl-10"
-          }`}
+          className={`flex w-full  ${language === "ar"
+            ? "pr-10"
+            : "pl-10"
+            }`}
         >
           {language === "ar" ? (
             <IoIosArrowDropleft className="text-white text-2xl ml-2  absolute top-36 right-2" />
@@ -155,7 +152,7 @@ const Shops = () => {
 
           <div className="relative">
             <h3 className="font-bold text-white text-xl mb-3">
-              Filter by Type
+              {t("Cart.FilterType")}
             </h3>
             <table className="w-2/3">
               <tbody>
@@ -171,7 +168,7 @@ const Shops = () => {
                   </td>
                   <td className="mb-2">
                     <label className="text-white" htmlFor="all">
-                      All{" "}
+                      {t("Cart.All")}{" "}
                     </label>
                   </td>
                 </tr>

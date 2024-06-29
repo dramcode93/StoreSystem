@@ -62,9 +62,8 @@ const ShopProduct = () => {
 
   return (
     <section
-      className={` mx-10 p-10 absolute top-32 -z-50 w-3/4  ${
-        language === "ar" ? "left-10" : "right-10"
-      }`}
+      className={` mx-10 p-10 absolute top-32 -z-50 w-3/4  ${language === "ar" ? "left-10" : "right-10"
+        }`}
     >
       <div>
         {loading ? (
@@ -98,9 +97,9 @@ const ShopProduct = () => {
                       </span>
                     </p>
                     <p className="secondaryF text-lg capitalize ">
-                      Quantity:{" "}
+                      {t("Cart.Quantity")}:{" "}
                       <span className="text-gray-600">{product?.quantity}</span>{" "}
-                      Sold: <del className="text-gray-600">{product?.sold}</del>
+                      {t("Cart.Sold")}: <del className="text-gray-600">{product?.sold}</del>
                     </p>
                   </div>
                   <div className="flex justify-center mb-3 mx-2">
@@ -108,7 +107,7 @@ const ShopProduct = () => {
                       className="secondaryBtn w-32 fw-bold"
                       onClick={() => handleAddtoCart(product._id)}
                     >
-                      Add to Cart
+                      {t("Cart.AddtoCart")}
                     </button>
                     <button
                       className="secondaryBtn2 w-32 fw-bold"
@@ -116,16 +115,15 @@ const ShopProduct = () => {
                         navigate(`/previewProduct/${product._id}`);
                       }}
                     >
-                      Preview
+                      {t("Cart.Preview")}
                     </button>
                   </div>
                 </div>
               ))
             ) : (
               <div
-                className={`mx-10 p-10 absolute top-32 -z-50 w-3/4 secondary ${
-                  language === "ar" ? "left-10" : "right-10"
-                }`}
+                className={`mx-10 p-10 absolute top-32 -z-50 w-3/4 secondary ${language === "ar" ? "left-10" : "right-10"
+                  }`}
               >
                 <div className="secondaryF m-3 text-center text-2xl font-bold mx-auto">
                   No products available in this shop.

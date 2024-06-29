@@ -1,5 +1,4 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useI18nContext } from "../context/i18n-context";
 import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -7,9 +6,9 @@ import Loading from "../Loading/Loading";
 import { SuccessAlert, ErrorAlert } from "../../form/Alert"; // Adjust the import path accordingly
 import BlackLogo from "../Navbar/logo/Black-and-Gold-Sophisticated-Traditional-Fashion-Logo-(1).svg";
 import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
+import { useI18nContext } from "../context/i18n-context";
 
 const PreviewProduct = () => {
-  const { language } = useI18nContext();
   const { id } = useParams();
   const API_URL = "https://store-system-api.gleeze.com/api/products/customers";
   const [product, setProduct] = useState(null);
@@ -17,6 +16,8 @@ const PreviewProduct = () => {
   const [error, setError] = useState(null);
   const [mainImageIndex, setMainImageIndex] = useState(0);
   const token = Cookies.get("token");
+  const { t, language } = useI18nContext();
+
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -79,7 +80,7 @@ const PreviewProduct = () => {
         </div>
       ) : product ? (
         <div className=" ">
-          <div className="flex mx-20 w-3/4 my-10 ">
+          <div className="flex mx-20  my-10 ">
             <div className="d-flex flex-col">
               <div>
                 <img
@@ -93,15 +94,7 @@ const PreviewProduct = () => {
               </div>
               {product.images.length > 0 &&
                 <div className="mt-3 d-flex gap-2 ">
-                  {language === "ar" ? <FaArrowCircleRight
-                    onClick={handlePrevImage}
-                    className="secondaryF transform w-20 h-12 mt-4"
 
-                  /> : <FaArrowCircleLeft
-                    onClick={handlePrevImage}
-                    className="secondaryF transform w-20 h-12 mt-4"
-
-                  />}
 
                   {product.images.map((image, index) => (
                     <img
@@ -113,46 +106,37 @@ const PreviewProduct = () => {
                       onClick={() => handleImageClick(index)}
                     />
                   ))}
-                  {language === "ar" ? <FaArrowCircleLeft
 
-                    onClick={handleNextImage}
-                    className="secondaryF transform w-20 h-12 mt-4"
-
-                  /> : <FaArrowCircleRight
-                    onClick={handleNextImage}
-                    className="secondaryF transform w-20 h-12 mt-4"
-
-                  />}
 
 
                 </div>
               }
             </div>
-            <div>
+            <div >
               <h1 className="secondaryF font-bold mb-3 capitalize">{product.name}</h1>
               <div className="mx-3">
-                <h4 className="secondaryF font-bold">{product?.description}</h4>
+                <h4 className="secondaryF  font-bold">{product?.description}</h4>
                 <h4 className="secondaryF font-bold">
                   {product.sellingPrice}{" "}
                   <span className="text-orange-400">$</span>
                 </h4>
                 <h4 className="secondaryF font-bold">
-                  Quantity: <span className="text-gray-600 font-semibold">{product.quantity}</span>
+                  {t("Cart.Quantity")}: <span className="text-gray-600 font-semibold">{product.quantity}</span>
                 </h4>
                 <h4 className="secondaryF font-bold">
-                  Shop Name: <span className="text-gray-600 font-semibold">{product.shop.name}</span>
+                  {t("Cart.ShopName")}: <span className="text-gray-600 font-semibold">{product.shop.name}</span>
                 </h4>
                 <h4 className="secondaryF font-bold">
-                  Category: <span className="text-gray-600 font-semibold">{product.category.name}</span>
+                  {t("Cart.Category")} <span className="text-gray-600 font-semibold">{product.category.name}</span>
                 </h4>
-                <h4 className="secondaryF font-bold">Sold: <span className="text-gray-600 font-semibold">{product.sold}</span></h4>
+                <h4 className="secondaryF font-bold">{t("Cart.Sold")}: <span className="text-gray-600 font-semibold">{product.sold}</span></h4>
 
                 <div className="mt-3">
                   <button
                     className="secondaryBtn w-56"
                     onClick={() => handleAddtoCart()}
                   >
-                    Add to Cart
+                    {t("Cart.AddtoCart")}
                   </button>
                 </div>
               </div>
@@ -162,8 +146,9 @@ const PreviewProduct = () => {
         </div>
       ) : (
         <div className="secondaryF">Product not found</div>
-      )}
-    </section>
+      )
+      }
+    </section >
   );
 };
 

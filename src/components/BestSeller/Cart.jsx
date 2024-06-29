@@ -6,7 +6,7 @@ import Loading from "../Loading/Loading";
 import { MdDelete } from "react-icons/md";
 import { LiaEditSolid } from "react-icons/lia";
 import { FaCheck } from "react-icons/fa";
-import { DeleteAlert, ErrorAlert } from "../../form/Alert";
+import { DeleteAlert, ErrorAlert, SuccessAlert } from "../../form/Alert";
 import BlackLogo from "../Navbar/logo/Black-and-Gold-Sophisticated-Traditional-Fashion-Logo-(1).svg";
 import FormSelect from "../../form/FormSelect";
 import { Link } from "react-router-dom";
@@ -27,6 +27,10 @@ const Cart = () => {
   const [quantity, setQuantity] = useState(1);
   const [showCouponInput, setShowCouponInput] = useState(false);
   const [discount, setDiscount] = useState(false);
+  const [userAddress, setUserAddress] = useState("");
+  const [shopAddress, setShopAddress] = useState("");
+  const [branchInfo, setBranchInfo] = useState([]);
+
   const token = Cookies.get("token");
 
   const fetchData = useCallback(async () => {
@@ -78,8 +82,10 @@ const Cart = () => {
         if (selectedBranch === "") {
           ErrorAlert({ text: "You should choose a branch first!" });
         }
+        setProducts([]);
+        SuccessAlert({ title: "Success", text: "Your order done successfully" });
 
-        localStorage.removeItem("discountApplied"); // Clear discount state
+        localStorage.removeItem("discountApplied");
       } else {
         throw new Error("No token found.");
       }
@@ -106,7 +112,7 @@ const Cart = () => {
     try {
       if (token) {
         const response = await axios.get(
-          `https://store-system-api.gleeze.com/api/subShops/list?sort=name&shop=${shop}`,
+          `https://store-system-api.gleeze.com/api/subShops/list?sort=name&active=true&shop=${shop}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -158,6 +164,24 @@ const Cart = () => {
     setSelectedType("cash");
   }
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (token) {
+        try {
+          const response = await axios.get(
+            "https://store-system-api.gleeze.com/api/Users/getMe",
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          setUserAddress(response.data.data.address[0].governorate._id || "shop");
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+    fetchUserData();
+  }, [token]);
+
+  console.log(userAddress)
   const deleteAll = useCallback(() => {
     DeleteAlert({
       title: "Are you sure you want to delete all products?",
@@ -217,9 +241,14 @@ const Cart = () => {
       (branch) => branch._id === branchId
     );
     if (selectedBranchObj) {
+      setBranchInfo(selectedBranchObj)
+      setShopAddress(selectedBranchObj.address.governorate._id)
       setOnlinePayment(selectedBranchObj.onlinePaymentMethods);
     }
   };
+
+  console.log(branchInfo)
+
   const handleCoupon = (e) => {
     e.preventDefault();
     axios
@@ -251,9 +280,8 @@ const Cart = () => {
   return (
     <div>
       <section
-        className={`mx-10 p-10 absolute top-32 -z-50 w-3/4 ${
-          language === "ar" ? "left-10" : "right-10"
-        }`}
+        className={`mx-10 p-10 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"
+          }`}
       >
         <div className="flex justify-between">
           <div className="w-96 m-3">
@@ -365,6 +393,34 @@ const Cart = () => {
                   </p>
                   <p className="secondaryF text-xl font-bold">
                     {products?.totalPriceAfterDiscount} $
+                  </p>
+                </div>
+              )}
+              {selectedReceive === "delivery" && selectedBranch !== "" && (
+                <div className="flex  ">
+                  <p className="secondaryF text-xl font-bold">
+                    {t("Cart.shippingFees")}
+                  </p>
+                  <p className="secondaryF text-xl font-bold">
+                    {userAddress === shopAddress ? branchInfo.shippingPriceInside : branchInfo.shippingPriceOutside} $
+                  </p>
+                </div>
+              )}
+              {selectedReceive === "delivery" && selectedBranch !== "" && (
+                <div className="flex  ">
+                  <p className="secondaryF text-xl font-bold">
+                    {t("Cart.TotalBill")}
+                  </p>
+                  <p className="secondaryF text-xl font-bold">
+                    {discount
+                      ? products.totalPriceAfterDiscount +
+                      (userAddress === shopAddress
+                        ? branchInfo.shippingPriceInside
+                        : branchInfo.shippingPriceOutside)
+                      : products.totalCartPrice +
+                      (userAddress === shopAddress
+                        ? branchInfo.shippingPriceInside
+                        : branchInfo.shippingPriceOutside)} $
                   </p>
                 </div>
               )}
@@ -539,9 +595,10 @@ const Cart = () => {
           <div className="secondary secondaryF m-3 p-8 text-center text-2xl font-bold">
             {t("Cart.noProduct")}
           </div>
-        )}
-      </section>
-    </div>
+        )
+        }
+      </section >
+    </div >
   );
 };
 
