@@ -43,7 +43,6 @@ const Cart = () => {
                     setShop(cartData.cartItems[0].product.shop._id);
                 }
 
-                // Retrieve discount state from local storage
                 const discountApplied = localStorage.getItem('discountApplied');
                 if (discountApplied) {
                     setDiscount(true);
@@ -62,7 +61,7 @@ const Cart = () => {
     const orderNow = useCallback(async () => {
         setLoading(true);
         try {
-            console.log("Selected Branch:", selectedBranch); // Log the selected branch value
+            console.log("Selected Branch:", selectedBranch);
             if (selectedBranch === "") {
                 ErrorAlert({ text: "You should choose a branch first!" });
             } else if (token) {
@@ -150,7 +149,7 @@ const Cart = () => {
         ErrorAlert({
             text: selectedBranch === "" ? "You should choose a branch first!" : "This branch does not have available online methods",
         });
-        setSelectedType("onDelivery");
+        setSelectedType("cash");
     }
 
     const deleteAll = useCallback(() => {
@@ -366,12 +365,12 @@ const Cart = () => {
                                             type="radio"
                                             name="paymentType"
                                             className="secondaryF w-6 "
-                                            id="onDelivery"
-                                            checked={selectedType === 'onDelivery'}
-                                            onChange={() => setSelectedType('onDelivery')}
+                                            id="cash"
+                                            checked={selectedType === 'cash'}
+                                            onChange={() => setSelectedType('cash')}
                                         />
-                                        <label className="secondaryF mr-2 text-xl ml-2" htmlFor="onDelivery">
-                                            {t('Cart.Delivery')}
+                                        <label className="secondaryF mr-2 text-xl ml-2" htmlFor="cash">
+                                            {t('Cart.cash')}
                                         </label>
                                     </div>
                                     <div className="d-flex w-1/2">
@@ -392,14 +391,20 @@ const Cart = () => {
                             <div className="mx-4 my-3">
                                 {selectedType === "onlinePayment" && onlinePayment.length > 0 &&
                                     <div>
-                                        <div className="d-flex">
+                                        <div >
                                             {onlinePayment.map((payment, index) => (
-                                                <li key={index} className="secondaryF m-3 text-2xl">{payment.name}</li>
+                                                <div key={index} className="d-flex">
+                                                    <li className="secondaryF mx-3 text-2xl">{payment.name}:</li>
+                                                    <p className="secondaryF text-2xl">{payment.account}</p>
+                                                </div>
                                             ))}
                                         </div>
-
+                                        <p className="secondaryF text-2xl">{t('Cart.EnterAccount')} </p>
                                         <input type="text" className="border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"></input>
-                                        <input type="file" className="secondaryF" />
+                                        <div className="d-flex">
+                                            <input type="file" className="secondaryF w-1/3" />
+                                            <p className="secondaryF text-xl mt-2">{t('Cart.Uploadpaymentproof')}</p>
+                                        </div>
                                     </div>
                                 }
                             </div>

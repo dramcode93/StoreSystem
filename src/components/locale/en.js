@@ -298,12 +298,15 @@ const en = {
     TotalPrice: "Total Cart Price:",
     TotalDiscount: "Total Price After discount:",
     Category: "Category:",
+    cash: "Cash",
     Quantity: "Quantity",
     Price: "Price",
     TotallPrice: "Total Price",
     haveCopun: "I have a coupon?",
     Submit: "Submit",
     Entercoupon: "Enter your coupon:",
+    EnterAccount: "Enter Your Account",
+    Uploadpaymentproof: "Upload payment proof",
 
 
 

@@ -11,7 +11,8 @@ import BlackLogo from "../Navbar/logo/Black-and-Gold-Sophisticated-Traditional-F
 
 const Shops = () => {
   const API_URL = "https://store-system-api.gleeze.com/api/shops";
-  const API_URL_Type = "https://store-system-api.gleeze.com/api/shopTypes/list";
+  const API_URL_Type =
+    "https://store-system-api.gleeze.com/api/shopTypes/list";
   const [shops, setShops] = useState([]);
   const [shopTypes, setShopTypes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -33,9 +34,12 @@ const Shops = () => {
       setShops(productsResponse.data.data);
       setError(null);
     } catch (error) {
-      setError(error.response?.data?.message || "Error fetching data");
-      console.log({
-        text: error.response?.data?.message || "Error fetching data",
+      setError(
+        error.response?.data?.message || "Error fetching data"
+      );
+      ErrorAlert({
+        text:
+          error.response?.data?.message || "Error fetching data",
       });
     } finally {
       setLoading(false);
@@ -49,9 +53,14 @@ const Shops = () => {
       });
       setShopTypes(typesResponse.data.data);
     } catch (error) {
-      setError(error.response?.data?.message || "Error fetching shop types");
+      setError(
+        error.response?.data?.message ||
+        "Error fetching shop types"
+      );
       ErrorAlert({
-        text: error.response?.data?.message || "Error fetching shop types",
+        text:
+          error.response?.data?.message ||
+          "Error fetching shop types",
       });
     }
   }, [token]);
@@ -65,15 +74,16 @@ const Shops = () => {
     setSelectedType(typeId);
   };
 
-
   return (
-    <div>
+    <div className="flex">
       <section
         className={` mx-10 p-10 absolute top-32 -z-50 w-3/4  ${language === "ar" ? "left-10" : "right-10"
           }`}
       >
         <div>
-          <h3 className="font-bold secondaryF text-5xl m-3">Shops</h3>
+          <h3 className="font-bold secondaryF text-5xl m-3">
+            Shops
+          </h3>
           {loading ? (
             <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400">
               <Loading />
@@ -92,7 +102,8 @@ const Shops = () => {
                       key={shop._id}
                       style={{
                         width: "320px",
-                        boxShadow: "0 .3rem .5rem rgba(0, 0, 0, .1)",
+                        boxShadow:
+                          "0 .3rem .5rem rgba(0, 0, 0, .1)",
                       }}
                     >
                       <img
@@ -108,14 +119,18 @@ const Shops = () => {
                         {shop.type.length > 0
                           ? shop.type
                             .map((type) =>
-                              language === "ar" ? type.type_ar : type.type_en
+                              language === "ar"
+                                ? type.type_ar
+                                : type.type_en
                             )
                             .join(" , ")
                           : "Doesn't have type"}
                       </p>
                       <button
                         onClick={() => {
-                          navigate(`/shopProduct/${shop._id}`);
+                          navigate(
+                            `/shopProduct/${shop._id}`
+                          );
                         }}
                         className="secondaryBtn"
                       >
@@ -134,6 +149,10 @@ const Shops = () => {
           ? "-left-40 hover:left-0"
           : "-right-40 hover:right-0"
           }`}
+        style={{
+          height: "calc(100vh - 120px)",
+          overflowY: "auto",
+        }}
       >
         <div className="flex w-full">
           {language === "ar" ? (
@@ -180,7 +199,9 @@ const Shops = () => {
                         className="text-white text-capitalize mb-2"
                         htmlFor={type.type_en}
                       >
-                        {language === "ar" ? type.type_ar : type.type_en}
+                        {language === "ar"
+                          ? type.type_ar
+                          : type.type_en}
                       </label>
                     </td>
                   </tr>
@@ -195,42 +216,3 @@ const Shops = () => {
 };
 
 export default Shops;
-
-{
-  /* <div
-key={shop._id}
-className="bg-gray-500 p-2 w-72 h-96 bg-opacity-25 rounded-xl overflow-hidden relative m-3"
->
-<img
-  src={shop?.image}
-  alt={shop?.name}
-  crossOrigin="anonymous"
-  className="object-cover border-spacing-2 border-blue-500 rounded-lg w-36 mx-auto mt-2 h-36 bg-white transition-transform duration-300 transform"
-/>
-<div>
-  <h3 className="mt-2 text-white font-bold text-center">
-    {shop?.name}
-  </h3>
-  <h4 className="mt-2 text-white font-bold text-center">
-    Type:
-  </h4>
-  <h4 className="mt-2 text-white font-bold text-center">
-    {shop?.type
-      .map((type) =>
-        language === "ar" ? type.type_ar : type.type_en
-      )
-      .join(", ")}
-  </h4>
-</div>
-<div className="flex justify-center mb-5 mx-2">
-  <button
-    className="bg-yellow-900 rounded-full mt-3 hover:bg-yellow-800 fw-bold"
-    onClick={() => {
-      navigate(`/shopProduct/${shop._id}`);
-    }}
-  >
-    Visit this shop
-  </button>
-</div>
-</div> */
-}

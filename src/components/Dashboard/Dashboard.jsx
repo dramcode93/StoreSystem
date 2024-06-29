@@ -126,7 +126,7 @@ const roleRoutes = {
   customer: [
     { path: "/Home", name: "Home.Home", icon: <FaHome /> },
     { path: "/cart", name: "Home.Cart", icon: <MdShoppingCart /> },
-    { path: "/orders", name: "Home.Order", icon: <FaShoppingBag /> },
+    { path: "/order", name: "Home.Order", icon: <FaShoppingBag /> },
     {
       name: "Home.Profile",
       icon: <FaUserCircle />,

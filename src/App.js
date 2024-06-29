@@ -135,7 +135,7 @@ const App = () => {
           {/* <Dashboard isSideBarOpen={openSideBar} dir={language === "ar" ? "rtl" : "ltr"} /> */}
           <Dashboard dir={language === "ar" ? "rtl" : "ltr"} />
         </>
-          
+
         )}
         <div className="flex-grow">
           <Routes>
@@ -166,7 +166,6 @@ const App = () => {
                   element={<FinancialDealings />}
                 />
                 <Route path="/order" element={<Order />} />
-                <Route path="/orders" element={<OrdersTable />} />
                 <Route path="/coupons" element={<Coupons />} />
                 <Route path="/category" element={<Category />} />
                 <Route

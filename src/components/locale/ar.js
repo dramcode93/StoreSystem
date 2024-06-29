@@ -286,12 +286,17 @@ const ar = {
     TotalPrice: "إجمالي فاتورة عربتك:",
     TotalDiscount: "إجمالي الفاتورة بعد الخصم:",
     Category: "الفئة:",
+    cash: "نقدي",
     Quantity: "الكمية",
     Price: "السعر",
     TotallPrice: "إجمالي السعر",
     haveCopun: "لديّ كوبون خصم؟",
     Submit: "تأكيد",
     Entercoupon: "ادخِل كوبونك:",
+    EnterAccount: "ادخِل حسابك",
+    Uploadpaymentproof: "ارفع اثبات دفعك",
+
+
 
 
   },
