@@ -55,7 +55,7 @@ li {
   --card: aliceblue;
   --icon: rgb(56, 74, 235);
 
-  --secondary: rgb(255, 255, 255);
+  --secondary: rgba(107, 114, 128, 0.085);
   --secondaryBtn: #006edc;
   --sideModal: rgb(30, 37, 54);
   --dots: rgb(30, 37, 54);
