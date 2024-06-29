@@ -12,7 +12,7 @@ const API_PRODUCTS_URL =
 const API_CUSTOMERS_URL = "https://store-system-api.gleeze.com/api/customers";
 const API_BILLS_URL = "https://store-system-api.gleeze.com/api/bills";
 
-const CreateBills = ({ closeModal, modal }) => {
+const CreateBills = ({ closeModal, modal,role }) => {
   const token = Cookies.get("token");
   const { t, language } = useI18nContext();
   const [quantity, setQuantity] = useState("");
@@ -142,7 +142,7 @@ const CreateBills = ({ closeModal, modal }) => {
       const requestBody = {
         customer: customerId,
         products: formattedProducts,
-        shop:selectedBranch,
+        subShop:selectedBranch,
         paidAmount: parseInt(paidAmount),
         discount: parseInt(discount),
       };
@@ -172,7 +172,7 @@ const CreateBills = ({ closeModal, modal }) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (token) {
+      if (token&&role==="admin") {
         try {
           const response = await axios.get(
             "https://store-system-api.gleeze.com/api/subShops",
@@ -186,9 +186,8 @@ const CreateBills = ({ closeModal, modal }) => {
       }
     };
     fetchUserData();
-  }, [token]);
+  }, [token,role]);
 
-  console.log("branches", branches);
 
   return (
     <>
@@ -274,7 +273,7 @@ const CreateBills = ({ closeModal, modal }) => {
                 name="customer"
                 value={customerId}
               />
-              {branches && (
+              {role==="admin" && (
                 <FormSelect
                   selectLabel="Select Branch"
                   headOption="Select a Branch"

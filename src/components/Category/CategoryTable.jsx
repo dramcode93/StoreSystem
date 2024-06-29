@@ -13,10 +13,11 @@ import {
 import { useI18nContext } from "../context/i18n-context";
 import Loading from "../Loading/Loading";
 import ConfirmationModal from "./ConfirmationModel";
+import UpdateCategory from "./forms/Update";
 
 const API_category = "https://store-system-api.gleeze.com/api/categories";
 
-const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
+const CategoryTable = ({ openEdit, openCreate, openPreview, role }) => {
   const token = Cookies.get("token");
   const [categories, setCategories] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -172,20 +173,21 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
   //     document.removeEventListener('click', handleClickOutside);
   //   };
   // }, []);
-  const handleClickOutside = (event) => {
-    const isOutsideDropdown = Object.values(dropdownRefs.current).every(
-      (ref) => ref && !ref.contains(event.target)
-    );
-    if (isOutsideDropdown) {
-      setSelectedCategoryId(null);
-    }
-  };
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
+  // const handleClickOutside = (event) => {
+  //   const isOutsideDropdown = Object.values(dropdownRefs.current).every(
+  //     (ref) => ref && !ref.contains(event.target)
+  //   );
+  //   if (isOutsideDropdown) {
+  //     setSelectedCategoryId(null);
+  //   }
+  // };
+  // useEffect(() => {
+  //   document.addEventListener("click", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("click", handleClickOutside);
+  //   };
+  // }, []);
+
   return (
     <section
       className={`secondary mx-10 pt-2 absolute top-32 -z-50 w-3/4 ${
@@ -201,7 +203,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
           setShowConfirmation(false);
         }}
       />
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <div className="relative w-96 m-3">
           <input
             className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 dark:bg-gray-500"
@@ -219,12 +221,14 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
         </div>
         <div>
           {/* hover:bg-yellow-800  bg-yellow-900 */}
-          <button
-            className="secondaryBtn w-28 rounded-md m-3 fw-bold"
-            onClick={openCreate}
-          >
-            {t("Products.Add")}
-          </button>
+          {role === "admin" && (
+            <button
+              className="secondaryBtn w-28 rounded-md m-3 fw-bold"
+              onClick={openCreate}
+            >
+              {t("Products.Add")}
+            </button>
+          )}
         </div>
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -295,16 +299,18 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                         } z-10 w-44  rounded divide-y divide-gray-100 shadow secondary `}
                       >
                         <ul className="text-sm bg-transparent pl-0 mb-0">
-                          <li className="">
-                            <button
-                              type="button"
-                              className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
-                              onClick={() => handleEditCategory(category)}
-                            >
-                              <NotePencil size={18} weight="bold" />
-                              {t("Category.Edit")}
-                            </button>
-                          </li>
+                          {role === "admin" && (
+                            <li className="">
+                              <button
+                                type="button"
+                                className="flex w-full items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                onClick={() => handleEditCategory(category)}
+                              >
+                                <NotePencil size={18} weight="bold" />
+                                {t("Category.Edit")}
+                              </button>
+                            </li>
+                          )}
                           <li>
                             <button
                               type="button"
@@ -315,16 +321,20 @@ const CategoryTable = ({ openEdit, openCreate, openPreview }) => {
                               {t("Category.Preview")}
                             </button>
                           </li>
-                          <li>
-                            <button
-                              type="button"
-                              className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
-                              onClick={() => handleDeleteCategory(category._id)}
-                            >
-                              <TrashSimple size={18} weight="bold" />
-                              {t("Category.Delete")}
-                            </button>
-                          </li>
+                          {role === "admin" && (
+                            <li>
+                              <button
+                                type="button"
+                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                onClick={() =>
+                                  handleDeleteCategory(category._id)
+                                }
+                              >
+                                <TrashSimple size={18} weight="bold" />
+                                {t("Category.Delete")}
+                              </button>
+                            </li>
+                          )}
                         </ul>
                       </div>
                     </div>

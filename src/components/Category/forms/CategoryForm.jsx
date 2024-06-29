@@ -25,7 +25,6 @@ export default function CreateCategory({ closeModal, role, modal }) {
           window.location.href = "/category";
         });
       console.log("Product added successfully:", response.data);
-
       closeModal();
     } catch (error) {
       console.error("Error adding Product:", error);

@@ -186,7 +186,7 @@ const UserBillsTable = ({ openCreate, openPreview, id }) => {
               <>
                 {bills.length === 0 && (
                   <tr className="text-xl text-center">
-                    <td colSpan="7">No Bills available</td>
+                    <td colSpan="7" style={{lineHeight: 3}}>No Bills available</td>
                   </tr>
                 )}
                 {bills.map((bill) => (

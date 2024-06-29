@@ -15,7 +15,7 @@ const Products = ({ role }) => {
   const [selectedAssistantData, setSelectedAssistantData] = useState({});
   const [openPreview, setOpenPreview] = useState(false);
 
-  const toggleOpenCreateModal = () => { 
+  const toggleOpenCreateModal = () => {
     setOpenCreate(!openCreate);
   };
   const toggleOpenEditModal = (selectedProduct) => {
@@ -27,7 +27,7 @@ const Products = ({ role }) => {
     setSelectedProductData(selectedProduct);
   };
   const toggleOpenTransportModal = (selectedProduct) => {
-    setOpenTransport(!openTransport)
+    setOpenTransport(!openTransport);
     setSelectedProductData(selectedProduct);
   };
   const toggleOpenPreviewModal = (selectedAssistant) => {
@@ -66,6 +66,7 @@ const Products = ({ role }) => {
         productData={selectedProductData}
       />
       <ProductsTable
+        role={role}
         openEdit={toggleOpenEditModal}
         openCreate={toggleOpenCreateModal}
         openPreview={toggleOpenPreviewModal}
@@ -75,5 +76,5 @@ const Products = ({ role }) => {
     </>
   );
 };
- 
+
 export default Products;

@@ -11,8 +11,30 @@ import { FiChevronDown, FiChevronUp, FiShoppingCart } from "react-icons/fi";
 import Cookies from "js-cookie";
 import { BsFillPersonVcardFill } from "react-icons/bs";
 import axios from "axios";
-import { FaHome, FaStore, FaSitemap, FaChartBar, FaReceipt, FaUsers, FaTag, FaClipboardList, FaShoppingBag, FaUserCircle, FaFileInvoice, FaFileInvoiceDollar, FaPercentage, FaLock, FaChartPie, FaChartLine } from "react-icons/fa";
-import { MdCategory, MdShoppingCart, MdAccountCircle, MdOutlineInventory } from "react-icons/md";
+import {
+  FaHome,
+  FaStore,
+  FaSitemap,
+  FaChartBar,
+  FaReceipt,
+  FaUsers,
+  FaTag,
+  FaClipboardList,
+  FaShoppingBag,
+  FaUserCircle,
+  FaFileInvoice,
+  FaFileInvoiceDollar,
+  FaPercentage,
+  FaLock,
+  FaChartPie,
+  FaChartLine,
+} from "react-icons/fa";
+import {
+  MdCategory,
+  MdShoppingCart,
+  MdAccountCircle,
+  MdOutlineInventory,
+} from "react-icons/md";
 import { HiOutlineDocumentReport, HiUserGroup } from "react-icons/hi";
 import { IoMdPricetags } from "react-icons/io";
 const roleRoutes = {
@@ -23,7 +45,11 @@ const roleRoutes = {
       icon: <FaStore />,
       dropdownItems: [
         { text: "Main Shop", path: "/shop", icon: <FaStore /> },
-        { text: "Information", path: "/shopInformation", icon: <HiOutlineDocumentReport /> },
+        {
+          text: "Information",
+          path: "/shopInformation",
+          icon: <HiOutlineDocumentReport />,
+        },
       ],
     },
     {
@@ -75,7 +101,7 @@ const roleRoutes = {
     },
   ],
   manager: [
-    { path: "/Home", name: "Home.Home", icon: <FaHome /> },
+    // { path: "/Home", name: "Home.Home", icon: <FaHome /> },
     { path: "/shopTypes", name: "Home.shopTypes", icon: <FaStore /> },
     {
       name: "Home.Profile",
@@ -95,38 +121,29 @@ const roleRoutes = {
       name: "Home.products",
       icon: <MdOutlineInventory />,
     },
-    {
-      name: "Home.Bill",
-      icon: <FaFileInvoice />,
-      dropdownItems: [{ text: "Create bills", path: "/create-bills", icon: <FaFileInvoiceDollar /> }],
-    },
-    {
-      name: "Home.Order",
-      icon: <FaShoppingBag />,
-      dropdownItems: [
-        { text: "Agree", path: "/agree", icon: <FaClipboardList /> },
-        { text: "Accept", path: "/accept", icon: <FaClipboardList /> },
-      ],
-    },
+    { path: "/bills", name: "Home.Bill", icon: <FaFileInvoice /> },
+    { path: "/order", name: "Home.orders", icon: <FaShoppingBag /> },
+
     {
       path: "/customers",
       name: "Home.Customer",
       icon: <FaUsers />,
-      // dropdownItems: [
-      //   { text: "Create", path: "/create", icon: <MdAccountCircle /> },
-      //   { text: "Show bills", path: "/show-bills", icon: <FaFileInvoice /> },
-      // ],
     },
+    { path: "/coupons", name: "Home.coupons", icon: <IoMdPricetags /> },
+
     {
       name: "Home.Profile",
       icon: <FaUserCircle />,
-      dropdownItems: [{ text: "Information", path: "/information", icon: <FaUserCircle /> }],
+      dropdownItems: [
+        { text: "Information", path: "/information", icon: <FaUserCircle /> },
+        { text: "Change Password", path: "/change-password", icon: <FaLock /> },
+      ],
     },
   ],
   customer: [
     { path: "/Home", name: "Home.Home", icon: <FaHome /> },
     { path: "/cart", name: "Home.Cart", icon: <MdShoppingCart /> },
-    { path: "/order", name: "Home.Order", icon: <FaShoppingBag /> },
+    { path: "/order", name: "Home.orders", icon: <FaShoppingBag /> },
     {
       name: "Home.Profile",
       icon: <FaUserCircle />,
@@ -242,7 +259,10 @@ const Dashboard = ({ children }) => {
   const handleBranchClick = useCallback(
     (index) => {
       setActiveBranch(index === activeBranch ? null : index);
-      localStorage.setItem("activeBranch", index === activeBranch ? null : index);
+      localStorage.setItem(
+        "activeBranch",
+        index === activeBranch ? null : index
+      );
     },
     [activeBranch]
   );
@@ -301,7 +321,7 @@ const Dashboard = ({ children }) => {
         <div
           style={{
             // width:isSideBarOpen?"260px":"0px",
-            marginTop: "12.3vh",
+            marginTop: "12.77vh",
             boxShadow:
               language === "ar"
                 ? "-4px 0px 2px rgba(0, 0, 0, 0.1)"
@@ -309,7 +329,6 @@ const Dashboard = ({ children }) => {
           }}
           className={`${module.sidebar}`}
           dir={language === "ar" ? "rtl" : "ltr"}
-
         >
           {routes.map((item, index) => (
             <div key={index}>
@@ -320,22 +339,23 @@ const Dashboard = ({ children }) => {
                 style={
                   activeLink === index
                     ? {
-                      backgroundColor: "#006edc",
-                      color: "white",
-                      borderRadius: "0px",
-                    }
+                        backgroundColor: "#006edc",
+                        color: "white",
+                        borderRadius: "0px",
+                      }
                     : {}
                 }
               >
                 <div className={module.icon}>{item.icon}</div>
                 <div className={`${module.link_text} flex`}>
-                  {t(item.name)}{"   "}
+                  {t(item.name)}
+                  {"   "}
                   {item.dropdownItems && (
                     <>
                       {activeLink === index &&
-                        ((item.name === "Home.Profile" && isProfileActive) ||
-                          (item.name === "Home.shop" && isShopActive) ||
-                          (item.name === "Home.branches" && isBranchesActive)) ? (
+                      ((item.name === "Home.Profile" && isProfileActive) ||
+                        (item.name === "Home.shop" && isShopActive) ||
+                        (item.name === "Home.branches" && isBranchesActive)) ? (
                         <FiChevronUp />
                       ) : (
                         <FiChevronDown />
@@ -354,60 +374,58 @@ const Dashboard = ({ children }) => {
                     dir={language === "ar" ? "rtl" : "ltr"}
                   >
                     <div className="flex flex-col w-full mx-auto font-bold">
-                      {item.dropdownItems.map(
-                        (dropdownItem, dropdownIndex) => (
-                          <div key={dropdownIndex}>
-                            <NavLink
-                              to={dropdownItem.path}
-                              className={`${module.branch}`}
-                              onClick={() =>
-                                handleDropdownItemClick(dropdownIndex)
-                              }
-                              style={
-                                activeDropdownItem === dropdownIndex
-                                  ? {
+                      {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
+                        <div key={dropdownIndex}>
+                          <NavLink
+                            to={dropdownItem.path}
+                            className={`${module.branch}`}
+                            onClick={() =>
+                              handleDropdownItemClick(dropdownIndex)
+                            }
+                            style={
+                              activeDropdownItem === dropdownIndex
+                                ? {
                                     backgroundColor: "transparent",
                                     borderRadius: "0px",
                                   }
-                                  : {}
-                              }
-                            >
-                              <div className="flex items-center hover:none">
-                                <p className=" m-2 w-32" >{dropdownItem.text}</p>
-                                {dropdownItem.dropdownItems && (
-                                  <>
-                                    {activeBranch === dropdownIndex ? (
-                                      <FiChevronUp />
-                                    ) : (
-                                      <FiChevronDown />
-                                    )}
-                                  </>
+                                : {}
+                            }
+                          >
+                            <div className="flex items-center hover:none">
+                              <p className=" m-2 w-32">{dropdownItem.text}</p>
+                              {dropdownItem.dropdownItems && (
+                                <>
+                                  {activeBranch === dropdownIndex ? (
+                                    <FiChevronUp />
+                                  ) : (
+                                    <FiChevronDown />
+                                  )}
+                                </>
+                              )}
+                            </div>
+                          </NavLink>
+                          {activeDropdownItem === dropdownIndex &&
+                            dropdownItem.dropdownItems && (
+                              <div className="ml-4">
+                                {dropdownItem.dropdownItems.map(
+                                  (subItem, subIndex) => (
+                                    <NavLink
+                                      key={subIndex}
+                                      to={subItem.path}
+                                      className={module.subDropDown}
+                                      style={{
+                                        marginLeft: "0",
+                                        display: "block",
+                                      }}
+                                    >
+                                      {subItem.text}
+                                    </NavLink>
+                                  )
                                 )}
                               </div>
-                            </NavLink>
-                            {activeDropdownItem === dropdownIndex &&
-                              dropdownItem.dropdownItems && (
-                                <div className="ml-4">
-                                  {dropdownItem.dropdownItems.map(
-                                    (subItem, subIndex) => (
-                                      <NavLink
-                                        key={subIndex}
-                                        to={subItem.path}
-                                        className={module.subDropDown}
-                                        style={{
-                                          marginLeft: "0",
-                                          display: "block",
-                                        }}
-                                      >
-                                        {subItem.text}
-                                      </NavLink>
-                                    )
-                                  )}
-                                </div>
-                              )}
-                          </div>
-                        )
-                      )}
+                            )}
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}

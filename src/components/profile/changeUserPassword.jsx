@@ -46,7 +46,7 @@ const ChangeUserPassword = () => {
         setLoading(false);
       }
     }
-  }, [token, users,id]);
+  }, [token, users,id,userName]);
 
   useEffect(() => {
     fetchData();
@@ -101,7 +101,7 @@ return (
           {userName && (
             <h3 className="font-bold secondaryF text-center">
               Change{" "}
-              <span className="font-bold text-blue-600 uppercase">{userName}</span>{" "}
+              <span className="font-bold text-blue-600 capitalize ">{userName}</span>{" "}
               Password
             </h3>
           )}

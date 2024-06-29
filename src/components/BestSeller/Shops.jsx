@@ -11,8 +11,7 @@ import BlackLogo from "../Navbar/logo/Black-and-Gold-Sophisticated-Traditional-F
 
 const Shops = () => {
   const API_URL = "https://store-system-api.gleeze.com/api/shops";
-  const API_URL_Type =
-    "https://store-system-api.gleeze.com/api/shopTypes/list";
+  const API_URL_Type = "https://store-system-api.gleeze.com/api/shopTypes/list";
   const [shops, setShops] = useState([]);
   const [shopTypes, setShopTypes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -34,12 +33,9 @@ const Shops = () => {
       setShops(productsResponse.data.data);
       setError(null);
     } catch (error) {
-      setError(
-        error.response?.data?.message || "Error fetching data"
-      );
+      setError(error.response?.data?.message || "Error fetching data");
       ErrorAlert({
-        text:
-          error.response?.data?.message || "Error fetching data",
+        text: error.response?.data?.message || "Error fetching data",
       });
     } finally {
       setLoading(false);
@@ -53,14 +49,9 @@ const Shops = () => {
       });
       setShopTypes(typesResponse.data.data);
     } catch (error) {
-      setError(
-        error.response?.data?.message ||
-        "Error fetching shop types"
-      );
+      setError(error.response?.data?.message || "Error fetching shop types");
       ErrorAlert({
-        text:
-          error.response?.data?.message ||
-          "Error fetching shop types",
+        text: error.response?.data?.message || "Error fetching shop types",
       });
     }
   }, [token]);
@@ -77,13 +68,12 @@ const Shops = () => {
   return (
     <div className="flex">
       <section
-        className={` mx-10 p-10 absolute top-32 -z-50 w-3/4  ${language === "ar" ? "left-10" : "right-10"
-          }`}
+        className={` mx-10 p-10 absolute top-32 -z-50 w-3/4  ${
+          language === "ar" ? "left-10" : "right-10"
+        }`}
       >
         <div>
-          <h3 className="font-bold secondaryF text-5xl m-3">
-            Shops
-          </h3>
+          <h3 className="font-bold secondaryF text-5xl m-3">Shops</h3>
           {loading ? (
             <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400">
               <Loading />
@@ -102,8 +92,7 @@ const Shops = () => {
                       key={shop._id}
                       style={{
                         width: "320px",
-                        boxShadow:
-                          "0 .3rem .5rem rgba(0, 0, 0, .1)",
+                        boxShadow: "0 .3rem .5rem rgba(0, 0, 0, .1)",
                       }}
                     >
                       <img
@@ -118,19 +107,15 @@ const Shops = () => {
                       <p className="text-gray-600 text-lg mb-2">
                         {shop.type.length > 0
                           ? shop.type
-                            .map((type) =>
-                              language === "ar"
-                                ? type.type_ar
-                                : type.type_en
-                            )
-                            .join(" , ")
+                              .map((type) =>
+                                language === "ar" ? type.type_ar : type.type_en
+                              )
+                              .join(" , ")
                           : "Doesn't have type"}
                       </p>
                       <button
                         onClick={() => {
-                          navigate(
-                            `/shopProduct/${shop._id}`
-                          );
+                          navigate(`/shopProduct/${shop._id}`);
                         }}
                         className="secondaryBtn"
                       >
@@ -145,20 +130,27 @@ const Shops = () => {
         </div>
       </section>
       <div
-        className={`filter-container myColor w-52 absolute top-32 p-3 ${language === "ar"
-          ? "-left-40 hover:left-0"
-          : "-right-40 hover:right-0"
-          }`}
+        className={`filter-container myColor w-52 absolute top-32 p-3  max-h-72 ${
+          language === "ar"
+            ? "-left-40 hover:left-0"
+            : "-right-40 hover:right-0"
+        }`}
         style={{
           height: "calc(100vh - 120px)",
           overflowY: "auto",
         }}
       >
-        <div className="flex w-full">
+        <div
+          className={`flex w-full  ${
+            language === "ar"
+              ? "pr-10"
+              : "pl-10"
+          }`}
+        >
           {language === "ar" ? (
-            <IoIosArrowDropleft className="text-white text-3xl ml-3" />
+            <IoIosArrowDropleft className="text-white text-2xl ml-2  absolute top-36 right-2" />
           ) : (
-            <IoIosArrowDropright className="text-white text-3xl mr-3" />
+            <IoIosArrowDropright className="text-white text-2xl mr-2 absolute top-36 left-2" />
           )}
 
           <div className="relative">
@@ -167,7 +159,7 @@ const Shops = () => {
             </h3>
             <table className="w-2/3">
               <tbody>
-                <tr className="d-flex gap-2">
+                <tr className="d-flex gap-2 ">
                   <td className={`cursor-pointer mb-2  `}>
                     <input
                       type="radio"
@@ -199,9 +191,7 @@ const Shops = () => {
                         className="text-white text-capitalize mb-2"
                         htmlFor={type.type_en}
                       >
-                        {language === "ar"
-                          ? type.type_ar
-                          : type.type_en}
+                        {language === "ar" ? type.type_ar : type.type_en}
                       </label>
                     </td>
                   </tr>

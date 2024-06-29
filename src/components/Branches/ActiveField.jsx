@@ -88,7 +88,7 @@ const ActiveField = ({
               <div className="mr-10">
                 <button
                   onClick={handleSaveChanges}
-                  className="bg-yellow-900 rounded-full px-4 py-1 text-white hover:bg-yellow-800 font-bold "
+                  className="secondaryBtn px-4 py-1  font-bold "
                 >
                   Save Changes
                 </button>

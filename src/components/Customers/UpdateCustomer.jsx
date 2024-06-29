@@ -192,7 +192,7 @@ function UpdateCustomer({ closeModal, role, modal, customerData }) {
       street: customerData.address[index].street,
     };
 
-    console.log(addressToDelete)
+    console.log(addressToDelete);
     axios
       .delete(
         `https://store-system-api.gleeze.com/api/customers/${customerData._id}/address`,

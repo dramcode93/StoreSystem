@@ -110,7 +110,7 @@ const ChangePassword = () => {
 
         <button
           onClick={handleEditPassword}
-          className="secondaryBtn  h-12 rounded-md  fw-bold text-xl rounded-lg"
+          className="secondaryBtn  h-12 rounded-md  fw-bold text-xl"
         >
           {t(`ChangePasswordPage.ChangePassword`)}
         </button>

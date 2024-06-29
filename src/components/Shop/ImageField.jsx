@@ -40,7 +40,7 @@ const ImageField = ({
             <button
               type="button"
               onClick={handleSaveChanges}
-              className="h-min rounded-md bg-orange-400 font-medium text-xl max-w-60"
+              className="h-min rounded-md secondaryBtn font-medium text-xl max-w-60"
             >
               Save Image
             </button>

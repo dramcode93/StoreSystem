@@ -31,7 +31,6 @@ export default function PreviewCategory({ closeModal, assistantData }) {
         );
 
         setSpecificProducts(product.data.data);
-        console.log("specific", product.data.data);
       } else {
         console.error("No token found.");
       }

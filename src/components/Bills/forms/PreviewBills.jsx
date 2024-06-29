@@ -30,7 +30,6 @@ export default function PreviewBill({ closeModal, assistantData }) {
     discount:"Discount",
   };
 
-  console.log(assistantData)
   
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {

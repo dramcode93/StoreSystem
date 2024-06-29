@@ -259,7 +259,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
             <>
               {customers?.length === 0 && (
                 <tr className="text-xl text-center">
-                  <td colSpan="5">No Customers available</td>
+                  <td colSpan="5" style={{lineHeight: 3}}>No Customers available</td>
                 </tr>
               )}
               {customers.map((customer) => (

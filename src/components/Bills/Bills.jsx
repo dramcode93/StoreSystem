@@ -45,6 +45,7 @@ export default function Bills({ role }) {
       <BillsTable
         openCreate={toggleOpenCreateModal}
         // openEdit={toggleOpenEditModal}
+        role={role}
         openPreview={toggleOpenPreviewModal}
       />
     </div>

@@ -381,7 +381,7 @@ export default function AddProduct({ closeModal, role, modal }) {
                 placeholder="Description..."
                 value={description}
               />
-              {branches.length>0&& (
+              {role==="admin"&& (
                 <>
                   <hr className="my-1 border-gray-300 w-full col-span-2" />
                   <p className="secondaryF text-xl col-span-2">
