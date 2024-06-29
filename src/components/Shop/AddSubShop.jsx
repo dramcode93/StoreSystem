@@ -160,7 +160,7 @@ export default function AddSubShop({ closeModal, modal }) {
                   value: option.value,
                   label: option.label,
                 }))}
-                value={deliveryService}
+                value={deliveryService} 
                 name="Delivery Service"
               />
               {deliveryService === "true" && (
