@@ -25,7 +25,7 @@ const ShopTypes = ({ role }) => {
         closeModal={toggleOpenCreateModal}
         modal={openCreate}
         role={role} 
-      />
+      />   
       <EditType
         closeModal={toggleOpenEditModal}
         modal={openEdit}
