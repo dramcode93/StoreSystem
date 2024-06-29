@@ -363,7 +363,7 @@ const Dashboard = ({ children }) => {
                     </>
                   )}
                 </div>
-              </NavLink>
+              </NavLink> 
               {activeLink === index &&
                 ((item.name === "Home.Profile" && isProfileActive) ||
                   (item.name === "Home.shop" && isShopActive) ||
