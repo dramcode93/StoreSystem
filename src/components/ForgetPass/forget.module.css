@@ -33,7 +33,7 @@
     width: 100%;
   }
   
-  .forgetPasswordContainer button {
+  /* .forgetPasswordContainer button {
     padding: 8px 16px;
     background-color: #007bff;
     color: white;
@@ -45,7 +45,7 @@
   .forgetPasswordContainer button:hover {
     background-color: #0056b3;
   }
-  
+   */
   @media screen and (max-width: 1200px) {
     .forgetPasswordContainer,.forgetPasswordContainer3 {
       width: 30vw;

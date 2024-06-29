@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
  import forget from './forget.module.css';
 import Cookies from 'js-cookie';
+import { ErrorAlert } from '../../form/Alert';
 
 const ForgotPassword2 = () => {
   const [verificationCode, setVerificationCode] = useState('');
@@ -18,6 +19,7 @@ const ForgotPassword2 = () => {
       window.location.href = '/forgotPassword3';
     } catch (error) {
       console.error('An error occurred while sending the reset password request', error);
+      ErrorAlert({ text: "Wrong verification code" });
       setLoading(false);
     }
   };
@@ -32,7 +34,7 @@ const ForgotPassword2 = () => {
         value={verificationCode}
         onChange={(e) => setVerificationCode(e.target.value)}
       />
-      <button onClick={handleForgetPassword} disabled={loading}>
+      <button  className='secondaryBtn' onClick={handleForgetPassword} disabled={loading}>
         {loading ? 'Loading...' : 'Reset Password'}
       </button>
     </div>

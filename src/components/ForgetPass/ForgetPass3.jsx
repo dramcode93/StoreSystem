@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
  import forget from './forget.module.css';
 import Cookies from 'js-cookie';
+import { ErrorAlert } from '../../form/Alert';
 
 const ForgotPassword3 = () => {
   const [newPassword, setNewPassword] = useState('');
@@ -21,6 +22,7 @@ const ForgotPassword3 = () => {
       window.location.href = '/';
     } catch (error) {
       console.error('An error occurred while sending the reset password request', error);
+      ErrorAlert({ text: "An error occurred while resetting password" });
       setLoading(false);
     }
   };
@@ -42,7 +44,7 @@ const ForgotPassword3 = () => {
         value={confirmNewPassword}
         onChange={(e) => setConfirmNewPassword(e.target.value)}
       />
-      <button onClick={handleForgetPassword} disabled={loading}>
+      <button  className='secondaryBtn' onClick={handleForgetPassword} disabled={loading}>
         {loading ? 'Loading...' :' Reset Password'}
       </button>
     </div>
