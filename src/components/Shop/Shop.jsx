@@ -4,7 +4,6 @@ import { ChalkboardSimple } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
 import Cookies from "js-cookie";
 import axios from "axios";
-import styles from "../Shop/css/AllShop.module.css"
 import { FaBoxOpen, FaCalendarAlt, FaCalendarDay, FaFileInvoiceDollar, FaMoneyBillWave, FaShoppingCart } from "react-icons/fa";
 const Shop = () => {
   const token = Cookies.get("token");
@@ -173,7 +172,6 @@ const Shop = () => {
                 rooms={formatMoney(monthlyEarning)}
               />
             </div>
-            <div className={styles.dadd}></div>
           </div>
 
           <div className="d-flex justify-around items-center flex-col gap-4">
