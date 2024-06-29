@@ -132,7 +132,7 @@ function UpdateUser({ closeModal, role, modal, userData }) {
     } catch (error) {
       console.error("Error adding phone:", error.response);
     }
-  };
+  };  
 
   const handleDelPhone = async (index, e) => {
     axios
