@@ -16,7 +16,6 @@ export default function SubSalesTable() {
   const dropdownRefs = useRef({});
   const { t, language } = useI18nContext();
 
-  console.log(error);
   useEffect(() => {
     const fetchSubShops = async () => {
       try {
@@ -109,12 +108,14 @@ export default function SubSalesTable() {
   // Updated formatDate function for dd-mm-yyyy format
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
+    if (selectedOption === "day") {
+      return date.toLocaleDateString('en-GB'); 
+    } else if (selectedOption === "month") {
+      return date.toLocaleString("default", { month: "long", year: "numeric" });
+    } else if (selectedOption === "year") {
+      return date.getFullYear();
+    }
   };
-
   return (
     <div>
       <section

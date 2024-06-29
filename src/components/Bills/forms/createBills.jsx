@@ -27,6 +27,8 @@ const CreateBills = ({ closeModal, modal }) => {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState("");
   const [billItems, setBillItems] = useState([]);
+  const [branches, setBranches] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState([]);
 
   const handleProductChange = (e) => {
     const selectedProductId = e.target.value;
@@ -140,10 +142,11 @@ const CreateBills = ({ closeModal, modal }) => {
       const requestBody = {
         customer: customerId,
         products: formattedProducts,
+        shop:selectedBranch,
         paidAmount: parseInt(paidAmount),
         discount: parseInt(discount),
       };
-      console.log(requestBody)
+      console.log(requestBody);
       const response = await axios.post(API_BILLS_URL, requestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -166,6 +169,26 @@ const CreateBills = ({ closeModal, modal }) => {
       closeModal();
     }
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (token) {
+        try {
+          const response = await axios.get(
+            "https://store-system-api.gleeze.com/api/subShops",
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          const fetchedBranches = response.data.data;
+          setBranches(fetchedBranches);
+        } catch (error) {
+          console.error("Error fetching branches data:", error);
+        }
+      }
+    };
+    fetchUserData();
+  }, [token]);
+
+  console.log("branches", branches);
 
   return (
     <>
@@ -251,6 +274,19 @@ const CreateBills = ({ closeModal, modal }) => {
                 name="customer"
                 value={customerId}
               />
+              {branches && (
+                <FormSelect
+                  selectLabel="Select Branch"
+                  headOption="Select a Branch"
+                  handleChange={(e) => setSelectedBranch(e.target.value)}
+                  options={branches.map((branch) => ({
+                    value: branch._id,
+                    label: branch.name,
+                  }))}
+                  name="Branch"
+                  value={selectedBranch}
+                />
+              )}
               {selectedProduct && (
                 <div className="m-2 w-full flex flex-col">
                   <label className="text-xl fw-bold">
@@ -276,7 +312,7 @@ const CreateBills = ({ closeModal, modal }) => {
                   Add Product +
                 </button>
                 <button
-                 disabled={!paidAmount||!discount}
+                  disabled={!paidAmount || !discount}
                   type="submit"
                   className="secondaryBtn h-12 rounded-md fw-bold text-xl m-2 "
                 >
