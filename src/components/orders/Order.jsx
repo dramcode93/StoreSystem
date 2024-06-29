@@ -19,7 +19,7 @@ export default function Order({ role }) {
                     assistantData={selectedAssistantData}
                 />
             )}
-            <OrdersTable openPreview={toggleOpenPreviewModal} />
+            <OrdersTable openPreview={toggleOpenPreviewModal} role={role} />
         </div>
     );
 }
