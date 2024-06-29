@@ -300,6 +300,7 @@ const en = {
     Category: "Category:",
     cash: "Cash",
     Quantity: "Quantity",
+    Sold: "Sold",
     Price: "Price",
     TotallPrice: "Total Price",
     haveCopun: "I have a coupon?",
@@ -307,9 +308,15 @@ const en = {
     Entercoupon: "Enter your coupon:",
     EnterAccount: "Enter Your Account",
     Uploadpaymentproof: "Upload payment proof",
-
-
-
+    shippingFees: "Your shipping fees is:",
+    TotalBill: "Total Bill:",
+    Shops: "Shops",
+    VisitShop: "Visit this shop",
+    FilterType: "Filter by Type",
+    All: "All",
+    AddtoCart: "Add to Cart",
+    Preview: "Preview",
+    ShopName: "Shop Name",
   },
 };
 

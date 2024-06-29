@@ -288,6 +288,7 @@ const ar = {
     Category: "الفئة:",
     cash: "نقدي",
     Quantity: "الكمية",
+    Sold: "مُباع",
     Price: "السعر",
     TotallPrice: "إجمالي السعر",
     haveCopun: "لديّ كوبون خصم؟",
@@ -295,9 +296,15 @@ const ar = {
     Entercoupon: "ادخِل كوبونك:",
     EnterAccount: "ادخِل حسابك",
     Uploadpaymentproof: "ارفع اثبات دفعك",
-
-
-
+    shippingFees: "مصاريف الشحن:",
+    TotalBill: "إجمالي الفاتورة:",
+    Shops: "المحلات",
+    VisitShop: "زيارة هذا المحل",
+    FilterType: "فلتر باستخدام النوع",
+    All: "الكل",
+    AddtoCart: "أضِف إلى العربة",
+    Preview: "مُعاينة",
+    ShopName: "اسم المحل",
 
   },
 };
