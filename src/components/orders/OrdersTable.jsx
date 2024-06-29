@@ -60,7 +60,6 @@ const OrdersTable = ({ openPreview }) => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setOrders(response.data.data);
-        // console.log("bb", response.data.data);
       } else {
         console.error("No token found.");
       }
@@ -125,7 +124,6 @@ const OrdersTable = ({ openPreview }) => {
   const handleOrderPreview = (order) => {
     openPreview(order);
   };
-  console.log(orders);
 
   return (
     <section
@@ -190,8 +188,8 @@ const OrdersTable = ({ openPreview }) => {
           ) : (
             <>
               {filteredOrders.length === 0 ? (
-                <tr className="text-xl text-center py-4">
-                  <td colSpan="9">No orders available</td>
+                <tr className="text-xl text-center my-5 p-3">
+                  <td colSpan="9" style={{lineHeight: 3}}>No orders available</td>
                 </tr>
               ) : (
                 filteredOrders.map((order) => (

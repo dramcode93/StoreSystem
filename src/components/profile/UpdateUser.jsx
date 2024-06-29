@@ -107,10 +107,13 @@ function UpdateUser({ closeModal, role, modal, userData }) {
 
   const handleAddPhoneToggle = (field) => {
     setIsPhoneAdding(!isPhoneAdding);
+    setNewPhone("");
   };
   const handleAddAddressToggle = (field) => {
     setIsAddressAdding(!isAddressAdding);
-    
+    setNewStreet("");
+    setNewSelectedGovernorate("");
+    setNewSelectedCity("");
   };
 
   const handleAddPhone = async () => {

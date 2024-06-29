@@ -23,6 +23,7 @@ const ProductsTable = ({
   openPreview,
   openTransport,
   openEditQuantity,
+  role,
 }) => {
   const token = Cookies.get("token");
   const [products, setProducts] = useState([]);
@@ -189,12 +190,14 @@ const ProductsTable = ({
             />
           </div>
           <div>
-            <button
-              className="secondaryBtn w-28 rounded-md m-3 fw-bold"
-              onClick={openCreate}
-            >
-              {t("Products.Add")}{" "}
-            </button>
+            {role === "admin" && (
+              <button
+                className="secondaryBtn w-28 rounded-md m-3 fw-bold"
+                onClick={openCreate}
+              >
+                {t("Products.Add")}{" "}
+              </button>
+            )}
           </div>
         </div>
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -237,7 +240,7 @@ const ProductsTable = ({
               <>
                 {products.length === 0 && (
                   <tr className="text-xl text-center">
-                    <td colSpan="8">No Products available</td>
+                    <td colSpan="8" style={{lineHeight: 3}}>No Products available</td>
                   </tr>
                 )}
                 {products.map((product) => (
@@ -270,7 +273,7 @@ const ProductsTable = ({
                           size={25}
                           weight="bold"
                           className="hover:bg-slate-300  dark:hover:bg-gray-600 w-10 rounded-lg"
-                          />
+                        />
                       </button>
                       <div
                         className="absolute z-10"
@@ -286,36 +289,42 @@ const ProductsTable = ({
                           } z-10 w-44  rounded divide-y divide-gray-100 shadow secondary `}
                         >
                           <ul className="text-sm bg-transparent pl-0 mb-0">
-                            <li className="">
-                              <button
-                                type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
-                                onClick={() => handleEditProduct(product)}
-                              >
-                                <NotePencil size={18} weight="bold" />
-                                {t("Category.Edit")}
-                              </button>
-                            </li>
-                            <li className="">
-                              <button
-                                type="button"
-                                className="flex w-44 items-center gap-3  fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700"
-                                onClick={() => handleEditQuantity(product)}
-                              >
-                                <NotePencil size={18} weight="bold" />
-                                Edit Quantity
-                              </button>
-                            </li>
-                            <li className="">
-                              <button
-                                type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
-                                onClick={() => handleTransportProduct(product)}
-                              >
-                                <NotePencil size={18} weight="bold" />
-                                transport
-                              </button>
-                            </li>
+                            {role === "admin" && (
+                              <>
+                                <li className="">
+                                  <button
+                                    type="button"
+                                    className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                    onClick={() => handleEditProduct(product)}
+                                  >
+                                    <NotePencil size={18} weight="bold" />
+                                    {t("Category.Edit")}
+                                  </button>
+                                </li>
+                                <li className="">
+                                  <button
+                                    type="button"
+                                    className="flex w-44 items-center gap-3  fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700"
+                                    onClick={() => handleEditQuantity(product)}
+                                  >
+                                    <NotePencil size={18} weight="bold" />
+                                    Edit Quantity
+                                  </button>
+                                </li>
+                                <li className="">
+                                  <button
+                                    type="button"
+                                    className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                    onClick={() =>
+                                      handleTransportProduct(product)
+                                    }
+                                  >
+                                    <NotePencil size={18} weight="bold" />
+                                    transport
+                                  </button>
+                                </li>
+                              </>
+                            )}
                             <li>
                               <button
                                 type="button"
@@ -326,17 +335,21 @@ const ProductsTable = ({
                                 {t("Category.Preview")}
                               </button>
                             </li>
-                            <li>
-                              <button
-                                type="button"
-                                className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
-                                onClick={() => handleDeleteProduct(product._id)}
-                              >
-                                <TrashSimple size={18} weight="bold" />
+                            {role === "admin" && (
+                              <li>
+                                <button
+                                  type="button"
+                                  className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
+                                  onClick={() =>
+                                    handleDeleteProduct(product._id)
+                                  }
+                                >
+                                  <TrashSimple size={18} weight="bold" />
 
-                                {t("Category.Delete")}
-                              </button>
-                            </li>
+                                  {t("Category.Delete")}
+                                </button>
+                              </li>
+                            )}
                           </ul>
                         </div>
                       </div>
@@ -351,8 +364,8 @@ const ProductsTable = ({
           <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
             <li>
               <button
-                className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => handlePageChange(pagination.currentPage - 1)}
+              className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={() => handlePageChange(pagination.currentPage - 1)}
                 disabled={pagination.currentPage === 1}
               >
                 <CaretLeft size={18} weight="bold" />
@@ -362,10 +375,10 @@ const ProductsTable = ({
               <li key={page}>
                 <button
                   className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
-                    pagination.currentPage === page
-                      ? "bg-gray-200 text-gray-800"
-                      : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  }`}
+                  pagination.currentPge === page
+                    ? "bg-gray-200 text-gray-800"
+                    : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                }`}
                   onClick={() => handlePageChange(page)}
                 >
                   {page}
@@ -374,8 +387,8 @@ const ProductsTable = ({
             ))}
             <li>
               <button
-                className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => handlePageChange(pagination.currentPage + 1)}
+              className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={() => handlePageChange(pagination.currentPage + 1)}
                 disabled={pagination.currentPage === pagination.totalPages}
               >
                 <CaretRight size={18} weight="bold" />
@@ -389,3 +402,4 @@ const ProductsTable = ({
 };
 
 export default ProductsTable;
+ 

@@ -17,7 +17,7 @@ import { handlePrint } from "./handlePrint";
 import ConfirmationModal from "../Category/ConfirmationModel";
 const API_Bills = "https://store-system-api.gleeze.com/api/Bills";
 
-const BillsTable = ({ openCreate, openPreview }) => {
+const BillsTable = ({ openCreate, openPreview ,role}) => {
   const token = Cookies.get("token");
   const [bills, setBills] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -179,7 +179,6 @@ const BillsTable = ({ openCreate, openPreview }) => {
     openPreview(bill);
   };
 
-  console.log(bills);
   return (
     <div>
       <section
@@ -256,7 +255,7 @@ const BillsTable = ({ openCreate, openPreview }) => {
               <>
                 {bills.length === 0 && (
                   <tr className="text-xl text-center">
-                    <td colSpan="7">No Bills available</td>
+                    <td colSpan="7" style={{lineHeight: 3}}>No Bills available</td>
                   </tr>
                 )}
                 {bills.map((bill) => (
@@ -341,7 +340,7 @@ const BillsTable = ({ openCreate, openPreview }) => {
                                 {t("Category.Preview")}
                               </button>
                             </li>
-                            <li>
+                            {/* <li>
                               <button
                                 type="button"
                                 className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
@@ -351,7 +350,7 @@ const BillsTable = ({ openCreate, openPreview }) => {
 
                                 {t("Category.Delete")}
                               </button>
-                            </li>
+                            </li> */}
                             <li>
                               <button
                                 type="button"

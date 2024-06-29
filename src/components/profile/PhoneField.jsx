@@ -15,11 +15,12 @@ const PhoneField = ({
   handleAddToggle,
   isEditing,
   isLoading,
+  role,
 }) => {
   return (
     <li className="secondary mx-10 rounded-md py-4 px-4 mb-3 list-none">
       <div className="secondaryF font-bold text-xl mb-0">
-      <p className="secondaryF flex">
+        <p className="secondaryF flex mb-0">
           {label} :
           {isEditing ? (
             <FiX
@@ -35,12 +36,16 @@ const PhoneField = ({
             {value &&
               value.map((phone, index) => (
                 <div key={index} className="secondaryF flex w-1/2">
-                  <p className="secondaryF">{phone}</p>
-                  <MdDelete
-                    className="text-2xl mb-3"
-                    color="red"
-                    onClick={() => handleDelPhone(phone)}
-                  />
+                  <p className="secondaryF mb-0">{phone}</p>
+                  {role === "user" ? (
+                    ""
+                  ) : (
+                    <MdDelete
+                      className="text-2xl mb-3"
+                      color="red"
+                      onClick={() => handleDelPhone(phone)}
+                    />
+                  )}
                 </div>
               ))}
             {isEditing ? (
@@ -59,7 +64,13 @@ const PhoneField = ({
                 <FaRegSave onClick={handleAddPhone} className="text-2xl mt-2" />
               </div>
             ) : (
-              <IoMdAdd onClick={handleAddToggle} className="text-2xl" />
+              <>
+                {role === "user" ? (
+                  ""
+                ) : (
+                  <IoMdAdd onClick={handleAddToggle} className="text-2xl" />
+                )}
+              </>
             )}
           </>
         )}

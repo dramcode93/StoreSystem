@@ -28,7 +28,7 @@ const TypesTable = ({
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({
-    currentPage: 1,
+    currentPge: 1,
     totalPages: 1,
   });
   const { t, language } = useI18nContext();
@@ -36,7 +36,7 @@ const TypesTable = ({
     try {
       if (token) {
         const productsResponse = await axios.get(
-          `${API_URL}?sort=category name&search=${searchTerm}&page=${pagination.currentPage}&limit=15`,
+          `${API_URL}?sort=category name&search=${searchTerm}&page=${pagination.currentPge}&limit=15`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setTypes(productsResponse.data.data);
@@ -52,16 +52,16 @@ const TypesTable = ({
     } finally {
       setLoading(false);
     }
-  }, [token, searchTerm, pagination.currentPage]);
+  }, [token, searchTerm, pagination.currentPge]);
 
   useEffect(() => {
     fetchData();
-  }, [searchTerm, pagination.currentPage, fetchData]);
+  }, [searchTerm, pagination.currentPge, fetchData]);
 
   const handlePageChange = (newPage) => {
     setPagination((prevPagination) => ({
       ...prevPagination,
-      currentPage: newPage,
+      currentPge: newPage,
     }));
   };
 
@@ -218,7 +218,7 @@ const TypesTable = ({
               <>
                 {types.length === 0 && (
                   <tr className="text-xl text-center">
-                    <td colSpan="8">No Products available</td>
+                    <td colSpan="8" style={{lineHeight: 3}}>No Types available</td>
                   </tr>
                 )}
                 {types.map((type) => (
@@ -309,9 +309,9 @@ const TypesTable = ({
           <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
             <li>
               <button
-                className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => handlePageChange(pagination.currentPage - 1)}
-                disabled={pagination.currentPage === 1}
+              className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={() => handlePageChange(pagination.currentPge - 1)}
+                disabled={pagination.currentPge === 1}
               >
                 <CaretLeft size={18} weight="bold" />
               </button>
@@ -319,11 +319,11 @@ const TypesTable = ({
             {pageButtons.map((page) => (
               <li key={page}>
                 <button
-                  className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
-                    pagination.currentPage === page
-                      ? "bg-gray-200 text-gray-800"
-                      : "text-gray-500 bg-gray-700 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  }`}
+              className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
+                  pagination.currentPge === page
+                    ? "bg-gray-200 text-gray-800"
+                    : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                }`}
                   onClick={() => handlePageChange(page)}
                 >
                   {page}
@@ -332,9 +332,9 @@ const TypesTable = ({
             ))}
             <li>
               <button
-                className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => handlePageChange(pagination.currentPage + 1)}
-                disabled={pagination.currentPage === pagination.totalPages}
+              className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={() => handlePageChange(pagination.currentPge + 1)}
+                disabled={pagination.currentPge === pagination.totalPages}
               >
                 <CaretRight size={18} weight="bold" />
               </button>

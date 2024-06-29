@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import AddressLoggedUser from './AddressLoggedUser';
 import Information from './Information';
 
-export const UserInfo = () => {
+export const UserInfo = ({role}) => {
 
     const [openAdd, setOpenAdd] = useState(false);
 
@@ -13,7 +13,7 @@ export const UserInfo = () => {
     return (
         <div>
             <AddressLoggedUser closeModal={toggleOpenCreateModal} modal={openAdd} />
-            <Information openAdd={toggleOpenCreateModal} />
+            <Information role={role}  openAdd={toggleOpenCreateModal} />
 
         </div>
     )

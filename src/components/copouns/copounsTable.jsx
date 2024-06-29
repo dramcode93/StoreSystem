@@ -15,7 +15,7 @@ import ConfirmationModal from "../Category/ConfirmationModel";
 
 const API_Coupons = "https://store-system-api.gleeze.com/api/coupon";
 
-const CouponsTable = ({ openEdit, openPreview,openCreate }) => {
+const CouponsTable = ({ openEdit, openPreview, openCreate, role }) => {
   const token = Cookies.get("token");
   const [coupons, setCoupons] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -215,12 +215,16 @@ const CouponsTable = ({ openEdit, openPreview,openCreate }) => {
           />
         </div>
         <div>
-          <button
-            className="secondaryBtn w-28 rounded-md m-3 fw-bold"
-            onClick={openCreate}
-          >
-            {t("Products.Add")}{" "}
-          </button>
+          {role === "user" ? (
+            ""
+          ) : (
+            <button
+              className="secondaryBtn w-28 rounded-md m-3 fw-bold"
+              onClick={openCreate}
+            >
+              {t("Products.Add")}{" "}
+            </button>
+          )}
         </div>
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -256,7 +260,9 @@ const CouponsTable = ({ openEdit, openPreview,openCreate }) => {
             <>
               {coupons.length === 0 && (
                 <tr className="text-xl text-center">
-                  <td colSpan="7">{t("Coupon.NoCoupons")}</td>
+                  <td colSpan="7" style={{ lineHeight: 3 }}>
+                    {t("Coupon.NoCoupons")}
+                  </td>
                 </tr>
               )}
               {coupons.map((coupon) => (
@@ -274,7 +280,10 @@ const CouponsTable = ({ openEdit, openPreview,openCreate }) => {
                   <td className="px-4 py-4">{coupon.discount}</td>
                   <td className="px-4 py-4">{coupon.expire}</td>
                   <td className="px-4 py-3 flex items-center justify-end">
-                    <button
+                  {role === "user" ? (
+                            ""
+                          ) : (
+                            <>       <button
                       className="inline-flex items-center text-sm font-medium p-1.5 text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
                       type="button"
                       onClick={() => toggleEditDropdown(coupon._id)}
@@ -324,7 +333,7 @@ const CouponsTable = ({ openEdit, openPreview,openCreate }) => {
                           </li>
                         </ul>
                       </div>
-                    </div>
+                    </div></>)}
                   </td>
                 </tr>
               ))}

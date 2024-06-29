@@ -257,7 +257,7 @@ const UserTable = ({ openCreate, openEdit }) => {
               <tbody>
                 {users.length === 0 && (
                   <tr className="text-xl text-center">
-                    <td colSpan="8">{t("Products.NoProductsAvailable")}</td>
+                    <td colSpan="8" style={{lineHeight: 3}}>{t("Products.NoProductsAvailable")}</td>
                   </tr>
                 )}
                 {users.map((user) => (
@@ -449,7 +449,7 @@ const UserTable = ({ openCreate, openEdit }) => {
                 <span className="sr-only">Next</span>
                 <CaretRight size={18} weight="bold" />
               </button>
-            </li>
+            </li> 
           </ul>
         </nav>
       </section>

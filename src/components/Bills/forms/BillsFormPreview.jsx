@@ -9,7 +9,6 @@ export default function BillsFormPreview({ details, t, headers }) {
       setLoading(false);
     }
   }, [details]);
-  console.log(details)
   return (
     <dl>
       {loading ? (

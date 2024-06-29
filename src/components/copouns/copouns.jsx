@@ -29,6 +29,7 @@ export default function Coupons({ role }) {
                 openEdit={toggleOpenEditModal}
                 openPreview={toggleOpenPreviewModal}
                 openCreate={toggleOpenCreateModal}
+                role={role}
             />
             <UpdateCoupon
                 closeModal={toggleOpenEditModal}

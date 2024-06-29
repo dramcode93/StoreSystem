@@ -43,7 +43,7 @@ const MyComponent = ({ openSideBar,  }) => {
 
   return (
     <div
-      className="z-40 fixed w-100 box dark:bg-gray-900 p-6"
+      className="z-40 fixed w-100 box dark:bg-gray-900 px-6 pt-2"
       dir={language === "ar" ? "rtl" : "ltr"}
       style={{ backgroundColor: "var(--back)" }}
     >
@@ -67,7 +67,7 @@ const MyComponent = ({ openSideBar,  }) => {
             onClick={() => handleOpenSideBar}
           >
             {/* <SketchLogo /> {t(`Home.GleamGoods`)} */}
-            <img src={Logo} alt="Logo" className="h-9 w-20" />
+            <img src={Logo} alt="Logo" className="h-20 w-20 object-cover" />
           </h3>
         </div>
         

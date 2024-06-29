@@ -158,7 +158,7 @@ const App = () => {
                 <Route path="/shops" element={<Shops />} />
                 <Route path="/shopInformation" element={<ShopInformation />} />
                 <Route
-                  path="//branch/:id/information"
+                  path="/branch/:id/information"
                   element={<BranchInformation />}
                 />
                 <Route
@@ -166,8 +166,8 @@ const App = () => {
                   element={<FinancialDealings />}
                 />
                 <Route path="/order" element={<Order />} />
-                <Route path="/coupons" element={<Coupons />} />
-                <Route path="/category" element={<Category />} />
+                <Route path="/coupons" element={<Coupons role={role} />} />
+                <Route path="/category" element={<Category role={role} />} />
                 <Route
                   path="/changeUserPassword/:id"
                   element={<ChangeUserPassword />}
@@ -177,7 +177,7 @@ const App = () => {
                   element={<PreviewProduct />}
                 />
                 <Route path="/shopProduct/:id" element={<ShopProduct />} />
-                <Route path="/products" element={<Products />} />
+                <Route path="/products" element={<Products role={role} />} />
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/SalesTable" element={<SalesTable />} />
                 <Route path="/SubSalesTable" element={<SubSalesTable />} />
@@ -185,8 +185,8 @@ const App = () => {
                   path="/FinancialTransactions"
                   element={<FinancialTransactions />}
                 />
-                <Route path="/bills" element={<Bills />} />
-                <Route path="/information" element={<UserInfo />} />
+                <Route path="/bills" element={<Bills role={role} />} />
+                <Route path="/information" element={<UserInfo  role={role}/>} />
                 <Route path="/change-password" element={<ChangPassword />} />
                 <Route path="/Profile/Users" element={<UserTable />} />
                 <Route path="/users" element={<User />} />

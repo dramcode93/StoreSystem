@@ -41,7 +41,7 @@ const NameField = ({
           <div className="mx-10">
             <button
               onClick={handleSaveChanges}
-              className="bg-yellow-900  px-4 py-1 rounded-full hover:bg-yellow-800 fw-bold"
+              className="secondaryBtn px-4 py-1 fw-bold"
             >
               Save Changes
             </button>
