@@ -16,7 +16,7 @@ import {
 } from "@phosphor-icons/react";
 import ConfirmationModal from "../Category/ConfirmationModel";
 
-const UserBillsTable = ({ openEdit, openCreate, openPreview, id }) => {
+const UserBillsTable = ({ openCreate, openPreview, id }) => {
   const token = Cookies.get("token");
   const [bills, setBills] = useState([]);
   const [pagination, setPagination] = useState({ currentPage: 1 });
@@ -91,9 +91,9 @@ const UserBillsTable = ({ openEdit, openCreate, openPreview, id }) => {
     setSelectedBillId((prevBillId) => (prevBillId === billId ? null : billId));
   };
   const dropdownRefs = useRef({});
-  const handleEditBill = (bill) => {
-    openEdit(bill);
-  };
+  // const handleEditBill = (bill) => {
+  //   openEdit(bill);
+  // };
 
   const lang = localStorage.getItem("language");
   useEffect(() => {
@@ -253,7 +253,7 @@ const UserBillsTable = ({ openEdit, openCreate, openPreview, id }) => {
                           } z-10 w-44  rounded divide-y divide-gray-100 shadow secondary `}
                         >
                           <ul className="text-sm bg-transparent pl-0 mb-0">
-                            <li className="">
+                            {/* <li className="">
                               <button
                                 type="button"
                                 className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
@@ -262,7 +262,7 @@ const UserBillsTable = ({ openEdit, openCreate, openPreview, id }) => {
                                 <NotePencil size={18} weight="bold" />
                                 {t("Category.Edit")}
                               </button>
-                            </li>
+                            </li> */}
                             <li>
                               <button
                                 type="button"

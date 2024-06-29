@@ -1,6 +1,14 @@
 import React from "react";
 
-function FormText({ label, name, value, placeholder, required, onChange }) {
+function FormText({
+  label,
+  name,
+  value,
+  placeholder,
+  required,
+  onChange,
+  type,
+}) {
   const handleChange = (e) => {
     onChange(e); // Call the onChange function passed from the parent component
   };
@@ -14,7 +22,7 @@ function FormText({ label, name, value, placeholder, required, onChange }) {
         {label}
       </label>
       <input
-        type="text"
+        type={type || "text"}
         name={name}
         id={name}
         value={value} // Use value instead of defaultValue
