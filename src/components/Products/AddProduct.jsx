@@ -257,7 +257,7 @@ export default function AddProduct({ closeModal, role, modal }) {
   />;
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchBranchesData = async () => {
       if (token) {
         try {
           const response = await axios.get(
@@ -271,7 +271,7 @@ export default function AddProduct({ closeModal, role, modal }) {
         }
       }
     };
-    fetchUserData();
+    fetchBranchesData();
   }, [token]);
 
   const handleBranchQuantityChange = (branchId, newQuantity) => {

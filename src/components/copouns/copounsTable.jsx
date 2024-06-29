@@ -15,7 +15,7 @@ import ConfirmationModal from "../Category/ConfirmationModel";
 
 const API_Coupons = "https://store-system-api.gleeze.com/api/coupon";
 
-const CouponsTable = ({ openEdit, openPreview }) => {
+const CouponsTable = ({ openEdit, openPreview,openCreate }) => {
   const token = Cookies.get("token");
   const [coupons, setCoupons] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -54,7 +54,7 @@ const CouponsTable = ({ openEdit, openPreview }) => {
     } finally {
       setLoading(false);
     }
-  }, [token,pagination.currentPage,]);
+  }, [token, pagination.currentPage]);
 
   useEffect(() => {
     fetchData();
@@ -199,7 +199,7 @@ const CouponsTable = ({ openEdit, openPreview }) => {
       />
 
       <div className="flex justify-between">
-      <div className="relative w-96 m-3">
+        <div className="relative w-96 m-3">
           <input
             className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 dark:bg-gray-500"
             type="text"
@@ -214,11 +214,19 @@ const CouponsTable = ({ openEdit, openPreview }) => {
             onClick={handleSearch}
           />
         </div>
+        <div>
+          <button
+            className="secondaryBtn w-28 rounded-md m-3 fw-bold"
+            onClick={openCreate}
+          >
+            {t("Products.Add")}{" "}
+          </button>
+        </div>
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
           <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
-           <th scope="col" className="px-5 py-4">
+            <th scope="col" className="px-5 py-4">
               {t("Coupon.ID")}
             </th>
             <th scope="col" className="px-5 py-4">
@@ -338,7 +346,7 @@ const CouponsTable = ({ openEdit, openPreview }) => {
           {pageButtons.map((page) => (
             <li key={page}>
               <button
-                 className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
+                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
                   pagination.currentPge === page
                     ? "bg-gray-200 text-gray-800"
                     : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"

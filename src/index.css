@@ -56,7 +56,7 @@ li {
   --icon: rgb(56, 74, 235);
 
   --secondary: rgb(255, 255, 255);
-  --secondaryBtn: rgb(56, 74, 235);
+  --secondaryBtn: #006edc;
   --sideModal: rgb(30, 37, 54);
   --dots: rgb(30, 37, 54);
   --myColor:#006edc;
@@ -73,7 +73,7 @@ li {
   --card: rgba(202, 190, 190, 0.221);
 
   --secondary: rgba(107, 114, 128, 0.085);
-  --secondaryBtn: rgb(56, 74, 235);
+  --secondaryBtn: #006edc;
   --sideModal: rgb(30, 37, 54);
   --dots: rgb(30, 37, 54);
   --myColor:#006edc;
@@ -91,7 +91,7 @@ li {
   --icon: rgb(241, 246, 247);
 
   --secondary: #f0f4fb;
-  --secondaryBtn: rgb(56, 74, 235);
+  --secondaryBtn: #006edc;
   --sideModal: #f0f4fb;
   --dots: rgba(202, 190, 190, 0.221);
   --myColor:#006edc;

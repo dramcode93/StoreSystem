@@ -17,7 +17,7 @@ import { handlePrint } from "./handlePrint";
 import ConfirmationModal from "../Category/ConfirmationModel";
 const API_Bills = "https://store-system-api.gleeze.com/api/Bills";
 
-const BillsTable = ({ openEdit, openCreate, openPreview }) => {
+const BillsTable = ({ openCreate, openPreview }) => {
   const token = Cookies.get("token");
   const [bills, setBills] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -114,9 +114,9 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
     setSelectedBillId((prevBillId) => (prevBillId === billId ? null : billId));
   };
   const dropdownRefs = useRef({});
-  const handleEditBill = (bill) => {
-    openEdit(bill);
-  };
+  // const handleEditBill = (bill) => {
+  //   openEdit(bill);
+  // };
 
   const MAX_DISPLAY_PAGES = 5;
 
@@ -321,7 +321,7 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                           } z-10 w-44  rounded divide-y divide-gray-100 shadow secondary `}
                         >
                           <ul className="text-sm bg-transparent pl-0 mb-0">
-                            <li className="">
+                            {/* <li className="">
                               <button
                                 type="button"
                                 className="flex w-44 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
@@ -330,7 +330,7 @@ const BillsTable = ({ openEdit, openCreate, openPreview }) => {
                                 <NotePencil size={18} weight="bold" />
                                 {t("Category.Edit")}
                               </button>
-                            </li>
+                            </li> */}
                             <li>
                               <button
                                 type="button"
