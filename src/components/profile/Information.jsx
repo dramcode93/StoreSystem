@@ -253,7 +253,7 @@ const Information = ({ openAdd, role }) => {
                     className="secondaryBtn  rounded-full  fw-bold"
                   >
                     Save Changes
-                  </button>
+                  </button> 
                 )}
               </div>
             )} */}
