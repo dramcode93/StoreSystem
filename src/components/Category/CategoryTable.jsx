@@ -14,7 +14,7 @@ import { useI18nContext } from "../context/i18n-context";
 import Loading from "../Loading/Loading";
 import ConfirmationModal from "./ConfirmationModel";
 import UpdateCategory from "./forms/Update";
-
+ 
 const API_category = "https://store-system-api.gleeze.com/api/categories";
 
 const CategoryTable = ({ openEdit, openCreate, openPreview, role }) => {

@@ -165,7 +165,7 @@ const App = () => {
                   path="//branch/:id/financial"
                   element={<FinancialDealings />}
                 />
-                <Route path="/order" element={<Order />} />
+                <Route path="/order" element={<Order role={role} />} />
                 <Route path="/coupons" element={<Coupons role={role} />} />
                 <Route path="/category" element={<Category role={role} />} />
                 <Route

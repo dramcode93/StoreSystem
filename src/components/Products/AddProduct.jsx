@@ -28,104 +28,13 @@ export default function AddProduct({ closeModal, role, modal }) {
   const [productPrice, setProductPrice] = useState("");
   const [sellingPrice, setSellingPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [images, setImages] = useState("");
   const [categories, setCategories] = useState([]);
-  const [imageURLs, setImageURLs] = useState([]);
   const [branches, setBranches] = useState([]);
   const [branchQuantities, setBranchQuantities] = useState({});
 
-  // const handleAddProduct = async (e) => {
-  //   e.preventDefault();
-
-  // // Validate total branch quantity
-  // const quantitiesArray = Object.values(branchQuantities);
-  // const totalBranchQuantity = quantitiesArray.reduce((total, quantity) => total + parseInt(quantity, 10), 0);
-
-  // if (totalBranchQuantity !== parseInt(quantity, 10)) {
-  //   ErrorAlert({
-  //     title: "Quantity Mismatch",
-  //     text: "The sum of branch quantities must equal the total quantity.",
-  //   });
-  //   return; // Prevent form submission
-  // }
-
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append("name", name);
-  //     formData.append("description", description);
-  //     formData.append("productPrice", productPrice);
-  //     formData.append("sellingPrice", sellingPrice);
-  //     formData.append("quantity", parseInt(quantity, 10)); // Ensure quantity is an integer
-  //     formData.append("category", category);
-  //     images.forEach((file) => {
-  //       formData.append("images", file);
-  //     });
-
-  //   // Map branchQuantities to subShops array
-  //   const subShops = Object.entries(branchQuantities).map(
-  //     ([branchId, branchQuantity]) => ({
-  //       subShop: branchId,
-  //       quantity: parseInt(branchQuantity, 10), // Ensure branch quantity is an integer
-  //     })
-  //   );
-
-  //   // Append subShops data to formData as JSON string
-  //   formData.append("subShops", JSON.stringify(subShops));
-
-  //   // Log FormData content (for debugging)
-  //   for (let [key, value] of formData.entries()) {
-  //     console.log(`${key}:`, value);
-  //   }
-  //     const response = await axios.post(
-  //       "https://store-system-api.gleeze.com/api/products",
-  //       formData,
-  //       { headers: { Authorization: `Bearer ${token}` } }
-  //     );
-
-  //     console.log("Product added successfully:", response.data);
-  //     if (response.data.images) {
-  //       const uploadedImageURLs = response.data.images.map(
-  //         (image) => image.url
-  //       );
-  //       setImageURLs(uploadedImageURLs);
-  //     }
-
-  //     closeModal();
-  //   } catch (error) {
-  //     console.error("Error adding product:", error);
-  //   }
-  // };
   const handleAddProduct = async (e) => {
     e.preventDefault();
-
-    // Validate total branch quantity
-    // const quantitiesArray = Object.values(branchQuantities);
-    // const totalBranchQuantity = quantitiesArray.reduce((total, quantity) => total + parseInt(quantity, 10), 0);
-
-    // if (totalBranchQuantity !== parseInt(quantity, 10)) {
-    //   ErrorAlert({
-    //     title: "Quantity Mismatch",
-    //     text: "The sum of branch quantities must equal the total quantity.",
-    //   });
-    //   return; // Prevent form submission
-    // }
-
     try {
-      // const formData = new FormData();
-      // formData.append("name", name);
-      // formData.append("description", description);
-      // formData.append("productPrice", productPrice);
-      // formData.append("sellingPrice", sellingPrice);
-      // formData.append("quantity", parseInt(quantity, 10)); // Ensure quantity is an integer
-      // formData.append("category", category);
-
-      // // Append images to formData
-      // if(images){
-      //   images.forEach((file) => {
-      //     formData.append("images", file);
-      //   });
-      // }
-
       // Map branchQuantities to subShops array
       const subShops = Object.entries(branchQuantities).map(
         ([branchId, branchQuantity]) => ({
@@ -134,16 +43,16 @@ export default function AddProduct({ closeModal, role, modal }) {
         })
       );
 
-      // console.log(subShops);
-      // console.log(JSON.stringify(subShops));
-      // // Append subShops data to formData as JSON string
-      // formData.append("subShops", JSON.stringify(subShops));
+      const totalBranchQuantity = subShops.reduce((total, subShop) => total + subShop.quantity, 0);
 
-      // // Log FormData content (for debugging)
-      // for (let [key, value] of formData.entries()) {
-      //   console.log(`${key}:`, value);
-      // }
-      // console.log(formData);
+      if (totalBranchQuantity !== parseInt(quantity, 10)) {
+        ErrorAlert({
+          text: "Quantity of branches must be equal to total Quantity",
+        });
+        return;
+      }
+
+      console.log(totalBranchQuantity)
 
       // Make POST request to add product
       const response = await axios.post(
@@ -161,14 +70,7 @@ export default function AddProduct({ closeModal, role, modal }) {
       );
 
       console.log("Product added successfully:", response.data);
-      if (response.data.images) {
-        const uploadedImageURLs = response.data.images.map(
-          (image) => image.url
-        );
-        setImageURLs(uploadedImageURLs);
-      }
-
-      closeModal(); // Close modal after successful submission
+      closeModal();
     } catch (error) {
       console.error("Error adding product:", error);
     }
@@ -189,72 +91,6 @@ export default function AddProduct({ closeModal, role, modal }) {
   useEffect(() => {
     fetchCategories();
   });
-  // const handleImageChange = (e) => {
-  //   const files = Array.from(e.target.files);
-  //   setImages(files);
-  // };
-
-  // AddProduct.js
-  // Inside AddProduct component
-
-  // const handleImageChange = (e) => {
-  //   const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
-  //   setImages((prevFiles) => {
-  //     const totalFiles = prevFiles.length + files.length;
-  //     if (totalFiles <= 5) {
-  //       return [...prevFiles, ...files];
-  //     } else {
-  //       const remainingSpace = 5 - prevFiles.length;
-  //       const newFiles = files.slice(0, remainingSpace);
-  //       return [...prevFiles, ...newFiles];
-  //     }
-  //   });
-  // };
-
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
-    setImages((prevFiles) => {
-      const totalFiles = prevFiles.length + files.length;
-      if (totalFiles <= 5) {
-        return [...prevFiles, ...files];
-      } else {
-        MaxImgAlert({ title: "Oops...", text: "Maximum 5 images allowed" }); // Display error alert
-        // setImages("")
-        return prevFiles; // Prevent adding more files
-      }
-    });
-  };
-  // const handleImageChange = (e) => {
-  //   const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
-  //   setImages(files);
-  // };
-
-  <ProductFormPreview
-    details={{
-      _id: "",
-      name,
-      description,
-      category: { name: category },
-      quantity,
-      productPrice,
-      sellingPrice,
-      sold: "",
-      images: imageURLs,
-    }}
-    t={t}
-    headers={{
-      code: "Code",
-      name: "Name",
-      description: "Description",
-      category: "Category",
-      quantity: "Quantity",
-      productPrice: "Product Price",
-      sellingPrice: "Selling Price",
-      sold: "Sold",
-      images: "Images",
-    }}
-    loading={false}
-  />;
 
   useEffect(() => {
     const fetchBranchesData = async () => {
@@ -381,7 +217,7 @@ export default function AddProduct({ closeModal, role, modal }) {
                 placeholder="Description..."
                 value={description}
               />
-              {role==="admin"&& (
+              {role === "admin" && (
                 <>
                   <hr className="my-1 border-gray-300 w-full col-span-2" />
                   <p className="secondaryF text-xl col-span-2">
@@ -402,28 +238,6 @@ export default function AddProduct({ closeModal, role, modal }) {
                   ))}
                 </>
               )}
-
-              {/* <FormPic
-                label="Upload Picture"
-                name="Upload Picture"
-                onChange={handleImageChange}
-                placeholder="Product Picture"
-                fileList={images}
-              />
-
-              {images.length > 0 && (
-                <div className="d-flex gap-2">
-                  {images.map((file, index) => (
-                    <div key={index}>
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt={`Uploaded ${index + 1}`}
-                        className="max-w-full h-10"
-                      />
-                    </div>
-                  ))}
-                </div>
-              )} */}
               <div className="col-span-2 flex justify-center">
                 <button
                   disabled={
