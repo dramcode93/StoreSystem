@@ -16,7 +16,7 @@ export default function FinancialTransactions() {
   const [loading, setLoading] = useState(false);
   const [selectedSalesId, setSelectedSalesId] = useState(null);
   const [pagination, setPagination] = useState({
-    currentPage: 1,
+    currentPge: 1,
     totalPages: 1,
   });
 
@@ -67,7 +67,7 @@ export default function FinancialTransactions() {
       if (response.data && response.data.data) {
         setTransactionData(response.data.data);
         setPagination({
-          currentPage: page,
+          currentPge: page,
           totalPages: response.data.paginationResult.numberOfPages,
         });
         setError(null);
@@ -131,6 +131,8 @@ export default function FinancialTransactions() {
 
   const handlePageChange = (page) => {
     setPagination({ ...pagination, currentPge: page });
+    fetchTransactions(selectedOption, page);
+
    };
 
   const MAX_DISPLAY_PAGES = 5;
@@ -164,7 +166,7 @@ export default function FinancialTransactions() {
       handlePageChange(pagination.currentPge + 1);
     }
   };
-   return (
+  return (
     <div>
       <Actions closeModal={toggleOpenCreateModal} modal={openCreate} />
       <section
@@ -235,15 +237,15 @@ export default function FinancialTransactions() {
                 {error}
               </div>
             )}
-            <div
-              className="overflow-x-auto w-full mt-4 secondary relative shadow-md"
-              id="table"
-              style={{ display: "table" }}
-            >
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                {((selectedSubShop && selectedOption) ||
-                  (!selectedSubShop && selectedOption) ||
-                  (selectedSubShop === "all" && !selectedOption)) && (
+            {((selectedSubShop && selectedOption) ||
+              (!selectedSubShop && selectedOption) ||
+              (selectedSubShop === "all" && !selectedOption)) && (
+                <div
+                  className="overflow-x-auto w-full mt-4 secondary relative shadow-md"
+                  id="table"
+                  style={{ display: "table" }}
+                >
+                  <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
                       <tr className="text-center fs-6 bg-gray-700 tracking-wide transition ease-out duration-200">
                         <th scope="col" className="px-4 py-4">
@@ -266,84 +268,87 @@ export default function FinancialTransactions() {
                         </th>
                       </tr>
                     </thead>
-                  )}
-                <tbody>
-                  {loading ? (
-                    <tr>
-                      <td colSpan="5" className="fs-4 text-center mb-5 pb-3">
-                        <Loading />
-                      </td>
-                    </tr>
-                  ) : transactionData.length === 0 &&
-                    (selectedSubShop || selectedOption) ? (
-                    <tr>
-                      <td colSpan="5" className="text-center py-4 text-xl">
-                        No Transactions yet
-                      </td>
-                    </tr>
-                  ) : (
-                    transactionData.map((transaction, index) => (
-                      <tr
-                        key={index}
-                        className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
-                      >
-                        <td className="px-4 py-3">{transaction._id}</td>
-                        <td className="px-4 py-3">
-                          {formatDate(transaction.createdAt)}
-                        </td>
-                        <td className="px-4 py-3">{transaction.money}</td>
-                        <td className="px-4 py-3">{transaction.transaction}</td>
-                        <td className="px-4 py-3">{transaction.reason}</td>
-                        <td className="px-4 py-3">
-                          {transaction.subShop
-                            ? transaction.subShop.name
-                            : t("Transactions.shop")}
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+                    <tbody>
+                      {loading ? (
+                        <tr>
+                          <td colSpan="5" className="fs-4 text-center mb-5 pb-3">
+                            <Loading />
+                          </td>
+                        </tr>
+                      ) : transactionData.length === 0 &&
+                        (selectedSubShop || selectedOption) ? (
+                        <tr>
+                          <td colSpan="5" className="text-center py-4 text-xl">
+                            No Transactions yet
+                          </td>
+                        </tr>
+                      ) : (
+                        transactionData.map((transaction, index) => (
+                          <tr
+                            key={index}
+                            className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
+                          >
+                            <td className="px-4 py-3">{transaction._id}</td>
+                            <td className="px-4 py-3">
+                              {formatDate(transaction.createdAt)}
+                            </td>
+                            <td className="px-4 py-3">{transaction.money}</td>
+                            <td className="px-4 py-3">{transaction.transaction}</td>
+                            <td className="px-4 py-3">{transaction.reason}</td>
+                            <td className="px-4 py-3">
+                              {transaction.subShop
+                                ? transaction.subShop.name
+                                : t("Transactions.shop")}
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
 
-              <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8">
-                <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
-                  <li>
-                    <button
-                      className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                      onClick={handlePreviousPage}
-                    >
-                      <span className="sr-only">Previous</span>
-                      <CaretLeft size={18} weight="bold" />
-                    </button>
-                  </li>
-                  {pageButtons.map((page) => (
-                    <li key={page}>
-                      <button
-                        className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
-                          ? "bg-gray-200 text-gray-800"
-                          : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                          }`}
-                        onClick={() => handlePageChange(page)}
-                      >
-                        {page}
-                      </button>
-                    </li>
-                  ))}
-                  <li>
-                    <button
-                      className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                      onClick={handleNextPage}
-                    >
-                      <span className="sr-only">Next</span>
-                      <CaretRight size={18} weight="bold" />
-                    </button>
-                  </li>
-                </ul>
-              </nav>
-            </div>
+                  {transactionData.length > 0 && (
+                    <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8">
+                      <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
+                        <li>
+                          <button
+                            className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                            onClick={handlePreviousPage}
+                          >
+                            <span className="sr-only">Previous</span>
+                            <CaretLeft size={18} weight="bold" />
+                          </button>
+                        </li>
+                        {pageButtons.map((page) => (
+                          <li key={page}>
+                            <button
+                              className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
+                                ? "bg-gray-200 text-gray-800"
+                                : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                }`}
+                              onClick={() => handlePageChange(page)}
+                            >
+                              {page}
+                            </button>
+                          </li>
+                        ))}
+                        <li>
+                          <button
+                            className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                            onClick={handleNextPage}
+                          >
+                            <span className="sr-only">Next</span>
+                            <CaretRight size={18} weight="bold" />
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                  )}
+                </div>
+              )}
           </div>
         </div>
       </section>
     </div>
   );
+
 }

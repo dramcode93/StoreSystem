@@ -25,8 +25,8 @@ export default function Actions({ closeModal, modal }) {
   const [subShops, setSubShops] = useState([]);
 
   const transactionOptions = [
-    { value: "withdraw", label: "Withdraw" },
-    { value: "deposit", label: "Deposit" },
+    { value: "withdraw", label: t(`Shop.Withdraw`) },
+    { value: "deposit", label: t(`Shop.Deposit`)  },
   ];
 
   const handleTransaction = async (e) => {
@@ -97,7 +97,7 @@ export default function Actions({ closeModal, modal }) {
               dir="rtl"
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
             >
-              <h3 className="text-xl font-bold mr-3 text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
+              <h3 className="text-xl font-bold mr-3 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
                 {t(`Shop.Actions`)}
               </h3>
               <button
@@ -115,26 +115,26 @@ export default function Actions({ closeModal, modal }) {
               dir={language === "ar" ? "rtl" : "ltr"}
             >
               <FormNumber
-                label="Money"
+                label={t(`Shop.Money`)}
                 name="Money"
                 value={money}
                 onChange={(e) => {
                   setMoney(e.target.value);
                 }}
-                placeholder="Enter amount"
+                placeholder={t(`Shop.EnterAmount`)}
               />
               <FormText
-                label="Reason"
+                label={t(`Shop.Reason`)}
                 name="Reason"
                 value={reason}
                 onChange={(e) => {
                   setReason(e.target.value);
                 }}
-                placeholder="Enter reason"
+                placeholder={t(`Shop.Reason`)}
               />
               <FormSelect
-                selectLabel="Transaction"
-                headOption="Select transaction"
+                selectLabel={t(`Shop.Transaction`)}
+                headOption={t(`Shop.Transaction`)}
                 handleChange={(e) => setTransaction(e.target.value)}
                 options={transactionOptions}
                 value={transaction}
@@ -159,7 +159,7 @@ export default function Actions({ closeModal, modal }) {
                   }
                   className="secondaryBtn w-96 h-12 rounded-md  fw-bold text-xl "
                 >
-                  Submit
+                  {t(`Shop.Submit`)}
                 </button>
               </div>
             </form>
