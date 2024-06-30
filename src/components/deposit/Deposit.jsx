@@ -3,19 +3,22 @@ import { useI18nContext } from "../context/i18n-context";
 import FormSelect from "../../form/FormSelect";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Plus } from "@phosphor-icons/react";
+import { CaretLeft, CaretRight, Plus } from "@phosphor-icons/react";
 import Actions from "./Actions";
 import Loading from "../Loading/Loading";
 
 export default function FinancialTransactions() {
-  const [selectedSalesId, setSelectedSalesId] = useState(null);
   const [selectedOption, setSelectedOption] = useState("");
   const [transactionData, setTransactionData] = useState([]);
   const [error, setError] = useState(null);
   const [selectedSubShop, setSelectedSubShop] = useState("");
   const [subShops, setSubShops] = useState([]);
-  const token = Cookies.get("token");
   const [loading, setLoading] = useState(false);
+  const [selectedSalesId, setSelectedSalesId] = useState(null);
+  const [pagination, setPagination] = useState({
+    currentPge: 1,
+    totalPages: 1,
+  });
 
   const dropdownRefs = useRef({});
   const { t, language } = useI18nContext();
@@ -25,7 +28,7 @@ export default function FinancialTransactions() {
       try {
         const response = await axios.get(
           "https://store-system-api.gleeze.com/api/subShops/list?sort=name&fields=name",
-          { headers: { Authorization: `Bearer ${token}` } }
+          { headers: { Authorization: `Bearer ${Cookies.get("token")}` } }
         );
         setSubShops(response.data.data);
       } catch (error) {
@@ -34,13 +37,14 @@ export default function FinancialTransactions() {
     };
 
     fetchSubShops();
-  }, [token]);
+  }, []);
 
-  const fetchTransactions = async (option, subShopId = "") => {
+  const fetchTransactions = async (option, subShopId = "", page = 1) => {
     setLoading(true);
     let url = "https://store-system-api.gleeze.com/api/financialTransactions";
 
-    const params = [];
+    const params = [`page=${page}`];
+
     if (option === "deposit") {
       params.push("transaction=deposit");
     } else if (option === "withdraw") {
@@ -51,27 +55,28 @@ export default function FinancialTransactions() {
       params.push(`subShop=${encodeURIComponent(subShopId)}`);
     }
 
-    if (params.length > 0) {
-      url += "?" + params.join("&");
-    }
+    url += "?" + params.join("&");
 
     try {
-      const token = Cookies.get("token");
       const response = await axios.get(url, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${Cookies.get("token")}`,
         },
       });
 
       if (response.data && response.data.data) {
         setTransactionData(response.data.data);
+        setPagination({
+          currentPge: page,
+          totalPages: response.data.paginationResult.numberOfPages,
+        });
         setError(null);
         document.getElementById("table").style.display = "table";
       } else {
         setError("No data found");
       }
     } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
+      console.error("Error fetching transactions:", error);
       setError("Error fetching transactions. Please try again later.");
     } finally {
       setLoading(false);
@@ -81,14 +86,12 @@ export default function FinancialTransactions() {
   const handleSelectChange = async (event) => {
     const value = event.target.value;
     setSelectedOption(value);
-
     await fetchTransactions(value, selectedSubShop);
   };
 
   const handleSubShopChange = async (event) => {
     const subShopId = event.target.value;
     setSelectedSubShop(subShopId);
-
     await fetchTransactions(selectedOption, subShopId);
   };
 
@@ -125,15 +128,50 @@ export default function FinancialTransactions() {
   const toggleOpenCreateModal = () => {
     setOpenCreate(!openCreate);
   };
-  console.log("transactionData",transactionData)
 
+  const handlePageChange = (page) => {
+    setPagination({ ...pagination, currentPge: page });
+    fetchTransactions(selectedOption, page);
+
+   };
+
+  const MAX_DISPLAY_PAGES = 5;
+
+  const startPage = Math.max(
+    1,
+    Math.min(
+      pagination.currentPge - Math.floor(MAX_DISPLAY_PAGES / 2),
+      pagination.totalPages - MAX_DISPLAY_PAGES + 1
+    )
+  );
+
+  const endPage = Math.min(
+    startPage + MAX_DISPLAY_PAGES - 1,
+    pagination.totalPages
+  );
+
+  const pageButtons = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, index) => startPage + index
+  );
+
+  const handlePreviousPage = () => {
+    if (pagination.currentPge > 1) {
+      handlePageChange(pagination.currentPge - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (pagination.currentPge < pagination.totalPages) {
+      handlePageChange(pagination.currentPge + 1);
+    }
+  };
   return (
     <div>
       <Actions closeModal={toggleOpenCreateModal} modal={openCreate} />
       <section
-        className={`mx-10  py-2 absolute top-32 -z-50 w-3/4  ${
-          language === "ar" ? "left-10" : "right-10" 
-        }`}
+        className={`mx-10  py-2 absolute top-32 -z-50 w-3/4  ${language === "ar" ? "left-10" : "right-10"
+          }`}
       >
         <div className="mx-auto max-w-screen-xl">
           <div>
@@ -187,14 +225,7 @@ export default function FinancialTransactions() {
                 <button
                   type="button"
                   onClick={toggleOpenCreateModal}
-                  // className="d-flex items-center fw-bold fs-6 justify-center duration-150 ease-linear
-                  //   text-white bg-orange-500 hover:bg-orange-700
-                  //   focus:ring-4 focus:ring-orange-300
-                  //   font-medium rounded-lg text-sm px-4 py-2
-                  //   dark:bg-orange-300 dark:hover:bg-orange-500 dark:text-orange-800
-                  //   dark:hover:text-white
-                  //   focus:outline-none dark:focus:ring-orange-800"
-                  className="secondaryBtn rounded-md fw-bold d-flex items-center gap-2 "
+                  className="secondaryBtn rounded-md fw-bold d-flex items-center gap-2"
                 >
                   {t(`Shop.Actions`)}
                   <Plus size={18} weight="bold" />
@@ -206,80 +237,120 @@ export default function FinancialTransactions() {
                 {error}
               </div>
             )}
-            <div
-              className="overflow-x-auto w-full mt-4 secondary relative shadow-md "
-              id="table"
-              style={{ display: "table" }}
-            >
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                {((selectedSubShop && selectedOption) ||
-                  (!selectedSubShop && selectedOption) ||
-                  (selectedSubShop === "all" && !selectedOption)) && (
-                  <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
-                    <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
-                      {" "}
-                      <th scope="col" className="px-4 py-4">
-                        {t("Transactions.Id")}
-                      </th>
-                      <th scope="col" className="px-4 py-4">
-                        {t("Transactions.date")}
-                      </th>
-                      <th scope="col" className="px-4 py-3">
-                        {t("Transactions.Money")}
-                      </th>
-                      <th scope="col" className="px-4 py-3">
-                      Transaction
-                      </th>
-                      <th scope="col" className="px-4 py-3">
-                        {t("Transactions.Reason")}
-                      </th>
-                      <th scope="col" className="px-4 py-3">
-                        {t("Transactions.subShop")}
-                      </th>
-                    </tr>
-                  </thead>
-                )}
-                <tbody>
-                  {loading ? (
-                    <tr>
-                      <td colSpan="5" className="fs-4 text-center mb-5 pb-3">
-                        <Loading />
-                      </td>
-                    </tr>
-                  ) : transactionData.length === 0 &&
-                    (selectedSubShop || selectedOption) ? (
-                    <tr>
-                      <td colSpan="5" className="text-center py-4 text-xl">
-                        No Transactions yet
-                      </td>
-                    </tr>
-                  ) : (
-                    transactionData.map((transaction, index) => (
-                      <tr
-                        key={index}
-                        className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
-                      >
-                        <td className="px-4 py-3">{transaction._id}</td>
-                        <td className="px-4 py-3">
-                          {formatDate(transaction.createdAt)}
-                        </td>
-                        <td className="px-4 py-3">{transaction.money}</td>
-                        <td className="px-4 py-3">{transaction.transaction}</td>
-                        <td className="px-4 py-3">{transaction.reason}</td>
-                        <td className="px-4 py-3">
-                          {transaction.subShop
-                            ? transaction.subShop.name
-                            : t("Transactions.shop")}
-                        </td>
+
+            {((selectedSubShop && selectedOption) ||
+              (!selectedSubShop && selectedOption) ||
+              (selectedSubShop === "all" && !selectedOption)) && (
+                <div
+                  className="overflow-x-auto w-full mt-4 secondary relative shadow-md"
+                  id="table"
+                  style={{ display: "table" }}
+                >
+                  <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
+                      <tr className="text-center fs-6 bg-gray-700 tracking-wide transition ease-out duration-200">
+                        <th scope="col" className="px-4 py-4">
+                          {t("Transactions.Id")}
+                        </th>
+                        <th scope="col" className="px-4 py-4">
+                          {t("Transactions.date")}
+                        </th>
+                        <th scope="col" className="px-4 py-3">
+                          {t("Transactions.Money")}
+                        </th>
+                        <th scope="col" className="px-4 py-3">
+                          Transaction
+                        </th>
+                        <th scope="col" className="px-4 py-3">
+                          {t("Transactions.Reason")}
+                        </th>
+                        <th scope="col" className="px-4 py-3">
+                          {t("Transactions.subShop")}
+                        </th>
                       </tr>
-                    ))
+                    </thead>
+                    <tbody>
+                      {loading ? (
+                        <tr>
+                          <td colSpan="5" className="fs-4 text-center mb-5 pb-3">
+                            <Loading />
+                          </td>
+                        </tr>
+                      ) : transactionData.length === 0 &&
+                        (selectedSubShop || selectedOption) ? (
+                        <tr>
+                          <td colSpan="5" className="text-center py-4 text-xl">
+                            No Transactions yet
+                          </td>
+                        </tr>
+                      ) : (
+                        transactionData.map((transaction, index) => (
+                          <tr
+                            key={index}
+                            className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
+                          >
+                            <td className="px-4 py-3">{transaction._id}</td>
+                            <td className="px-4 py-3">
+                              {formatDate(transaction.createdAt)}
+                            </td>
+                            <td className="px-4 py-3">{transaction.money}</td>
+                            <td className="px-4 py-3">{transaction.transaction}</td>
+                            <td className="px-4 py-3">{transaction.reason}</td>
+                            <td className="px-4 py-3">
+                              {transaction.subShop
+                                ? transaction.subShop.name
+                                : t("Transactions.shop")}
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+
+        
+                  {transactionData.length > 0 && (
+                    <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8">
+                      <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
+                        <li>
+                          <button
+                            className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                            onClick={handlePreviousPage}
+                          >
+                            <span className="sr-only">Previous</span>
+                            <CaretLeft size={18} weight="bold" />
+                          </button>
+                        </li>
+                        {pageButtons.map((page) => (
+                          <li key={page}>
+                            <button
+                              className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
+                                ? "bg-gray-200 text-gray-800"
+                                : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                }`}
+                              onClick={() => handlePageChange(page)}
+                            >
+                              {page}
+                            </button>
+                          </li>
+                        ))}
+                        <li>
+                          <button
+                            className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                            onClick={handleNextPage}
+                          >
+                            <span className="sr-only">Next</span>
+                            <CaretRight size={18} weight="bold" />
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
                   )}
-                </tbody>
-              </table>
-            </div>
+                </div>
+              )}
           </div>
         </div>
       </section>
     </div>
   );
+
 }

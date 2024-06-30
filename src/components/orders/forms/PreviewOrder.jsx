@@ -6,9 +6,10 @@ import axios from "axios";
 import Loading from "../../Loading/Loading";
 
 export default function OrderPreview({ closeModal, assistantData }) {
-  const { t } = useI18nContext();
+  console.log(assistantData);
   const [specificProducts, setSpecificProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t, language } = useI18nContext();
 
   const detailsData = {
     code: assistantData._id.slice(-4),
@@ -77,14 +78,14 @@ export default function OrderPreview({ closeModal, assistantData }) {
               onClick={closeModal}
               className="w-fit text-gray-400 bg-transparent hover:bg-gray-200 
                                 hover:text-gray-900 rounded-lg text-sm p-1.5 mr-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            > 
+            >
               <X size={18} weight="bold" />
               <span className="sr-only">Close modal</span>
             </button>
           </div>
 
           <div
-             className={`text-lg md:text-xl mx-auto text-center
+            className={`text-lg md:text-xl mx-auto text-center
               secondaryBtn p-1 mb-4 rounded-md `}
           >
             <h3 className="font-semibold">{t("previewForm.title")}</h3>
@@ -95,13 +96,96 @@ export default function OrderPreview({ closeModal, assistantData }) {
               <Loading />
             ) : (
               <>
+                <div className="d-flex gap-2">
+                  <h4 className="font-semibold secondaryF">order Code:</h4>
+                  <div className="d-flex gap-1">
+                    <dd className="!text-base font-light text-gray-500 sm:mb-1">
+                      <h4 className="font-semibold text-xl">
+                        {assistantData._id.slice(-4)}
+                      </h4>
+                    </dd>
+                  </div>
+                </div>
+                <div className="d-flex gap-2">
+                  <h4 className="font-semibold secondaryF">Shop:</h4>
+                  <div className="d-flex gap-1">
+                    <dd className="!text-base font-light text-gray-500 sm:mb-1">
+                      <h4 className="font-semibold text-xl">
+                        {assistantData.shop.name}
+                      </h4>
+                    </dd>
+                  </div>
+                </div>
+                <div className="d-flex gap-2">
+                  <h4 className="font-semibold secondaryF">Branch name:</h4>
+                  <div className="d-flex gap-1">
+                    <dd className="!text-base font-light text-gray-500 sm:mb-1">
+                      <h4 className="font-semibold text-xl">
+                        {assistantData.subShop.name}
+                      </h4>
+                    </dd>
+                  </div>
+                </div>
+                <div className="d-flex gap-2">
+                  <h4 className="font-semibold secondaryF">Customer name:</h4>
+                  <div className="d-flex gap-1">
+                    <dd className="!text-base font-light text-gray-500 sm:mb-1">
+                      <h4 className="font-semibold text-xl">
+                        {assistantData.user.name}
+                      </h4>
+                    </dd>
+                  </div>
+                </div>
+
+                <h4 className="font-semibold secondaryF">Customer phone:</h4>
+                {assistantData?.user?.phone.length > 0 ? (
+                  assistantData.user.phone.map((phone) => (
+                    <div className="d-flex gap-1" key={phone}>
+                      <dd className="!text-base font-light text-gray-500 sm:mb-1">
+                        <h4 className="font-semibold text-xl ">{phone}</h4>
+                      </dd>
+                    </div>
+                  ))
+                ) : (
+                  <div className="d-flex gap-1">
+                    <dd className="!text-base font-light  sm:mb-5 secondaryF">
+                      No Addresses yet
+                    </dd>
+                  </div>
+                )}
+                <h4 className="font-semibold secondaryF">Customer address:</h4>
+                {assistantData?.user?.address.length > 0 ? (
+                  assistantData.user.address.map((address) => (
+                    <div className="d-flex gap-1" key={address?._id}>
+                      <dd className="!text-base font-light text-gray-500 sm:mb-1">
+                        <h4 className="font-semibold text-xl ">
+                          {`${address?.street}, ${
+                            language === "ar"
+                              ? address?.city?.city_name_ar
+                              : address?.city?.city_name_en
+                          }, ${
+                            language === "ar"
+                              ? address?.governorate?.governorate_name_ar
+                              : address?.governorate?.governorate_name_en
+                          }`}
+                        </h4>
+                      </dd>
+                    </div>
+                  ))
+                ) : (
+                  <div className="d-flex gap-1">
+                    <dd className="!text-base font-light  sm:mb-5 secondaryF">
+                      No Addresses yet
+                    </dd>
+                  </div>
+                )}
                 <h4 className="font-semibold secondaryF">
                   {t("previewForm.products")} :{" "}
                 </h4>
                 {assistantData?.cartItems?.length > 0 ? (
                   assistantData.cartItems.map((item) => (
                     <div className="d-flex gap-1" key={item.product?._id}>
-                      <dd className="!text-base font-light text-gray-500 sm:mb-5">
+                      <dd className="!text-base font-light text-gray-500 sm:mb-1">
                         <h4 className="font-semibold text-xl">
                           {" "}
                           {item.product?.name} - {item.product?.sellingPrice}$

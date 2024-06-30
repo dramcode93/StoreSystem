@@ -3,12 +3,17 @@ import { useI18nContext } from "../context/i18n-context";
 import FormSelect from "../../form/FormSelect";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
 export default function SalesTable() {
   const [selectedSalesId, setSelectedSalesId] = useState(null);
   const [selectedOption, setSelectedOption] = useState("");
   const [salesData, setSalesData] = useState([]);
   const [error, setError] = useState(null);
+  const [pagination, setPagination] = useState({
+    currentPge: 1,
+    totalPages: 1,
+  });
 
   const dropdownRefs = useRef({});
   const { t, language } = useI18nContext();
@@ -16,18 +21,18 @@ export default function SalesTable() {
   const handleSelectChange = async (event) => {
     const value = event.target.value;
     setSelectedOption(value);
-
-    await handleShowTable(value);
+    setPagination({ ...pagination, currentPge: 1 }); // Reset to first page when option changes
+    await handleShowTable(value, 1);
   };
 
-  const handleShowTable = async (option) => {
+  const handleShowTable = async (option, page) => {
     let url;
     if (option === "day") {
-      url = "https://store-system-api.gleeze.com/api/sales/daily";
+      url = `https://store-system-api.gleeze.com/api/sales/daily?page=${page}&limit=5`;
     } else if (option === "month") {
-      url = "https://store-system-api.gleeze.com/api/sales/monthly";
+      url = `https://store-system-api.gleeze.com/api/sales/monthly?page=${page}&limit=5`;
     } else if (option === "year") {
-      url = "https://store-system-api.gleeze.com/api/sales/yearly";
+      url = `https://store-system-api.gleeze.com/api/sales/yearly?page=${page}&limit=5`;
     }
 
     try {
@@ -39,6 +44,10 @@ export default function SalesTable() {
       });
 
       setSalesData(response.data.data);
+      setPagination({
+        ...pagination,
+        totalPages: response.data.paginationResult.numberOfPages,
+      });
       setError(null);
       document.getElementById("table").style.display = "table";
     } catch (error) {
@@ -74,7 +83,7 @@ export default function SalesTable() {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     if (selectedOption === "day") {
-      return date.toLocaleDateString('en-GB'); 
+      return date.toLocaleDateString('en-GB');
     } else if (selectedOption === "month") {
       return date.toLocaleString("default", { month: "long", year: "numeric" });
     } else if (selectedOption === "year") {
@@ -82,12 +91,47 @@ export default function SalesTable() {
     }
   };
 
+  const handlePageChange = (page) => {
+    setPagination({ ...pagination, currentPge: page });
+    handleShowTable(selectedOption, page);
+  };
+
+  const MAX_DISPLAY_PAGES = 5;
+
+  const startPage = Math.max(
+    1,
+    Math.min(
+      pagination.currentPge - Math.floor(MAX_DISPLAY_PAGES / 2),
+      pagination.totalPages - MAX_DISPLAY_PAGES + 1
+    )
+  );
+
+  const endPage = Math.min(
+    startPage + MAX_DISPLAY_PAGES - 1,
+    pagination.totalPages
+  );
+
+  const pageButtons = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, index) => startPage + index
+  );
+
+  const handlePreviousPage = () => {
+    if (pagination.currentPge > 1) {
+      handlePageChange(pagination.currentPge - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (pagination.currentPge < pagination.totalPages) {
+      handlePageChange(pagination.currentPge + 1);
+    }
+  };
   return (
     <div>
       <section
-        className={`mx-10 rounded-md py-2 absolute top-32 -z-50 w-3/4 ${
-          language === "ar" ? "left-10" : "right-10"
-        }`}
+        className={`mx-10 rounded-md py-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"
+          }`}
       >
         <div className="mx-auto max-w-screen-xl">
           <div>
@@ -156,7 +200,44 @@ export default function SalesTable() {
                   ))}
                 </tbody>
               </table>
+
+              <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8">
+                <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
+                  <li>
+                    <button
+                      className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                      onClick={handlePreviousPage}
+                    >
+                      <span className="sr-only">Previous</span>
+                      <CaretLeft size={18} weight="bold" />
+                    </button>
+                  </li>
+                  {pageButtons.map((page) => (
+                    <li key={page}>
+                      <button
+                        className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
+                          ? "bg-gray-200 text-gray-800"
+                          : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                          }`}
+                        onClick={() => handlePageChange(page)}
+                      >
+                        {page}
+                      </button>
+                    </li>
+                  ))}
+                  <li>
+                    <button
+                      className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                      onClick={handleNextPage}
+                    >
+                      <span className="sr-only">Next</span>
+                      <CaretRight size={18} weight="bold" />
+                    </button>
+                  </li>
+                </ul>
+              </nav>
             </div>
+          
           </div>
         </div>
       </section>

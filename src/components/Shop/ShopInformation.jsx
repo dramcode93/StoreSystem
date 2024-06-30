@@ -176,7 +176,6 @@ const ShopInformation = () => {
   };
 
   return (
-    // bg-gray-700 bg-opacity-25
     <section
       className={` mx-10 rounded-md py-4 absolute top-32 -z-3 w-3/4 ${
         language === "ar" ? "left-10" : "right-10"
@@ -185,15 +184,14 @@ const ShopInformation = () => {
       <AddSubShop closeModal={toggleOpenCreateModal} modal={openCreate} />
       <div>
         <button
-          // className="bg-yellow-900 w-40 rounded-md hover:bg-yellow-800 fw-bold mx-10 my-4"
           className="secondaryBtn w-40 rounded-md fw-bold mx-10 my-4"
           onClick={toggleOpenCreateModal}
         >
-          Add Sub Shop
+          {t(`Shop.AddSubShop`)}
         </button>
       </div>
       <ImageField
-        label="Shop Image"
+        label={t(`Shop.ShopImage`)}
         value={imageUrl}
         isEditing={isImageEditing}
         handleInputChange={handleImageUpload}
@@ -214,7 +212,7 @@ const ShopInformation = () => {
         isLoading={loading}
       />
       <TypeField
-        label="Shop Type"
+        label={t("Shop.ShopType")}
         value={type}
         inputValue={typeInput}
         handleInputChange={handleTypeChange}

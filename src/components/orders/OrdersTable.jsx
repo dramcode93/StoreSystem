@@ -3,9 +3,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useI18nContext } from "../context/i18n-context";
 import Loading from "../Loading/Loading";
-import { DotsThree, Eye } from "@phosphor-icons/react";
+import { CaretLeft, CaretRight, DotsThree, Eye } from "@phosphor-icons/react";
 import { CiSearch } from "react-icons/ci";
-import { MdPersonAddDisabled } from "react-icons/md";
 import { VscActivateBreakpoints } from "react-icons/vsc";
 
 const API_URL = "https://store-system-api.gleeze.com/api/order";
@@ -19,8 +18,6 @@ const OrdersTable = ({ role, openPreview }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const dropdownRefs = useRef({});
-  // const [role, setRole] = useState("");
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate();
@@ -28,37 +25,25 @@ const OrdersTable = ({ role, openPreview }) => {
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
   };
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     if (token) {
-  //       try {
-  //         const response = await axios.get(
-  //           "https://store-system-api.gleeze.com/api/Users/getMe",
-  //           { headers: { Authorization: `Bearer ${token}` } }
-  //         );
-  //         setRole(response.data.data.role || "shop");
-  //       } catch (error) {
-  //         console.error("Error fetching user data:", error);
-  //         if (
-  //           error.response &&
-  //           error.response.data.message === "jwt malformed"
-  //         ) {
-  //           Cookies.remove("token");
-  //         }
-  //         setRole("shop");
-  //       }
-  //     }
-  //   };
-  //   fetchUserData();
-  // }, [token]);
+  const [pagination, setPagination] = useState({
+    currentPge: 1,
+    totalPages: 1,
+  });
 
   const fetchData = useCallback(async () => {
     try {
       if (token) {
-        const response = await axios.get(`${API_URL}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${API_URL}?page=${pagination.currentPge}&limit=5`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setOrders(response.data.data);
+        setPagination({
+          ...pagination,
+          totalPages: response.data.paginationResult.numberOfPages,
+        });
       } else {
         console.error("No token found.");
       }
@@ -67,7 +52,7 @@ const OrdersTable = ({ role, openPreview }) => {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, [token, pagination.currentPge]);
 
   useEffect(() => {
     fetchData();
@@ -116,14 +101,49 @@ const OrdersTable = ({ role, openPreview }) => {
     }
   };
 
-  const filteredOrders = orders.filter((order) =>
-    order._id.includes(searchTerm)
-  );
-
   const handleOrderPreview = (order) => {
     openPreview(order);
   };
 
+  const handlePageChange = (page) => {
+    setPagination({ ...pagination, currentPge: page });
+  };
+
+  const filteredOrders = orders.filter((order) =>
+    order._id.includes(searchTerm)
+  );
+
+  const MAX_DISPLAY_PAGES = 5;
+
+  const startPage = Math.max(
+    1,
+    Math.min(
+      pagination.currentPge - Math.floor(MAX_DISPLAY_PAGES / 2),
+      pagination.totalPages - MAX_DISPLAY_PAGES + 1
+    )
+  );
+
+  const endPage = Math.min(
+    startPage + MAX_DISPLAY_PAGES - 1,
+    pagination.totalPages
+  );
+
+  const pageButtons = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, index) => startPage + index
+  );
+
+  const handlePreviousPage = () => {
+    if (pagination.currentPge > 1) {
+      handlePageChange(pagination.currentPge - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (pagination.currentPge < pagination.totalPages) {
+      handlePageChange(pagination.currentPge + 1);
+    }
+  };
   return (
     <section
       className={`secondary mx-10 pt-2 absolute top-32 -z-50 w-3/4 ${
@@ -260,68 +280,46 @@ const OrdersTable = ({ role, openPreview }) => {
                               </li>
                               {role !== "customer" && (
                                 <>
-                                  <li>
-                                    <button
-                                      type="button"
-                                      className="flex w-56 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
-                                      onClick={() =>
-                                        handleUpdatePay(
-                                          order._id,
-                                          !order.isPaid
-                                        )
-                                      }
-                                    >
-                                      {order.isPaid ? (
-                                        <>
-                                          <MdPersonAddDisabled
-                                            size={18}
-                                            weight="bold"
-                                          />
-                                          {t("order.DisablePaid")}
-                                        </>
-                                      ) : (
-                                        <>
-                                          <VscActivateBreakpoints
-                                            size={18}
-                                            weight="bold"
-                                            className="text-green-600"
-                                          />
-                                          {t("order.EnablePaid")}
-                                        </>
-                                      )}
-                                    </button>
-                                  </li>
-                                  <li>
-                                    <button
-                                      type="button"
-                                      className="flex w-56 items-center gap-3 fs-6 fw-bold justify-content-start py-2 px-4 dots hover:bg-slate-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 "
-                                      onClick={() =>
-                                        handleUpdateDelivery(
-                                          order._id,
-                                          !order.isDelivered
-                                        )
-                                      }
-                                    >
-                                      {order.isDelivered ? (
-                                        <>
-                                          <MdPersonAddDisabled
-                                            size={18}
-                                            weight="bold"
-                                          />
-                                          {t("order.DisableDelivered")}
-                                        </>
-                                      ) : (
-                                        <>
-                                          <VscActivateBreakpoints
-                                            size={18}
-                                            weight="bold"
-                                            className="text-green-600"
-                                          />
-                                          {t("order.EnableDelivered")}
-                                        </>
-                                      )}
-                                    </button>
-                                  </li>
+                                  {!order.isPaid && (
+                                    <li>
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          handleUpdatePay(
+                                            order._id,
+                                            !order.isPaid
+                                          )
+                                        }
+                                        className="w-full flex items-center justify-start py-2 px-4 text-gray-700 dark:text-white  hover:bg-slate-300 dark:hover:bg-gray-600"
+                                      >
+                                        <VscActivateBreakpoints
+                                          size={18}
+                                          weight="bold"
+                                        />
+                                        {t("Category.Update.Pay")}
+                                      </button>
+                                    </li>
+                                  )}
+                                  {!order.isDelivered && (
+                                    <li>
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          handleUpdateDelivery(
+                                            order._id,
+                                            !order.isDelivered
+                                          )
+                                        }
+                                        className="w-full flex items-center justify-start py-2 px-4 text-gray-700 dark:text-white hover:bg-slate-300 dark:hover:bg-gray-600"
+                                      >
+                                        <VscActivateBreakpoints
+                                          size={18}
+                                          weight="bold"
+                                        />
+                                        {t("Category.Update.Delivery")}
+                                      </button>
+                                    </li>
+                                  )}
                                 </>
                               )}
                             </ul>
@@ -336,6 +334,42 @@ const OrdersTable = ({ role, openPreview }) => {
           )}
         </tbody>
       </table>
+      <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8">
+        <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
+          <li>
+            <button
+              className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={handlePreviousPage}
+            >
+              <span className="sr-only">Previous</span>
+              <CaretLeft size={18} weight="bold" />
+            </button>
+          </li>
+          {pageButtons.map((page) => (
+            <li key={page}>
+              <button
+                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
+                  pagination.currentPge === page
+                    ? "bg-gray-200 text-gray-800"
+                    : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                }`}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            </li>
+          ))}
+          <li>
+            <button
+              className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={handleNextPage}
+            >
+              <span className="sr-only">Next</span>
+              <CaretRight size={18} weight="bold" />
+            </button>
+          </li>
+        </ul>
+      </nav>
     </section>
   );
 };

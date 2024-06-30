@@ -30,7 +30,9 @@ const Home = ({ role, modal }) => {
             limit: 5        // Limits the results to the top 5 products
           }
         });
+
         setBestSellingProducts(response.data.data);
+        console.log(bestSellingProducts)
       } catch (error) {
         console.error("Error fetching best-selling products:", error);
       }

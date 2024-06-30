@@ -16,7 +16,7 @@ export default function AddSubShop({ closeModal, modal }) {
     }
   };
 
-  const { language } = useI18nContext();
+  const {t, language } = useI18nContext();
   const token = Cookies.get("token");
 
   const [name, setName] = useState("");
@@ -129,7 +129,8 @@ export default function AddSubShop({ closeModal, modal }) {
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
             >
               <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                Add Sub Shop
+                {t(`Shop.AddSubShop`)}
+
               </h3>
               <button
                 type="button"
@@ -146,58 +147,58 @@ export default function AddSubShop({ closeModal, modal }) {
               dir={language === "ar" ? "rtl" : "ltr"}
             >
               <FormInput
-                label="Name"
+                label={t(`Shop.Name`)}
                 name="Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Name"
+                placeholder={t(`Shop.Name`)}
               />
               <FormSelect
-                selectLabel="Delivery Service"
-                headOption="Select Delivery Service"
+                selectLabel={t(`Shop.DeliveryService`)}
+                headOption={t(`Shop.DeliveryService`)}
                 handleChange={(e) => setDeliveryService(e.target.value)}
                 options={deliveryOptions.map((option) => ({
                   value: option.value,
                   label: option.label,
                 }))}
                 value={deliveryService} 
-                name="Delivery Service"
+                name={t(`Shop.DeliveryService`)}
               />
               {deliveryService === "true" && (
                 <>
                   <FormNumber
-                    label="Shipping Price Inside"
-                    name="Shipping Price Inside"
+                    label={t(`Shop.ShippingPriceInside`)}
+                    name="Shipping Price inside"
                     value={shippingPriceInside}
                     onChange={(e) => setShippingPriceInside(e.target.value)}
-                    placeholder="Shipping Price Inside"
+                    placeholder={t(`Shop.ShippingPriceInside`)}
                   />
                   <FormNumber
-                    label="Shipping Price Outside"
+                    label={t(`Shop.ShippingPriceOutside`)}
                     name="Shipping Price Outside"
                     value={shippingPriceOutside}
                     onChange={(e) => setShippingPriceOutside(e.target.value)}
-                    placeholder="Shipping Price Outside"
+                    placeholder={t(`Shop.ShippingPriceOutside`)}
                   />
                 </>
               )}
               <FormNumber
-                label="Phone Number"
+                label={t(`Shop.phone`)}
                 name="Phone"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="Phone Number"
+                placeholder={t(`Shop.phone`)}
               />
               <FormInput
-                label="Street"
+                label={t(`Shop.Street`)}
                 name="Street"
                 value={street}
                 onChange={(e) => setStreet(e.target.value)}
-                placeholder="Street"
+                placeholder={t(`Shop.Street`)}
               />
               <FormSelect
-                selectLabel="Governorate"
-                headOption="Select Governorate"
+                selectLabel={t(`Shop.Governorate`)}
+                headOption={t(`Shop.Governorate`)}
                 handleChange={handleGovernorateChange}
                 options={governorates.map((governorate) => ({
                   value: governorate._id,
@@ -211,8 +212,8 @@ export default function AddSubShop({ closeModal, modal }) {
               />
               {selectedGovernorate ? (
                 <FormSelect
-                  selectLabel="City"
-                  headOption="Select City"
+                  selectLabel={t(`Shop.City`)}
+                  headOption={t(`Shop.City`)}
                   handleChange={(e) => {
                     setSelectedCity(e.target.value);
                   }}
@@ -241,8 +242,7 @@ export default function AddSubShop({ closeModal, modal }) {
                   }
                   className="secondaryBtn w-96 h-12 rounded-md  fw-bold text-xl "
                 >
-                {/* hover:bg-yellow-800 bg-yellow-900 */}
-                  Add Sub Shop +
+                  {t(`Shop.AddSubShop`)}   +
                 </button>
                 <div>&nbsp;</div>
               </div>
