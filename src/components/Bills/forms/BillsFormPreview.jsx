@@ -33,7 +33,7 @@ export default function BillsFormPreview({ details, t, headers }) {
           </div>
           <div className="d-flex gap-2 items-center">
             <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
-              {headers?.userName} :
+              {headers?.sellerName} :
             </dt>
             <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
               {details?.userName}

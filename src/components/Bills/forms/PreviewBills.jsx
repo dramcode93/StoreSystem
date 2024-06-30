@@ -22,7 +22,7 @@ export default function PreviewBill({ closeModal, assistantData }) {
   const headers = {
     code: "Bill Code",
     name: "Customer Name",
-    userName: "User Name",
+    sellerName: "Seller Name",
     products: "Products",
     totalAmount: "Total Amount",
     paidAmount: "Paid Amount",

@@ -19,8 +19,6 @@ const OrdersTable = ({ role, openPreview }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const dropdownRefs = useRef({});
-  // const [role, setRole] = useState("");
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate();
@@ -28,30 +26,6 @@ const OrdersTable = ({ role, openPreview }) => {
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
   };
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     if (token) {
-  //       try {
-  //         const response = await axios.get(
-  //           "https://store-system-api.gleeze.com/api/Users/getMe",
-  //           { headers: { Authorization: `Bearer ${token}` } }
-  //         );
-  //         setRole(response.data.data.role || "shop");
-  //       } catch (error) {
-  //         console.error("Error fetching user data:", error);
-  //         if (
-  //           error.response &&
-  //           error.response.data.message === "jwt malformed"
-  //         ) {
-  //           Cookies.remove("token");
-  //         }
-  //         setRole("shop");
-  //       }
-  //     }
-  //   };
-  //   fetchUserData();
-  // }, [token]);
-
   const fetchData = useCallback(async () => {
     try {
       if (token) {

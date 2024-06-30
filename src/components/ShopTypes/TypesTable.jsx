@@ -124,20 +124,20 @@ const TypesTable = ({ openEdit, openCreate }) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
+  // const formatDate = (dateString) => {
+  //   const date = new Date(dateString);
 
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear();
+  //   const day = date.getDate().toString().padStart(2, "0");
+  //   const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  //   const year = date.getFullYear();
 
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    // const seconds = date.getSeconds().toString().padStart(2, '0');
+  //   const hours = date.getHours().toString().padStart(2, "0");
+  //   const minutes = date.getMinutes().toString().padStart(2, "0");
+  //   // const seconds = date.getSeconds().toString().padStart(2, '0');
 
-    return `${day}-${month}-${year}<br>${hours}:${minutes}`;
-    // return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
-  };
+  //   return `${day}-${month}-${year}<br>${hours}:${minutes}`;
+  //   // return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+  // };
   return (
     <div>
       <section
@@ -192,12 +192,12 @@ const TypesTable = ({ openEdit, openCreate }) => {
               <th scope="col" className="px-4 py-4">
                 Type EN
               </th>
-              <th scope="col" className="px-4 py-4">
+              {/* <th scope="col" className="px-4 py-4">
                 Created At
               </th>
               <th scope="col" className="px-4 py-4">
                 Updated At
-              </th>
+              </th> */}
               <th scope="col" className="px-4 py-4">
                 <span className="sr-only">Actions</span>
               </th>
@@ -206,7 +206,7 @@ const TypesTable = ({ openEdit, openCreate }) => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="8" className=" fs-4 text-center mb-5 pb-3">
+                <td colSpan="3" className=" fs-4 text-center mb-5 pb-3">
                   <Loading />
                 </td>
               </tr>
@@ -214,7 +214,7 @@ const TypesTable = ({ openEdit, openCreate }) => {
               <>
                 {types.length === 0 && (
                   <tr className="text-xl text-center">
-                    <td colSpan="8" style={{ lineHeight: 3 }}>
+                    <td colSpan="3" style={{ lineHeight: 3 }}>
                       No Types available
                     </td>
                   </tr>
@@ -233,7 +233,7 @@ const TypesTable = ({ openEdit, openCreate }) => {
                     </th>
                     <td className="px-4 py-4">{type.type_ar}</td>
                     <td className="px-4 py-4">{type.type_en}</td>
-                    <td
+                    {/* <td
                       className="px-4 py-4"
                       dangerouslySetInnerHTML={{
                         __html: formatDate(type.createdAt),
@@ -244,7 +244,7 @@ const TypesTable = ({ openEdit, openCreate }) => {
                       dangerouslySetInnerHTML={{
                         __html: formatDate(type.updatedAt),
                       }}
-                    ></td>
+                    ></td> */}
                     <td className="px-4 py-3 flex items-center justify-end">
                       <button
                         className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"

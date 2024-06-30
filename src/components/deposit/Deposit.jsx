@@ -214,7 +214,7 @@ export default function FinancialTransactions() {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 {((selectedSubShop && selectedOption) ||
                   (!selectedSubShop && selectedOption) ||
-                  (selectedSubShop === "all" && !selectedOption)) && (
+                  (selectedSubShop && !selectedOption)) && (
                   <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
                     <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
                       {" "}
@@ -242,14 +242,14 @@ export default function FinancialTransactions() {
                 <tbody>
                   {loading ? (
                     <tr>
-                      <td colSpan="5" className="fs-4 text-center mb-5 pb-3">
+                      <td colSpan="6" className="fs-4 text-center mb-5 pb-3">
                         <Loading />
                       </td>
                     </tr>
                   ) : transactionData.length === 0 &&
                     (selectedSubShop || selectedOption) ? (
                     <tr>
-                      <td colSpan="5" className="text-center py-4 text-xl">
+                      <td colSpan="6" className="text-center py-4 text-xl">
                         No Transactions yet
                       </td>
                     </tr>

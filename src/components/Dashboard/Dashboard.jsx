@@ -101,7 +101,7 @@ const roleRoutes = {
     },
   ],
   manager: [
-    // { path: "/Home", name: "Home.Home", icon: <FaHome /> },
+    { path: "/Home", name: "Home.Home", icon: <FaHome /> },
     { path: "/shopTypes", name: "Home.shopTypes", icon: <FaStore /> },
     {
       name: "Home.Profile",
