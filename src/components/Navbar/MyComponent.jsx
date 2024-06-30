@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Header from "./Header/header";
 import { useI18nContext } from "../context/i18n-context";
-import { Bell, SketchLogo, Translate } from "@phosphor-icons/react";
+import { Translate } from "@phosphor-icons/react";
 import LogOut from "../LogOut/LogOut";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import CartHover from "../BestSeller/CartHover";
-import { FiMenu, FiX } from "react-icons/fi";
 import Logo from "./logo/Black-and-Gold-Sophisticated-Traditional-Fashion-Logo-(1).svg";
-const MyComponent = ({ openSideBar,  }) => {
+const MyComponent = ({ openSideBar, }) => {
   const { t, language, changeLanguage } = useI18nContext();
   const token = Cookies.get("token");
   const [role, setRole] = useState("");
@@ -49,28 +48,16 @@ const MyComponent = ({ openSideBar,  }) => {
     >
       <div className="d-flex justify-between">
         <div className="d-flex">
-          {/* <button
-            id="menu-bar"
-            type="button"
-            className=" bg-transparent rounded-full p-1 ms-0 text-gray-500 dark:hover:text-white focus:outline-none hover:text-slate-500"
-            onClick={handleOpenSideBar}
-            title="menu"
-          >
-            {isSideBarOpen ? (
-              <FiX className="h-6 w-6" aria-hidden="true" />
-            ) : (
-              <FiMenu className="h-6 w-6" aria-hidden="true" />
-            )}
-          </button> */}
+
           <h3
             className="text-gray-900 dark:text-gray-100 font flex justify-content-center gap-2 min-w-max"
             onClick={() => handleOpenSideBar}
           >
-            {/* <SketchLogo /> {t(`Home.GleamGoods`)} */}
-            <img src={Logo} alt="Logo" className="h-20 w-20 object-cover" />
+            <img src={Logo} alt="Logo" className="h-20 w-32 object-cover" title="Gleam Goods"
+/>
           </h3>
         </div>
-        
+
         <div className="flex items-center justify-between">
           <div className="w-25 flex items-center justify-content-center">
             {role === "customer" && (
@@ -112,15 +99,6 @@ const MyComponent = ({ openSideBar,  }) => {
               <Translate className="h-6 w-10" aria-hidden="true" />
             </button>
             <Header />
-            {/* <button
-              type="button"
-              className="relative bg-transparent rounded-full p-1 text-gray-500 dark:hover:text-white focus:outline-none hover:text-slate-500 w-fit"
-              title={t("Home.Notifications")}
-            >
-              <span className="absolute -inset-1.5" />
-              <span className="sr-only">View notifications</span>
-              <Bell className="h-6 w-10" aria-hidden="true" />
-            </button> */}
           </div>
         </div>
       </div>
