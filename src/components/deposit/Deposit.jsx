@@ -237,6 +237,7 @@ export default function FinancialTransactions() {
                 {error}
               </div>
             )}
+
             {((selectedSubShop && selectedOption) ||
               (!selectedSubShop && selectedOption) ||
               (selectedSubShop === "all" && !selectedOption)) && (
@@ -306,6 +307,7 @@ export default function FinancialTransactions() {
                     </tbody>
                   </table>
 
+        
                   {transactionData.length > 0 && (
                     <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8">
                       <ul className="inline-flex items-stretch -space-x-px" dir="ltr">

@@ -18,6 +18,13 @@ const OrdersTable = ({ role, openPreview }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const dropdownRefs = useRef({});
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
   const [pagination, setPagination] = useState({
     currentPge: 1,
     totalPages: 1,
@@ -26,9 +33,12 @@ const OrdersTable = ({ role, openPreview }) => {
   const fetchData = useCallback(async () => {
     try {
       if (token) {
-        const response = await axios.get(`${API_URL}?page=${pagination.currentPge}&limit=5`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${API_URL}?page=${pagination.currentPge}&limit=5`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setOrders(response.data.data);
         setPagination({
           ...pagination,
@@ -91,14 +101,6 @@ const OrdersTable = ({ role, openPreview }) => {
     }
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
-
   const handleOrderPreview = (order) => {
     openPreview(order);
   };
@@ -110,7 +112,6 @@ const OrdersTable = ({ role, openPreview }) => {
   const filteredOrders = orders.filter((order) =>
     order._id.includes(searchTerm)
   );
-
 
   const MAX_DISPLAY_PAGES = 5;
 
@@ -145,8 +146,9 @@ const OrdersTable = ({ role, openPreview }) => {
   };
   return (
     <section
-      className={`secondary mx-10 pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"
-        }`}
+      className={`secondary mx-10 pt-2 absolute top-32 -z-50 w-3/4 ${
+        language === "ar" ? "left-10" : "right-10"
+      }`}
     >
       <div className="flex justify-between">
         <div className="relative w-96 m-3">
@@ -158,8 +160,9 @@ const OrdersTable = ({ role, openPreview }) => {
             placeholder={t("Products.Search")}
           />
           <CiSearch
-            className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${language === "ar" ? "left-3" : "right-3"
-              } cursor-pointer`}
+            className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${
+              language === "ar" ? "left-3" : "right-3"
+            } cursor-pointer`}
             onClick={handleSearch}
           />
         </div>
@@ -254,13 +257,15 @@ const OrdersTable = ({ role, openPreview }) => {
                         >
                           <div
                             id={`order-dropdown-${order._id}`}
-                            className={`${selectedOrderId === order._id
-                              ? `absolute -top-3 ${language === "en"
-                                ? "right-full"
-                                : "left-full"
-                              } overflow-auto`
-                              : "hidden"
-                              } z-10 w-56  rounded divide-y divide-gray-100 shadow secondary `}
+                            className={`${
+                              selectedOrderId === order._id
+                                ? `absolute -top-3 ${
+                                    language === "en"
+                                      ? "right-full"
+                                      : "left-full"
+                                  } overflow-auto`
+                                : "hidden"
+                            } z-10 w-56  rounded divide-y divide-gray-100 shadow secondary `}
                           >
                             <ul className="text-sm bg-transparent pl-0 mb-0 w-full">
                               <li>
@@ -343,10 +348,11 @@ const OrdersTable = ({ role, openPreview }) => {
           {pageButtons.map((page) => (
             <li key={page}>
               <button
-                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
+                className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${
+                  pagination.currentPge === page
                     ? "bg-gray-200 text-gray-800"
                     : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  }`}
+                }`}
                 onClick={() => handlePageChange(page)}
               >
                 {page}

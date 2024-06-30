@@ -241,7 +241,7 @@ const en = {
   Transactions: {
     Id: " Id",
     day: " day",
-    month: " month",
+    month: " month", 
     year: " year",
     date: " date",
     Money: "Money",

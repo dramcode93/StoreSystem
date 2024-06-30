@@ -16,6 +16,9 @@ const DEL_address =
 const ADD_phone = "https://store-system-api.gleeze.com/api/Users/addPhone";
 
 const Information = ({ openAdd, role }) => {
+  const [phones, setPhones] = useState([]);
+  const [phone, setPhone] = useState();
+
   const [loading, setLoading] = useState(true);
   const token = Cookies.get("token");
   const [info, setInfo] = useState({
@@ -25,13 +28,18 @@ const Information = ({ openAdd, role }) => {
     phone: [],
     address: [{}],
   });
-  const [inputValues, setInputValues] = useState({ name: "", email: "" });
+  const [inputValues, setInputValues] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+
   const [isNameEditing, setIsNameEditing] = useState(false);
   const [isEmailEditing, setIsEmailEditing] = useState(false);
   const [isPhoneAdding, setIsPhoneAdding] = useState(false);
-  const [isDeletingPhone, setIsDeletingPhone] = useState(false); // Add state for phone deletion loading
-  const [isDeletingAddress, setIsDeletingAddress] = useState(false); // Add state for phone deletion loading
-  const [isAddingPhone, setIsAddingPhone] = useState(false); // Add state for phone addition loading
+  const [isDeletingPhone, setIsDeletingPhone] = useState(false);
+  const [isDeletingAddress, setIsDeletingAddress] = useState(false);
+  const [isAddingPhone, setIsAddingPhone] = useState(false);
   const { t, language } = useI18nContext();
   const decodedToken = jwtDecode(token);
 
@@ -46,6 +54,7 @@ const Information = ({ openAdd, role }) => {
           );
           const userData = response.data.data;
           setInfo(userData);
+          setPhones(userData.phone);
           setInputValues(userData);
           setLoading(false);
           return;
@@ -77,12 +86,15 @@ const Information = ({ openAdd, role }) => {
     }));
   };
 
-  const handleDelPhone = async (index) => {
+  const handlePhoneChange = (e) => {
+    setPhone(e.target.value);
+  };
+  const handleDelPhone = async (deleted) => {
     try {
-      setIsDeletingPhone(true); // Set isDeletingPhone to true before making the request
+      setIsDeletingPhone(true);
       if (token) {
         const response = await axios.delete(`${DEL_phone}`, {
-          data: { phone: info.phone[index] },
+          data: { phone: deleted},
           headers: { Authorization: `Bearer ${token}` },
         });
         setIsDeletingPhone(false);
@@ -120,12 +132,13 @@ const Information = ({ openAdd, role }) => {
   };
 
   const handleAddPhone = async () => {
+    console.log(phone);
     try {
       setIsAddingPhone(true);
       if (token) {
         const response = await axios.put(
           ADD_phone,
-          { phone: inputValues.phone },
+          { phone: phone },
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -204,6 +217,7 @@ const Information = ({ openAdd, role }) => {
               label={t(`Information.Username`)}
               value={info.username}
               role={role}
+              name="userName"
             />
             <ProfileField
               label={t(`Information.Name`)}
@@ -226,17 +240,16 @@ const Information = ({ openAdd, role }) => {
               handleSaveChanges={handleSaveChanges}
             />
             <PhoneField
-              label={t(`Information.Phone`)}
-              value={info.phone}
-              handleInputChange={handleInputChange}
+              label={t("Information.Phone")}
+              value={phones}
+              handleInputChange={handlePhoneChange}
               isEditing={isPhoneAdding}
               handleDelPhone={handleDelPhone}
               handleAddPhone={handleAddPhone}
-              handleAddToggle={handleAddToggle}
               isLoading={isDeletingPhone || isAddingPhone}
+              handleAddToggle={handleAddToggle}
               role={role}
             />
-
             <AddressField
               label={t(`Information.Address`)}
               values={info.address}
