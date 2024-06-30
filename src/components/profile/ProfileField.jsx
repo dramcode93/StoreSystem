@@ -10,6 +10,7 @@ const ProfileField = ({
   handleInputChange,
   handleEditToggle,
   handleSaveChanges,
+  name,
   role,
 }) => (
   <li className="secondary mx-10 rounded-md py-4 px-4 mb-3 list-none">
@@ -40,7 +41,7 @@ const ProfileField = ({
             ""
           ) : (
             <FiEdit
-              className={`${label === "Username" ? "hidden" : "block"}`}
+              className={`${name === "userName" ? "hidden" : "block"}`}
               onClick={() => handleEditToggle(label.toLowerCase())}
             />
           )}

@@ -280,7 +280,7 @@ const CustomersTable = ({ openEdit, openCreate, openPreview }) => {
                       <div key={address.id}>
                         {`${address?.street},
                         ${
-                          language === "ar"
+                          language === "ar" 
                             ? address?.city?.city_name_ar
                             : address?.city?.city_name_en
                         },
