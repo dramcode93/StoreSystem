@@ -13,7 +13,6 @@ import {
 import { useI18nContext } from "../context/i18n-context";
 import Loading from "../Loading/Loading";
 import ConfirmationModal from "./ConfirmationModel";
-import UpdateCategory from "./forms/Update";
  
 const API_category = "https://store-system-api.gleeze.com/api/categories";
 
@@ -160,34 +159,6 @@ const CategoryTable = ({ openEdit, openCreate, openPreview, role }) => {
     }
   };
 
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
-  //     if (isOutsideDropdown) {
-  //       setSelectedCategoryId(null);
-  //     }
-  //   };
-
-  //   document.addEventListener('click', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('click', handleClickOutside);
-  //   };
-  // }, []);
-  // const handleClickOutside = (event) => {
-  //   const isOutsideDropdown = Object.values(dropdownRefs.current).every(
-  //     (ref) => ref && !ref.contains(event.target)
-  //   );
-  //   if (isOutsideDropdown) {
-  //     setSelectedCategoryId(null);
-  //   }
-  // };
-  // useEffect(() => {
-  //   document.addEventListener("click", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutside);
-  //   };
-  // }, []);
-
   return (
     <section
       className={`secondary mx-10 pt-2 absolute top-32 -z-50 w-3/4 ${
@@ -220,8 +191,7 @@ const CategoryTable = ({ openEdit, openCreate, openPreview, role }) => {
           />
         </div>
         <div>
-          {/* hover:bg-yellow-800  bg-yellow-900 */}
-          {role === "admin" && (
+           {role === "admin" && (
             <button
               className="secondaryBtn w-28 rounded-md m-3 fw-bold"
               onClick={openCreate}

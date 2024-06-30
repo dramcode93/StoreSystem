@@ -6,6 +6,8 @@ const en = {
   Home: {
     Home: "Home",
     shop: "Shop",
+    Information: "Information",
+    MainShop: "Main Shop",
     branches: "branches",
     coupons: "coupons",
     orders: "orders",
@@ -39,8 +41,7 @@ const en = {
     Order: "Order",
     Customer: "Customer",
     ChangePassword: "Change Password",
-    Information: "Information",
-    Notifications: "Notifications",
+     Notifications: "Notifications",
     Translate: "Translate",
     LogOut: "Log Out",
     Mode: "Change Mode",

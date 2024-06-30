@@ -3,6 +3,7 @@ import { useI18nContext } from "../context/i18n-context";
 import FormSelect from "../../form/FormSelect";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
 export default function SubSalesTable() {
   const [selectedSalesId, setSelectedSalesId] = useState(null);
@@ -12,7 +13,10 @@ export default function SubSalesTable() {
   const [error, setError] = useState(null);
   const [subShops, setSubShops] = useState([]);
   const token = Cookies.get("token");
-
+  const [pagination, setPagination] = useState({
+    currentPge: 1,
+    totalPages: 1,
+  });
   const dropdownRefs = useRef({});
   const { t, language } = useI18nContext();
 
@@ -35,20 +39,19 @@ export default function SubSalesTable() {
   const handleSelectChange = async (event) => {
     const value = event.target.value;
     setSelectedOption(value);
-
-    await handleShowTable(value, selectedSubShop);
+    setPagination({ ...pagination, currentPge: 1 }); // Reset to first page when option changes
+    await handleShowTable(value, selectedSubShop, 1);
   };
 
   const handleSubShopChange = async (event) => {
     const value = event.target.value;
     setSelectedSubShop(value);
-
     if (selectedOption) {
-      await handleShowTable(selectedOption, value);
+      await handleShowTable(selectedOption, value, 1);
     }
   };
 
-  const handleShowTable = async (option, subShopId) => {
+  const handleShowTable = async (option, subShopId, page) => {
     const endpointMap = {
       day: "daily",
       month: "monthly",
@@ -56,28 +59,31 @@ export default function SubSalesTable() {
     };
     const endpoint = endpointMap[option];
 
-    const url = `https://store-system-api.gleeze.com/api/subSales/${endpoint}?subShop=${subShopId}`;
+    const url = `https://store-system-api.gleeze.com/api/subSales/${endpoint}?subShop=${subShopId}&page=${page}`;
 
-    if (option && subShopId) {
-      try {
-        const token = Cookies.get("token");
-        const response = await axios.get(url, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+    try {
+      const token = Cookies.get("token");
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        if (response.data.data && response.data.data.length > 0) {
-          setSalesData(response.data.data);
-        } else {
-          setSalesData([]);
-        }
-        setError(null);
-        document.getElementById("table").style.display = "table";
-      } catch (error) {
-        console.error("There was a problem with the fetch operation:", error);
-        setError("You are not logged in! Please log in to get access.");
+      if (response.data.data && response.data.data.length > 0) {
+        setSalesData(response.data.data);
+      } else {
+        setSalesData([]);
       }
+      setPagination({
+        ...pagination,
+        currentPge: page,
+        totalPages: response.data.paginationResult.numberOfPages,
+      });
+      setError(null);
+      document.getElementById("table").style.display = "table";
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      setError("You are not logged in! Please log in to get access.");
     }
   };
 
@@ -109,19 +115,56 @@ export default function SubSalesTable() {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     if (selectedOption === "day") {
-      return date.toLocaleDateString('en-GB'); 
+      return date.toLocaleDateString('en-GB');
     } else if (selectedOption === "month") {
       return date.toLocaleString("default", { month: "long", year: "numeric" });
     } else if (selectedOption === "year") {
       return date.getFullYear();
     }
   };
+
+  const handlePageChange = (page) => {
+    setPagination({ ...pagination, currentPge: page });
+    handleShowTable(selectedOption, selectedSubShop, page);
+  };
+
+  const MAX_DISPLAY_PAGES = 5;
+
+  const startPage = Math.max(
+    1,
+    Math.min(
+      pagination.currentPge - Math.floor(MAX_DISPLAY_PAGES / 2),
+      pagination.totalPages - MAX_DISPLAY_PAGES + 1
+    )
+  );
+
+  const endPage = Math.min(
+    startPage + MAX_DISPLAY_PAGES - 1,
+    pagination.totalPages
+  );
+
+  const pageButtons = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, index) => startPage + index
+  );
+
+  const handlePreviousPage = () => {
+    if (pagination.currentPge > 1) {
+      handlePageChange(pagination.currentPge - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (pagination.currentPge < pagination.totalPages) {
+      handlePageChange(pagination.currentPge + 1);
+    }
+  };
+
   return (
     <div>
       <section
-        className={`mx-10 rounded-md py-2 absolute top-32 -z-50 w-3/4 ${
-          language === "ar" ? "left-10" : "right-10"
-        }`}
+        className={`mx-10 rounded-md py-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"
+          }`}
       >
         <div className="mx-auto max-w-screen-xl">
           <div>
@@ -210,7 +253,44 @@ export default function SubSalesTable() {
                   )}
                 </tbody>
               </table>
+
+              <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 gap-8">
+                <ul className="inline-flex items-stretch -space-x-px" dir="ltr">
+                  <li>
+                    <button
+                      className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                      onClick={handlePreviousPage}
+                    >
+                      <span className="sr-only">Previous</span>
+                      <CaretLeft size={18} weight="bold" />
+                    </button>
+                  </li>
+                  {pageButtons.map((page) => (
+                    <li key={page}>
+                      <button
+                        className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${pagination.currentPge === page
+                          ? "bg-gray-200 text-gray-800"
+                          : "text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                          }`}
+                        onClick={() => handlePageChange(page)}
+                      >
+                        {page}
+                      </button>
+                    </li>
+                  ))}
+                  <li>
+                    <button
+                      className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500  rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                      onClick={handleNextPage}
+                    >
+                      <span className="sr-only">Next</span>
+                      <CaretRight size={18} weight="bold" />
+                    </button>
+                  </li>
+                </ul>
+              </nav>
             </div>
+            
           </div>
         </div>
       </section>
