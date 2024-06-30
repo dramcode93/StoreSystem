@@ -126,7 +126,7 @@ const ShopProduct = () => {
                   }`}
               >
                 <div className="secondaryF m-3 text-center text-2xl font-bold mx-auto">
-                  No products available in this shop.
+                  {t("Cart.NoProducts")}
                 </div>
               </div>
             )}

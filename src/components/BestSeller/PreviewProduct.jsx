@@ -80,7 +80,7 @@ const PreviewProduct = () => {
         </div>
       ) : product ? (
         <div className=" ">
-          <div className="flex mx-20  my-10 ">
+          <div className="flex mx-10  my-10 ">
             <div className="d-flex flex-col">
               <div>
                 <img
@@ -112,10 +112,13 @@ const PreviewProduct = () => {
                 </div>
               }
             </div>
-            <div >
+            <div className="w-1/2">
               <h1 className="secondaryF font-bold mb-3 capitalize">{product.name}</h1>
               <div className="mx-3">
                 <h4 className="secondaryF  font-bold">{product?.description}</h4>
+                <h4 className="secondaryF font-bold">
+                  {t("Cart.Category")} <span className="text-gray-600 font-semibold">{product.category.name}</span>
+                </h4>
                 <h4 className="secondaryF font-bold">
                   {product.sellingPrice}{" "}
                   <span className="text-orange-400">$</span>
@@ -123,13 +126,11 @@ const PreviewProduct = () => {
                 <h4 className="secondaryF font-bold">
                   {t("Cart.Quantity")}: <span className="text-gray-600 font-semibold">{product.quantity}</span>
                 </h4>
+                <h4 className="secondaryF font-bold">{t("Cart.Sold")}: <span className="text-gray-600 font-semibold">{product.sold}</span></h4>
                 <h4 className="secondaryF font-bold">
                   {t("Cart.ShopName")}: <span className="text-gray-600 font-semibold">{product.shop.name}</span>
                 </h4>
-                <h4 className="secondaryF font-bold">
-                  {t("Cart.Category")} <span className="text-gray-600 font-semibold">{product.category.name}</span>
-                </h4>
-                <h4 className="secondaryF font-bold">{t("Cart.Sold")}: <span className="text-gray-600 font-semibold">{product.sold}</span></h4>
+
 
                 <div className="mt-3">
                   <button

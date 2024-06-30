@@ -326,6 +326,10 @@ const ar = {
     AddtoCart: "أضِف إلى العربة",
     Preview: "مُعاينة",
     ShopName: "اسم المحل",
+    YourCartcontain: "تحتوي عربتك على",
+    NoProducts: "لا يوجد منتجات في هذا المحل.",
+
+
 
   },
 };

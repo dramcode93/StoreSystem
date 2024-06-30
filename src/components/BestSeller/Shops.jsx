@@ -72,7 +72,6 @@ const Shops = () => {
           }`}
       >
         <div>
-          <h3 className="font-bold secondaryF text-5xl m-3">{t("Cart.Shops")}</h3>
           {loading ? (
             <div className="fs-4 text-center mb-5 pb-3 text-gray-500 dark:text-gray-400">
               <Loading />
