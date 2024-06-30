@@ -98,13 +98,13 @@ const Information = ({ openAdd, role }) => {
 
   const handleDelAddress = async (index) => {
     try {
-      setIsDeletingAddress(true); // Set isDeletingAddress to true before making the request
+      setIsDeletingAddress(true);
       if (token) {
         const response = await axios.delete(`${DEL_address}`, {
           data: { address: info.address[index] },
           headers: { Authorization: `Bearer ${token}` },
         });
-        setIsDeletingAddress(false); // Set isDeletingAddress to false after the request completes
+        setIsDeletingAddress(false);
         fetchData();
       } else {
         console.error("No token found.");
@@ -188,9 +188,8 @@ const Information = ({ openAdd, role }) => {
   return (
     // bg-gray-700 bg-opacity-25
     <section
-      className={` mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${
-        language === "ar" ? "left-10" : "right-10"
-      }`}
+      className={` mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"
+        }`}
     >
       {/* <h3 className='font-bold text-white p-3'>{t(`Information.InformationPage`)}</h3> */}
       {loading ? (

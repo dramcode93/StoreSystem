@@ -45,7 +45,7 @@ const CartHover = () => {
     return (
         <div>
             <div>
-                Your Cart contain:
+                {t("Cart.YourCartcontain")}:
 
                 {loading ? (
                     <div className=" text-center mb-5 pb-3 text-gray-500 dark:text-gray-400"><Loading /></div>
@@ -66,8 +66,8 @@ const CartHover = () => {
 
                                     </div>
                                 </div>))}
-                            <button className='bg-orange-700 ' onClick={() => { navigate('/cart') }}
-                            >Order Now</button>
+                            <button className='bg-orange-700 ' onClick={() => { navigate('/cart') }}>{t("Cart.OrderNow")}
+                            </button>
 
                         </div>
                     ) : (

@@ -317,6 +317,9 @@ const en = {
     AddtoCart: "Add to Cart",
     Preview: "Preview",
     ShopName: "Shop Name",
+    YourCartcontain: "Your Cart contain",
+    NoProducts: "No products available in this shop.",
+
   },
 };
 
