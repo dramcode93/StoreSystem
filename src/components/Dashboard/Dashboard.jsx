@@ -1,39 +1,27 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { BiCategory } from "react-icons/bi";
-import { LiaMoneyBillSolid } from "react-icons/lia";
-import { MdProductionQuantityLimits, MdBorderColor } from "react-icons/md";
-import { CgProfile } from "react-icons/cg";
-import { NavLink } from "react-router-dom";
+ import { NavLink } from "react-router-dom";
 import { useI18nContext } from "../context/i18n-context";
 import module from "./Dashboard.module.css";
-import { House } from "@phosphor-icons/react";
-import { FiChevronDown, FiChevronUp, FiShoppingCart } from "react-icons/fi";
+ import { FiChevronDown, FiChevronUp, FiShoppingCart } from "react-icons/fi";
 import Cookies from "js-cookie";
-import { BsFillPersonVcardFill } from "react-icons/bs";
-import axios from "axios";
+ import axios from "axios";
 import {
   FaHome,
   FaStore,
   FaSitemap,
-  FaChartBar,
-  FaReceipt,
-  FaUsers,
-  FaTag,
-  FaClipboardList,
-  FaShoppingBag,
+   FaUsers,
+   FaShoppingBag,
   FaUserCircle,
   FaFileInvoice,
   FaFileInvoiceDollar,
-  FaPercentage,
-  FaLock,
+   FaLock,
   FaChartPie,
   FaChartLine,
 } from "react-icons/fa";
 import {
   MdCategory,
   MdShoppingCart,
-  MdAccountCircle,
-  MdOutlineInventory,
+   MdOutlineInventory,
 } from "react-icons/md";
 import { HiOutlineDocumentReport, HiUserGroup } from "react-icons/hi";
 import { IoMdPricetags } from "react-icons/io";
@@ -44,12 +32,12 @@ const roleRoutes = {
       name: "Home.shop",
       icon: <FaStore />,
       dropdownItems: [
-        { text: "Main Shop", path: "/shop", icon: <FaStore /> },
+        { text: "MainShop", path: "/shop", icon: <FaStore /> },
         {
-          text: "Information",
           path: "/shopInformation",
+          text: "Information",
           icon: <HiOutlineDocumentReport />,
-        },
+         },
       ],
     },
     {
@@ -82,10 +70,6 @@ const roleRoutes = {
       path: "/customers",
       name: "Home.Customer",
       icon: <FaUsers />,
-      // dropdownItems: [
-      //   { text: "Create", path: "/create", icon: <MdAccountCircle /> },
-      //   { text: "Show bills", path: "/show-bills", icon: <FaFileInvoice /> },
-      // ],
     },
     { path: "/bills", name: "Home.Bill", icon: <FaFileInvoice /> },
     { path: "/order", name: "Home.orders", icon: <FaShoppingBag /> },
@@ -94,15 +78,14 @@ const roleRoutes = {
       name: "Home.Profile",
       icon: <FaUserCircle />,
       dropdownItems: [
-        { text: "Information", path: "/information", icon: <FaUserCircle /> },
+        { text: "Information" , path: "/information", icon: <FaUserCircle /> },
         { text: "Change Password", path: "/change-password", icon: <FaLock /> },
         { text: "Users", path: "/users", icon: <HiUserGroup /> },
       ],
     },
   ],
   manager: [
-    // { path: "/Home", name: "Home.Home", icon: <FaHome /> },
-    { path: "/shopTypes", name: "Home.shopTypes", icon: <FaStore /> },
+     { path: "/shopTypes", name: "Home.shopTypes", icon: <FaStore /> },
     {
       name: "Home.Profile",
       icon: <FaUserCircle />,
@@ -320,8 +303,7 @@ const Dashboard = ({ children }) => {
       {routes && (
         <div
           style={{
-            // width:isSideBarOpen?"260px":"0px",
-            marginTop: "12.77vh",
+             marginTop: "12.77vh",
             boxShadow:
               language === "ar"
                 ? "-4px 0px 2px rgba(0, 0, 0, 0.1)"

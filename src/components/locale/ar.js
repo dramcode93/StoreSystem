@@ -5,7 +5,8 @@ const ar = {
   },
   Home: {
     Home: "الرئيسية",
-    Information: "الرئيسية",
+    Information: "المعلومات",
+    MainShop: "المحل الرئيسي",
     shop: "المحل",
     coupons: "الكوبونات",
     orders: "الطلبات",

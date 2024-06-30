@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="21570dd8-f5da-4445-919b-92916c6a75e5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/Navbar/logo/Black-and-Gold-Sophisticated-Traditional-Fashion-Logo-(1).svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ShopTypes/AddType.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ShopTypes/EditType.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ShopTypes/ShopTypes.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ShopTypes/TypesTable.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/copouns/forms/CreateCopouns.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BestSeller/BestSeller.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BestSeller/BestSeller.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BestSeller/Cart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BestSeller/Cart.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BestSeller/CartHover.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BestSeller/CartHover.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BestSeller/PreviewProduct.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BestSeller/PreviewProduct.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BestSeller/ShopProduct.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BestSeller/ShopProduct.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BestSeller/Shops.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BestSeller/Shops.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BestSeller/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BestSeller/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Bills/Bills.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Bills/Bills.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Bills/BillsTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Bills/BillsTable.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Bills/ConfirmationDelete.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Bills/UserBillsTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Bills/UserBillsTable.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Bills/forms/BillsFormPreview.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Bills/forms/BillsFormPreview.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Bills/forms/PreviewBills.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Bills/forms/PreviewBills.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Bills/forms/UpdateBills.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Bills/forms/UpdateBills.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Bills/forms/UserBills.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Bills/forms/UserBills.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Bills/forms/createBills.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Bills/forms/createBills.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Branches/ActiveField.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Branches/ActiveField.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Branches/AddressField.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Branches/AddressField.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Branches/BranchInfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Branches/BranchInfo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Branches/EditAddress.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Branches/EditAddress.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Branches/FinancialDealings.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Branches/FinancialDealings.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Branches/PaymentField.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Branches/PaymentField.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Category/Category.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Category/Category.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Category/CategoryTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Category/CategoryTable.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Category/ConfirmationModel.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Category/ConfirmationModel.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Category/forms/CategoryForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Category/forms/CategoryForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Category/forms/PreviewCategory.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Category/forms/PreviewCategory.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Category/forms/Update.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Category/forms/Update.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Customers/AddCustomer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Customers/AddCustomer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Customers/ConfirmationDelete.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Customers/CustomerFormPreview.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Customers/CustomerFormPreview.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Customers/CustomersTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Customers/CustomersTable.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Customers/PreviewCustomer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Customers/PreviewCustomer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Customers/UpdateCustomer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Customers/UpdateCustomer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Dashboard.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Dashboard.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ForgetPass/ForgetPass1.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ForgetPass/ForgetPass1.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ForgetPass/ForgetPass2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ForgetPass/ForgetPass2.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ForgetPass/ForgetPass3.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ForgetPass/ForgetPass3.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ForgetPass/forget.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ForgetPass/forget.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Home/Home.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home/Home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Home/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Login/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Navbar/MyComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar/MyComponent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Products/AddProduct.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Products/AddProduct.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Products/ConfirmationDelete.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Products/EditQuantity.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Products/EditQuantity.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Products/PreviewProduct.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Products/PreviewProduct.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Products/ProductFormPreview.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Products/ProductFormPreview.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Products/Products.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Products/Products.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Products/Products.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Products/Products.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Products/ProductsTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Products/ProductsTable.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Products/TransportProduct.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Products/TransportProduct.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Products/updateProduct.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Products/updateProduct.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Sales/SalesTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Sales/SalesTable.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Shop/AddSubShop.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Shop/AddSubShop.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Shop/ImageField.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Shop/ImageField.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Shop/NameField.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Shop/NameField.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Shop/Shop.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Shop/Shop.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Shop/ShopInformation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Shop/ShopInformation.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Shop/TypeField.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Shop/TypeField.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Shop/css/AllShop.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Shop/css/AllShop.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Signup/Signup.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Signup/Signup.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/copouns/copouns.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/copouns/copouns.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/copouns/copounsTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/copouns/copounsTable.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/copouns/forms/UpdateCopoun.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/copouns/forms/UpdateCopoun.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/deposit/Actions.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/deposit/Actions.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/deposit/Deposit.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/deposit/Deposit.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/locale/ar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/locale/ar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/locale/en.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/locale/en.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/orders/OrdersTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/orders/OrdersTable.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/orders/forms/PreviewOrder.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/orders/forms/PreviewOrder.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile/AddressField.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile/AddressField.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile/AddressLoggedUser.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile/AddressLoggedUser.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile/ChangPassword.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile/ChangPassword.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile/CreateUser.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile/CreateUser.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile/Information.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile/Information.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile/PhoneField.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile/PhoneField.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile/ProfileField.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile/ProfileField.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile/UpdateUser.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile/UpdateUser.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile/UserInfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile/UserInfo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile/UserTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile/UserTable.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile/Users.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile/Users.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile/changeUserPassword.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile/changeUserPassword.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/subSales/SubSalesTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/subSales/SubSalesTable.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/form/Card.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/form/Card.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/form/FormInput.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/form/FormInput.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/form/FormNumber.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/form/FormNumber.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/form/FormPic.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/form/FormPic.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/form/FormSelect.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/form/FormSelect.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/form/FormText.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/form/FormText.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="prog" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
+    {
+      &quot;state&quot;: &quot;OPEN&quot;,
+      &quot;assignee&quot;: &quot;dramcode93&quot;
+    }
+  ],
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;dramcode93&quot;
+  }
+}</component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="home" />
+                    <option name="lastUsedInstant" value="1719699059" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="prog" />
+                    <option name="lastUsedInstant" value="1719699004" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="master" />
+                    <option name="lastUsedInstant" value="1719699003" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/dramcode93/StoreSystem.git&quot;,
+    &quot;accountId&quot;: &quot;c72e3988-4462-4186-b451-1376d1b11776&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2iZUx2MM7XFuWWxmAIKyIc1BYzN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Merging home&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.1.5\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.18034.50" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="21570dd8-f5da-4445-919b-92916c6a75e5" name="Changes" comment="" />
+      <created>1719697836269</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719697836269</updated>
+      <workItem from="1719697839301" duration="340000" />
+      <workItem from="1719698192704" duration="272000" />
+      <workItem from="1719698747578" duration="2189000" />
+      <workItem from="1719701895502" duration="986000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="home" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
