@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 
 export default function CreateCategory({ closeModal, role, modal }) {
  
-  const {  language } = useI18nContext();
+  const { t, language } = useI18nContext();
   const token = Cookies.get("token");
   const [name, setName] = useState("");
   const handleAddCategory = async (e) => {
@@ -58,7 +58,8 @@ export default function CreateCategory({ closeModal, role, modal }) {
               className="flex justify-between items-center w-full pb-4  rounded-t border-b sm:mb-5 dark:border-gray-600"
             >
               <h3 className="text-xl font-bold mr-3 text-gray-900 dark:text-white outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear">
-                Add Category
+                {t("Category.AddCategory")}
+   
               </h3>
               <button
                 type="button"
@@ -75,21 +76,20 @@ export default function CreateCategory({ closeModal, role, modal }) {
               dir={language === "ar" ? "rtl" : "ltr"}
             >
               <FormText
-                label="Name"
+                label={t("Category.Name")}
                 name="name"
                 value={name}
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
-                placeholder="Name"
+                placeholder={t("Category.Name")}
               />
               <div className="col-span-2 flex justify-center">
                 <button
                   disabled={!name}
-                  // className="bg-yellow-900 w-1/2 h-12 rounded-md hover:bg-yellow-800 fw-bold text-xl"
                      className="secondaryBtn w-1/2 h-12 rounded-md  fw-bold text-xl "
                 >
-                  Add Category +
+                  {t("Category.AddCategory")} +
                 </button>
               </div>
             </form>

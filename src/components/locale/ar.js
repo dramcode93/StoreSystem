@@ -76,6 +76,7 @@ const ar = {
     From: " من",
     Appear: " ظهر",
     Action: "إجراء",
+    AddCategory: "إضافة فئة",
   },
   Products: {
     Search: "بحث",
@@ -254,6 +255,24 @@ const ar = {
     DailySales: "المبيعات اليومية",
     ProductsMoney: "المال الكلي للمنتجات",
     Actions: " الإجراءات",
+    AddSubShop: " إضافة فرع",
+    ShopImage: "صورة المحل",
+    ShopType: "نوع المحل",
+        Name: "الإسم",
+        DeliveryService: "خدمة التوصيل",
+         Street: "الشارع",
+         City: "المدينة",
+    Governorate: "المحافظة",
+    Money: "المال",
+    Reason: "السبب",
+    Transaction: "العملية",
+    Submit: "إضافة",
+    Withdraw: "إيداع",
+    Deposit: "سحب",
+    EnterAmount: "أدخل المبلغ",
+        phone: " رقم الهاتف",
+
+
   },
   order: {
     EnablePaid: "تمكين الدفع",
