@@ -198,7 +198,7 @@ const TypesTable = ({ openEdit, openCreate }) => {
               <th scope="col" className="px-4 py-4">
                 Updated At
               </th> */}
-              <th scope="col" className="px-4 py-4">
+              <th colSpan="4"  scope="col" className="px-4 py-4">
                 <span className="sr-only">Actions</span>
               </th>
             </tr>
@@ -206,7 +206,7 @@ const TypesTable = ({ openEdit, openCreate }) => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="3" className=" fs-4 text-center mb-5 pb-3">
+                <td colSpan="4" className=" fs-4 text-center mb-5 pb-3">
                   <Loading />
                 </td>
               </tr>
