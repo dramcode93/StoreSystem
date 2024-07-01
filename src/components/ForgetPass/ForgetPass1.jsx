@@ -28,7 +28,7 @@ const ForgetPassword = () => {
       const resetToken = response.data.resetToken;
       const tokenTime = 1;
       Cookies.set('resetToken', resetToken, { expires: tokenTime, secure: true, sameSite: 'strict' });
-      setStep(2); // Move to step 2
+      setStep(2);
     } catch (error) {
       console.error('An error occurred while sending the reset password request', error);
       ErrorAlert({ text: "An error occurred while sending the reset password request" });
@@ -43,7 +43,7 @@ const ForgetPassword = () => {
       const response = await axios.post('https://store-system-api.gleeze.com/api/auth/verifyResetPasswordCode', {
         resetCode: verificationCode,
       }, { headers: { Authorization: `Bearer ${resetToken}` } });
-      setStep(3); // Move to step 3
+      setStep(3);
     } catch (error) {
       console.error('An error occurred while sending the reset password request', error);
       ErrorAlert({ text: "Wrong verification code" });
@@ -59,7 +59,7 @@ const ForgetPassword = () => {
         newPassword,
         confirmNewPassword,
       }, { headers: { Authorization: `Bearer ${resetToken}` } });
-      Cookies.remove('resetToken'); // Remove token after password is changed
+      Cookies.remove('resetToken');
       window.location.href = '/';
     } catch (error) {
       console.error('An error occurred while sending the reset password request', error);
