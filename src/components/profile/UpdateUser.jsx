@@ -33,6 +33,9 @@ function UpdateUser({ closeModal, role, modal, userData }) {
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [branches, setBranches] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState([]);
+
   useEffect(() => {
     const fetchGovernorates = async () => {
       try {
@@ -42,6 +45,7 @@ function UpdateUser({ closeModal, role, modal, userData }) {
         setGovernorates(response.data.data);
         setLoading(false);
         if (modal) {
+          setSelectedBranch(userData.subShop)
           setNewName(userData.name);
           setNewEmail(userData.email);
           setNewPhone(userData.phone[0]);
@@ -85,6 +89,7 @@ function UpdateUser({ closeModal, role, modal, userData }) {
         {
           name: newName,
           email: newEmail,
+          subShop:selectedBranch
           // address: {
           //     governorate: newSelectedGovernorate, //this should pass governorate id
           //     city: newSelectedCity, //this should pass city id
@@ -115,7 +120,7 @@ function UpdateUser({ closeModal, role, modal, userData }) {
     setNewSelectedGovernorate("");
     setNewSelectedCity("");
   };
-
+ 
   const handleAddPhone = async () => {
     try {
       if (token) {
@@ -194,6 +199,23 @@ function UpdateUser({ closeModal, role, modal, userData }) {
       });
   };
 
+  useEffect(() => {
+    const fetchBranchesData = async () => {
+      if (token && role === "admin") {
+        try {
+          const response = await axios.get(
+            "https://store-system-api.gleeze.com/api/subShops",
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          const fetchedBranches = response.data.data;
+          setBranches(fetchedBranches);
+        } catch (error) {
+          console.error("Error fetching branches data:", error);
+        }
+      }
+    };
+    fetchBranchesData();
+  }, [token, role]);
   return (
     <div
       onClick={handleBackgroundClick}
@@ -248,15 +270,24 @@ function UpdateUser({ closeModal, role, modal, userData }) {
               onChange={(e) => setNewEmail(e.target.value)}
               placeholder="Email"
             />
-
+              {role === "admin" && (
+                <FormSelect
+                  selectLabel="Select Branch"
+                  headOption="Select a Branch"
+                  handleChange={(e) => setSelectedBranch(e.target.value)}
+                  options={branches.map((branch) => ({
+                    value: branch._id,
+                    label: branch.name,
+                  }))}
+                  name="Branch"
+                  value={selectedBranch}
+                />
+              )}
             <div className=" flex justify-center mt-9">
               <button
                 disabled={
                   !newName ||
-                  !newPhone ||
-                  !newSelectedGovernorate ||
-                  !newSelectedCity ||
-                  !newStreet
+                  !newEmail
                 }
                  className="secondaryBtn w-96 h-12 rounded-md  fw-bold text-xl "
               >

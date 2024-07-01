@@ -119,6 +119,8 @@ export default function ProductFormPreview({ details, t, headers }) {
   //   setSelectedImage(imageUrl);
   // };
 
+
+  console.log("object",details)
   return (
     <dl className="">
       {loading ? (
@@ -205,6 +207,45 @@ export default function ProductFormPreview({ details, t, headers }) {
               {specificProduct?.sold}
             </dd>
           </div>
+          <div className="">
+            <dt className="mb-3 font-semibold leading-none secondaryF">
+              {headers?.subShop} :
+            </dt>
+            {details?.subShops?.length > 0 ? (
+                  <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
+                      <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
+                        <th scope="col" className="px-4 py-3">
+                          Branch
+                        </th>
+                        <th scope="col" className="px-4 py-3">
+                          Quantity
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {details.subShops.map((item, index) => (
+                        <tr
+                          key={index}
+                          className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
+                        >
+                          <td className="px-4 py-3">{item?.subShop.name}</td>
+                          <td className="px-4 py-3">{item.quantity}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <div className="d-flex gap-1">
+                    <td
+                      colSpan="4"
+                      className="!text-base font-light  sm:mb-5 secondaryF"
+                    >
+                      No products yet
+                    </td>
+                  </div>
+                )}
+          </div>
 
           {/* <div className="d-flex gap-2 items-center">
               <dt className=" font-semibold leading-none text-gray-900 dark:text-themeColor d-flex">
@@ -231,8 +272,8 @@ export default function ProductFormPreview({ details, t, headers }) {
               </dd>
             </div> */}
 
-          <div className="d-flex gap-2 items-center">
-            <dt className=" font-semibold leading-none secondaryF d-flex">
+          <div className="">
+            <dt className=" font-semibold leading-none secondaryF d-flex my-3">
               {headers?.images}:
             </dt>
             <dd className="mb-0 font-light text-gray-500 sm:mb-5 dark:text-gray-400 d-flex gap-2 items-center">

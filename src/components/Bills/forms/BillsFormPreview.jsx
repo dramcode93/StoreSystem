@@ -75,23 +75,50 @@ export default function BillsFormPreview({ details, t, headers }) {
           <dt className="mb-4 font-semibold leading-none text-gray-900 dark:text-themeColor">
             {headers?.products} :
           </dt>
-          <div className="grid grid-cols-2 gap-2 text-gray-900 dark:text-gray-300 m-0">
-            {details.products ? (
-              details.products.map((item) => (
-                 <div className="d-flex gap-1" key={item._id}>
-                  <dd className="!text-base font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-                    {item.product ? item.product.name : "No products yet"}
-                  </dd>
-                </div>
-              ))
-            ) : (
-              <div className="d-flex gap-1">
-                <dd className="!text-base font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-                  No products yet
-                </dd>
-              </div>
-            )}
-          </div>
+          {details.products?.length > 0 ? (
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
+                <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
+                  <th scope="col" className="px-4 py-3">
+                    Product
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Quantity
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Price
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Total Price
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {details.products.map((item, index) => (
+                  <tr
+                    key={index}
+                    className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
+                  >
+                    <td className="px-4 py-3">{item.product?.name}</td>
+                    <td className="px-4 py-3">{item.productQuantity}</td>
+                    <td className="px-4 py-3">
+                      {item.product?.sellingPrice} $
+                    </td>
+                    <td className="px-4 py-3">{item.totalPrice} $</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <div className="d-flex gap-1">
+              <td
+                colSpan="4"
+                className="!text-base font-light  sm:mb-5 secondaryF"
+              >
+                No products yet
+              </td>
+            </div>
+          )}
         </>
       )}
     </dl>

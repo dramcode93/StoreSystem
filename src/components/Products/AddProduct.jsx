@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { X } from "@phosphor-icons/react";
 import { useI18nContext } from "../context/i18n-context";
 import FormNumber from "../../form/FormNumber";
-import axios from "axios";
+import axios, { formToJSON } from "axios";
 import Cookies from "js-cookie";
 import FormText from "../../form/FormText";
 import FormSelect from "../../form/FormSelect";
@@ -32,6 +32,9 @@ export default function AddProduct({ closeModal, role, modal }) {
   const [branches, setBranches] = useState([]);
   const [branchQuantities, setBranchQuantities] = useState({});
 
+  const [images, setImages] = useState("");
+  const [imageURLs, setImageURLs] = useState([]);
+
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
@@ -43,7 +46,10 @@ export default function AddProduct({ closeModal, role, modal }) {
         })
       );
 
-      const totalBranchQuantity = subShops.reduce((total, subShop) => total + subShop.quantity, 0);
+      const totalBranchQuantity = subShops.reduce(
+        (total, subShop) => total + subShop.quantity,
+        0
+      );
 
       if (totalBranchQuantity !== parseInt(quantity, 10)) {
         ErrorAlert({
@@ -52,28 +58,65 @@ export default function AddProduct({ closeModal, role, modal }) {
         return;
       }
 
-      console.log(totalBranchQuantity)
+      console.log(totalBranchQuantity);
 
+      // const formData = new FormData();
+      // formData.append("name", name);
+      // formData.append("description", description);
+      // formData.append("productPrice",parseInt(productPrice) );
+      // formData.append("sellingPrice", parseInt(sellingPrice));
+      // formData.append("quantity", quantity);
+      // formData.append("category", category);
+      // // formData.append("subShops", subShops);
+      // images.forEach((file, index) => {
+      //   formData.append("images", file);
+      // });
+
+      // console.log(formToJSON(formData))
+      // console.log(subShops)
       // Make POST request to add product
       const response = await axios.post(
         "https://store-system-api.gleeze.com/api/products",
         {
+          // formData
+          // ,subShops:subShops
           name: name,
           description: description,
           productPrice: parseInt(productPrice),
           sellingPrice: parseInt(sellingPrice),
           quantity: parseInt(quantity),
           category: category,
+          // images:images,
           subShops: subShops,
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       console.log("Product added successfully:", response.data);
+      if (response.data.images) {
+        const uploadedImageURLs = response.data.images.map(
+          (image) => image.url
+        );
+        setImageURLs(uploadedImageURLs);
+      }
       closeModal();
     } catch (error) {
       console.error("Error adding product:", error);
     }
+  };
+
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
+    setImages((prevFiles) => {
+      const totalFiles = prevFiles.length + files.length;
+      if (totalFiles <= 5) {
+        return [...prevFiles, ...files];
+      } else {
+        MaxImgAlert({ title: "Oops...", text: "Maximum 5 images allowed" }); // Display error alert
+        // setImages("")
+        return prevFiles; // Prevent adding more files
+      }
+    });
   };
 
   const fetchCategories = async () => {
@@ -217,9 +260,32 @@ export default function AddProduct({ closeModal, role, modal }) {
                 placeholder="Description..."
                 value={description}
               />
+
+              <div className="">
+                <FormPic
+                  label="Upload Images"
+                  name="Upload Images"
+                  onChange={handleImageChange}
+                  placeholder="Product Image"
+                  fileList={images}
+                />
+              </div>
+              {images.length > 0 && (
+                <div className="d-flex gap-2">
+                  {images.map((file, index) => (
+                    <div key={index}>
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt={`Uploaded ${index + 1}`}
+                        className="max-w-full h-10"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
               {role === "admin" && (
                 <>
-                  <hr className="my-1 border-gray-300 w-full col-span-2" />
+                  <hr className="my-1 border-gray-500 w-full col-span-2" />
                   <p className="secondaryF text-xl col-span-2">
                     Branches quantities
                   </p>

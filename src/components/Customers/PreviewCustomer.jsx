@@ -49,10 +49,10 @@ export default function PreviewCustomer({ closeModal, assistantData }) {
             </button>
           </div>
           <div
-              className={`text-lg md:text-xl mx-auto text-center
-                secondaryBtn p-1 mb-4 rounded-md `}
+            className={`  mx-auto text-center
+              myColor p-1 mb-4`}
           >
-            <h3 className="font-semibold ">{t("previewForm.title")}</h3>
+            <h3 className="font-semibold mb-0 py-1 text-white">{t("previewForm.title")}</h3>
           </div>
           <CustomerFormPreview t={t} details={assistantData} headers={headers} />
         </div>
