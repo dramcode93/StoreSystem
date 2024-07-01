@@ -5,7 +5,7 @@ import Products from "./components/Products/Products.jsx";
 import Login from "./components/Login/Login.jsx";
 import { jwtDecode } from "jwt-decode";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
-import ForgotPassword1 from "./components/ForgetPass/ForgetPass1.jsx";
+import ForgotPassword from "./components/ForgetPass/ForgetPass1.jsx";
 import ForgotPassword2 from "./components/ForgetPass/ForgetPass2.jsx";
 import ForgotPassword3 from "./components/ForgetPass/ForgetPass3.jsx";
 import ChangPassword from "./components/profile/ChangPassword.jsx";
@@ -119,7 +119,7 @@ const App = () => {
         )}
         <div className="flex-grow">
           <Routes>
-            <Route path="/forgotPassword1" element={<ForgotPassword1 />} />
+            <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/forgotPassword2" element={<ForgotPassword2 />} />
             <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
             <Route path="/" element={<Login />} />
