@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 
 const API_users = "https://store-system-api.gleeze.com/api/users";
 
-const UserTable = ({ openCreate, openEdit }) => {
+const UserTable = ({ openCreate, openEdit, role }) => {
   const token = Cookies.get("token");
   const [users, setUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState(null);
@@ -180,6 +180,7 @@ const UserTable = ({ openCreate, openEdit }) => {
     }
   };
 
+  console.log(users);
   return (
     <div>
       <section
@@ -188,21 +189,21 @@ const UserTable = ({ openCreate, openEdit }) => {
         }`}
       >
         <div className="flex justify-between">
-        <div className="relative w-96 m-3">
-          <input
-            className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 dark:bg-gray-500"
-            type="text"
-            onChange={(e) => setSearchInput(e.target.value)}
-            value={searchInput}
-            placeholder={t("Products.Search")}
-          />
-          <CiSearch
-            className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${
-              language === "ar" ? "left-3" : "right-3"
-            } cursor-pointer`}
-            onClick={handleSearch}
-          />
-        </div>
+          <div className="relative w-96 m-3">
+            <input
+              className="px-4 py-2 pl-10 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 dark:bg-gray-500"
+              type="text"
+              onChange={(e) => setSearchInput(e.target.value)}
+              value={searchInput}
+              placeholder={t("Products.Search")}
+            />
+            <CiSearch
+              className={`absolute top-2 text-gray-900 dark:text-gray-50 text-xl ${
+                language === "ar" ? "left-3" : "right-3"
+              } cursor-pointer`}
+              onClick={handleSearch}
+            />
+          </div>
           <div>
             <button
               className="secondaryBtn w-28 rounded-md m-3 fw-bold"
@@ -242,7 +243,16 @@ const UserTable = ({ openCreate, openEdit }) => {
               <th scope="col" className="px-4 py-4">
                 {t("Users.ADDRESS")}
               </th>
-              <th scope="col" className="px-4 py-4"></th>
+              {role === "admin" && (
+                <>
+                  <th scope="col" className="px-4 py-4">
+                    Branch
+                  </th>
+                </>
+              )}
+              <th scope="col" className="px-4 py-3">
+                <span className="sr-only">Actions</span>
+              </th>
             </tr>
           </thead>
           {loading ? (
@@ -258,7 +268,9 @@ const UserTable = ({ openCreate, openEdit }) => {
               <tbody>
                 {users.length === 0 && (
                   <tr className="text-xl text-center">
-                    <td colSpan="8" style={{lineHeight: 3}}>{t("Products.NoProductsAvailable")}</td>
+                    <td colSpan="8" style={{ lineHeight: 3 }}>
+                      {t("Products.NoProductsAvailable")}
+                    </td>
                   </tr>
                 )}
                 {users.map((user) => (
@@ -314,7 +326,11 @@ const UserTable = ({ openCreate, openEdit }) => {
                         </div>
                       ))}
                     </td>
-
+                    {role === "admin" && (
+                      <>
+                        <td className="px-4 py-4">{user.subShop.name}</td>
+                      </>
+                    )}
                     <td className="px-4 py-3 flex items-center justify-end">
                       <button
                         className="inline-flex items-center text-sm font-medium   p-1.5  text-center text-gray-500 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 bg-transparent"
@@ -450,7 +466,7 @@ const UserTable = ({ openCreate, openEdit }) => {
                 <span className="sr-only">Next</span>
                 <CaretRight size={18} weight="bold" />
               </button>
-            </li> 
+            </li>
           </ul>
         </nav>
       </section>
