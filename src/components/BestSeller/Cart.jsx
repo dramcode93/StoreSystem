@@ -10,6 +10,9 @@ import { DeleteAlert, ErrorAlert, SuccessAlert } from "../../form/Alert";
 import BlackLogo from "../Navbar/logo/Black-and-Gold-Sophisticated-Traditional-Fashion-Logo-(1).svg";
 import FormSelect from "../../form/FormSelect";
 import { Link } from "react-router-dom";
+import FormPic from "../../form/FormPic";
+import { FaTimesCircle } from 'react-icons/fa';
+import { FiX } from "react-icons/fi";
 
 const Cart = () => {
   const { t, language } = useI18nContext();
@@ -30,6 +33,7 @@ const Cart = () => {
   const [userAddress, setUserAddress] = useState("");
   const [shopAddress, setShopAddress] = useState("");
   const [branchInfo, setBranchInfo] = useState([]);
+  const [onFileChange, setOnFileChange] = useState("");
 
   const token = Cookies.get("token");
 
@@ -276,7 +280,14 @@ const Cart = () => {
         setShowCouponInput(false);
       });
   };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setOnFileChange(file ? file.name : "");
+  };
 
+  const handleRemoveImage = () => {
+    setOnFileChange("");
+  };
   return (
     <div>
       <section
@@ -506,11 +517,25 @@ const Cart = () => {
                         type="text"
                         className="border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
                       ></input>
-                      <div className="d-flex">
-                        <input type="file" className="secondaryF w-1/3" />
-                        <p className="secondaryF text-xl mt-2">
+                      <div className="d-flex mt-2">
+                        <FormPic
+                          label={t("Cart.UploadImage")}
+                          name="Upload Image"
+                          placeholder="Product Image"
+                          onChange={handleFileChange}
+                        />
+                        {onFileChange && (
+                          <div className="d-flex relative align-items-center">
+                            <FaTimesCircle
+                              className="text-red-600 cursor-pointer absolute top-0 right-0"
+                              onClick={handleRemoveImage}
+                            />
+                            <p className="text-gray-600 mx-2 mt-3">{onFileChange}</p>
+                          </div>
+                        )}                        {onFileChange === "" && <p className="secondaryF text-xl mt-3 mx-2">
                           {t("Cart.Uploadpaymentproof")}
-                        </p>
+                        </p>}
+
                       </div>
                     </div>
                   )}
@@ -563,7 +588,11 @@ const Cart = () => {
                     {t("Cart.haveCopun")}
                   </Link>
                 ) : (
-                  <div>
+                  <div className="relative ">
+                    <FiX
+                      className="text-2xl text-red-500 cursor-pointer absolute top-0 right-1/2 mx-4"
+                      onClick={() => setShowCouponInput(false)}
+                    />
                     <p className="secondaryF mt-3 mr-2 text-xl font-bold">
                       {t("Cart.Entercoupon")}
                     </p>

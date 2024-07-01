@@ -244,7 +244,7 @@ const ar = {
     deposit: "السحب",
     all: "الكل",
     type: "النوع",
-    subShop: "الفرع", 
+    subShop: "الفرع",
     shop: "المحل الرئيسي",
     AllSubShops: "الفروع الرئيسية",
   },
@@ -262,10 +262,10 @@ const ar = {
     AddSubShop: " إضافة فرع",
     ShopImage: "صورة المحل",
     ShopType: "نوع المحل",
-        Name: "الإسم",
-        DeliveryService: "خدمة التوصيل",
-         Street: "الشارع",
-         City: "المدينة",
+    Name: "الإسم",
+    DeliveryService: "خدمة التوصيل",
+    Street: "الشارع",
+    City: "المدينة",
     Governorate: "المحافظة",
     Money: "المال",
     Reason: "السبب",
@@ -274,7 +274,7 @@ const ar = {
     Withdraw: "إيداع",
     Deposit: "سحب",
     EnterAmount: "أدخل المبلغ",
-        phone: " رقم الهاتف",
+    phone: " رقم الهاتف",
 
 
   },
@@ -320,7 +320,7 @@ const ar = {
     Submit: "تأكيد",
     Entercoupon: "ادخِل كوبونك:",
     EnterAccount: "ادخِل حسابك",
-    Uploadpaymentproof: "ارفع اثبات دفعك",
+    Uploadpaymentproof: "ارفع إثبات دفعك",
     shippingFees: "مصاريف الشحن:",
     TotalBill: "إجمالي الفاتورة:",
     Shops: "المحلات",
@@ -332,9 +332,7 @@ const ar = {
     ShopName: "اسم المحل",
     YourCartcontain: "تحتوي عربتك على",
     NoProducts: "لا يوجد منتجات في هذا المحل.",
-
-
-
+    UploadImage: "ارفع الصورة",
   },
 };
 
