@@ -85,10 +85,10 @@ export default function OrderPreview({ closeModal, assistantData }) {
           </div>
 
           <div
-            className={`text-lg md:text-xl mx-auto text-center
-              secondaryBtn p-1 mb-4 rounded-md `}
+            className={`  mx-auto text-center
+              myColor p-1 mb-4`}
           >
-            <h3 className="font-semibold">{t("previewForm.title")}</h3>
+            <h3 className="font-semibold mb-0 py-1 text-white">{t("previewForm.title")}</h3>
           </div>
 
           <dl>
@@ -97,52 +97,44 @@ export default function OrderPreview({ closeModal, assistantData }) {
             ) : (
               <>
                 <div className="d-flex gap-2">
-                  <h4 className="font-semibold secondaryF">order Code:</h4>
+                  <h5 className=" secondaryF">Order Code:</h5>
                   <div className="d-flex gap-1">
-                    <dd className="!text-base font-light text-gray-500 sm:mb-1">
-                      <h4 className="font-semibold text-xl">
-                        {assistantData._id.slice(-4)}
-                      </h4>
+                    <dd className=" font-light text-gray-500 sm:mb-2">
+                      <h5 className=" ">{assistantData._id.slice(-4)}</h5>
                     </dd>
                   </div>
                 </div>
                 <div className="d-flex gap-2">
-                  <h4 className="font-semibold secondaryF">Shop:</h4>
+                  <h5 className=" secondaryF">Shop:</h5>
                   <div className="d-flex gap-1">
-                    <dd className="!text-base font-light text-gray-500 sm:mb-1">
-                      <h4 className="font-semibold text-xl">
-                        {assistantData.shop.name}
-                      </h4>
+                    <dd className="!text-base font-light text-gray-500 sm:mb-2">
+                      <h5 className=" text-xl">{assistantData.shop.name}</h5>
                     </dd>
                   </div>
                 </div>
                 <div className="d-flex gap-2">
-                  <h4 className="font-semibold secondaryF">Branch name:</h4>
+                  <h5 className=" secondaryF">Branch name:</h5>
                   <div className="d-flex gap-1">
-                    <dd className="!text-base font-light text-gray-500 sm:mb-1">
-                      <h4 className="font-semibold text-xl">
-                        {assistantData.subShop.name}
-                      </h4>
+                    <dd className="!text-base font-light text-gray-500 sm:mb-2">
+                      <h5 className=" text-xl">{assistantData.subShop.name}</h5>
                     </dd>
                   </div>
                 </div>
                 <div className="d-flex gap-2">
-                  <h4 className="font-semibold secondaryF">Customer name:</h4>
+                  <h5 className=" secondaryF">Customer name:</h5>
                   <div className="d-flex gap-1">
-                    <dd className="!text-base font-light text-gray-500 sm:mb-1">
-                      <h4 className="font-semibold text-xl">
-                        {assistantData.user.name}
-                      </h4>
+                    <dd className="!text-base font-light text-gray-500 sm:mb-2">
+                      <h5 className=" text-xl">{assistantData.user.name}</h5>
                     </dd>
                   </div>
                 </div>
 
-                <h4 className="font-semibold secondaryF">Customer phone:</h4>
+                <h5 className=" secondaryF">Customer phone:</h5>
                 {assistantData?.user?.phone.length > 0 ? (
                   assistantData.user.phone.map((phone) => (
                     <div className="d-flex gap-1" key={phone}>
-                      <dd className="!text-base font-light text-gray-500 sm:mb-1">
-                        <h4 className="font-semibold text-xl ">{phone}</h4>
+                      <dd className="!text-base font-light text-gray-500 sm:mb-2">
+                        <h5 className=" text-xl ">{phone}</h5>
                       </dd>
                     </div>
                   ))
@@ -153,12 +145,12 @@ export default function OrderPreview({ closeModal, assistantData }) {
                     </dd>
                   </div>
                 )}
-                <h4 className="font-semibold secondaryF">Customer address:</h4>
+                <h5 className=" secondaryF">Customer address:</h5>
                 {assistantData?.user?.address.length > 0 ? (
                   assistantData.user.address.map((address) => (
                     <div className="d-flex gap-1" key={address?._id}>
-                      <dd className="!text-base font-light text-gray-500 sm:mb-1">
-                        <h4 className="font-semibold text-xl ">
+                      <dd className="!text-base font-light text-gray-500 sm:mb-2">
+                        <h5 className=" text-xl ">
                           {`${address?.street}, ${
                             language === "ar"
                               ? address?.city?.city_name_ar
@@ -168,7 +160,7 @@ export default function OrderPreview({ closeModal, assistantData }) {
                               ? address?.governorate?.governorate_name_ar
                               : address?.governorate?.governorate_name_en
                           }`}
-                        </h4>
+                        </h5>
                       </dd>
                     </div>
                   ))
@@ -179,10 +171,55 @@ export default function OrderPreview({ closeModal, assistantData }) {
                     </dd>
                   </div>
                 )}
-                <h4 className="font-semibold secondaryF">
+                <h5 className="font-semibold secondaryF sm:mb-5 ">
                   {t("previewForm.products")} :{" "}
-                </h4>
+                </h5>
+
                 {assistantData?.cartItems?.length > 0 ? (
+                  <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead className="text-xm text-gray-50 dark:text-gray-200 uppercase">
+                      <tr className="text-center fs-6 bg-gray-700   tracking-wide  transition ease-out duration-200">
+                        <th scope="col" className="px-4 py-3">
+                          Product
+                        </th>
+                        <th scope="col" className="px-4 py-3">
+                          Quantity
+                        </th>
+                        <th scope="col" className="px-4 py-3">
+                          Price
+                        </th>
+                        <th scope="col" className="px-4 py-3">
+                          Total Price
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {assistantData.cartItems.map((item, index) => (
+                        <tr
+                          key={index}
+                          className="w-full border-b dark:border-gray-700 text-center hover:bg-gray-600 hover:bg-opacity-25 transition ease-out duration-200"
+                        >
+                          <td className="px-4 py-3">{item.product?.name}</td>
+                          <td className="px-4 py-3">{item.productQuantity}</td>
+                          <td className="px-4 py-3">
+                            {item.product?.sellingPrice} $
+                          </td>
+                          <td className="px-4 py-3">{item.totalPrice} $</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <div className="d-flex gap-1">
+                    <td
+                      colSpan="4"
+                      className="!text-base font-light  sm:mb-5 secondaryF"
+                    >
+                      No products yet
+                    </td>
+                  </div>
+                )}
+                {/* {assistantData?.cartItems?.length > 0 ? (
                   assistantData.cartItems.map((item) => (
                     <div className="d-flex gap-1" key={item.product?._id}>
                       <dd className="!text-base font-light text-gray-500 sm:mb-1">
@@ -199,7 +236,7 @@ export default function OrderPreview({ closeModal, assistantData }) {
                       No products yet
                     </dd>
                   </div>
-                )}
+                )} */}
               </>
             )}
           </dl>

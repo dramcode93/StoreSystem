@@ -231,8 +231,8 @@ export default function ProductFormPreview({ details, t, headers }) {
               </dd>
             </div> */}
 
-          <div className="d-flex gap-2 items-center">
-            <dt className=" font-semibold leading-none secondaryF d-flex">
+          <div className="">
+            <dt className=" font-semibold leading-none secondaryF d-flex mb-3">
               {headers?.images}:
             </dt>
             <dd className="mb-0 font-light text-gray-500 sm:mb-5 dark:text-gray-400 d-flex gap-2 items-center">

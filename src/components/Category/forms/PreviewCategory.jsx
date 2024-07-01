@@ -84,13 +84,11 @@ export default function PreviewCategory({ closeModal, assistantData }) {
           // dir={language === "ar" ? "rtl" : "ltr"}
         >
         </form> */}
-          <div
-            className={`text-lg md:text-xl mx-auto text-center
-               secondaryBtn p-1 mb-4 rounded-md `}
-            // className={`text-lg text-white bg-themeColor md:text-xl mx-auto text-center
-            //    dark:text-white dark:bg-themeColor p-1 mb-4 rounded-md `}
+        <div
+            className={`  mx-auto text-center
+              myColor p-1 mb-4`}
           >
-            <h3 className="font-semibold ">{t("previewForm.title")}</h3>
+            <h3 className="font-semibold mb-0 py-1 text-white">{t("previewForm.title")}</h3>
           </div>
           <CategoryFormPreview t={t} details={detailsData} headers={headers} loading={loading} />
         </div>
