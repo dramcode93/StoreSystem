@@ -14,7 +14,7 @@ export default function PreviewProduct({ closeModal, assistantData }) {
   //   "images",
   //   `${images.map((img) => img.replace(/\s/g, "%20")).join("\n")} \n`
   // );
-  console.log("0",assistantData)
+  // console.log("0",assistantData)
   const headers = {
     code: "Product Code",
     name: "Product Name",
@@ -24,6 +24,7 @@ export default function PreviewProduct({ closeModal, assistantData }) {
     productPrice: "Product Price",
     sellingPrice: "Selling Price",
     sold: "Sold",
+    subShop:"Branches Quantities",
     images: "Images",
   };
   const handleBackgroundClick = (e) => {
