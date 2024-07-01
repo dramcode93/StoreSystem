@@ -27,9 +27,10 @@ const SignUp = (closeModal) => {
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const [msgExist, setMsgExist] = useState("");
+  const [userNameMsg, setUserNameMsg] = useState("");
+  const [emailMsg, setEmailMsg] = useState("");
   const [usernameInputTouched, setUsernameInputTouched] = useState(false);
-
+  const [emailInputTouched, setEmailInputTouched] = useState(false);
   useEffect(() => {
     const fetchGovernorates = async () => {
       try {
@@ -114,7 +115,28 @@ const SignUp = (closeModal) => {
         }
       );
       setLoading(true);
-      setMsgExist(
+      setUserNameMsg(
+        language === "ar"
+          ? response.data.data[1]?.ar
+          : response.data.data[0]?.en
+      );
+      setLoading(false);
+    } catch (error) {
+      console.error("Error adding user:", error);
+      setLoading(false);
+    }
+  };
+  const handleCheckEmail = async (e) => {
+    try {
+      const response = await axios.post(
+        "https://store-system-api.gleeze.com/api/auth/checkEmail",
+        {
+          email: email,
+        }
+      );
+      setLoading(true);
+      console.log(response.data.data);
+      setEmailMsg(
         language === "ar"
           ? response.data.data[1]?.ar
           : response.data.data[0]?.en
@@ -127,6 +149,7 @@ const SignUp = (closeModal) => {
   };
   useEffect(() => {
     handleCheckUserName();
+    handleCheckEmail();
   });
   return (
     <div className="pt-2 absolute top-20 flex min-w-full">
@@ -168,14 +191,15 @@ const SignUp = (closeModal) => {
                   onChange={(e) => {
                     setUsername(e.target.value);
                     setUsernameInputTouched(true);
-                    handleCheckUserName();
+                    // handleCheckUserName();
                   }}
                   placeholder={
                     language === "en"
                       ? "Enter your username"
                       : t("Home.Username")
                   }
-                  msgExist={msgExist}
+                  msgExist={userNameMsg}
+                  onInput={handleCheckUserName}
                   usernameInputTouched={usernameInputTouched}
                 />
               </div>
@@ -323,15 +347,22 @@ const SignUp = (closeModal) => {
             <div className="right-1 flex">
               <div className="w-80 ">
                 <FormInput
-                  label={language === "en" ? "Email" : t("Home.Email")}
+                   label={language === "en" ? "Email" : t("Home.Email")}
                   type="text"
                   name="email"
                   id="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setEmailInputTouched(true);
+                    // handleCheckEmail();
+                  }}
                   placeholder={
                     language === "en" ? "Enter your email" : t("Home.Email")
                   }
+                  onInput={handleCheckEmail}
+                  msgExist={emailMsg}
+                  usernameInputTouched={emailInputTouched}
                 />
               </div>
               <div className="w-80 ">
