@@ -129,19 +129,6 @@ const ProductsTable = ({
     openPreview(product);
   };
 
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     const isOutsideDropdown = Object.values(dropdownRefs.current).every(ref => !ref.contains(event.target));
-  //     if (isOutsideDropdown) {
-  //       setSelectedProductId(null);
-  //     }
-  //   };
-
-  //   document.addEventListener('click', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('click', handleClickOutside);
-  //   };
-  // }, []);
   const handleClickOutside = (event) => {
     const isOutsideDropdown = Object.values(dropdownRefs.current).every(
       (ref) => ref && !ref.contains(event.target)
@@ -308,7 +295,8 @@ const ProductsTable = ({
                                     onClick={() => handleEditQuantity(product)}
                                   >
                                     <NotePencil size={18} weight="bold" />
-                                    Edit Quantity
+                                    {t("Products.EditQuantity")}
+  
                                   </button>
                                 </li>
                                 <li className="">
@@ -320,7 +308,7 @@ const ProductsTable = ({
                                     }
                                   >
                                     <NotePencil size={18} weight="bold" />
-                                    transport
+                                    {t("Products.transport")}
                                   </button>
                                 </li>
                               </>
