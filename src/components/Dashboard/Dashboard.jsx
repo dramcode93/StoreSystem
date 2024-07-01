@@ -1,27 +1,27 @@
 import React, { useEffect, useState, useCallback } from "react";
- import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useI18nContext } from "../context/i18n-context";
 import module from "./Dashboard.module.css";
- import { FiChevronDown, FiChevronUp, FiShoppingCart } from "react-icons/fi";
+import { FiChevronDown, FiChevronUp, FiShoppingCart } from "react-icons/fi";
 import Cookies from "js-cookie";
- import axios from "axios";
+import axios from "axios";
 import {
   FaHome,
   FaStore,
   FaSitemap,
-   FaUsers,
-   FaShoppingBag,
+  FaUsers,
+  FaShoppingBag,
   FaUserCircle,
   FaFileInvoice,
   FaFileInvoiceDollar,
-   FaLock,
+  FaLock,
   FaChartPie,
   FaChartLine,
 } from "react-icons/fa";
 import {
   MdCategory,
   MdShoppingCart,
-   MdOutlineInventory,
+  MdOutlineInventory,
 } from "react-icons/md";
 import { HiOutlineDocumentReport, HiUserGroup } from "react-icons/hi";
 import { IoMdPricetags } from "react-icons/io";
@@ -49,7 +49,7 @@ const Dashboard = ({ children }) => {
           { text: t(`Home.MainShop`), path: "/shop", icon: <FaStore /> },
           {
             path: "/shopInformation",
-            text: t(`Home.Information`) ,
+            text: t(`Home.Information`),
             icon: <HiOutlineDocumentReport />,
           },
         ],
@@ -93,7 +93,7 @@ const Dashboard = ({ children }) => {
         icon: <FaUserCircle />,
         dropdownItems: [
           { text: t(`Home.Information`), path: "/information", icon: <FaUserCircle /> },
-          { text: t(`Home.ChangePassword`) , path: "/change-password", icon: <FaLock /> },
+          { text: t(`Home.ChangePassword`), path: "/change-password", icon: <FaLock /> },
           { text: t(`Home.Users`), path: "/users", icon: <HiUserGroup /> },
         ],
       },
@@ -139,7 +139,7 @@ const Dashboard = ({ children }) => {
       },
     ],
     customer: [
-      { path: "/Home", name: "Home.Home", icon: <FaHome /> },
+      { path: "/shopping", name: "Home.Home", icon: <FaHome /> },
       { path: "/cart", name: "Home.Cart", icon: <MdShoppingCart /> },
       { path: "/order", name: "Home.orders", icon: <FaShoppingBag /> },
       {
@@ -305,7 +305,7 @@ const Dashboard = ({ children }) => {
       {routes && (
         <div
           style={{
-             marginTop: "12.77vh",
+            marginTop: "12.77vh",
             boxShadow:
               language === "ar"
                 ? "-4px 0px 2px rgba(0, 0, 0, 0.1)"
@@ -323,10 +323,10 @@ const Dashboard = ({ children }) => {
                 style={
                   activeLink === index
                     ? {
-                        backgroundColor: "#006edc",
-                        color: "white",
-                        borderRadius: "0px",
-                      }
+                      backgroundColor: "#006edc",
+                      color: "white",
+                      borderRadius: "0px",
+                    }
                     : {}
                 }
               >
@@ -337,17 +337,17 @@ const Dashboard = ({ children }) => {
                   {item.dropdownItems && (
                     <>
                       {activeLink === index &&
-                      ((item.name === "Home.Profile" && isProfileActive) ||
-                        (item.name === "Home.shop" && isShopActive) ||
-                        (item.name === "Home.branches" && isBranchesActive)) ? (
-                        <FiChevronUp className="mx-2 mt-1"  />
+                        ((item.name === "Home.Profile" && isProfileActive) ||
+                          (item.name === "Home.shop" && isShopActive) ||
+                          (item.name === "Home.branches" && isBranchesActive)) ? (
+                        <FiChevronUp className="mx-2 mt-1" />
                       ) : (
-                        <FiChevronDown className="mx-2 mt-1"  />
+                        <FiChevronDown className="mx-2 mt-1" />
                       )}
                     </>
                   )}
                 </div>
-              </NavLink> 
+              </NavLink>
               {activeLink === index &&
                 ((item.name === "Home.Profile" && isProfileActive) ||
                   (item.name === "Home.shop" && isShopActive) ||
@@ -369,9 +369,9 @@ const Dashboard = ({ children }) => {
                             style={
                               activeDropdownItem === dropdownIndex
                                 ? {
-                                    backgroundColor: "transparent",
-                                    borderRadius: "0px",
-                                  }
+                                  backgroundColor: "transparent",
+                                  borderRadius: "0px",
+                                }
                                 : {}
                             }
                           >

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
- import forget from './forget.module.css';
+import forget from './forget.module.css';
 import Cookies from 'js-cookie';
 import { ErrorAlert } from '../../form/Alert';
 
@@ -9,8 +9,8 @@ const ForgetPassword1 = () => {
   const [loading, setLoading] = useState(false);
 
   const handleForgetPassword = async () => {
-    try { 
-      setLoading(true); 
+    try {
+      setLoading(true);
       const response = await axios.post('https://store-system-api.gleeze.com/api/auth/forgetPassword', {
         email: email,
       });
@@ -31,7 +31,7 @@ const ForgetPassword1 = () => {
       <label> Email : </label>
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
       <button className='secondaryBtn' onClick={handleForgetPassword} disabled={loading}>
-        {loading ? 'Sending...': 'Send Reset Code'}
+        {loading ? 'Sending...' : 'Send Reset Code'}
       </button>
     </div>
   );
