@@ -1,14 +1,17 @@
 import axios from 'axios';
-import React, { useState } from 'react';
- import forget from './forget.module.css';
+import React, { useEffect, useState } from 'react';
+import forget from './forget.module.css';
 import Cookies from 'js-cookie';
 import { ErrorAlert } from '../../form/Alert';
-
+import Aos from 'aos'
+import 'aos/dist/aos.css'
 const ForgotPassword2 = () => {
   const [verificationCode, setVerificationCode] = useState('');
   const [loading, setLoading] = useState(false);
   const resetToken = Cookies.get('resetToken');
-
+  useEffect(() => {
+    Aos.init()
+  }, [])
   const handleForgetPassword = async () => {
     try {
       setLoading(true);
@@ -25,7 +28,7 @@ const ForgotPassword2 = () => {
   };
 
   return (
-    <div className={forget.forgetPasswordContainer}>
+    <div className={forget.forgetPasswordContainer} data-aos="fade-left" data-aos-delay="300" >
       <h4>Step 2 : Verify Identity</h4>
       <p>We've sent a verification code to your email. Please enter the code below.</p>
       <input
@@ -34,7 +37,7 @@ const ForgotPassword2 = () => {
         value={verificationCode}
         onChange={(e) => setVerificationCode(e.target.value)}
       />
-      <button  className='secondaryBtn' onClick={handleForgetPassword} disabled={loading}>
+      <button className='secondaryBtn' onClick={handleForgetPassword} disabled={loading}>
         {loading ? 'Loading...' : 'Reset Password'}
       </button>
     </div>

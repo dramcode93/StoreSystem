@@ -1,15 +1,19 @@
 import axios from 'axios';
-import React, { useState } from 'react';
- import forget from './forget.module.css';
+import React, { useEffect, useState } from 'react';
+import forget from './forget.module.css';
 import Cookies from 'js-cookie';
 import { ErrorAlert } from '../../form/Alert';
+import Aos from 'aos'
+import 'aos/dist/aos.css'
 
 const ForgotPassword3 = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const resetToken = Cookies.get('resetToken');
-
+  useEffect(() => {
+    Aos.init()
+  }, [])
   const handleForgetPassword = async () => {
     try {
       setLoading(true);
@@ -28,7 +32,7 @@ const ForgotPassword3 = () => {
   };
 
   return (
-    <div className={forget.forgetPasswordContainer3}>
+    <div className={forget.forgetPasswordContainer3} data-aos="fade-left" data-aos-delay="300">
       <h4>Step 3 : Reset Password</h4>
       <p>Choose a new password for your account : </p>
       <input className={forget.firstInput}
@@ -44,8 +48,8 @@ const ForgotPassword3 = () => {
         value={confirmNewPassword}
         onChange={(e) => setConfirmNewPassword(e.target.value)}
       />
-      <button  className='secondaryBtn' onClick={handleForgetPassword} disabled={loading}>
-        {loading ? 'Loading...' :' Reset Password'}
+      <button className='secondaryBtn' onClick={handleForgetPassword} disabled={loading}>
+        {loading ? 'Loading...' : ' Reset Password'}
       </button>
     </div>
   );
