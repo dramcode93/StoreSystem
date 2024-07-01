@@ -32,8 +32,11 @@ export default function CreateUser({ closeModal, role, modal }) {
 
   const [branches, setBranches] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState([]);
-  const [msgExist, setMsgExist] = useState("");
+
+  const [userNameMsg, setUserNameMsg] = useState("");
+  const [emailMsg, setEmailMsg] = useState("");
   const [usernameInputTouched, setUsernameInputTouched] = useState(false);
+  const [emailInputTouched, setEmailInputTouched] = useState(false);
 
   useEffect(() => {
     const fetchGovernorates = async () => {
@@ -122,7 +125,28 @@ export default function CreateUser({ closeModal, role, modal }) {
         }
       );
       setLoading(true);
-      setMsgExist(
+      setUserNameMsg(
+        language === "ar"
+          ? response.data.data[1]?.ar
+          : response.data.data[0]?.en
+      );
+      setLoading(false);
+    } catch (error) {
+      console.error("Error adding user:", error);
+      setLoading(false);
+    }
+  };
+  const handleCheckEmail = async (e) => {
+    try {
+      const response = await axios.post(
+        "https://store-system-api.gleeze.com/api/auth/checkEmail",
+        {
+          email: email,
+        }
+      );
+      setLoading(true);
+      console.log(response.data.data);
+      setEmailMsg(
         language === "ar"
           ? response.data.data[1]?.ar
           : response.data.data[0]?.en
@@ -135,6 +159,7 @@ export default function CreateUser({ closeModal, role, modal }) {
   };
   useEffect(() => {
     handleCheckUserName();
+    handleCheckEmail();
   });
 
   return (
@@ -187,11 +212,11 @@ export default function CreateUser({ closeModal, role, modal }) {
                 onChange={(e) => {
                   setUserName(e.target.value);
                   setUsernameInputTouched(true);
-                  handleCheckUserName();
+                  // handleCheckUserName();
                 }}
                 placeholder={t("Users.Username")}
-                // onInput={handleCheckUserName}
-                msgExist={msgExist}
+                onInput={handleCheckUserName}
+                msgExist={userNameMsg}
                 usernameInputTouched={usernameInputTouched}
               />
               <FormInput
@@ -217,12 +242,20 @@ export default function CreateUser({ closeModal, role, modal }) {
                 onChange={(e) => setPasswordConfirmation(e.target.value)}
                 placeholder={t("Users.ConfirmPassword")}
               />
+
               <FormInput
-                label="Email"
+                label="Email" 
                 name="Email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setEmailInputTouched(true);
+                  // handleCheckEmail();
+                }}
                 placeholder="Email"
+                onInput={handleCheckEmail}
+                msgExist={emailMsg}
+                usernameInputTouched={emailInputTouched}
               />
               <FormNumber
                 label={t("Users.Phone")}

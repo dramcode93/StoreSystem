@@ -8,7 +8,6 @@ import FormText from "../../form/FormText";
 import FormSelect from "../../form/FormSelect";
 import FormTextArea from "../../form/FormTextArea";
 import FormPic from "../../form/FormPic";
-import ProductFormPreview from "./ProductFormPreview";
 import { DeleteAlert, ErrorAlert, MaxImgAlert } from "../../form/Alert";
 
 export default function AddProduct({ closeModal, role, modal }) {
@@ -35,6 +34,70 @@ export default function AddProduct({ closeModal, role, modal }) {
   const [images, setImages] = useState("");
   const [imageURLs, setImageURLs] = useState([]);
 
+
+
+  // const handleAddProduct = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     // Map branchQuantities to subShops array and parse quantities to integers
+  //     const subShops = Object.entries(branchQuantities).map(
+  //       ([branchId, branchQuantity]) => ({
+  //         subShop: branchId,
+  //         quantity: parseInt(branchQuantity, 10),
+  //       })
+  //     );
+
+  //     const totalBranchQuantity = subShops.reduce(
+  //       (total, subShop) => total + subShop.quantity,
+  //       0
+  //     );
+
+  //     if (totalBranchQuantity !== parseInt(quantity, 10)) {
+  //       ErrorAlert({
+  //         text: "Quantity of branches must be equal to total Quantity",
+  //       });
+  //       return;
+  //     }
+  //     // // Create FormData for images
+  //     // const formData = new FormData();
+  //     // images.forEach((file, index) => {
+  //     //   formData.append("images", file);
+  //     // });
+  //     // console.log("formData:", formToJSON(formData));
+
+  //     const response = await axios.post(
+  //       "https://store-system-api.gleeze.com/api/products",
+  //       {
+  //         images:images,
+  //         name: name,
+  //         description: description,
+  //         productPrice: parseInt(productPrice),
+  //         sellingPrice: parseInt(sellingPrice),
+  //         quantity: parseInt(quantity),
+  //         category: category,
+  //         subShops: subShops,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+
+  //     console.log("Product added successfully:", response.data);
+  //     if (response.data.images) {
+  //       const uploadedImageURLs = response.data.images.map(
+  //         (image) => image.url
+  //       );
+  //       setImageURLs(uploadedImageURLs);
+  //     }
+  //     closeModal();
+  //   } catch (error) {
+  //     console.error("Error adding product:", error);
+  //   }
+  // };
+
+
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
@@ -42,7 +105,7 @@ export default function AddProduct({ closeModal, role, modal }) {
       const subShops = Object.entries(branchQuantities).map(
         ([branchId, branchQuantity]) => ({
           subShop: branchId,
-          quantity: parseInt(branchQuantity, 10), // Ensure branch quantity is an integer
+          quantity: parseInt(branchQuantity, 10),
         })
       );
 
@@ -57,39 +120,31 @@ export default function AddProduct({ closeModal, role, modal }) {
         });
         return;
       }
+      const formData = new FormData();
 
-      console.log(totalBranchQuantity);
-
-      // const formData = new FormData();
-      // formData.append("name", name);
-      // formData.append("description", description);
-      // formData.append("productPrice",parseInt(productPrice) );
-      // formData.append("sellingPrice", parseInt(sellingPrice));
-      // formData.append("quantity", quantity);
-      // formData.append("category", category);
-      // // formData.append("subShops", subShops);
-      // images.forEach((file, index) => {
-      //   formData.append("images", file);
-      // });
-
-      // console.log(formToJSON(formData))
-      // console.log(subShops)
-      // Make POST request to add product
+      // Append images to formData
+      images.forEach((file, index) => {
+        formData.append("images", file);
+      });
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("productPrice", parseInt(productPrice));
+      formData.append("sellingPrice", parseInt(sellingPrice));
+      formData.append("quantity", parseInt(quantity));
+      formData.append("category", category);
+      subShops.forEach((subShop, index) => {
+        formData.append(`subShops[${index}][subShop]`, subShop.subShop);
+        formData.append(`subShops[${index}][quantity]`, parseInt(subShop.quantity));
+      });
+      console.log("formData:", formToJSON(formData));
       const response = await axios.post(
         "https://store-system-api.gleeze.com/api/products",
+        formData,
         {
-          // formData
-          // ,subShops:subShops
-          name: name,
-          description: description,
-          productPrice: parseInt(productPrice),
-          sellingPrice: parseInt(sellingPrice),
-          quantity: parseInt(quantity),
-          category: category,
-          // images:images,
-          subShops: subShops,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       console.log("Product added successfully:", response.data);
@@ -106,15 +161,15 @@ export default function AddProduct({ closeModal, role, modal }) {
   };
 
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files).slice(0, 5); // Limit to maximum 5 files
+    const files = Array.from(e.target.files).slice(0, 5);
     setImages((prevFiles) => {
       const totalFiles = prevFiles.length + files.length;
       if (totalFiles <= 5) {
         return [...prevFiles, ...files];
       } else {
-        MaxImgAlert({ title: "Oops...", text: "Maximum 5 images allowed" }); // Display error alert
+        MaxImgAlert({ title: "Oops...", text: "Maximum 5 images allowed" });
         // setImages("")
-        return prevFiles; // Prevent adding more files
+        return prevFiles;
       }
     });
   };
