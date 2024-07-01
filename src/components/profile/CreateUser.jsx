@@ -13,7 +13,7 @@ export default function CreateUser({ closeModal, role, modal }) {
     if (e.target === e.currentTarget) {
       closeModal();
     }
-  }; 
+  };
 
   const { t, language } = useI18nContext();
   const token = Cookies.get("token");
@@ -29,6 +29,11 @@ export default function CreateUser({ closeModal, role, modal }) {
   const [governorates, setGovernorates] = useState([]);
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [branches, setBranches] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState([]);
+  const [msgExist, setMsgExist] = useState("");
+  const [usernameInputTouched, setUsernameInputTouched] = useState(false);
 
   useEffect(() => {
     const fetchGovernorates = async () => {
@@ -91,6 +96,47 @@ export default function CreateUser({ closeModal, role, modal }) {
     }
   };
 
+  useEffect(() => {
+    const fetchBranchesData = async () => {
+      if (token && role === "admin") {
+        try {
+          const response = await axios.get(
+            "https://store-system-api.gleeze.com/api/subShops",
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          const fetchedBranches = response.data.data;
+          setBranches(fetchedBranches);
+        } catch (error) {
+          console.error("Error fetching branches data:", error);
+        }
+      }
+    };
+    fetchBranchesData();
+  }, [token, role]);
+  const handleCheckUserName = async (e) => {
+    try {
+      const response = await axios.post(
+        "https://store-system-api.gleeze.com/api/auth/checkUsername",
+        {
+          username: username,
+        }
+      );
+      setLoading(true);
+      setMsgExist(
+        language === "ar"
+          ? response.data.data[1]?.ar
+          : response.data.data[0]?.en
+      );
+      setLoading(false);
+    } catch (error) {
+      console.error("Error adding user:", error);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    handleCheckUserName();
+  });
+
   return (
     <>
       <div
@@ -138,8 +184,15 @@ export default function CreateUser({ closeModal, role, modal }) {
                 label={t("Users.Username")}
                 name="username"
                 value={username}
-                onChange={(e) => setUserName(e.target.value)}
+                onChange={(e) => {
+                  setUserName(e.target.value);
+                  setUsernameInputTouched(true);
+                  handleCheckUserName();
+                }}
                 placeholder={t("Users.Username")}
+                // onInput={handleCheckUserName}
+                msgExist={msgExist}
+                usernameInputTouched={usernameInputTouched}
               />
               <FormInput
                 label={t("Users.Name")}
@@ -178,6 +231,19 @@ export default function CreateUser({ closeModal, role, modal }) {
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder={t("Users.Phone")}
               />
+              {role === "admin" && (
+                <FormSelect
+                  selectLabel="Select Branch"
+                  headOption="Select a Branch"
+                  handleChange={(e) => setSelectedBranch(e.target.value)}
+                  options={branches.map((branch) => ({
+                    value: branch._id,
+                    label: branch.name,
+                  }))}
+                  name="Branch"
+                  value={selectedBranch}
+                />
+              )}
               <FormInput
                 label={t("Users.Street")}
                 name="Street"
@@ -231,7 +297,7 @@ export default function CreateUser({ closeModal, role, modal }) {
                     !street
                   }
                   className="secondaryBtn w-96 h-12 rounded-md  fw-bold text-xl "
-                  >
+                >
                   {t("Users.AddUser")} +
                 </button>
                 <div>&nbsp;</div>

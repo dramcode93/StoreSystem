@@ -171,7 +171,7 @@ const CreateBills = ({ closeModal, modal,role }) => {
   };
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchBranchesData = async () => {
       if (token&&role==="admin") {
         try {
           const response = await axios.get(
@@ -185,7 +185,7 @@ const CreateBills = ({ closeModal, modal,role }) => {
         }
       }
     };
-    fetchUserData();
+    fetchBranchesData();
   }, [token,role]);
 
 

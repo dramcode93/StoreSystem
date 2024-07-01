@@ -37,7 +37,7 @@ const UserTable = ({ openCreate, openEdit }) => {
     try {
       if (token) {
         const response = await axios.get(
-          `${API_users}?sort=-role name&fields=username name email phone address active role&search=${searchTerm}&page=${pagination.currentPge}&limit=5`,
+          `${API_users}?sort=-role name&search=${searchTerm}&page=${pagination.currentPge}&limit=5`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setUsers(response.data.data);
@@ -179,6 +179,7 @@ const UserTable = ({ openCreate, openEdit }) => {
       handlePageChange(pagination.currentPge + 1);
     }
   };
+
   return (
     <div>
       <section

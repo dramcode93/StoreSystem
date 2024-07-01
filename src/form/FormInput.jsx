@@ -1,4 +1,5 @@
 import React from "react";
+import Loading from "../components/Loading/Loading";
 
 function FormInput({
   label,
@@ -10,6 +11,9 @@ function FormInput({
   onChange,
   numberOnly,
   maxLength,
+  onInput,
+  msgExist,
+  usernameInputTouched,
 }) {
   const handleChange = (e) => {
     if (numberOnly) {
@@ -39,9 +43,24 @@ function FormInput({
         required={required}
         maxLength={maxLength}
         onChange={numberOnly ? handleChange : onChange}
+        onProgress={onInput}
       />
+      {usernameInputTouched && msgExist && value && (
+        <>
+          <p
+            className={` mb-0 ${
+              msgExist === "Username is not available" ||
+              msgExist === "اسم المستخدم غير متاح"
+                ? "text-red-600"
+                : "text-green-600"
+            }`}
+          >
+            {msgExist}
+          </p>
+        </>
+      )}
     </div>
   );
 }
 
-export default FormInput; 
+export default FormInput;

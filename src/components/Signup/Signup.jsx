@@ -27,6 +27,9 @@ const SignUp = (closeModal) => {
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
+  const [msgExist, setMsgExist] = useState("");
+  const [usernameInputTouched, setUsernameInputTouched] = useState(false);
+
   useEffect(() => {
     const fetchGovernorates = async () => {
       try {
@@ -102,6 +105,29 @@ const SignUp = (closeModal) => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+  const handleCheckUserName = async (e) => {
+    try {
+      const response = await axios.post(
+        "https://store-system-api.gleeze.com/api/auth/checkUsername",
+        {
+          username: username,
+        }
+      );
+      setLoading(true);
+      setMsgExist(
+        language === "ar"
+          ? response.data.data[1]?.ar
+          : response.data.data[0]?.en
+      );
+      setLoading(false);
+    } catch (error) {
+      console.error("Error adding user:", error);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    handleCheckUserName();
+  });
   return (
     <div className="pt-2 absolute top-20 flex min-w-full">
       <div
@@ -123,7 +149,7 @@ const SignUp = (closeModal) => {
           <div className="space-y-8">
             <div className="right-1 gap-4 flex">
               <div className="w-80 ">
-                <FormInput
+                {/* <FormInput
                   label={language === "en" ? "Username" : t("Home.Username")}
                   name="username"
                   value={username}
@@ -133,6 +159,24 @@ const SignUp = (closeModal) => {
                       ? "Enter your username"
                       : t("Home.Username")
                   }
+                /> */}
+
+                <FormInput
+                  label={language === "en" ? "Username" : t("Home.Username")}
+                  name="username"
+                  value={username}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                    setUsernameInputTouched(true);
+                    handleCheckUserName();
+                  }}
+                  placeholder={
+                    language === "en"
+                      ? "Enter your username"
+                      : t("Home.Username")
+                  }
+                  msgExist={msgExist}
+                  usernameInputTouched={usernameInputTouched}
                 />
               </div>
               <div className="w-80 ">
