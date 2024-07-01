@@ -107,7 +107,7 @@ const Login = () => {
               />
 
               <div className={`${language === 'ar' ? 'rtl' : 'ltr'} absolute top-full my-2 tracking-wide mx-0 cursor-pointer text-lg font-bold text-gray-500 hover:text-gray-800`}>
-                <Link to='/forgotPassword1'>
+                <Link to='/forgotPassword'>
                   {t("Home.ForgetPass")}
                 </Link>
               </div>
