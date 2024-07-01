@@ -12,6 +12,7 @@ import FormSelect from "../../form/FormSelect";
 import { Link } from "react-router-dom";
 import FormPic from "../../form/FormPic";
 import { FaTimesCircle } from 'react-icons/fa';
+import { FiX } from "react-icons/fi";
 
 const Cart = () => {
   const { t, language } = useI18nContext();
@@ -518,7 +519,7 @@ const Cart = () => {
                       ></input>
                       <div className="d-flex mt-2">
                         <FormPic
-                          label="Upload Image"
+                          label={t("Cart.UploadImage")}
                           name="Upload Image"
                           placeholder="Product Image"
                           onChange={handleFileChange}
@@ -587,7 +588,11 @@ const Cart = () => {
                     {t("Cart.haveCopun")}
                   </Link>
                 ) : (
-                  <div>
+                  <div className="relative ">
+                    <FiX
+                      className="text-2xl text-red-500 cursor-pointer absolute top-0 right-1/2 mx-4"
+                      onClick={() => setShowCouponInput(false)}
+                    />
                     <p className="secondaryF mt-3 mr-2 text-xl font-bold">
                       {t("Cart.Entercoupon")}
                     </p>
