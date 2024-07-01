@@ -78,14 +78,26 @@ const Information = ({ openAdd, role }) => {
     fetchData();
   }, [fetchData]);
 
-  const handleInputChange = (e, index) => {
-    const { name, value } = e.target;
+  // const handleInputChange = (e, index) => {
+  //   const { name, value } = e.target;
+  //   setInputValues((prevInputValues) => ({
+  //     ...prevInputValues,
+  //     [name]: value,
+  //   }));
+  // };
+
+  const handleEmailChange = (e) => {
     setInputValues((prevInputValues) => ({
       ...prevInputValues,
-      [name]: value,
+      email: e.target.value,
     }));
   };
-
+  const handleNameChange = (e) => {
+    setInputValues((prevInputValues) => ({
+      ...prevInputValues,
+      name: e.target.value,
+    }));
+  };
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
   };
@@ -94,7 +106,7 @@ const Information = ({ openAdd, role }) => {
       setIsDeletingPhone(true);
       if (token) {
         const response = await axios.delete(`${DEL_phone}`, {
-          data: { phone: deleted},
+          data: { phone: deleted },
           headers: { Authorization: `Bearer ${token}` },
         });
         setIsDeletingPhone(false);
@@ -155,10 +167,10 @@ const Information = ({ openAdd, role }) => {
   };
 
   const handleEditToggle = (field) => {
-    if (field === "name") {
+    if (field === "name" || field === "الإسم") {
       setIsNameEditing(!isNameEditing);
     }
-    if (field === "email") {
+    if (field === "email" || field === "البريد الإلكتروني") {
       setIsEmailEditing(!isEmailEditing);
     }
   };
@@ -201,8 +213,9 @@ const Information = ({ openAdd, role }) => {
   return (
     // bg-gray-700 bg-opacity-25
     <section
-      className={` mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${language === "ar" ? "left-10" : "right-10"
-        }`}
+      className={` mx-10 rounded-md pt-2 absolute top-32 -z-50 w-3/4 ${
+        language === "ar" ? "left-10" : "right-10"
+      }`}
     >
       {/* <h3 className='font-bold text-white p-3'>{t(`Information.InformationPage`)}</h3> */}
       {loading ? (
@@ -223,7 +236,7 @@ const Information = ({ openAdd, role }) => {
               value={info.name}
               isEditing={isNameEditing}
               inputValue={inputValues.name}
-              handleInputChange={handleInputChange}
+              handleInputChange={handleNameChange}
               handleEditToggle={handleEditToggle}
               role={role}
               handleSaveChanges={handleSaveChanges}
@@ -233,7 +246,7 @@ const Information = ({ openAdd, role }) => {
               value={info.email}
               isEditing={isEmailEditing}
               inputValue={inputValues.email}
-              handleInputChange={handleInputChange}
+              handleInputChange={handleEmailChange}
               handleEditToggle={handleEditToggle}
               role={role}
               handleSaveChanges={handleSaveChanges}
