@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home/Home.jsx";
 import Products from "./components/Products/Products.jsx";
 import Login from "./components/Login/Login.jsx";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import ForgotPassword1 from "./components/ForgetPass/ForgetPass1.jsx";
 import ForgotPassword2 from "./components/ForgetPass/ForgetPass2.jsx";
@@ -32,9 +32,7 @@ import SalesTable from "./components/Sales/SalesTable.jsx";
 import FinancialTransactions from "./components/deposit/Deposit.jsx";
 import ShopInformation from "./components/Shop/ShopInformation.jsx";
 import Order from "./components/orders/Order.jsx";
-import OrdersTable from "./components/orders/OrdersTable.jsx";
 import Coupons from "./components/copouns/copouns.jsx";
-import CouponsTable from "./components/copouns/copounsTable.jsx";
 import BranchInformation from "./components/Branches/BranchInfo.jsx";
 import FinancialDealings from "./components/Branches/FinancialDealings.jsx";
 import SubSalesTable from "./components/subSales/SubSalesTable.jsx";
@@ -44,98 +42,80 @@ const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isTokenExpired, setTokenExpired] = useState(false);
   const [role, setRole] = useState("");
+  const { language } = useI18nContext();
+
   const token = Cookies.get("token");
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(
-          "https://store-system-api.gleeze.com/api/Users/getMe",
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setRole(response.data.data.role);
-      } catch (error) {
-        console.error("Error fetching :", error);
-      }
-    };
-    fetchUserData();
+  const fetchUserData = useCallback(async () => {
+    if (!token) return;
+    try {
+      const response = await axios.get(
+        "https://store-system-api.gleeze.com/api/Users/getMe",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setRole(response.data.data.role);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
   }, [token]);
 
   useEffect(() => {
-    const checkToken = async () => {
-      const token = Cookies.get("token");
+    fetchUserData();
+  }, [fetchUserData]);
 
-      if (token) {
-        try {
-          const decodedToken = jwtDecode(token);
-          const isExpired = decodedToken.exp < Date.now() / 1000;
+  const checkToken = useCallback(async () => {
+    if (!token) return;
+    try {
+      const decodedToken = jwtDecode(token);
+      const isExpired = decodedToken.exp < Date.now() / 1000;
 
-          if (isExpired) {
-            setTokenExpired(true);
-            Cookies.remove("token");
-            return 0;
-          } else {
-            setLoggedIn(true);
-            if (window.location.pathname === "/") {
-              window.location.href = "/home";
-            }
-          }
-
-          const expirationThreshold = 24 * 60 * 60;
-          if (decodedToken.exp - Date.now() / 1000 < expirationThreshold) {
-            try {
-              const response = await axios.get(
-                "https://store-system-api.gleeze.com/api/auth/refreshToken",
-                { headers: { Authorization: `Bearer ${token}` } }
-              );
-              const newToken = response.data.token;
-              const tokenTime = 2;
-              Cookies.set("token", newToken, {
-                expires: tokenTime,
-                secure: true,
-                sameSite: "strict",
-              });
-            } catch (error) {
-              console.error("Error refreshing token:", error);
-            }
-          }
-        } catch (error) {
-          console.error("Error decoding token:", error);
-          setTokenExpired(true);
-          Cookies.remove("token");
+      if (isExpired) {
+        setTokenExpired(true);
+        Cookies.remove("token");
+        return;
+      } else {
+        setLoggedIn(true);
+        if (window.location.pathname === "/") {
+          window.location.href = "/home";
         }
       }
-    };
 
+      const expirationThreshold = 24 * 60 * 60;
+      if (decodedToken.exp - Date.now() / 1000 < expirationThreshold) {
+        const response = await axios.get(
+          "https://store-system-api.gleeze.com/api/auth/refreshToken",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const newToken = response.data.token;
+        Cookies.set("token", newToken, {
+          expires: 2,
+          secure: true,
+          sameSite: "strict",
+        });
+      }
+    } catch (error) {
+      console.error("Error decoding or refreshing token:", error);
+      setTokenExpired(true);
+      Cookies.remove("token");
+    }
+  }, [token]);
+
+  useEffect(() => {
     checkToken();
-
     const refreshInterval = 6 * 60 * 60 * 1000;
     const intervalId = setInterval(checkToken, refreshInterval);
-
     return () => clearInterval(intervalId);
-  }, []);
-  const { language } = useI18nContext();
+  }, [checkToken]);
 
-  // const [openSideBar, setOpenSideBar] = useState(false);
-
-  // const toggleOpenSideBar = () => {
-  //   setOpenSideBar(!openSideBar)
-  // };
-
-  // console.log(openSideBar)
   return (
     <BrowserRouter>
       <MyComponent />
-      {/* <MyComponent openSideBar={toggleOpenSideBar}  isSideBarOpen={openSideBar}/> */}
       <div
         className="flex items-start justify-center"
         dir={language === "ar" ? "rtl" : "ltr"}
       >
-        {isLoggedIn && !isTokenExpired && (<>
-          {/* <Dashboard isSideBarOpen={openSideBar} dir={language === "ar" ? "rtl" : "ltr"} /> */}
+        {isLoggedIn && !isTokenExpired && (
           <Dashboard dir={language === "ar" ? "rtl" : "ltr"} />
-        </>
-
         )}
         <div className="flex-grow">
           <Routes>
@@ -144,11 +124,10 @@ const App = () => {
             <Route path="/forgotPassword3" element={<ForgotPassword3 />} />
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-
             {isLoggedIn && !isTokenExpired && (
               <>
                 {role === "customer" ? (
-                  <Route path="/home" element={<Shops />} />
+                  <Route path="/shopping" element={<Shops />} />
                 ) : (
                   <Route path="/home" element={<Home />} />
                 )}
@@ -162,7 +141,7 @@ const App = () => {
                   element={<BranchInformation />}
                 />
                 <Route
-                  path="//branch/:id/financial"
+                  path="/branch/:id/financial"
                   element={<FinancialDealings />}
                 />
                 <Route path="/order" element={<Order role={role} />} />
@@ -186,7 +165,7 @@ const App = () => {
                   element={<FinancialTransactions />}
                 />
                 <Route path="/bills" element={<Bills role={role} />} />
-                <Route path="/information" element={<UserInfo  role={role}/>} />
+                <Route path="/information" element={<UserInfo role={role} />} />
                 <Route path="/change-password" element={<ChangPassword />} />
                 <Route path="/Profile/Users" element={<UserTable />} />
                 <Route path="/users" element={<User role={role} />} />

@@ -25,119 +25,6 @@ import {
 } from "react-icons/md";
 import { HiOutlineDocumentReport, HiUserGroup } from "react-icons/hi";
 import { IoMdPricetags } from "react-icons/io";
-const roleRoutes = {
-  admin: [
-    { path: "/Home", name: "Home.Home", icon: <FaHome /> },
-    {
-      name: "Home.shop",
-      icon: <FaStore />,
-      dropdownItems: [
-        { text: "MainShop", path: "/shop", icon: <FaStore /> },
-        {
-          path: "/shopInformation",
-          text: "Information",
-          icon: <HiOutlineDocumentReport />,
-         },
-      ],
-    },
-    {
-      name: "Home.branches",
-      icon: <FaSitemap />,
-      dropdownItems: [],
-    },
-    {
-      path: "/SalesTable",
-      name: "Home.Sales",
-      icon: <FaChartLine />,
-    },
-    {
-      path: "/SubSalesTable",
-      name: "Home.subSales",
-      icon: <FaChartPie />,
-    },
-    {
-      path: "/FinancialTransactions",
-      name: "Home.FinancialTransactions",
-      icon: <FaFileInvoiceDollar />,
-    },
-    { path: "/category", name: "Home.Category", icon: <MdCategory /> },
-    {
-      path: "/products",
-      name: "Home.products",
-      icon: <MdOutlineInventory />,
-    },
-    {
-      path: "/customers",
-      name: "Home.Customer",
-      icon: <FaUsers />,
-    },
-    { path: "/bills", name: "Home.Bill", icon: <FaFileInvoice /> },
-    { path: "/order", name: "Home.orders", icon: <FaShoppingBag /> },
-    { path: "/coupons", name: "Home.coupons", icon: <IoMdPricetags /> },
-    {
-      name: "Home.Profile",
-      icon: <FaUserCircle />,
-      dropdownItems: [
-        { text: "Information" , path: "/information", icon: <FaUserCircle /> },
-        { text: "Change Password", path: "/change-password", icon: <FaLock /> },
-        { text: "Users", path: "/users", icon: <HiUserGroup /> },
-      ],
-    },
-  ],
-  manager: [
-    { path: "/Home", name: "Home.Home", icon: <FaHome /> },
-    { path: "/shopTypes", name: "Home.shopTypes", icon: <FaStore /> },
-    {
-      name: "Home.Profile",
-      icon: <FaUserCircle />,
-      dropdownItems: [
-        { text: "Information", path: "/information", icon: <FaUserCircle /> },
-        { text: "Change Password", path: "/change-password", icon: <FaLock /> },
-        { text: "Users", path: "/users", icon: <HiUserGroup /> },
-      ],
-    },
-  ],
-  user: [
-    { path: "/Home", name: "Home.Home", icon: <FaHome /> },
-    { path: "/category", name: "Home.Category", icon: <MdCategory /> },
-    {
-      path: "/products",
-      name: "Home.products",
-      icon: <MdOutlineInventory />,
-    },
-    { path: "/bills", name: "Home.Bill", icon: <FaFileInvoice /> },
-    { path: "/order", name: "Home.orders", icon: <FaShoppingBag /> },
-
-    {
-      path: "/customers",
-      name: "Home.Customer",
-      icon: <FaUsers />,
-    },
-    { path: "/coupons", name: "Home.coupons", icon: <IoMdPricetags /> },
-
-    {
-      name: "Home.Profile",
-      icon: <FaUserCircle />,
-      dropdownItems: [
-        { text: "Information", path: "/information", icon: <FaUserCircle /> },
-        { text: "Change Password", path: "/change-password", icon: <FaLock /> },
-      ],
-    },
-  ],
-  customer: [
-    { path: "/Home", name: "Home.Home", icon: <FaHome /> },
-    { path: "/cart", name: "Home.Cart", icon: <MdShoppingCart /> },
-    { path: "/order", name: "Home.orders", icon: <FaShoppingBag /> },
-    {
-      name: "Home.Profile",
-      icon: <FaUserCircle />,
-      dropdownItems: [
-        { text: "Information", path: "/information", icon: <FaUserCircle /> },
-        { text: "Change Password", path: "/change-password", icon: <FaLock /> },
-      ],
-    },
-  ],
-};
 
 const Dashboard = ({ children }) => {
   const token = Cookies.get("token");
@@ -151,6 +38,120 @@ const Dashboard = ({ children }) => {
   const [activeBranch, setActiveBranch] = useState(null);
   const [branches, setBranches] = useState([]);
 
+
+  const roleRoutes = {
+    admin: [
+      { path: "/Home", name: "Home.Home", icon: <FaHome /> },
+      {
+        name: "Home.shop",
+        icon: <FaStore />,
+        dropdownItems: [
+          { text: t(`Home.MainShop`), path: "/shop", icon: <FaStore /> },
+          {
+            path: "/shopInformation",
+            text: t(`Home.Information`) ,
+            icon: <HiOutlineDocumentReport />,
+          },
+        ],
+      },
+      {
+        name: "Home.branches",
+        icon: <FaSitemap />,
+        dropdownItems: [],
+      },
+      {
+        path: "/SalesTable",
+        name: "Home.Sales",
+        icon: <FaChartLine />,
+      },
+      {
+        path: "/SubSalesTable",
+        name: "Home.subSales",
+        icon: <FaChartPie />,
+      },
+      {
+        path: "/FinancialTransactions",
+        name: "Home.FinancialTransactions",
+        icon: <FaFileInvoiceDollar />,
+      },
+      { path: "/category", name: "Home.Category", icon: <MdCategory /> },
+      {
+        path: "/products",
+        name: "Home.products",
+        icon: <MdOutlineInventory />,
+      },
+      {
+        path: "/customers",
+        name: "Home.Customer",
+        icon: <FaUsers />,
+      },
+      { path: "/bills", name: "Home.Bill", icon: <FaFileInvoice /> },
+      { path: "/order", name: "Home.orders", icon: <FaShoppingBag /> },
+      { path: "/coupons", name: "Home.coupons", icon: <IoMdPricetags /> },
+      {
+        name: "Home.Profile",
+        icon: <FaUserCircle />,
+        dropdownItems: [
+          { text: t(`Home.Information`), path: "/information", icon: <FaUserCircle /> },
+          { text: t(`Home.ChangePassword`) , path: "/change-password", icon: <FaLock /> },
+          { text: t(`Home.Users`), path: "/users", icon: <HiUserGroup /> },
+        ],
+      },
+    ],
+    manager: [
+      { path: "/Home", name: "Home.Home", icon: <FaHome /> },
+      { path: "/shopTypes", name: "Home.shopTypes", icon: <FaStore /> },
+      {
+        name: "Home.Profile",
+        icon: <FaUserCircle />,
+        dropdownItems: [
+          { text: "Information", path: "/information", icon: <FaUserCircle /> },
+          { text: "Change Password", path: "/change-password", icon: <FaLock /> },
+          { text: "Users", path: "/users", icon: <HiUserGroup /> },
+        ],
+      },
+    ],
+    user: [
+      { path: "/Home", name: "Home.Home", icon: <FaHome /> },
+      { path: "/category", name: "Home.Category", icon: <MdCategory /> },
+      {
+        path: "/products",
+        name: "Home.products",
+        icon: <MdOutlineInventory />,
+      },
+      { path: "/bills", name: "Home.Bill", icon: <FaFileInvoice /> },
+      { path: "/order", name: "Home.orders", icon: <FaShoppingBag /> },
+
+      {
+        path: "/customers",
+        name: "Home.Customer",
+        icon: <FaUsers />,
+      },
+      { path: "/coupons", name: "Home.coupons", icon: <IoMdPricetags /> },
+
+      {
+        name: "Home.Profile",
+        icon: <FaUserCircle />,
+        dropdownItems: [
+          { text: "Information", path: "/information", icon: <FaUserCircle /> },
+          { text: "Change Password", path: "/change-password", icon: <FaLock /> },
+        ],
+      },
+    ],
+    customer: [
+      { path: "/Home", name: "Home.Home", icon: <FaHome /> },
+      { path: "/cart", name: "Home.Cart", icon: <MdShoppingCart /> },
+      { path: "/order", name: "Home.orders", icon: <FaShoppingBag /> },
+      {
+        name: "Home.Profile",
+        icon: <FaUserCircle />,
+        dropdownItems: [
+          { text: "Information", path: "/information", icon: <FaUserCircle /> },
+          { text: "Change Password", path: "/change-password", icon: <FaLock /> },
+        ],
+      },
+    ],
+  };
   useEffect(() => {
     const fetchUserData = async () => {
       if (token) {
