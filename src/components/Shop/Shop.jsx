@@ -128,7 +128,7 @@ const Shop = () => {
             <Card
               icon={<FaFileInvoiceDollar size={40} />}
               id="id"
-              name="Debts"
+              name={t(`Shop.Debts`)}
               rooms={formatMoney(debts)}
             />
           </div>
