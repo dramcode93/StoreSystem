@@ -5,8 +5,10 @@ import { ErrorAlert } from '../../form/Alert';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import forget from './forget.module.css';
+import { useI18nContext } from '../context/i18n-context';
 
 const ForgetPassword = () => {
+  const { language, t } = useI18nContext();
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -73,50 +75,50 @@ const ForgetPassword = () => {
     <div >
       {step === 1 && (
         <div className={forget.forgetPasswordContainer}>
-          <label>Email:</label>
+          <label>{t("Home.Email")}:</label>
           <input className={` border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500`} type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <button className='secondaryBtn' onClick={handleForgetPasswordStep1} disabled={loading}>
-            {loading ? 'Sending...' : 'Send Reset Code'}
+            {loading ? `${t("Home.Sending")}` : `${t("Home.SendResetCode")}`}
           </button>
         </div>
       )}
 
       {step === 2 && (
         <div className={forget.forgetPasswordContainer} data-aos="fade-left" data-aos-delay="300">
-          <h4>Step 2: Verify Identity</h4>
-          <p>We've sent a verification code to your email. Please enter the code below.</p>
+          <h4>{t("Home.Step2")}</h4>
+          <p>{t("Home.Wesentverification")}</p>
           <input
             className={`border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500`}
             type="text"
-            placeholder="Enter verification code"
+            placeholder={t("Home.Enterverificationcode")}
             value={verificationCode}
             onChange={(e) => setVerificationCode(e.target.value)}
           />
           <button className='secondaryBtn' onClick={handleForgetPasswordStep2} disabled={loading}>
-            {loading ? 'Loading...' : 'Reset Password'}
+            {loading ? `${t("Home.Loading")}` : `${t("Home.ResetPassword")}`}
           </button>
         </div>
       )}
 
       {step === 3 && (
         <div className={forget.forgetPasswordContainer3} data-aos="fade-left" data-aos-delay="300">
-          <h4>Step 3: Reset Password</h4>
-          <p>Choose a new password for your account:</p>
+          <h4>{t("Home.Step3")}</h4>
+          <p>{t("Home.Choosenewpassword")}:</p>
           <input className={`${forget.firstInput}  border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500`}
             type="password"
-            placeholder="Enter new password"
+            placeholder={t("Home.Enternewpassword")}
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
           />
-          <p>Confirm password</p>
+          <p>{t("Home.Confirmpassword")}</p>
           <input className={`${forget.firstInput} border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500`}
             type="password"
-            placeholder="Confirm new password"
+            placeholder={t("Home.Confirmnewpassword")}
             value={confirmNewPassword}
             onChange={(e) => setConfirmNewPassword(e.target.value)}
           />
           <button className='secondaryBtn' onClick={handleForgetPasswordStep3} disabled={loading}>
-            {loading ? 'Loading...' : 'Reset Password'}
+            {loading ? `${t("Home.Loading")}` : `${t("Home.ResetPassword")}`}
           </button>
         </div>
       )}
