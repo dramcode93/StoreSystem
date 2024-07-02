@@ -124,7 +124,7 @@ const Login = () => {
               {t("Home.Login")}
             </button>
           </div>
-          <Link to='/signup'>I don't have an account. Sign Up?</Link>
+          <Link to='/signup'>{t("Home.IdontHaveAccount")}</Link>
         </form>
       </div>
     </div>
