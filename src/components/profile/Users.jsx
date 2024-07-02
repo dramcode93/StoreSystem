@@ -34,6 +34,7 @@ const User = ({ role }) => {
       <UserTable
         openCreate={toggleOpenCreateModal}
         openEdit={toggleOpenEditModal}
+        role={role}
       />
     </div>
   );

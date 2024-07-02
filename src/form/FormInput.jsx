@@ -43,14 +43,14 @@ function FormInput({
         required={required}
         maxLength={maxLength}
         onChange={numberOnly ? handleChange : onChange}
-        onBlur={onInput}
+        onMouseLeave={onInput}
       />
       {usernameInputTouched && msgExist && value && (
         <>
           <p
             className={` mb-0 ${
               msgExist === "Username is not available" ||
-              msgExist === "اسم المستخدم غير متاح" ||
+              msgExist === "اسم المستخدم موجود بالفعل" ||
               msgExist === "Email is not available" ||
               msgExist === "البريد الإلكتروني موجود بالفعل"
                 ? "text-red-600"
